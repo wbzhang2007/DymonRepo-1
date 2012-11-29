@@ -36,12 +36,18 @@
     <ClInclude Include="instrumentBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="marketdata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DymonProject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="marketdata.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

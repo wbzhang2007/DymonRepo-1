@@ -5,11 +5,18 @@
 
 #pragma once
 
+
 #include "targetver.h"
 
 #include <stdio.h>
 #include <tchar.h>
 
+#include "instrumentBase.h"
+#include "currency.h"
+#include "date.h"
+#include <vector>
+#include <iostream>
+#include "instrumentValue.h"
 
 
 // TODO: reference additional headers your program requires here
