@@ -5,7 +5,11 @@
 #include "date.h"
 #include "instrumentBase.h"
 #include "instrumentValue.h"
+#include <map>
+#include <utility>
 
+using namespace utilities;
+using namespace instruments;
 
 namespace markets {
 
@@ -15,6 +19,10 @@ namespace markets {
 		static marketdata* getInstance();
 		double getPrice();
 		void setPrice(double aPrice);
+		vector<double> getIrCurve();
+		map<vector<double>,vector<date>> getVolSurface(double underlyingPrice, vector<double> delta, date tradeDate, vector<date> maturity);
+
+
 	protected:
 		//private copy constructor
 		marketdata();

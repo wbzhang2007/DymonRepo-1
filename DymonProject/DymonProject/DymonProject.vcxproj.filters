@@ -39,6 +39,33 @@
     <ClInclude Include="marketdata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="spot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="swap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="deposit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="future.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="forward.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bond.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="option.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="swaption.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="spotmatrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

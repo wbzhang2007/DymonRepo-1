@@ -4,8 +4,6 @@
 #include "currency.h"
 #include "date.h"
 
-//typedef instruments::currency curr;
-//typedef utilities::date dateType;
 
 namespace instruments {
 	class instrumentBase {
