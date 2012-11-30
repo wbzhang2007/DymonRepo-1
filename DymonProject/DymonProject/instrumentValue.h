@@ -1,30 +1,33 @@
 //created by Hu Kun on 29 Nov 2012
-
-
-#include "instrumentBase.h"
-#include "currency.h"
+#ifndef INSTRUMENTVALUE_H
+#define INSTRUMENTVALUE_H
 #include "date.h"
 #include <vector>
 
-namespace models{
-template <type T>
-class instrumentValue {
-	
-public:
+using namespace std;
 
-	instrumentValue(&vector<date> cashFlowDates, &vector<double> cashFlowNotionals, &date issueDate, &date maturityDate );
-	~instrumentValue();
+namespace models{
+	template <class T>
+	class instrumentValue {
+	
+	public:
+
+		instrumentValue(vector<utilities::date> cashFlowDates, vector<double> cashFlowNotionals, utilities::date issueDate, utilities::date maturityDate );
+		~instrumentValue();
 	//value the PV of the instrument as of today today
-	public double getPV(date tradeDate, date settleDate); 
+		double getPV(utilities::date tradeDate, utilities::date settleDate); 
 
 	//pass the PVs of cashflows to member data cashFlowPv as of today
-	public vector<double> getCashFlowPv(date tradeDate, date settleDate); 
+		vector<double> getCashFlowPv(utilities::date tradeDate, utilities::date settleDate); 
 
-	protected vector<double> cashFlowPv;
+	protected:
+		vector<double> cashFlowPv;
 
-	private vector<date> cashFlowDates;
-	private vector<double> cashFlowNotionals;
-	private vector<double> accuralFactors;
+	private:
+		vector<utilities::date> cashFlowDates;
+		vector<double> cashFlowNotionals;
+		vector<double> accuralFactors;
 
-};
+	};
 }
+#endif
