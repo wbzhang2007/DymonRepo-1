@@ -38,7 +38,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -77,7 +77,11 @@
   <ItemGroup>
     <ClInclude Include="bond.h" />
     <ClInclude Include="currency.h" />
+    <ClInclude Include="CurrencyEnum.h" />
     <ClInclude Include="date.h" />
+    <ClInclude Include="dateUtil.h" />
+    <ClInclude Include="DayCountEnum.h" />
+    <ClInclude Include="DayRollEnum.h" />
     <ClInclude Include="deposit.h" />
     <ClInclude Include="forward.h" />
     <ClInclude Include="future.h" />
