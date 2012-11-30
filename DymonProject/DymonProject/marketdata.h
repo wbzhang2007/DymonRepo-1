@@ -5,11 +5,14 @@
 #include "date.h"
 #include "instrumentBase.h"
 #include "instrumentValue.h"
+#include "numerical.h"
 #include <map>
 #include <utility>
+#include <tuple>
 
 using namespace utilities;
 using namespace instruments;
+using namespace std;
 
 namespace markets {
 
@@ -19,9 +22,24 @@ namespace markets {
 		static marketdata* getInstance();
 		double getPrice();
 		void setPrice(double aPrice);
-		vector<double> getIrCurve();
-		map<vector<double>,vector<date>> getVolSurface(double underlyingPrice, vector<double> delta, date tradeDate, vector<date> maturity);
 
+		template <class T>
+		vector<double> getYieldCurve(vector<T> inputPoints, date startTenor, date endTenor, algo interpolationAlgo);
+		
+		template <class T>
+		map<double,vector<T>> getVolSurface(double underlyingPrice, vector<double> delta, date tradeDate, vector<date> maturity);
+		
+		template <class T>
+		map<double,vector<T>> swaptionVolSurface(double underlyingPrice, vector<double> delta, date tradeDate, vector<date> swapMaturity, vector<date> optionMaturity);
+
+		template <class T>
+		vector<double> getBondCurve(vector<T> inputPoints, date startTenor, date endTenor, algo interpolationAlgo);
+
+		template <class T>
+		vector<double> getFxForwardCurve(vector<T> inputPoints, date startTenor, date endTenor, algo interpolationAlgo);
+
+		template <class T>
+		vector<double> getImpliedYieldCurve(vector<T> inputPoints, date startTenor, date endTenor, algo interpolationAlgo);
 
 	protected:
 		//private copy constructor

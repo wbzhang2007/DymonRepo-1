@@ -84,6 +84,7 @@
     <ClInclude Include="instrumentBase.h" />
     <ClInclude Include="instrumentValue.h" />
     <ClInclude Include="marketdata.h" />
+    <ClInclude Include="numerical.h" />
     <ClInclude Include="option.h" />
     <ClInclude Include="spot.h" />
     <ClInclude Include="spotmatrix.h" />
