@@ -24,22 +24,22 @@ namespace markets {
 		void setPrice(double aPrice);
 
 		template <class T>
-		vector<double> getYieldCurve(vector<T> inputPoints, date startTenor, date endTenor, algo interpolationAlgo);
+		map<double,vector<T>> getYieldCurve(vector<T> inputPoints, date startTenor, date endTenor, algo interpolationAlgo);
 		
 		template <class T>
-		map<double,vector<T>> getVolSurface(double underlyingPrice, vector<double> delta, date tradeDate, vector<date> maturity);
+		map<double,tuple<T,T>> getVolSurface(double underlyingPrice, vector<double> delta, date tradeDate, vector<date> maturity);
 		
 		template <class T>
-		map<double,vector<T>> swaptionVolSurface(double underlyingPrice, vector<double> delta, date tradeDate, vector<date> swapMaturity, vector<date> optionMaturity);
+		map<double,tuple<T,T,T>> swaptionVolSurface(double underlyingPrice, vector<double> delta, date tradeDate, vector<date> swapMaturity, vector<date> optionMaturity);
 
 		template <class T>
-		vector<double> getBondCurve(vector<T> inputPoints, date startTenor, date endTenor, algo interpolationAlgo);
+		map<double,vector<T>> getBondCurve(vector<T> inputPoints, date startTenor, date endTenor, algo interpolationAlgo);
 
 		template <class T>
-		vector<double> getFxForwardCurve(vector<T> inputPoints, date startTenor, date endTenor, algo interpolationAlgo);
+		map<double,vector<T>> getFxForwardCurve(vector<T> inputPoints, date startTenor, date endTenor, algo interpolationAlgo);
 
 		template <class T>
-		vector<double> getImpliedYieldCurve(vector<T> inputPoints, date startTenor, date endTenor, algo interpolationAlgo);
+		map<double,vector<T>> getImpliedYieldCurve(vector<T> inputPoints, date startTenor, date endTenor, algo interpolationAlgo);
 
 	protected:
 		//private copy constructor
