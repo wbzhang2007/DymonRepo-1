@@ -4,14 +4,21 @@
 #define DATE_H
 namespace utilities {
 	class date {
+
+		enum CalendarType{Judian, Gregorian};
+
 	public:
 
-		date(char* aDate);
+		date(int year, int month, int day, CalendarType calendarType);
 		~date();
+		long getJudianDayNumber();
 
 	private:
-		char* dateField;
-
+		int year;
+		int month;
+		int day;
+		bool isBusinessDay;
+		CalendarType calendarType;
 	};
 }
 #endif

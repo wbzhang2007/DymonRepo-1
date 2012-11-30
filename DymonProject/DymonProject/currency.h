@@ -3,25 +3,24 @@
 #ifndef CURRENCY_H
 #define CURRENCY_H
 #include <tuple>
-
+#include "DayCountEnum.h"
+#include "DayRollEnum.h"
+#include "CurrencyEnum.h"
 
 namespace instruments {
-	
-	
+
+
 	class currency {
-	enum currency_t {EUR,USD,THB,KRW,SGD,JPY};
-	enum dayCount_t {thirty_360,ACT_360,ACT_365,ACT_ACT};
-	enum dayRoll_t {Following,Preceding,Mfollowing,Mfollowingbi,EOM};
 
 	public:
-		currency(currency_t currencyName,dayCount_t dayCountCashConvention, dayCount_t dayCountSwapConvention, dayRoll_t dayRollConvention, int paymentFreq, int compoundFreq);
+		currency(enums::CurrencyEnum currencyName,enums::DayRollEnum dayCountCashConvention, enums::DayCountEnum dayCountSwapConvention, enums::DayRollEnum dayRollConvention, int paymentFreq, int compoundFreq);
 		~currency() {};
 
 	private:
-		currency_t currencyName;
-		dayCount_t dayCountCashConvention;
-		dayCount_t dayCountSwapConvention;
-		dayRoll_t dayRollConvention;
+		enums::CurrencyEnum currencyName;
+		enums::DayCountEnum dayCountCashConvention;
+		enums::DayCountEnum dayCountSwapConvention;
+		enums::DayRollEnum dayRollConvention;
 		int paymentFreq;
 		int compoundFreq;
 	};
