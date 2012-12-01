@@ -22,12 +22,12 @@ long dateUtil::getDaysBetween(long startJDN, long endJDN){
 
 long dateUtil::getBizDaysBetween(date startDate, date endDate){
 	return getBizDaysBetween
-		(endDate.getJudianDayNumber(),startDate.getJudianDayNumber());
+		(startDate.getJudianDayNumber(),endDate.getJudianDayNumber());
 }
 
 long dateUtil::getBizDaysBetween(long startJDN, long endJDN){
 	long numBizDay=0;
-	for (long i = startJDN; i<endJDN; i++){
+	for (long i = 0; i<endJDN-startJDN; i++){
 		if (isBizDay(i)) numBizDay++;
 	}
 	return numBizDay;
