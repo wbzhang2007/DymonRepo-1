@@ -98,6 +98,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="date.cpp" />
+    <ClCompile Include="dateUtil.cpp" />
     <ClCompile Include="DymonProject.cpp" />
     <ClCompile Include="marketdata.cpp" />
     <ClCompile Include="stdafx.cpp">

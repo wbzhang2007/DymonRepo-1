@@ -92,5 +92,11 @@
     <ClCompile Include="marketdata.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="dateUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="date.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

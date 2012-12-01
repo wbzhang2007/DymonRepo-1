@@ -5,22 +5,31 @@
 namespace utilities {
 	class date {
 
-		enum CalendarType{Judian, Gregorian};
-
 	public:
-
+		
+		enum CalendarType{Judian, Gregorian};
 		date(int year, int month, int day, CalendarType calendarType);
 		~date();
+		int getYear();
+		int getMonth();
+		int getDay();
+		bool isBusinessDay();
 		long getJudianDayNumber();
-		void setJudianDayNumber();
 
 	private:
-		int year;
-		int month;
-		int day;
-		bool isBusinessDay;
-		long judianDayNumber;
-		CalendarType calendarType;
+
+		int _year;
+		int _month;
+		int _day;
+		bool _isBusinessDay;
+		long _judianDayNumber;
+		CalendarType _calendarType;
+		void setIsBusinessDay();
+		void setJudianDayNumber();
+		
+		int _a;
+		int _y;
+		int _m;
 	};
 }
 #endif
