@@ -7,17 +7,24 @@
 
 namespace utilities {
 	class dateUtil {
+
 	public:
 		static long getJudianDayNumber(int year, int month, int day, date::CalendarType calendarType);
 
-		static long getJudianDayNumber(utilities::date date0);
+		static long getDaysBetween(date startDate, date endDate);
 
-		static long getDaysInbetween(utilities::date startDate, utilities::date endDate);
+		static long getDaysBetween(long startJDN, long endJDN);
 
-		static utilities::date getJudianDate(long judianDayNumber);
+		static long getBizDaysBetween(date startDate, date endDate);
+		
+		static long getBizDaysBetween(long startJDN, long endJDN);
 
-		static utilities::date getGregorianDate(long judianDayNumber);
-	}
+		static bool isBizDay(long judianDayNumber);
+
+		static date getJudianDate(long judianDayNumber);
+
+		static date getGregorianDate(long judianDayNumber);
+	};
 }
 
 #endif
