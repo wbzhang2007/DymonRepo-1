@@ -12,12 +12,14 @@ namespace utilities {
 		date(int year, int month, int day, CalendarType calendarType);
 		~date();
 		long getJudianDayNumber();
+		void setJudianDayNumber();
 
 	private:
 		int year;
 		int month;
 		int day;
 		bool isBusinessDay;
+		long judianDayNumber;
 		CalendarType calendarType;
 	};
 }
