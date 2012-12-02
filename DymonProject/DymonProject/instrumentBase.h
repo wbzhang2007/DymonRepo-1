@@ -9,20 +9,21 @@ namespace instruments {
 	class instrumentBase {
 	
 	public:
-		instrumentBase(instruments::currency domCurrency, instruments::currency forCurrency, utilities::date issueDate, utilities::date maturityDate);
-		~instrumentBase();
+		//instrumentBase();
+		//instrumentBase(instruments::currency domCurrency, instruments::currency forCurrency, utilities::date issueDate, utilities::date maturityDate);
+		//~instrumentBase();
 
 		//base class for all other instruments to be derived from
-		virtual utilities::date getIssueDate();
-	    virtual utilities::date getMaturityDate();
-		virtual void setIssueDate(utilities::date issueDate);
-		virtual void setMaturityDate(utilities::date maturityDate);
+		virtual utilities::date getIssueDate() =0;
+	    virtual utilities::date getMaturityDate()=0;
+		virtual void setIssueDate(utilities::date issueDate)=0;
+		virtual void setMaturityDate(utilities::date maturityDate)=0;
 
 	protected: 
-		instruments::currency domCurrency;
-		instruments::currency forCurrency;
-		utilities::date issueDate;
-		utilities::date maturityDate;
+		//instruments::currency domCurrency;
+		//instruments::currency forCurrency;
+		//utilities::date issueDate;
+		//utilities::date maturityDate;
 
 		
 	};

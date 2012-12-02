@@ -13,8 +13,9 @@ namespace instruments {
 	class currency {
 
 	public:
+		currency();
 		currency(enums::CurrencyEnum currencyName,enums::DayRollEnum dayCountCashConvention, enums::DayCountEnum dayCountSwapConvention, enums::DayRollEnum dayRollConvention, int paymentFreq, int compoundFreq);
-		~currency() {};
+		~currency();
 
 	private:
 		enums::CurrencyEnum currencyName;

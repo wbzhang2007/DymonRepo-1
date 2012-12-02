@@ -17,5 +17,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	cout<<date1.getJudianDayNumber()<<" "<<date1.isBusinessDay()<<endl;
 	cout<<"Days inbetween: "<<dateUtil::getDaysBetween(date0, date1)<<endl;
 	cout<<"Business days inbetween: "<<dateUtil::getBizDaysBetween(date0, date1)<<endl;
+	cout<<"Today is "<<date0.getTodayYear()<<" "<<date0.getTodayMonth()<<" "<<date0.getTodayDay()<<endl;
 }
 

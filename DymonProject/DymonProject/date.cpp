@@ -1,11 +1,14 @@
 //created by Wang Jianwei on 29 Nov 2012
+//added functions to get today's year, month and day-Hu Kun 2 Dec
 
 #include "date.h"
 #include "dateUtil.h"
 
+using namespace std;
 
 namespace utilities {
 
+	date::date() {};
 	date::date(int year, int month, int day, CalendarType calendarType){
 		if (year<=0 || month<=0 || day<=0)
 			throw "Year/Month/Day must be larger than 0";
@@ -53,5 +56,33 @@ namespace utilities {
 
 	bool date::isBusinessDay(){
 		return _isBusinessDay;
+	}
+	int date::getTodayYear() {
+		time_t     rawtime;
+		struct tm* timeinfo;
+
+		time( &rawtime );
+		timeinfo = localtime( &rawtime );
+		return timeinfo->tm_mday;
+		
+	}
+	int date::getTodayMonth() {
+		time_t     rawtime;
+		struct tm* timeinfo;
+
+		time( &rawtime );
+		timeinfo = localtime( &rawtime );
+		return 1+timeinfo->tm_mon;
+	
+	}
+	
+	int date::getTodayDay() {
+		time_t     rawtime;
+		struct tm* timeinfo;
+
+		time( &rawtime );
+		timeinfo = localtime( &rawtime );
+		return 1900+timeinfo->tm_year;
+
 	}
 }
