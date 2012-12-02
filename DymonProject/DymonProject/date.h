@@ -21,9 +21,7 @@ namespace utilities {
 		int getDay();
 		bool isBusinessDay();
 		long getJudianDayNumber();
-		int getTodayYear();
-		int getTodayMonth();
-		int getTodayDay();
+		
 	private:
 
 		int _year;

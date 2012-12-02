@@ -57,32 +57,5 @@ namespace utilities {
 	bool date::isBusinessDay(){
 		return _isBusinessDay;
 	}
-	int date::getTodayYear() {
-		time_t     rawtime;
-		struct tm* timeinfo;
-
-		time( &rawtime );
-		timeinfo = localtime( &rawtime );
-		return timeinfo->tm_mday;
-		
-	}
-	int date::getTodayMonth() {
-		time_t     rawtime;
-		struct tm* timeinfo;
-
-		time( &rawtime );
-		timeinfo = localtime( &rawtime );
-		return 1+timeinfo->tm_mon;
 	
-	}
-	
-	int date::getTodayDay() {
-		time_t     rawtime;
-		struct tm* timeinfo;
-
-		time( &rawtime );
-		timeinfo = localtime( &rawtime );
-		return 1900+timeinfo->tm_year;
-
-	}
 }

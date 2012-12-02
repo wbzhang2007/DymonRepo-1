@@ -19,20 +19,23 @@ namespace instruments {
 		zero();
 		zero(double spotRate,double notional,date maturityDate, date issueDate);
 		~zero();
-		double getPrice(double spotRate,double notional,date maturityDate, date issueDate);
-		double getImpliedSpotRate(double price,double notional,date maturityDate, date issueDate);
+		double getPrice();
+		double getImpliedSpotRate();
+		//double getPriceWrapper();
+		double getImpliedSpotRateWrapper();
 
 		virtual utilities::date getIssueDate();
 	    virtual utilities::date getMaturityDate();
 		virtual void setIssueDate(utilities::date issueDate);
 		virtual void setMaturityDate(utilities::date maturityDate);
 
-	private:
+	public:
 		double spotRate;
 		double notional;
 		date maturityDate;
 		double price;
 		date issueDate;
+		date todayDate;
 
 
 	};

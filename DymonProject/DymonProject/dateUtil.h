@@ -19,11 +19,15 @@ namespace utilities {
 		
 		static long getBizDaysBetween(long startJDN, long endJDN);
 
-		static bool isBizDay(long judianDayNumber);
+	    static bool isBizDay(long judianDayNumber);
 
 		static date getJudianDate(long judianDayNumber);
 
 		static date getGregorianDate(long judianDayNumber);
+
+		static int getTodayYear();
+		static int getTodayMonth();
+		static int getTodayDay();
 	};
 }
 
