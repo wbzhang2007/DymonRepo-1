@@ -4,6 +4,8 @@
 #include <math.h>
 #include <iostream>
 
+#include <ctime>
+
 using namespace utilities;
 
 long dateUtil::getJudianDayNumber(int year, int month, int day, date::CalendarType calendarType){
@@ -47,4 +49,34 @@ date dateUtil::getJudianDate(long judianDayNumber){
 
 date dateUtil::getGregorianDate(long judianDayNumber){
 	throw "Not implemented for now!";
+}
+
+
+int dateUtil::getTodayDay() {
+		time_t     rawtime;
+		struct tm* timeinfo;
+
+		time( &rawtime );
+		timeinfo = localtime( &rawtime );
+		return timeinfo->tm_mday;
+		
+	}
+int dateUtil::getTodayMonth() {
+		time_t     rawtime;
+		struct tm* timeinfo;
+
+		time( &rawtime );
+		timeinfo = localtime( &rawtime );
+		return 1+timeinfo->tm_mon;
+	
+}
+	
+int dateUtil::getTodayYear() {
+		time_t     rawtime;
+		struct tm* timeinfo;
+
+		time( &rawtime );
+		timeinfo = localtime( &rawtime );
+		return 1900+timeinfo->tm_year;
+
 }

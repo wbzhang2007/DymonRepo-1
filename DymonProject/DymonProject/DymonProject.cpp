@@ -5,18 +5,27 @@
 #include "date.h"
 #include "dateUtil.h"
 #include <iostream>
+#include "zero.h"
 
 using namespace utilities;
 using namespace std;
+using namespace instruments;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	date date0(2012,12,1,date::Gregorian);
-	cout<<date0.getJudianDayNumber()<<" "<<date0.isBusinessDay()<<endl;
+	//cout<<date0.getJudianDayNumber()<<" "<<date0.isBusinessDay()<<endl;
 	date date1(2012,12,8,date::Gregorian);
-	cout<<date1.getJudianDayNumber()<<" "<<date1.isBusinessDay()<<endl;
-	cout<<"Days inbetween: "<<dateUtil::getDaysBetween(date0, date1)<<endl;
-	cout<<"Business days inbetween: "<<dateUtil::getBizDaysBetween(date0, date1)<<endl;
-	cout<<"Today is "<<date0.getTodayYear()<<" "<<date0.getTodayMonth()<<" "<<date0.getTodayDay()<<endl;
+	date date2(2013,12,1,date::Gregorian);
+	date date3(2012,1,1,date::Gregorian);
+
+	zero zero1(0.001,1,date2,date0);
+
+	//cout<<date1.getJudianDayNumber()<<" "<<date1.isBusinessDay()<<endl;
+	//cout<<"Days inbetween: "<<dateUtil::getDaysBetween(date0, date1)<<endl;
+	//cout<<"Business days inbetween: "<<dateUtil::getBizDaysBetween(date1, date2)<<endl;
+	//cout<<"Today is "<<dateUtil::getTodayYear()<<" "<<dateUtil::getTodayMonth()<<" "<<dateUtil::getTodayDay()<<endl;
+	cout<<"zero1 price is "<<zero1.getPrice()<<endl;
+	cout<<"zero2 implied spot rate is "<<zero1.getImpliedSpotRate()<<endl;
 }
 
