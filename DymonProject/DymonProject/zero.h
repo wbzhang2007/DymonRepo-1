@@ -16,17 +16,23 @@ namespace instruments {
 	class zero: public instrumentBase {
 
 	public:
-		zero(double spotRate,double notional,date maturityDate);
+		zero();
+		zero(double spotRate,double notional,date maturityDate, date issueDate);
 		~zero();
-		double getPrice(double spotRate,double notional,date maturityDate);
-		double getImpliedSpotRate(double price,double notional,date maturityDate);
+		double getPrice(double spotRate,double notional,date maturityDate, date issueDate);
+		double getImpliedSpotRate(double price,double notional,date maturityDate, date issueDate);
+
+		virtual utilities::date getIssueDate();
+	    virtual utilities::date getMaturityDate();
+		virtual void setIssueDate(utilities::date issueDate);
+		virtual void setMaturityDate(utilities::date maturityDate);
 
 	private:
 		double spotRate;
 		double notional;
 		date maturityDate;
 		double price;
-
+		date issueDate;
 
 
 	};
