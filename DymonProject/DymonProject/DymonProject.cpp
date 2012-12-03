@@ -1,15 +1,17 @@
 // DymonProject.cpp : Defines the entry point for the console application.
-//
 
 #include "stdafx.h"
 #include "date.h"
 #include "dateUtil.h"
-#include <iostream>
 #include "zero.h"
+#include "DymonRecordHelper.h"
 
 using namespace utilities;
 using namespace std;
 using namespace instruments;
+using namespace Session;
+
+void RecordTest();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -27,5 +29,17 @@ int _tmain(int argc, _TCHAR* argv[])
 	//cout<<"Today is "<<dateUtil::getTodayYear()<<" "<<dateUtil::getTodayMonth()<<" "<<dateUtil::getTodayDay()<<endl;
 	cout<<"zero1 price is "<<zero1.getPrice()<<endl;
 	cout<<"zero2 implied spot rate is "<<zero1.getImpliedSpotRate()<<endl;
+
+	RecordTest();
 }
 
+void RecordTest(){
+	cout << "******** RecordHelper Test ********" << endl;
+	DymonRecordHelper* recordHelper = new DymonRecordHelper();
+	recordHelper->init();
+	for(map<string, set<long>>::iterator outer_iter=DymonRecordHelper::holidayMap.begin(); outer_iter!=DymonRecordHelper::holidayMap.end(); ++outer_iter) {
+		for(set<long>::iterator inner_iter=outer_iter->second.begin(); inner_iter!=outer_iter->second.end(); ++inner_iter) {
+			cout << outer_iter->first<< " -> " << *inner_iter << endl;
+		}
+	}
+}
