@@ -15,15 +15,14 @@ using namespace Session;
 HolidayFileSource::HolidayFileSource():
 	AbstractFileSource(){}
 
-HolidayFileSource::HolidayFileSource(std::string persistDir, std::string fileName, long fileSize):
-	AbstractFileSource(persistDir, fileName, fileSize){}
+HolidayFileSource::HolidayFileSource(std::string persistDir, std::string fileName):
+	AbstractFileSource(persistDir, fileName){}
 
 HolidayFileSource::~HolidayFileSource(){}
 
 void HolidayFileSource::init(){
-	_fileName = "";
+	_fileName = "test1.txt";
 	_persistDir = "";
-	_fileSize = 0;
 	AbstractFileSource::init();
 }
 
@@ -37,7 +36,7 @@ void HolidayFileSource::retrieveRecord(){
 		vector<string> vec = fileUtil::split(value,':');
 		country = vec[0];
 		vector<string> holidays = fileUtil::split(vec[1],',');
-		cout<<country<<" : "<<holidays.size()<<endl;
+		cout<<country<<" total holiday number:  "<<holidays.size()<<endl;
 		set<long> JDNSet = buildJDNSet(holidays);
 		DymonRecordHelper::holidayMap.insert(pair<string,set<long>>(country,JDNSet));
 	}

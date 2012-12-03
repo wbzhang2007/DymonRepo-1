@@ -11,10 +11,9 @@ using namespace std;
 AbstractFileSource::AbstractFileSource(){
 }
 
-AbstractFileSource::AbstractFileSource(std::string persistDir, std::string fileName, long fileSize){
+AbstractFileSource::AbstractFileSource(std::string persistDir, std::string fileName){
 	_fileName = fileName;
 	_persistDir = persistDir;
-	_fileSize = fileSize;
 	retrieveRecord();
 }
 
@@ -27,8 +26,12 @@ void AbstractFileSource::init(){
 
 char* AbstractFileSource::readRecord(){
 	if (isModified){
-		_journal = new char[_fileSize];
 		_inFile.open(_fileName);
+		_inFile.seekg(0, ios::end);
+		_fileSize = _inFile.tellg();
+		_inFile.seekg(0, ios::beg);
+				
+		_journal = new char[_fileSize];
 		if (_inFile.is_open()){
 			_inFile.read(_journal, _fileSize);
 			cout<<"File read: "<<_journal<<endl;
@@ -36,6 +39,7 @@ char* AbstractFileSource::readRecord(){
 			throw "Cannot open input file\n";
 		}
 		isModified = false;
+		_inFile.clear();
 		_inFile.seekg(0, ios::beg);
 	}
 	return _journal;

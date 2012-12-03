@@ -10,7 +10,7 @@ namespace DAO {
 
 	public:
 		AbstractFileSource();
-		AbstractFileSource(std::string persistDir, std::string fileName, long fileSize);
+		AbstractFileSource(std::string persistDir, std::string fileName);
 		~AbstractFileSource();
 
 		virtual void init();
@@ -28,14 +28,13 @@ namespace DAO {
 		virtual void deleteDataSource();		
 
 	private:			
-		std::ofstream _outFile;
-
+		std::ofstream _outFile;		
+		long _fileSize;
 		bool isModified;
 
 	protected:
 		std::string _fileName;
 		std::string _persistDir;
-		long _fileSize;
 		char* _journal;
 		std::ifstream _inFile;
 	};

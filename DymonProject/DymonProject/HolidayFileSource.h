@@ -12,7 +12,7 @@ namespace DAO {
 		
 	public:
 		HolidayFileSource();
-		HolidayFileSource(std::string persistDir, std::string fileName, long fileSize);
+		HolidayFileSource(std::string persistDir, std::string fileName);
 		~HolidayFileSource();
 
 		void init();
