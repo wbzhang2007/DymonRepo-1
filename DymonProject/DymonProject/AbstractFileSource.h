@@ -27,9 +27,7 @@ namespace DAO {
 		virtual void closeDataSource();
 		virtual void deleteDataSource();		
 
-	private:	
-		std::ifstream _inFile;
-		
+	private:			
 		std::ofstream _outFile;
 
 		bool isModified;
@@ -39,6 +37,7 @@ namespace DAO {
 		std::string _persistDir;
 		long _fileSize;
 		char* _journal;
+		std::ifstream _inFile;
 	};
 }
 #endif

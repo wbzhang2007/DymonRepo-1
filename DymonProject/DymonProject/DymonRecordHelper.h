@@ -16,10 +16,6 @@ namespace Session {
 
 		void init();
 
-		void start();
-
-		void stop();
-
 		static std::map<std::string, std::set<long>> holidayMap;
 	
 	private:

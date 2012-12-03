@@ -14,13 +14,11 @@ void DymonRecordHelper::init(){
 	buildHolidayMap();
 }
 
-void DymonRecordHelper::start(){
-}
-
-void DymonRecordHelper::stop(){
-}
 
 void DymonRecordHelper::buildHolidayMap(){
 	AbstractDAO* holidayDataSource = new HolidayFileSource();
+	holidayDataSource->init();
 	holidayDataSource->retrieveRecord();
 }
+
+std::map<std::string, std::set<long>> DymonRecordHelper::holidayMap;

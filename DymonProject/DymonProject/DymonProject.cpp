@@ -6,6 +6,7 @@
 #include <iostream>
 #include "zero.h"
 #include <fstream>
+#include <sstream>
 #include <string>
 
 using namespace utilities;
@@ -34,18 +35,15 @@ int _tmain(int argc, _TCHAR* argv[])
 	//outFile<<1.23<<endl;
 	//outFile.close();
 
-	string str1;
-	string str2;
-	char output[50];
 	ifstream inFile;
 	inFile.open("test1.txt");
 	if (inFile.is_open()){
-		inFile.read(output, 50);
-		cout<<output<<endl;
+				
+
+
+	}else{
+		throw "File not found";
 	}
-	//inFile>>str1>>str2;
-	//cout<<str1<<str2<<endl;
 	inFile.close();
 
 }
-

@@ -36,6 +36,7 @@ char* AbstractFileSource::readRecord(){
 			throw "Cannot open input file\n";
 		}
 		isModified = false;
+		_inFile.seekg(0, ios::beg);
 	}
 	return _journal;
 }

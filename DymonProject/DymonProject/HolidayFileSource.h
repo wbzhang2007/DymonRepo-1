@@ -4,6 +4,8 @@
 #include <string>
 #include <fstream>
 #include "AbstractFileSource.h"
+#include <set>
+#include <vector>
 
 namespace DAO {
 	class HolidayFileSource: public AbstractFileSource{
@@ -17,6 +19,8 @@ namespace DAO {
 		
 		void retrieveRecord();
 		
+	private:
+		std::set<long> buildJDNSet(std::vector<std::string>);
 	};
 
 }
