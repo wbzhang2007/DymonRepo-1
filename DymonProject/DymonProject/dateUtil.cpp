@@ -3,10 +3,13 @@
 #include "date.h"
 #include <math.h>
 #include <iostream>
+#include "DayCountEnum.h"
+#include "DayRollEnum.h"
 
 #include <ctime>
 
 using namespace utilities;
+using namespace enums;
 
 long dateUtil::getJudianDayNumber(int year, int month, int day, date::CalendarType calendarType){
 	date date0(year, month, day, calendarType);
@@ -79,4 +82,17 @@ int dateUtil::getTodayYear() {
 		timeinfo = localtime( &rawtime );
 		return 1900+timeinfo->tm_year;
 
+}
+
+//to be used by instruments namespaces to calc dates
+date dateUtil::getBizDate(date refDate, long bias, DayRollEnum dayRollType) {
+	long refDateJudianNum=refDate.getJudianDayNumber();
+
+	if (dateUtil::getJudianDate(refDateJudianNum+bias).isBusinessDay()) {
+		return dateUtil::getJudianDate(refDateJudianNum+bias);
+	}
+	else {
+		return refDate;
+	}
+	
 }

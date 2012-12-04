@@ -4,6 +4,10 @@
 #define _DATEUTIL_H
 
 #include "date.h"
+#include "DayCountEnum.h"
+#include "DayRollEnum.h"
+
+using namespace enums;
 
 namespace utilities {
 	class dateUtil {
@@ -28,6 +32,9 @@ namespace utilities {
 		static int getTodayYear();
 		static int getTodayMonth();
 		static int getTodayDay();
+
+		//to be used by instruments namespaces to calc dates
+		static date getBizDate(date refDate, long bias, DayRollEnum dayRollType);
 	};
 }
 
