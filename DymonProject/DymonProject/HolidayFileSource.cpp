@@ -21,7 +21,7 @@ HolidayFileSource::HolidayFileSource(std::string persistDir, std::string fileNam
 HolidayFileSource::~HolidayFileSource(){}
 
 void HolidayFileSource::init(){
-	_fileName = "test1.txt";
+	_fileName = "holiday.txt";
 	_persistDir = "";
 	AbstractFileSource::init();
 }
