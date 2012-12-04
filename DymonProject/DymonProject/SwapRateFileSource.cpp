@@ -21,7 +21,7 @@ SwapRateFileSource::SwapRateFileSource(std::string persistDir, std::string fileN
 SwapRateFileSource::~SwapRateFileSource(){}
 
 void SwapRateFileSource::init(){
-	_fileName = "deposit.txt";
+	_fileName = "swapRate.txt";
 	_persistDir = "";
 	AbstractFileSource::init();
 }
