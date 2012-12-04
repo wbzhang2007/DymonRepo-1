@@ -22,3 +22,7 @@ void DymonRecordHelper::buildHolidayMap(){
 }
 
 std::map<std::string, std::set<long>> DymonRecordHelper::holidayMap;
+
+std::map<std::string, std::map<int, double>> depositRateMap;
+
+std::map<std::string, std::map<int, double>> swapRateMap;
