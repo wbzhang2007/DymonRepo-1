@@ -17,6 +17,10 @@ namespace Session {
 		void init();
 
 		static std::map<std::string, std::set<long>> holidayMap;
+
+		static std::map<std::string, std::map<int, double>> depositRateMap;
+
+		static std::map<std::string, std::map<int, double>> swapRateMap;
 	
 	private:
 		

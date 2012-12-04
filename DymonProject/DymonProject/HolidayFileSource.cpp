@@ -30,15 +30,15 @@ void HolidayFileSource::retrieveRecord(){
 	AbstractFileSource::retrieveRecord();
 	
 	string value;
-	string country;
+	string currency;
 	while (_inFile.good()){
 		_inFile>>value;
 		vector<string> vec = fileUtil::split(value,':');
-		country = vec[0];
+		currency = vec[0];
 		vector<string> holidays = fileUtil::split(vec[1],',');
-		cout<<country<<" total holiday number:  "<<holidays.size()<<endl;
+		cout<<currency<<" total holiday number:  "<<holidays.size()<<endl;
 		set<long> JDNSet = buildJDNSet(holidays);
-		DymonRecordHelper::holidayMap.insert(pair<string,set<long>>(country,JDNSet));
+		DymonRecordHelper::holidayMap.insert(pair<string,set<long>>(currency,JDNSet));
 	}
 	_inFile.close();
 }
