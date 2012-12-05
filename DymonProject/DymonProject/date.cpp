@@ -17,7 +17,9 @@ namespace utilities {
 		_day=day;
 		_calendarType = calendarType;
 		setJudianDayNumber();
-		setIsBusinessDay();
+	}
+	
+	date::date(long JDN, CalendarType calendarType){
 	}
 
 	date::~date(){
@@ -34,9 +36,7 @@ namespace utilities {
 		}
 	}
 
-	void date::setIsBusinessDay(){
-		_isBusinessDay=dateUtil::isBizDay(_judianDayNumber);
-	}
+	
 
 	long date::getJudianDayNumber(){
 		return _judianDayNumber;
@@ -52,10 +52,6 @@ namespace utilities {
 
 	int date::getDay(){
 		return _day;
-	}
-
-	bool date::isBusinessDay(){
-		return _isBusinessDay;
 	}
 	
 }

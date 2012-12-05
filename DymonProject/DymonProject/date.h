@@ -15,11 +15,11 @@ namespace utilities {
 		enum CalendarType{Judian, Gregorian};
 		date();
 		date(int year, int month, int day, CalendarType calendarType);
+		date(long JDN, CalendarType calendarType);
 		~date();
 		int getYear();
 		int getMonth();
 		int getDay();
-		bool isBusinessDay();
 		long getJudianDayNumber();
 		
 	private:
@@ -27,10 +27,8 @@ namespace utilities {
 		int _year;
 		int _month;
 		int _day;
-		bool _isBusinessDay;
 		long _judianDayNumber;
 		CalendarType _calendarType;
-		void setIsBusinessDay();
 		void setJudianDayNumber();
 		
 		int _a;

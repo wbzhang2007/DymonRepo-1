@@ -38,22 +38,17 @@ long dateUtil::getBizDaysBetween(long startJDN, long endJDN){
 	return numBizDay;
 }
 
-bool dateUtil::isBizDay(long isjudianDayNumber){
-	int dayOfWeek = 1 + fmod(isjudianDayNumber+1,7.0);
+bool dateUtil::isBizDay(date date0){
+	return isBizDay(date0.getJudianDayNumber());
+}
+
+bool dateUtil::isBizDay(long JDN){
+	int dayOfWeek = 1 + fmod(JDN+1,7.0);
 	if (dayOfWeek==1||dayOfWeek==7){
 		return false;
 	}
 	return true;
 }
-
-date dateUtil::getJudianDate(long judianDayNumber){
-	throw "Not implemented for now!";
-}
-
-date dateUtil::getGregorianDate(long judianDayNumber){
-	throw "Not implemented for now!";
-}
-
 
 int dateUtil::getTodayDay() {
 		time_t     rawtime;
@@ -86,13 +81,13 @@ int dateUtil::getTodayYear() {
 
 //to be used by instruments namespaces to calc dates
 date dateUtil::getBizDate(date refDate, long bias, DayRollEnum dayRollType) {
-	long refDateJudianNum=refDate.getJudianDayNumber();
+	//long refDateJudianNum=refDate.getJudianDayNumber();
 
-	if (dateUtil::getJudianDate(refDateJudianNum+bias).isBusinessDay()) {
-		return dateUtil::getJudianDate(refDateJudianNum+bias);
-	}
-	else {
-		return refDate;
-	}
-	
+	//if (dateUtil::getJudianDate(refDateJudianNum+bias).isBusinessDay()) {
+	//	return dateUtil::getJudianDate(refDateJudianNum+bias);
+	//}
+	//else {
+	//	return refDate;
+	//}
+	return refDate;
 }
