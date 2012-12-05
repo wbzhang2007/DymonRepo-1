@@ -30,8 +30,15 @@ double swap::getParRate() {
 }
 
 vector<date> swap::getFloatingFixingDate() {
+	//date _issueDate;
+	//date _maturityDate;
+	
 	vector<date> dummy;
+	//currency _fixLegCurr;
+	//for (i=0;i<=252;i=i+252/_floatLegCurr.paymentFreq) { 
+	 //_floatLegCurr.paymentFreq;
 
+	//}
 	return dummy;
 }
 
@@ -61,3 +68,4 @@ double swap::getSwapValue() {
 	return 0.0;
 
 }
+

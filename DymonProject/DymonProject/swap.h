@@ -29,6 +29,8 @@ namespace instruments {
 		vector<date> getFloatLegPaymentDate();
 		vector<date> getFloatLegAccuralBeginDate();
 		double getSwapValue();
+		
+
 
 
 	protected:
