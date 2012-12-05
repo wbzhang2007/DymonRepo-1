@@ -4,7 +4,7 @@
 
 using namespace DAO;
 
-void AbstractDAO::init(){
+void AbstractDAO::init(Configuration cfg){
 }
 
 void AbstractDAO::retrieveRecord(){

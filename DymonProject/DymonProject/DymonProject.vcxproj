@@ -72,12 +72,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="deposit.txt" />
+    <None Include="holiday.txt" />
+    <None Include="instance.properties" />
     <None Include="ReadMe.txt" />
+    <None Include="swapRate.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractDao.h" />
     <ClInclude Include="AbstractSession.h" />
     <ClInclude Include="bond.h" />
+    <ClInclude Include="configuration.h" />
+    <ClInclude Include="ConfigurationFileSource.h" />
     <ClInclude Include="currency.h" />
     <ClInclude Include="CurrencyEnum.h" />
     <ClInclude Include="AbstractFileSource.h" />
@@ -86,6 +92,7 @@
     <ClInclude Include="DayCountEnum.h" />
     <ClInclude Include="DayRollEnum.h" />
     <ClInclude Include="deposit.h" />
+    <ClInclude Include="DepositFileSource.h" />
     <ClInclude Include="DymonRecordHelper.h" />
     <ClInclude Include="fileUtil.h" />
     <ClInclude Include="forward.h" />
@@ -100,6 +107,7 @@
     <ClInclude Include="spotmatrix.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="swap.h" />
+    <ClInclude Include="swapRateFileSource.h" />
     <ClInclude Include="swaption.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="zero.h" />
@@ -108,9 +116,12 @@
     <ClCompile Include="AbstractDao.cpp" />
     <ClCompile Include="AbstractFileSource.cpp" />
     <ClCompile Include="AbstractSession.cpp" />
+    <ClCompile Include="Configuration.cpp" />
+    <ClCompile Include="ConfigurationFileSource.cpp" />
     <ClCompile Include="currency.cpp" />
     <ClCompile Include="date.cpp" />
     <ClCompile Include="dateUtil.cpp" />
+    <ClCompile Include="DepositFileSource.cpp" />
     <ClCompile Include="DymonProject.cpp" />
     <ClCompile Include="DymonRecordHelper.cpp" />
     <ClCompile Include="fileUtil.cpp" />
@@ -121,6 +132,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="swap.cpp" />
+    <ClCompile Include="SwapRateFileSource.cpp" />
     <ClCompile Include="zero.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

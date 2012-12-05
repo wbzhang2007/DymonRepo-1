@@ -15,6 +15,11 @@ void RecordTest();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+
+	RecordTest();
+}
+
+void ZeroTest(){
 	date date0(2012,12,1,date::Gregorian);
 	//cout<<date0.getJudianDayNumber()<<" "<<date0.isBusinessDay()<<endl;
 	date date1(2012,12,8,date::Gregorian);
@@ -29,14 +34,13 @@ int _tmain(int argc, _TCHAR* argv[])
 	//cout<<"Today is "<<dateUtil::getTodayYear()<<" "<<dateUtil::getTodayMonth()<<" "<<dateUtil::getTodayDay()<<endl;
 	cout<<"zero1 price is "<<zero1.getPrice()<<endl;
 	cout<<"zero2 implied spot rate is "<<zero1.getImpliedSpotRate()<<endl;
-
-	RecordTest();
 }
 
 void RecordTest(){
 	cout << "******** RecordHelper Test ********" << endl;
+	Configuration cfg;
 	DymonRecordHelper* recordHelper = new DymonRecordHelper();
-	recordHelper->init();
+	recordHelper->init(cfg);
 	for(map<string, set<long>>::iterator outer_iter=DymonRecordHelper::holidayMap.begin(); outer_iter!=DymonRecordHelper::holidayMap.end(); ++outer_iter) {
 		for(set<long>::iterator inner_iter=outer_iter->second.begin(); inner_iter!=outer_iter->second.end(); ++inner_iter) {
 			cout << outer_iter->first<< " -> " << *inner_iter << endl;

@@ -15,7 +15,7 @@ namespace DAO {
 		DepositFileSource(std::string persistDir, std::string fileName);
 		~DepositFileSource();
 
-		void init();
+		void init(Configuration);
 		
 		void retrieveRecord();
 	};
