@@ -6,13 +6,14 @@
 #include "AbstractSession.h"
 
 using namespace Session;
+using namespace utilities;
 
 namespace DAO{
 	class AbstractDAO: public AbstractSession{
 
 	public:
 
-		virtual void init(std::map<std::string, std::string>)=0;
+		virtual void init(Configuration)=0;
 
 		virtual void retrieveRecord()=0;
 

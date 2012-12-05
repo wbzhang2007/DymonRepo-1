@@ -2,23 +2,23 @@
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
 #include <string>
-#include <fstream>
-#include "AbstractFileSource.h"
-#include <set>
-#include <vector>
+#include <map>
 
-namespace DAO {
-	class Configuration: public AbstractFileSource{
+namespace utilities {
+	class Configuration{
 		
 	public:
 		Configuration();
-		Configuration(std::string persistDir, std::string fileName);
 		~Configuration();
 
-		void init();
-		
-		void retrieveRecord();
-	};
+		std::map<std::string, std::string> getConfiguration();
+	
+		void setConfiguration(std::map<std::string, std::string> cfg);
 
+		std::string getProperty(std::string,bool);
+
+		static std::map<std::string, std::string> _config;
+		
+	};
 }
 #endif

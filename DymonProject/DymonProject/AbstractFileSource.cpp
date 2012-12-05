@@ -20,8 +20,8 @@ AbstractFileSource::AbstractFileSource(std::string persistDir, std::string fileN
 AbstractFileSource::~AbstractFileSource(){
 }
 
-void AbstractFileSource::init(map<string, string> cfg){
-	retrieveRecord();
+void AbstractFileSource::init(Configuration cfg){
+	AbstractDAO::init(cfg);
 }
 
 char* AbstractFileSource::readRecord(){
@@ -31,6 +31,9 @@ char* AbstractFileSource::readRecord(){
 		_fileSize = _inFile.tellg();
 		_inFile.seekg(0, ios::beg);
 				
+		if (_fileSize<0)
+			throw "File Not Found: "+_fileName;
+
 		_journal = new char[_fileSize];
 		if (_inFile.is_open()){
 			_inFile.read(_journal, _fileSize);

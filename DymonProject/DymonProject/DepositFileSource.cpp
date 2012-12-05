@@ -20,23 +20,23 @@ DepositFileSource::DepositFileSource(std::string persistDir, std::string fileNam
 
 DepositFileSource::~DepositFileSource(){}
 
-void DepositFileSource::init(map<string, string> cfg){
-	_fileName = "deposit.txt";
-	_persistDir = "";
+void DepositFileSource::init(Configuration cfg){
+	_fileName = cfg.getProperty("depositRate.file",true);
+	_persistDir = cfg.getProperty("depositRate.path",false);
 	AbstractFileSource::init(cfg);
 }
 
 void DepositFileSource::retrieveRecord(){
-	DepositFileSource::retrieveRecord();
+	AbstractFileSource::retrieveRecord();
 	
 	string value;
 	string currency;
 	while (_inFile.good()){
 		_inFile>>value;
-		vector<string> vec = fileUtil::split(value,':');
-		currency = vec[0];
-		vector<string> deposits = fileUtil::split(vec[1],',');
-		cout<<currency<<" total deposits number:  "<<deposits.size()<<endl;
+		//vector<string> vec = fileUtil::split(value,':');
+		//currency = vec[0];
+		//vector<string> deposits = fileUtil::split(vec[1],',');
+		//cout<<currency<<" total deposits number:  "<<deposits.size()<<endl;
 		//set<long> JDNSet = buildJDNSet(holidays);
 		//DymonRecordHelper::depositRateMap.insert(pair<string,set<long>>(country,JDNSet));
 	}

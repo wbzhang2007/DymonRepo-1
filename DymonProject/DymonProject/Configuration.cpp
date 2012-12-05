@@ -1,44 +1,33 @@
 //created by Wang Jianwei on 1 Dec 2012
 
-#include "DepositFileSource.h"
-#include "AbstractFileSource.h"
-#include "fileUtil.h"
-#include "dateUtil.h"
-#include "date.h"
-#include "DymonRecordHelper.h"
+#include "Configuration.h"
 
-using namespace DAO;
-using namespace std;
 using namespace utilities;
-using namespace Session;
+using namespace std;
 
-DepositFileSource::DepositFileSource():
-	AbstractFileSource(){}
-
-DepositFileSource::DepositFileSource(std::string persistDir, std::string fileName):
-	AbstractFileSource(persistDir, fileName){}
-
-DepositFileSource::~DepositFileSource(){}
-
-void DepositFileSource::init(map<string, string> cfg){
-	_fileName = "deposit.txt";
-	_persistDir = "";
-	AbstractFileSource::init();
+Configuration::Configuration(){
 }
 
-void DepositFileSource::retrieveRecord(){
-	DepositFileSource::retrieveRecord();
-	
-	string value;
-	string currency;
-	while (_inFile.good()){
-		_inFile>>value;
-		vector<string> vec = fileUtil::split(value,':');
-		currency = vec[0];
-		vector<string> deposits = fileUtil::split(vec[1],',');
-		cout<<currency<<" total deposits number:  "<<deposits.size()<<endl;
-		//set<long> JDNSet = buildJDNSet(holidays);
-		//DymonRecordHelper::depositRateMap.insert(pair<string,set<long>>(country,JDNSet));
+Configuration::~Configuration(){
+}
+
+map<string, string> Configuration::getConfiguration(){
+	return _config;
+}
+
+void Configuration::setConfiguration(map<string, string> config){
+	_config = config;
+}
+
+string Configuration::getProperty(string key, bool compulsory){
+	if(_config.find(key)==_config.end()){
+		if(compulsory)
+			throw "Property not found: "+key;
+		else
+			return "";
+	}else{
+		return _config[key];
 	}
-	_inFile.close();
 }
+
+std::map<std::string, std::string> Configuration::_config;
