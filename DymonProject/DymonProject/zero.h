@@ -1,5 +1,6 @@
 //created by Hu Kun on 30 Nov 2012
 //class for zero coup bonds in one currency.
+//
 
 #ifndef ZERO_H
 #define ZERO_H

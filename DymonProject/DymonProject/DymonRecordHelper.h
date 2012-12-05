@@ -22,18 +22,9 @@ namespace Session {
 
 		static std::map<std::string, std::map<int, double>> swapRateMap;
 	
-		static std::map<std::string, std::string> configuration;
-
 	private:
 		
 		void buildHolidayMap();
-
-		void buildConfiguration();
-		
-		void buildSwapRateMap();
-		
-		void buildDepositRateMap();
-
 	};
 }
 

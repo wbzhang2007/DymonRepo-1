@@ -20,10 +20,10 @@ DepositFileSource::DepositFileSource(std::string persistDir, std::string fileNam
 
 DepositFileSource::~DepositFileSource(){}
 
-void DepositFileSource::init(map<string, string> cfg){
+void DepositFileSource::init(){
 	_fileName = "deposit.txt";
 	_persistDir = "";
-	AbstractFileSource::init(cfg);
+	AbstractFileSource::init();
 }
 
 void DepositFileSource::retrieveRecord(){

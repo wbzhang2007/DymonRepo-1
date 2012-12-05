@@ -16,7 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
-    <None Include="holiday.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -103,12 +102,6 @@
     <ClInclude Include="fileUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DepositFileSource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="swapRateFileSource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -148,12 +141,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="fileUtil.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DepositFileSource.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SwapRateFileSource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
