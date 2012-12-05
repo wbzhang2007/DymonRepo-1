@@ -10,6 +10,7 @@
 #include <vector>
 #include "zero.h"
 #include <tuple>
+#include <iterator>
 
 using namespace utilities;
 using namespace std;
