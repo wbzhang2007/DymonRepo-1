@@ -14,7 +14,7 @@ namespace Session {
 
 		DymonRecordHelper();
 
-		void init();
+		void init(Configuration);
 
 		static std::map<std::string, std::set<long>> holidayMap;
 
@@ -22,9 +22,14 @@ namespace Session {
 
 		static std::map<std::string, std::map<int, double>> swapRateMap;
 	
+
 	private:
 		
-		void buildHolidayMap();
+		void buildConfiguration(Configuration);
+		void buildHolidayMap(Configuration);
+		void buildSwapRateMap(Configuration);
+		void buildDepositRateMap(Configuration);
+
 	};
 }
 
