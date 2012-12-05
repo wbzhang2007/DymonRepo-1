@@ -3,6 +3,7 @@
 #define ABSTRACTDATASOURCE_H
 #include <string>
 #include <fstream>
+#include <map>
 #include "AbstractDAO.h"
 
 namespace DAO {
@@ -13,7 +14,7 @@ namespace DAO {
 		AbstractFileSource(std::string persistDir, std::string fileName);
 		~AbstractFileSource();
 
-		virtual void init();
+		virtual void init(std::map<std::string, std::string>);
 
 		virtual char* readRecord();
 

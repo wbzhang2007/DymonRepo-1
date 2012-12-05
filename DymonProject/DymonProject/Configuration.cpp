@@ -23,7 +23,7 @@ DepositFileSource::~DepositFileSource(){}
 void DepositFileSource::init(map<string, string> cfg){
 	_fileName = "deposit.txt";
 	_persistDir = "";
-	AbstractFileSource::init(cfg);
+	AbstractFileSource::init();
 }
 
 void DepositFileSource::retrieveRecord(){

@@ -20,7 +20,7 @@ AbstractFileSource::AbstractFileSource(std::string persistDir, std::string fileN
 AbstractFileSource::~AbstractFileSource(){
 }
 
-void AbstractFileSource::init(){
+void AbstractFileSource::init(map<string, string> cfg){
 	retrieveRecord();
 }
 

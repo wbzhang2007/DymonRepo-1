@@ -20,10 +20,10 @@ SwapRateFileSource::SwapRateFileSource(std::string persistDir, std::string fileN
 
 SwapRateFileSource::~SwapRateFileSource(){}
 
-void SwapRateFileSource::init(){
+void SwapRateFileSource::init(map<string, string> cfg){
 	_fileName = "swapRate.txt";
 	_persistDir = "";
-	AbstractFileSource::init();
+	AbstractFileSource::init(cfg);
 }
 
 void SwapRateFileSource::retrieveRecord(){

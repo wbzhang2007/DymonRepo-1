@@ -20,10 +20,10 @@ HolidayFileSource::HolidayFileSource(std::string persistDir, std::string fileNam
 
 HolidayFileSource::~HolidayFileSource(){}
 
-void HolidayFileSource::init(){
+void HolidayFileSource::init(map<string, string> cfg){
 	_fileName = "holiday.txt";
 	_persistDir = "";
-	AbstractFileSource::init();
+	AbstractFileSource::init(cfg);
 }
 
 void HolidayFileSource::retrieveRecord(){
