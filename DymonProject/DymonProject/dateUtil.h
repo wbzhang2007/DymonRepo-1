@@ -17,17 +17,9 @@ namespace utilities {
 
 		static long getDaysBetween(date startDate, date endDate);
 
-		static long getDaysBetween(long startJDN, long endJDN);
-
 		static long getBizDaysBetween(date startDate, date endDate);
-		
-		static long getBizDaysBetween(long startJDN, long endJDN);
 
-	    static bool isBizDay(long judianDayNumber);
-
-		static date getJudianDate(long judianDayNumber);
-
-		static date getGregorianDate(long judianDayNumber);
+	    static bool isBizDay(date date0);
 
 		static int getTodayYear();
 		static int getTodayMonth();
@@ -35,6 +27,13 @@ namespace utilities {
 
 		//to be used by instruments namespaces to calc dates
 		static date getBizDate(date refDate, long bias, DayRollEnum dayRollType);
+
+	private:
+
+		static long getDaysBetween(long startJDN, long endJDN);		
+		static long getBizDaysBetween(long startJDN, long endJDN);
+	    static bool isBizDay(long JDN);
+
 	};
 }
 
