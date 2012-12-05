@@ -6,8 +6,6 @@
 #include <map>
 #include "AbstractDAO.h"
 
-using namespace utilities;
-
 namespace DAO {
 	class  AbstractFileSource: public AbstractDAO{
 
@@ -16,7 +14,7 @@ namespace DAO {
 		AbstractFileSource(std::string persistDir, std::string fileName);
 		~AbstractFileSource();
 
-		virtual void init(Configuration);
+		virtual void init(std::map<std::string, std::string>);
 
 		virtual char* readRecord();
 

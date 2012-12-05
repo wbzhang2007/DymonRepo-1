@@ -20,9 +20,9 @@ HolidayFileSource::HolidayFileSource(std::string persistDir, std::string fileNam
 
 HolidayFileSource::~HolidayFileSource(){}
 
-void HolidayFileSource::init(Configuration cfg){
-	_fileName = cfg.getProperty("holiday.file",true);
-	_persistDir = cfg.getProperty("holiday.path",false);
+void HolidayFileSource::init(map<string, string> cfg){
+	_fileName = "holiday.txt";
+	_persistDir = "";
 	AbstractFileSource::init(cfg);
 }
 

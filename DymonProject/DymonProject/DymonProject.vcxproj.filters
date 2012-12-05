@@ -109,12 +109,6 @@
     <ClInclude Include="swapRateFileSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ConfigurationFileSource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="configuration.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -160,12 +154,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SwapRateFileSource.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ConfigurationFileSource.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Configuration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

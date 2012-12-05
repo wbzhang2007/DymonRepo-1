@@ -3,15 +3,12 @@
 #define ABSTRACTSESSION_H
 #include <string>
 #include <map>
-#include "Configuration.h"
-
-using namespace utilities;
 
 namespace Session{
 	class AbstractSession{
 
 	public:
-		virtual void init(Configuration)=0;
+		virtual void init(std::map<std::string, std::string>)=0;
 
 		virtual void start();
 

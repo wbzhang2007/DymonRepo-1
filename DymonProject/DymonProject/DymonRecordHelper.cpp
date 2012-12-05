@@ -6,48 +6,48 @@
 #include "swapRateFileSource.h"
 #include "HolidayFileSource.h"
 #include "DepositFileSource.h"
-#include "ConfigurationFileSource.h"
 
 using namespace Session;
 using namespace DAO;
-using namespace std;
 
 DymonRecordHelper::DymonRecordHelper(){
 }
 
-void DymonRecordHelper::init(Configuration cfg){
-	buildConfiguration(cfg);
-	buildHolidayMap(cfg);
-	buildSwapRateMap(cfg);
-	buildDepositRateMap(cfg);
+void DymonRecordHelper::init(){
+	buildConfiguration();
+	buildHolidayMap();
+	buildSwapRateMap();
+	buildConfiguration();
 }
 
-void DymonRecordHelper::buildSwapRateMap(Configuration cfg){
+void DymonRecordHelper::buildSwapRateMap(){
 	AbstractDAO* SwapRateDataSource = new SwapRateFileSource();
-	SwapRateDataSource->init(cfg);
+	SwapRateDataSource->init(configuration);
 	SwapRateDataSource->retrieveRecord();
 }
 
-void DymonRecordHelper::buildDepositRateMap(Configuration cfg){
+void DymonRecordHelper::buildDepositRateMap(){
 	AbstractDAO* depositRateDataSource = new DepositFileSource();
-	depositRateDataSource->init(cfg);
+	depositRateDataSource->init(configuration);
 	depositRateDataSource->retrieveRecord();
 }
 
-void DymonRecordHelper::buildHolidayMap(Configuration cfg){
+void DymonRecordHelper::buildHolidayMap(){
 	AbstractDAO* holidayDataSource = new HolidayFileSource();
-	holidayDataSource->init(cfg);
+	holidayDataSource->init(configuration);
 	holidayDataSource->retrieveRecord();
 }
 
-void DymonRecordHelper::buildConfiguration(Configuration cfg){
-	AbstractDAO* configDataSource= new ConfigurationFileSource();
-	configDataSource->init(cfg);
+void DymonRecordHelper::buildConfiguration(){
+	AbstractDAO* configDataSource= new Configuration();
+	configDataSource->init(configuration);
 	configDataSource->retrieveRecord();
 }
 
 std::map<std::string, std::set<long>> DymonRecordHelper::holidayMap;
 
-std::map<std::string, std::map<int, double>> DymonRecordHelper::depositRateMap;
+std::map<std::string, std::map<int, double>> depositRateMap;
 
-std::map<std::string, std::map<int, double>> DymonRecordHelper::swapRateMap;
+std::map<std::string, std::map<int, double>> swapRateMap;
+
+std::map<std::string, std::string> configuration;
