@@ -61,6 +61,7 @@ zero::~zero() {
 	//return getImpliedSpotRate(price,notional,maturityDate,issueDate);
 //}
 
+//getPrice returns the PV of a zero bond as of today
 double zero::getPrice(){
 	
 	long numBizDays=dateUtil::getBizDaysBetween(todayDate,maturityDate);
