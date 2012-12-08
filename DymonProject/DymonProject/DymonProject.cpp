@@ -4,6 +4,7 @@
 #include "date.h"
 #include "dateUtil.h"
 #include "zero.h"
+#include "cashflow.h"
 #include "DymonRecordHelper.h"
 
 using namespace utilities;
@@ -13,11 +14,13 @@ using namespace Session;
 
 void RecordTest();
 void DateUtilTest();
+void CashFlowTest();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	DateUtilTest();
+	//DateUtilTest();
 	//RecordTest();
+	CashFlowTest();
 }
 
 void ZeroTest(){
@@ -89,4 +92,20 @@ void RecordTest(){
 			cout << outer_iter->first<< " -> " << *inner_iter << endl;
 		}
 	}
+}
+
+void CashFlowTest() {
+
+	date tradeDate(2012,11,2);
+	date startDate(2012,10,2);
+	date maturityDate(2014,8,13);
+	double notional=1000000.0;
+	double couponRate=0.04;
+	double margin=0.05;
+	int paymentFreq=3;
+
+	currency cashFlowCurr=currency(USD,ACT_360, ACT_365, Mfollowing, paymentFreq,1);
+	cashflow testCashFlow=cashflow(startDate,tradeDate,couponRate,notional, margin, paymentFreq, maturityDate, cashFlowCurr);
+
+	testCashFlow.printPVs();
 }
