@@ -46,7 +46,7 @@ void HolidayFileSource::retrieveRecord(){
 set<long> HolidayFileSource::buildJDNSet(vector<string> vec0){
 	set<long> JDNSet;
 	for(unsigned int i=0; i<vec0.size(); i++) {
-		long JDN = dateUtil::getJudianDayNumber(stoi(vec0[i].substr(0,4)),stoi(vec0[i].substr(4,2)),stoi(vec0[i].substr(6,2)),date::Gregorian);
+		long JDN = dateUtil::getJudianDayNumber(stoi(vec0[i].substr(0,4)),stoi(vec0[i].substr(4,2)),stoi(vec0[i].substr(6,2)));
 		JDNSet.insert(JDN);
 	}
 	return JDNSet;

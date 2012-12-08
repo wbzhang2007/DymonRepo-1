@@ -27,7 +27,7 @@ zero::zero(double aSpotRate,double aNotional,date aMaturityDate,date aIssueDate)
 	int dd=dateUtil::getTodayDay();
 
 	cout<<"today is yy mm dd="<<yy<<" "<<mm<<" "<<dd<<endl;
-	todayDate=date(yy,mm,dd,date::Gregorian);
+	todayDate=date(yy,mm,dd);
 
 	spotRate=aSpotRate;
 	notional=aNotional;

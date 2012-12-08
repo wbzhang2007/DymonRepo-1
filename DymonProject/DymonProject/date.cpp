@@ -9,34 +9,35 @@ using namespace std;
 namespace utilities {
 
 	date::date() {};
-	date::date(int year, int month, int day, CalendarType calendarType){
+	date::date(unsigned short year, unsigned short month, unsigned short day){
 		if (year<=0 || month<=0 || day<=0)
 			throw "Year/Month/Day must be larger than 0";
 		_year=year;
 		_month=month;
 		_day=day;
-		_calendarType = calendarType;
 		setJudianDayNumber();
 	}
 	
-	date::date(long JDN, CalendarType calendarType){
+	date::date(long JDN){
+		unsigned short* yearMonthDay = dateUtil::getYearMonthDay(JDN);
+		_year = yearMonthDay[0];
+		_month = yearMonthDay[1];
+		_day = yearMonthDay[2];
+		_judianDayNumber = JDN;
 	}
 
 	date::~date(){
 	}
 
 	void date::setJudianDayNumber(){
-		_a=(14-_month)/12;
-		_y=_year+4800-_a;
-		_m=_month+12*_a-3;
-		if (_calendarType==Gregorian){
-			_judianDayNumber=_day+(int)((153*_m+2)/5)+365*_y+(int)(_y/4)-(int)(_y/100)+(int)(_y/400)-32045;
-		}else if (_calendarType==Judian){
-			_judianDayNumber=_day+(int)((153*_m+2)/5)+365*_y+(int)(_y/4)-32083;
-		}
+		_judianDayNumber = dateUtil::getJudianDayNumber(_year, _month, _day);
 	}
 
-	
+	bool date::isEqual(date date0){
+		if (_year!=date0.getYear()||_month!=date0.getMonth()||_day!=date0.getDay())
+			return false;
+		return true;
+	}
 
 	long date::getJudianDayNumber(){
 		return _judianDayNumber;
@@ -52,6 +53,11 @@ namespace utilities {
 
 	int date::getDay(){
 		return _day;
+	}
+
+	void date::setDay(unsigned short day){
+		_day=day;
+		setJudianDayNumber();
 	}
 	
 }

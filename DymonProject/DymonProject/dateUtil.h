@@ -4,8 +4,7 @@
 #define _DATEUTIL_H
 
 #include "date.h"
-#include "DayCountEnum.h"
-#include "DayRollEnum.h"
+#include "Enums.h"
 
 using namespace enums;
 
@@ -13,7 +12,7 @@ namespace utilities {
 	class dateUtil {
 
 	public:
-		static long getJudianDayNumber(int year, int month, int day, date::CalendarType calendarType);
+		static long getJudianDayNumber(unsigned short year, unsigned short month, unsigned short day);
 
 		static long getDaysBetween(date startDate, date endDate);
 
@@ -21,20 +20,28 @@ namespace utilities {
 
 	    static bool isBizDay(date date0);
 
+		static bool isHoliday(date aDate, std::string city);
+
 		static int getTodayYear();
 		static int getTodayMonth();
 		static int getTodayDay();
+		static unsigned short* getYearMonthDay(long JDN);
 
 		//to be used by instruments namespaces to calc dates
-		static date getBizDate(date refDate, long bias, DayRollEnum dayRollType);
-		static date dayRoll(date aDate,DayRollEnum aDayRollConvention);
+		static date getBizDate(date refDate, long bias, enums::DayRollEnum dayRollType);
+		static date getEndDate(date refDate, int numMonth, bool adjustInvalidDay);
+		static date dayRollAdjust(date aDate,enums::DayRollEnum aDayRollConvention, std::string city);
 
 	private:
 
 		static long getDaysBetween(long startJDN, long endJDN);		
 		static long getBizDaysBetween(long startJDN, long endJDN);
 	    static bool isBizDay(long JDN);
-
+		static bool isHoliday(long JDN, std::string city);
+		static bool isleapyear(unsigned short year);
+		static long getPrecedingJDN(long JDN, std::string city);
+		static long getFolloingJDN(long JDN, std::string city);
+		static date adjustInvalidateDate(date aDate);
 	};
 }
 
