@@ -31,6 +31,7 @@ namespace utilities {
 		static date getBizDate(date refDate, long bias, enums::DayRollEnum dayRollType);
 		static date getEndDate(date refDate, int numMonth, bool adjustInvalidDay);
 		static date dayRollAdjust(date aDate,enums::DayRollEnum aDayRollConvention, std::string city);
+		static double getAccrualFactor(date startDate,date endDate, enums::DayCountEnum dayCount);
 
 	private:
 

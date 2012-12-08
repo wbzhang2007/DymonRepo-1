@@ -122,6 +122,23 @@ unsigned short* dateUtil::getYearMonthDay(long JDN){
 	return yearMonthDay;
 }
 
+double dateUtil::getAccrualFactor(date startDate,date endDate, enums::DayCountEnum dayCount){
+	double accrualFactor;
+	switch(dayCount){
+	case thirty_360US:
+		break;
+	case thirthE_360:
+		break;
+	case ACT_360:
+		break;
+	case ACT_365:
+		break;
+	case ACT_ACT:
+		break;
+	}
+	return accrualFactor;
+}
+
 date dateUtil::dayRollAdjust(date aDate,DayRollEnum aDayRollConvention, string city) {
 	long adjustedJDN;
 	switch(aDayRollConvention){
