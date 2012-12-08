@@ -6,6 +6,9 @@
 
 #include <ctime>
 #include <iostream>
+#include <string>
+
+using namespace std;
 
 namespace utilities {
 	class date {
@@ -23,6 +26,7 @@ namespace utilities {
 		void setJudianDayNumber(long JDN);
 		long getJudianDayNumber();
 		bool isEqual(date date0);
+		void printDate();
 		
 	private:
 

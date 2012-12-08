@@ -215,3 +215,4 @@ long dateUtil::getFolloingJDN(long JDN, std::string city){
 	}
 	return JDN;
 }
+
