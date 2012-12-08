@@ -6,7 +6,7 @@ namespace enums {
 		
 	enum CurrencyEnum{EUR,USD,THB,KRW,SGD,JPY};
 	enum DayRollEnum {Following,Preceding,Mfollowing,Mfollowingbi,EOM};
-	enum DayCountEnum {thirty_360,ACT_360,ACT_365,ACT_ACT};
+	enum DayCountEnum {thirty_360US, thirthE_360,ACT_360,ACT_365,ACT_ACT};
 }
 
 #endif
