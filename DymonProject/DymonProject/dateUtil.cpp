@@ -3,17 +3,22 @@
 #include "date.h"
 #include <math.h>
 #include <iostream>
-#include "DayCountEnum.h"
-#include "DayRollEnum.h"
-
+#include "DymonRecordHelper.h"
 #include <ctime>
 
 using namespace utilities;
-using namespace enums;
+using namespace Session;
+using namespace std;
 
-long dateUtil::getJudianDayNumber(int year, int month, int day, date::CalendarType calendarType){
-	date date0(year, month, day, calendarType);
-	return date0.getJudianDayNumber();
+long dateUtil::getJudianDayNumber(unsigned short year, unsigned short month, unsigned short day){
+	int	_a=(14-month)/12;
+	int _y=year+4800-_a;
+	int _m=month+12*_a-3;
+	//if (_calendarType==Gregorian){
+	return day+(int)((153*_m+2)/5)+365*_y+(int)(_y/4)-(int)(_y/100)+(int)(_y/400)-32045;
+	/*}else if (_calendarType==Judian){
+		_judianDayNumber=_day+(int)((153*_m+2)/5)+365*_y+(int)(_y/4)-32083;
+	}*/
 }
 
 long dateUtil::getDaysBetween(date startDate, date endDate){
@@ -50,6 +55,21 @@ bool dateUtil::isBizDay(long JDN){
 	return true;
 }
 
+bool dateUtil::isHoliday(long JDN, std::string city){
+	if (city=="") return false;
+	if (DymonRecordHelper::holidayMap.find(city)== DymonRecordHelper::holidayMap.end());
+		throw "City not found in Holiday Map: "+city;
+
+	set<long> holidaySet = DymonRecordHelper::holidayMap[city];
+	if (holidaySet.find(JDN) != holidaySet.end())
+		return false;
+	return true;
+}
+
+bool dateUtil::isHoliday(date aDate, std::string city){
+	return isHoliday(aDate,city);
+}
+
 int dateUtil::getTodayDay() {
 		time_t     rawtime;
 		struct tm* timeinfo;
@@ -79,11 +99,57 @@ int dateUtil::getTodayYear() {
 
 }
 
-date dateUtil::dayRoll(date aDate,DayRollEnum aDayRollConvention) {
-	date dummy;
-	return dummy;
+unsigned short* dateUtil::getYearMonthDay(long JDN){
+	unsigned short _year, _month, _day;
+	JDN = JDN - 1721119 ;
+	_year = (4 * JDN - 1) / 146097 ; 
+	JDN = 4 * JDN - 1 - 146097 * _year ; 
+	_day = JDN / 4 ;
+	JDN = (4 * _day + 3) / 1461 ; 
+	_day = 4 * _day + 3 - 1461 * JDN ; 
+	_day = (_day + 4) / 4 ;
+	_month = (5 * _day - 3) / 153 ; 
+	_day = 5 * _day - 3 - 153 * _month ; 
+	_day = (_day + 5) / 5 ;
+	_year = 100 * _year + JDN ;
+	if (_month < 10){
+		_month = _month + 3;
+	}
+	else{
+		_month = _month - 9 ; _year = _year + 1;
+	}
+	unsigned short yearMonthDay[3] = {_year,_month,_day};
+	return yearMonthDay;
 }
-//to be used by instruments namespaces to calc dates
+
+date dateUtil::dayRollAdjust(date aDate,DayRollEnum aDayRollConvention, string city) {
+	long adjustedJDN;
+	switch(aDayRollConvention){
+	case Following:
+		adjustedJDN = getFolloingJDN(aDate.getJudianDayNumber(), city);
+		break;
+	case Preceding:
+		adjustedJDN = getPrecedingJDN(aDate.getJudianDayNumber(), city);
+		break;
+	case Mfollowing:
+		adjustedJDN = getFolloingJDN(aDate.getJudianDayNumber(), city);
+		if (getYearMonthDay(adjustedJDN)[2]!=getYearMonthDay(aDate.getJudianDayNumber())[2])
+			adjustedJDN = getPrecedingJDN(aDate.getJudianDayNumber(), city);
+		break;
+	case Mfollowingbi:	
+		adjustedJDN = getFolloingJDN(aDate.getJudianDayNumber(), city);
+		if (getYearMonthDay(adjustedJDN)[2]!=getYearMonthDay(aDate.getJudianDayNumber())[2]||
+			getYearMonthDay(adjustedJDN)[3]>=15)
+			adjustedJDN = getPrecedingJDN(aDate.getJudianDayNumber(), city);
+		break;
+	case EOM:
+		break;
+	}
+	date adjustedDate(adjustedJDN);
+	return adjustedDate;
+}
+
+// *** To be deprecated ***
 date dateUtil::getBizDate(date refDate, long bias, DayRollEnum dayRollType) {
 	//long refDateJudianNum=refDate.getJudianDayNumber();
 
@@ -94,4 +160,41 @@ date dateUtil::getBizDate(date refDate, long bias, DayRollEnum dayRollType) {
 	//	return refDate;
 	//}
 	return refDate;
+}
+
+date dateUtil::getEndDate(date startDate, int numMonth, bool adjustInvalidDay){
+	unsigned short startMonth = startDate.getMonth();
+	unsigned short endMonth = (startMonth + numMonth)%12;
+	unsigned short endYear = startDate.getYear()+(startMonth + numMonth)/12;
+	date endDate(endYear, endMonth, startDate.getDay());
+	endDate = adjustInvalidateDate(endDate);
+	return endDate;
+}
+
+date dateUtil::adjustInvalidateDate(date aDate){
+	unsigned short monthlen[]={31,28,31,30,31,30,31,31,30,31,30,31};
+	if (isleapyear(aDate.getYear()) && aDate.getMonth()==2)
+		monthlen[1]++;
+	if (aDate.getDay()>monthlen[aDate.getMonth()-1]){
+			aDate.setDay(monthlen[aDate.getMonth()-1]);
+	}
+	return aDate;
+}
+
+bool dateUtil::isleapyear(unsigned short year){
+	return (!(year%4) && (year%100) || !(year%400));
+}
+
+long dateUtil::getPrecedingJDN(long JDN, std::string city){
+	while(!isBizDay(JDN) && !isHoliday(JDN,city)){
+		JDN--;
+	}
+	return JDN;
+}
+
+long dateUtil::getFolloingJDN(long JDN, std::string city){
+	while(!isBizDay(JDN) && !isHoliday(JDN,city)){
+		JDN++;
+	}
+	return JDN;
 }

@@ -3,12 +3,10 @@
 #ifndef CURRENCY_H
 #define CURRENCY_H
 #include <tuple>
-#include "DayCountEnum.h"
-#include "DayRollEnum.h"
-#include "CurrencyEnum.h"
+#include "dateUtil.h"
+#include "Enums.h"
 
 namespace instruments {
-
 
 	class currency {
 

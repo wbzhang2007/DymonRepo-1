@@ -2,7 +2,7 @@
 //updated by Hu Kun on 5 Dec
 
 #include "currency.h"
-#include "CurrencyEnum.h"
+#include "Enums.h"
 
 using namespace instruments;
 
