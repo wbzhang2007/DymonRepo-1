@@ -27,6 +27,7 @@ namespace utilities {
 
 		//to be used by instruments namespaces to calc dates
 		static date getBizDate(date refDate, long bias, DayRollEnum dayRollType);
+		static date dayRoll(date aDate,DayRollEnum aDayRollConvention);
 
 	private:
 
