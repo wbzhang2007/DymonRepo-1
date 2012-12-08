@@ -79,6 +79,10 @@ int dateUtil::getTodayYear() {
 
 }
 
+date dateUtil::dayRoll(date aDate,DayRollEnum aDayRollConvention) {
+	date dummy;
+	return dummy;
+}
 //to be used by instruments namespaces to calc dates
 date dateUtil::getBizDate(date refDate, long bias, DayRollEnum dayRollType) {
 	//long refDateJudianNum=refDate.getJudianDayNumber();
