@@ -3,8 +3,10 @@
 
 #include "date.h"
 #include "dateUtil.h"
+#include <string>
 
 using namespace std;
+
 
 namespace utilities {
 
@@ -60,4 +62,7 @@ namespace utilities {
 		setJudianDayNumber();
 	}
 	
+	void date::printDate() {
+		cout <<_year<<"-"<<_month<<"-"<<_day<<endl;
+	}
 }
