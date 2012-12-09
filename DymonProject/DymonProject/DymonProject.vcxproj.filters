@@ -67,16 +67,7 @@
     <ClInclude Include="date.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DayCountEnum.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DayRollEnum.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="currency.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CurrencyEnum.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dateUtil.h">
@@ -119,6 +110,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cashflow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
