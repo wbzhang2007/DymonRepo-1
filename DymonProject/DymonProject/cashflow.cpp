@@ -86,28 +86,27 @@ namespace instruments {
 			_PVs.push_back(0);
 		}
 
-		//for (itPay=_paymentDates.begin();itPay!=_paymentDates.end();itPay++) {
-		//	if (dateUtil::getBizDaysBetween(_tradeDate,*itPay)>=0) {
-		//		nextCouponDate=*itPay;
-		//		priorCouponDate=*(--itPay);
 
-		//		nextCouponDate.printDate();
-		//		priorCouponDate.printDate();
-		//		break;
-		//	}
+		if (dateUtil::getBizDaysBetween(_tradeDate,*_paymentDates.begin())>=0) {
+			accuralFactor=0;
+		}
+		else {
+		for (itPay=_paymentDates.begin();itPay!=_paymentDates.end();itPay++) {
 
-		//}
-
-		//if (dateUtil::getBizDaysBetween(priorCouponDate,nextCouponDate)==0) {
 			
-		//	throw "Division by zero condition!";
-		//}
-		//cout<<"numtest="<<dateUtil::getBizDaysBetween(priorCouponDate,nextCouponDate)<<endl;
-		//cout<<"num="<<dateUtil::getBizDaysBetween(_tradeDate,priorCouponDate)<<endl;
-		//cout<<"num="<<dateUtil::getBizDaysBetween(priorCouponDate,nextCouponDate)<<endl;
-		accuralFactor=1;
-			//dateUtil::getBizDaysBetween(_tradeDate,priorCouponDate)/dateUtil::getBizDaysBetween(priorCouponDate,nextCouponDate);
-		
+			if (dateUtil::getBizDaysBetween(_tradeDate,*itPay)>0) {
+				nextCouponDate=*itPay;
+				priorCouponDate=*(--itPay);
+
+				nextCouponDate.printDate();
+				priorCouponDate.printDate();
+
+				accuralFactor=dateUtil::getBizDaysBetween(_tradeDate,priorCouponDate)/dateUtil::getBizDaysBetween(priorCouponDate,nextCouponDate);
+				break;
+			}
+
+			}
+		}
 
 		for (it= _PVs.begin(),itPay=_paymentDates.begin(),itFix=_fixingDates.begin();it!= _PVs.end()&&itPay!=_paymentDates.end()&&itFix!=_fixingDates.end();++it,++itPay,++itFix) {
 			
