@@ -71,32 +71,30 @@ bool dateUtil::isHoliday(date aDate, std::string city){
 }
 
 int dateUtil::getTodayDay() {
-		time_t     rawtime;
-		struct tm* timeinfo;
+	time_t     rawtime;
+	struct tm* timeinfo;
 
-		time( &rawtime );
-		timeinfo = localtime( &rawtime );
-		return timeinfo->tm_mday;
-		
-	}
+	time( &rawtime );
+	timeinfo = localtime( &rawtime );
+	return timeinfo->tm_mday;		
+}
+
 int dateUtil::getTodayMonth() {
-		time_t     rawtime;
-		struct tm* timeinfo;
+	time_t     rawtime;
+	struct tm* timeinfo;
 
-		time( &rawtime );
-		timeinfo = localtime( &rawtime );
-		return 1+timeinfo->tm_mon;
-	
+	time( &rawtime );
+	timeinfo = localtime( &rawtime );
+	return 1+timeinfo->tm_mon;	
 }
 	
 int dateUtil::getTodayYear() {
-		time_t     rawtime;
-		struct tm* timeinfo;
+	time_t     rawtime;
+	struct tm* timeinfo;
 
-		time( &rawtime );
-		timeinfo = localtime( &rawtime );
-		return 1900+timeinfo->tm_year;
-
+	time( &rawtime );
+	timeinfo = localtime( &rawtime );
+	return 1900+timeinfo->tm_year;
 }
 
 unsigned short* dateUtil::getYearMonthDay(long JDN){
@@ -126,14 +124,50 @@ double dateUtil::getAccrualFactor(date startDate,date endDate, enums::DayCountEn
 	double accrualFactor;
 	switch(dayCount){
 	case thirty_360US:
+		//This day count convention is also called Bond basis.
+		if (endDate.getDay()==31 && (startDate.getDay()==30||31))
+			endDate.setDay(30);
+		if (startDate.getDay()==31)
+			startDate.setDay(30);
+		accrualFactor = thirty_360(startDate, endDate);
 		break;
 	case thirthE_360:
+		if (startDate.getDay()==31)
+			startDate.setDay(30);
+		if (endDate.getDay()==31)
+			endDate.setDay(30);
+		accrualFactor = thirty_360(startDate, endDate);
 		break;
 	case ACT_360:
+		//This day count is also called Money Market basis or Actual 360
+		//This is the most used day count convention for money market instruments (maturity below one year).
+		accrualFactor = (endDate.getJudianDayNumber()-startDate.getJudianDayNumber())/360.0;
 		break;
 	case ACT_365:
+		//Also called English Money Market basis.
+		//The number 365 is used even in a leap year.
+		accrualFactor = (endDate.getJudianDayNumber()-startDate.getJudianDayNumber())/365.0;
 		break;
 	case ACT_ACT:
+		//To compute the number of days, the period first day is included and the last day is excluded.
+		if (startDate.getYear()==endDate.getYear()){
+			int numDays = endDate.getJudianDayNumber()-startDate.getJudianDayNumber();
+			accrualFactor = numDays/(isleapyear(startDate.getYear())?366.0:365.0);
+		}else{
+			int numStartYearDays = date(startDate.getYear(),12,31).getJudianDayNumber() - startDate.getJudianDayNumber() + 1;
+			double startYearFactor = numStartYearDays/(isleapyear(startDate.getYear())?366.0:365.0);
+			int numEndYearDays = endDate.getJudianDayNumber() - date(endDate.getYear(),1,1).getJudianDayNumber();
+			double endYearFactor = numEndYearDays/(isleapyear(endDate.getYear())?366.0:365.0);
+			accrualFactor = startYearFactor + endYearFactor +(endDate.getYear()-startDate.getYear()-1);
+		}
+		break;
+	case BUS_252:
+		//Numerator is the number of business days (in a given calendar) from and including the start date up to and excluding the end date.
+		int numBizDay=0;
+		for(long i = startDate.getJudianDayNumber();i<endDate.getJudianDayNumber();i++)
+			if (isBizDay(i))
+				numBizDay++;
+		accrualFactor = numBizDay/252.0;
 		break;
 	}
 	return accrualFactor;
@@ -214,5 +248,12 @@ long dateUtil::getFolloingJDN(long JDN, std::string city){
 		JDN++;
 	}
 	return JDN;
+}
+
+double dateUtil::thirty_360(date startDate, date endDate){
+	int yearFactor = 360*(endDate.getYear()-startDate.getYear());
+	int monthFactor = 30*(endDate.getMonth()-startDate.getMonth());
+	int dayFactor = endDate.getDay()-startDate.getDay();
+	return (yearFactor+monthFactor+dayFactor)/360.0;
 }
 

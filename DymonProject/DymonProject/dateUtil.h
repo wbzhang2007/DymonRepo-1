@@ -47,6 +47,7 @@ namespace utilities {
 		static long getPrecedingJDN(long JDN, std::string city);
 		static long getFolloingJDN(long JDN, std::string city);
 		static date adjustInvalidateDate(date aDate);
+		static double thirty_360(date startDate, date endDate);
 	};
 }
 
