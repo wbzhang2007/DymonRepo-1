@@ -108,4 +108,5 @@ void CashFlowTest() {
 	cashflow testCashFlow=cashflow(startDate,tradeDate,couponRate,notional, margin, paymentFreq, maturityDate, cashFlowCurr);
 
 	testCashFlow.printPVs();
+	cout<<"total MPVs="<<testCashFlow.MPV()<<endl;
 }
