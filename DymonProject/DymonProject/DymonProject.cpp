@@ -6,6 +6,7 @@
 #include "zero.h"
 #include "cashflow.h"
 #include "DymonRecordHelper.h"
+#include <math.h>
 
 using namespace utilities;
 using namespace std;
@@ -18,12 +19,13 @@ void CashFlowTest();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	//DateUtilTest();
+	DateUtilTest();
 	//RecordTest();
-	CashFlowTest();
+	//CashFlowTest();
 }
 
 void ZeroTest(){
+	cout << "******** Zero Test ********" << endl;
 	date date0(2012,12,1);
 	//cout<<date0.getJudianDayNumber()<<" "<<date0.isBusinessDay()<<endl;
 	date date1(2012,12,8);
@@ -41,6 +43,7 @@ void ZeroTest(){
 }
 
 void DateUtilTest(){
+	cout << "******** DayRollAdjust Test ********" << endl;
 	{
 		date date0(2456270);
 		date date1(2012,12,8);
@@ -70,6 +73,7 @@ void DateUtilTest(){
 		date date1 = dateUtil::dayRollAdjust(date0, DayRollEnum::Mfollowingbi, "");
 		date date2(2011,10,14);
 		cout<<date1.isEqual(date2)<<endl;}
+	cout << "******** GetEndDate Test ********" << endl;
 	{
 		date date0(2012,1,31);
 		date date1 = dateUtil::getEndDate(date0, 1, true);
@@ -80,6 +84,35 @@ void DateUtilTest(){
 		date date1 = dateUtil::getEndDate(date0, 4, true);
 		date date2(2013,2,28);
 		cout<<date1.isEqual(date2)<<endl;}
+	cout << "******** DayCount Test ********" << endl;
+	{
+		date sd(2012,10,31);
+		date ed(2012,11,30);
+		cout<<(dateUtil::getAccrualFactor(sd,ed,thirty_360US)==30/360.0)<<endl;}
+	{
+		date sd(2012,11,30);
+		date ed(2012,12,31);
+		cout<<(dateUtil::getAccrualFactor(sd,ed,thirty_360US)==30/360.0)<<endl;}
+	{
+		date sd(2012,7,31);
+		date ed(2012,8,31);
+		cout<<(dateUtil::getAccrualFactor(sd,ed,thirthE_360)==30/360.0)<<endl;}
+	{
+		date sd(2010,12,30);
+		date ed(2011,1,2);
+		cout<<(dateUtil::getAccrualFactor(sd,ed,ACT_ACT)-3/365.0<pow(10.0,-12))<<endl;}
+	{
+		date sd(2011,12,30);
+		date ed(2012,1,2);
+		cout<<(dateUtil::getAccrualFactor(sd,ed,ACT_ACT)-(2/365.0+1/366.0)<pow(10.0,-12))<<endl;}
+	{
+		date sd(2011,12,30);
+		date ed(2013,1,2);
+		cout<<(dateUtil::getAccrualFactor(sd,ed,ACT_ACT)-(367/365.0+1+1/365.0)<pow(10.0,-12))<<endl;}
+	{
+		date sd(2012,12,7);
+		date ed(2012,12,17);
+		cout<<(dateUtil::getAccrualFactor(sd,ed,BUS_252)-(6/252.0)<pow(10.0,-12))<<endl;}
 }
 
 void RecordTest(){
@@ -95,7 +128,8 @@ void RecordTest(){
 }
 
 void CashFlowTest() {
-
+	
+	cout << "******** CashFlow Test ********" << endl;
 	date tradeDate(2012,11,2);
 	date startDate(2012,10,2);
 	date maturityDate(2014,8,13);
