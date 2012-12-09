@@ -150,7 +150,7 @@ date dateUtil::dayRollAdjust(date aDate,DayRollEnum aDayRollConvention, string c
 		break;
 	case Mfollowing:
 		adjustedJDN = getFolloingJDN(aDate.getJudianDayNumber(), city);
-		if (getYearMonthDay(adjustedJDN)[2]!=getYearMonthDay(aDate.getJudianDayNumber())[2])
+		if (getYearMonthDay(adjustedJDN)[1]!=getYearMonthDay(aDate.getJudianDayNumber())[1])
 			adjustedJDN = getPrecedingJDN(aDate.getJudianDayNumber(), city);
 		break;
 	case Mfollowingbi:	
