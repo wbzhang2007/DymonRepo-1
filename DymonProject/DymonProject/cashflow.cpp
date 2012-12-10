@@ -75,29 +75,29 @@ namespace instruments {
 	void cashflow::setPVs() {
 		vector<double>::iterator it;
 		vector<date>::iterator itPay=_paymentDates.begin();
-		vector<date>::iterator itFix;
+		vector<date>::iterator itFix=_fixingDates.begin();;
 		int count=0;
 		double accuralFactor;
-		date priorCouponDate;
-		date nextCouponDate;
+		date priorFixingDate;
+		date nextFixingDate;
 
 		int numOfMonthIncr=12/_paymentFreq;
 		for (int i=1;i<=_paymentFreq;++i){
 			_PVs.push_back(0);
 		}
 
-		if (dateUtil::getBizDaysBetween(_tradeDate,*_paymentDates.begin())>=0) {
+		if (dateUtil::getBizDaysBetween(_tradeDate,*_fixingDates.begin())>=0) {
 			accuralFactor=0;
 		}else {
-			for (itPay=_paymentDates.begin();itPay!=_paymentDates.end();itPay++) {
-				if (dateUtil::getBizDaysBetween(_tradeDate,*itPay)>0) {
-					nextCouponDate=*itPay;
-					priorCouponDate=*(--itPay);
+			for (itFix=_paymentDates.begin();itFix!=_paymentDates.end();itFix++) {
+				if (dateUtil::getBizDaysBetween(_tradeDate,*itFix)>0) {
+					nextFixingDate=*itFix;
+					priorFixingDate=*(--itPay);
 
-					nextCouponDate.printDate();
-					priorCouponDate.printDate();
+					nextFixingDate.printDate();
+					priorFixingDate.printDate();
 
-					accuralFactor=dateUtil::getBizDaysBetween(_tradeDate,priorCouponDate)/dateUtil::getBizDaysBetween(priorCouponDate,nextCouponDate);
+					accuralFactor=dateUtil::getBizDaysBetween(_tradeDate,priorFixingDate)/dateUtil::getBizDaysBetween(priorFixingDate,nextFixingDate);
 					break;
 				}
 			}

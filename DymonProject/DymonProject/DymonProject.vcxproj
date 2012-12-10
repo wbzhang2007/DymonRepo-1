@@ -80,6 +80,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractDao.h" />
+    <ClInclude Include="AbstractInterpolation.h" />
+    <ClInclude Include="AbstractNumerical.h" />
     <ClInclude Include="AbstractSession.h" />
     <ClInclude Include="bond.h" />
     <ClInclude Include="cashflow.h" />
