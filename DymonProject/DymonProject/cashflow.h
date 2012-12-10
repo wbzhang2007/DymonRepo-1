@@ -1,3 +1,6 @@
+//created by Hu Kun on 8 Dec
+//modified by Hu Kun on 10 Dec
+
 #ifndef CASHFLOW_H
 #define CASHFLOW_H
 
@@ -17,7 +20,7 @@ namespace instruments {
 		
 
 	public:
-		cashflow(date startDate, date tradeDate,double couponRate,double notional, double margin, int paymentFreq, date maturityDate, currency cashFlowCurr);
+		cashflow(date startDate, date tradeDate,double couponRate,double notional, vector<double> margin, int paymentFreq, date maturityDate, currency cashFlowCurr);
 		~cashflow();
 
 		double MPV();
@@ -30,7 +33,7 @@ namespace instruments {
 		date getStartDate();
 		date getMaturityDate();
 		currency getCashFlowCurr();
-		double getMargin();
+		vector<double> getMargin();
 		
 		vector<double> getPVs();
 
@@ -42,13 +45,13 @@ namespace instruments {
 		void setStartDate(date startDate);
 		void setTradeDate(date tradeDate);
 		void setCouponRate(double couponRate);
-		void setMargin(double margin);
+		void setMargin(vector<double> margin);
 		void setMaturityDate(date maturityDate);
 		void setCashFlowCurr(currency cashFlowCurr);
 
 	private:
 		date _startDate;
-		double _margin;
+		vector<double> _margin;
 		int _paymentFreq;
 		date _maturityDate;
 		currency _cashFlowCurr;
