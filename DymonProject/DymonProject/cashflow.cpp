@@ -82,7 +82,7 @@ namespace instruments {
 		date nextCouponDate;
 
 		int numOfMonthIncr=12/_paymentFreq;
-		for (int i=1;i<=numOfMonthIncr;++i){
+		for (int i=1;i<=_paymentFreq;++i){
 			_PVs.push_back(0);
 		}
 
@@ -111,9 +111,10 @@ namespace instruments {
 		for (it= _PVs.begin(),itPay=_paymentDates.begin(),itFix=_fixingDates.begin();it!= _PVs.end()&&itPay!=_paymentDates.end()&&itFix!=_fixingDates.end();++it,++itPay,++itFix) {
 			
 		
-			*it=_notional*_couponRate/_paymentFreq/pow((1+_margin/_paymentFreq),++count-accuralFactor);
+			*it=_notional*_couponRate/_paymentFreq/pow((1+_margin/_paymentFreq),(++count)-accuralFactor);
 		}
 		
+		cout<<"final count="<<count<<endl;
 	}
 
 	double cashflow::getMargin(){
@@ -134,7 +135,7 @@ namespace instruments {
 		cout<<"payFreq="<<_paymentFreq<<endl;
 
 		int numOfMonthIncr=12/_paymentFreq;
-		for (int i=1;i<=numOfMonthIncr;++i){
+		for (int i=1;i<=_paymentFreq;++i){
 			_fixingDates.push_back(0);
 		}
 		int count=0;
@@ -156,7 +157,7 @@ namespace instruments {
 		vector<date>::iterator itFix;
 		vector<date>::iterator itPay;
 		int numOfMonthIncr=12/_paymentFreq;
-		for (int i=1;i<=numOfMonthIncr;++i){
+		for (int i=1;i<=_paymentFreq;++i){
 			_paymentDates.push_back(0);
 		}
 

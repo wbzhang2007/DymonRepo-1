@@ -21,7 +21,7 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	DateUtilTest();
 	//RecordTest();
-	//CashFlowTest();
+	CashFlowTest();
 }
 
 void ZeroTest(){
@@ -136,7 +136,7 @@ void CashFlowTest() {
 	double notional=1000000.0;
 	double couponRate=0.04;
 	double margin=0.05;
-	int paymentFreq=3;
+	int paymentFreq=4;
 
 	currency cashFlowCurr=currency(USD,ACT_360, ACT_365, Mfollowing, paymentFreq,1);
 	cashflow testCashFlow=cashflow(startDate,tradeDate,couponRate,notional, margin, paymentFreq, maturityDate, cashFlowCurr);
