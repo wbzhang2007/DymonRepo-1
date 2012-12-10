@@ -2,7 +2,6 @@
 #include <math.h>
 #include <stdio.h>
 
-
 using namespace utilities;
 using namespace std;
 using namespace enums;
@@ -58,6 +57,7 @@ namespace instruments {
 	void cashflow::setCashFlowCurr(currency cashFlowCurr) {
 		_cashFlowCurr=cashFlowCurr;
 	}
+
 	double cashflow::MPV() {
 		vector<double>::iterator it;
 		double sum=0.0;
@@ -66,8 +66,8 @@ namespace instruments {
 		}
 
 		return sum;
-
 	}
+
 	vector<double> cashflow::getPVs() {
 		return _PVs;
 	}
@@ -75,42 +75,35 @@ namespace instruments {
 	void cashflow::setPVs() {
 		vector<double>::iterator it;
 		vector<date>::iterator itPay=_paymentDates.begin();
-		vector<date>::iterator itFix;
+		vector<date>::iterator itFix=_fixingDates.begin();;
 		int count=0;
 		double accuralFactor;
-		date priorCouponDate;
-		date nextCouponDate;
+		date priorFixingDate;
+		date nextFixingDate;
 
 		int numOfMonthIncr=12/_paymentFreq;
 		for (int i=1;i<=_paymentFreq;++i){
 			_PVs.push_back(0);
 		}
 
-
-		if (dateUtil::getBizDaysBetween(_tradeDate,*_paymentDates.begin())>=0) {
+		if (dateUtil::getBizDaysBetween(_tradeDate,*_fixingDates.begin())>=0) {
 			accuralFactor=0;
-		}
-		else {
-		for (itPay=_paymentDates.begin();itPay!=_paymentDates.end();itPay++) {
+		}else {
+			for (itFix=_paymentDates.begin();itFix!=_paymentDates.end();itFix++) {
+				if (dateUtil::getBizDaysBetween(_tradeDate,*itFix)>0) {
+					nextFixingDate=*itFix;
+					priorFixingDate=*(--itPay);
 
-			
-			if (dateUtil::getBizDaysBetween(_tradeDate,*itPay)>0) {
-				nextCouponDate=*itPay;
-				priorCouponDate=*(--itPay);
+					nextFixingDate.printDate();
+					priorFixingDate.printDate();
 
-				nextCouponDate.printDate();
-				priorCouponDate.printDate();
-
-				accuralFactor=dateUtil::getBizDaysBetween(_tradeDate,priorCouponDate)/dateUtil::getBizDaysBetween(priorCouponDate,nextCouponDate);
-				break;
-			}
-
+					accuralFactor=dateUtil::getBizDaysBetween(_tradeDate,priorFixingDate)/dateUtil::getBizDaysBetween(priorFixingDate,nextFixingDate);
+					break;
+				}
 			}
 		}
 
 		for (it= _PVs.begin(),itPay=_paymentDates.begin(),itFix=_fixingDates.begin();it!= _PVs.end()&&itPay!=_paymentDates.end()&&itFix!=_fixingDates.end();++it,++itPay,++itFix) {
-			
-		
 			*it=_notional*_couponRate/_paymentFreq/pow((1+_margin/_paymentFreq),(++count)-accuralFactor);
 		}
 		
@@ -120,14 +113,15 @@ namespace instruments {
 	double cashflow::getMargin(){
 		return _margin;
 	}
-	int cashflow::getPaymentFreq() {
 
+	int cashflow::getPaymentFreq() {
 		return _paymentFreq;
 	}
 	
 	vector<date> cashflow::getFixingDates() {
 		return _fixingDates;
 	}
+
 	void cashflow::setFixingDates() {
 		
 		vector<date>::iterator it;
@@ -140,20 +134,19 @@ namespace instruments {
 		}
 		int count=0;
 		for (it= _fixingDates.begin();it!= _fixingDates.end();it++) { 
-	        *it=dateUtil::getEndDate(_startDate,numOfMonthIncr*(++count),false);
+	        *it=dateUtil::getEndDate(_startDate,numOfMonthIncr*(++count),true);
 			date aTestDate=*it;
 			cout<<"fixingDate";
 		    aTestDate.printDate();
 			cout<<endl;
 		}
-		
-
 	}
 	
 	vector<date> cashflow::getPaymentDates() {
 		return _paymentDates;
 	}
-	 void cashflow::setPaymentDates() {
+
+	void cashflow::setPaymentDates() {
 		vector<date>::iterator itFix;
 		vector<date>::iterator itPay;
 		int numOfMonthIncr=12/_paymentFreq;
@@ -164,38 +157,29 @@ namespace instruments {
 		cout<<"size of paymentDates="<<_paymentDates.size()<<endl;
 		int count=0;
 		for (itFix=_fixingDates.begin(),itPay=_paymentDates.begin();itFix!=_fixingDates.end(),itPay!=_paymentDates.end();itFix++,itPay++) { 
-	        	
+
 			*itPay=dateUtil::dayRollAdjust(*itFix,Mfollowing,"");
 			date aPayDate=*itPay;
 			cout<<"paymentDate";
 			aPayDate.printDate();
 			cout<<endl;
 		}
-		
-
-
 	}
 	
 	double cashflow::getNotional() {
-		
 		return _notional;
 	}
 	
 	date cashflow::getStartDate()  {
 		return _startDate;
-
 	}
 	
 	date cashflow::getMaturityDate() {
 		return _maturityDate;
-
 	}
 	
-	currency cashflow::getCashFlowCurr() {
-		
-		
+	currency cashflow::getCashFlowCurr() {		
 		return _cashFlowCurr;
-
 	}
 
 	void cashflow::printPVs() {
@@ -204,8 +188,7 @@ namespace instruments {
 		int year;
 		int month;
 		int day;
-		date dummy;
-		
+		date dummy;		
 
 		for (itPV= _PVs.begin(),itPay=_paymentDates.begin();itPV!= _PVs.end()&&itPay!=_paymentDates.end();++itPV,++itPay) { 
 			dummy=*itPay;

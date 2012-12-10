@@ -115,6 +115,12 @@
     <ClInclude Include="Enums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AbstractInterpolation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractNumerical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
