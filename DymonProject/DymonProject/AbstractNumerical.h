@@ -1,18 +1,23 @@
 //created by Wang Jianwei on 01 Dec 2012
-#ifndef AbstractNumerical_H
-#define AbstractNumerical_H
-#include <string>
-#include "AbstractInterpolation.h"
+#ifndef ABSTRACTNUMERICAL_H
+#define ABSTRACTNUMERICAL_H
 
-using namespace utilities;
+namespace utilities{
+	class AbstractNumerical{
+		
+	enum NumericAlgo {BISECTION,CUBICSPLINE};
 
-namespace AbstractNumerical{
-	{
 	public:
-		double findRoot(double startVal, double endVal, double tolerance, int iterations);
-		 
+
+		AbstractNumerical();
+
+		virtual double findRoot(double startVal, double endVal, double tolerance, int iterateCount, NumericAlgo algo);
+
+		virtual double findRoot(double startVal, double increment, double tolerance);
+
 	private:
-		AbstractInterpolation interpolator;
-	};
+
+
+	}
 }
 #endif
