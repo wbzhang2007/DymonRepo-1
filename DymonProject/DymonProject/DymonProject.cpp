@@ -132,6 +132,16 @@ void CashFlowTest() {
 	date tradeDate(2013,11,2);
 	date startDate(2012,10,2);
 	date maturityDate(2016,8,13);
+
+	cout<<"startDate=";
+	startDate.printDate();
+
+	cout<<"maturityDate=";
+	maturityDate.printDate();
+
+	cout<<"tradeDate=";
+	tradeDate.printDate();
+
 	double notional=1000000.0;
 	double couponRate=0.04;
 	vector<double> margin;
@@ -150,8 +160,14 @@ void CashFlowTest() {
     
 
 	currency cashFlowCurr=currency(USD,ACT_360, ACT_365, Mfollowing, paymentFreq,1);
-	cashflow testCashFlow=cashflow(startDate,tradeDate,couponRate,notional, margin, paymentFreq, maturityDate, cashFlowCurr,false,false);
+	cashflow testCashFlow=cashflow(startDate,tradeDate,couponRate,notional, margin, paymentFreq, maturityDate, cashFlowCurr,0,0);
+	
+	cout<<"****************NVs streams starts*************"<<endl;
+	testCashFlow.printNVs();
+	cout<<"****************NVs streams ends*************"<<endl;
 
+	cout<<"****************PVs streams starts*************"<<endl;
 	testCashFlow.printPVs();
+	cout<<"****************PVs streams ends*************"<<endl;
 	cout<<"total MPVs="<<testCashFlow.MPV()<<endl;
 }
