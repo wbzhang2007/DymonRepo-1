@@ -1,3 +1,6 @@
+//created by Hu Kun on 8 Dec
+//modified by Hu Kun on 10 Dec
+
 #include "cashflow.h"
 #include <math.h>
 #include <stdio.h>
@@ -7,7 +10,7 @@ using namespace std;
 using namespace enums;
 
 namespace instruments {
-	cashflow::cashflow(date startDate,date tradeDate,double couponRate,double notional, double margin, int paymentFreq, date maturityDate, currency cashFlowCurr) {
+	cashflow::cashflow(date startDate,date tradeDate,double couponRate,double notional, vector<double> margin, int paymentFreq, date maturityDate, currency cashFlowCurr) {
 		setStartDate(startDate);
 		setTradeDate(tradeDate);
 		setNotional(notional);
@@ -46,7 +49,7 @@ namespace instruments {
 		_couponRate=couponRate;
 	}
 	
-	void cashflow::setMargin(double margin) {
+	void cashflow::setMargin(vector<double> margin) {
 		_margin=margin;
 	}
 	
@@ -75,15 +78,22 @@ namespace instruments {
 	void cashflow::setPVs() {
 		vector<double>::iterator it;
 		vector<date>::iterator itPay=_paymentDates.begin();
-		vector<date>::iterator itFix=_fixingDates.begin();;
+		vector<date>::iterator itFix=_fixingDates.begin();
+		vector<double>::iterator itMargin=_margin.begin();
+
 		int count=0;
 		double accuralFactor;
 		date priorFixingDate;
 		date nextFixingDate;
 
 		int numOfMonthIncr=12/_paymentFreq;
-		for (int i=1;i<=_paymentFreq;++i){
+		int i=1;
+		date iteratorDate=dateUtil::getEndDate(_startDate,numOfMonthIncr*i,true);
+		while(dateUtil::getBizDaysBetween(iteratorDate,_maturityDate)>0){
+			
 			_PVs.push_back(0);
+			
+			iteratorDate=dateUtil::getEndDate(_startDate,numOfMonthIncr*(++i),true);
 		}
 
 		if (dateUtil::getBizDaysBetween(_tradeDate,*_fixingDates.begin())>=0) {
@@ -104,13 +114,15 @@ namespace instruments {
 		}
 
 		for (it= _PVs.begin(),itPay=_paymentDates.begin(),itFix=_fixingDates.begin();it!= _PVs.end()&&itPay!=_paymentDates.end()&&itFix!=_fixingDates.end();++it,++itPay,++itFix) {
-			*it=_notional*_couponRate/_paymentFreq/pow((1+_margin/_paymentFreq),(++count)-accuralFactor);
+			cout<<"itMarg="<<*itMargin<<endl;
+			*it=_notional*_couponRate/_paymentFreq/pow((1+*itMargin),(++count)-accuralFactor);
+			itMargin++;
 		}
 		
 		cout<<"final count="<<count<<endl;
 	}
 
-	double cashflow::getMargin(){
+	vector<double> cashflow::getMargin(){
 		return _margin;
 	}
 
@@ -128,10 +140,17 @@ namespace instruments {
 		_startDate.printDate();
 		cout<<"payFreq="<<_paymentFreq<<endl;
 
+		
 		int numOfMonthIncr=12/_paymentFreq;
-		for (int i=1;i<=_paymentFreq;++i){
+		int i=1;
+		date iteratorDate=dateUtil::getEndDate(_startDate,numOfMonthIncr*i,true);
+		while(dateUtil::getBizDaysBetween(iteratorDate,_maturityDate)>0){
+			
 			_fixingDates.push_back(0);
+			
+			iteratorDate=dateUtil::getEndDate(_startDate,numOfMonthIncr*(++i),true);
 		}
+
 		int count=0;
 		for (it= _fixingDates.begin();it!= _fixingDates.end();it++) { 
 	        *it=dateUtil::getEndDate(_startDate,numOfMonthIncr*(++count),true);
@@ -149,10 +168,19 @@ namespace instruments {
 	void cashflow::setPaymentDates() {
 		vector<date>::iterator itFix;
 		vector<date>::iterator itPay;
+
 		int numOfMonthIncr=12/_paymentFreq;
-		for (int i=1;i<=_paymentFreq;++i){
+		int i=1;
+		date iteratorDate=dateUtil::getEndDate(_startDate,numOfMonthIncr*i,true);
+		while(dateUtil::getBizDaysBetween(iteratorDate,_maturityDate)>0){
+			
+			//cout<<"i="<<i<<endl;
 			_paymentDates.push_back(0);
+			
+			iteratorDate=dateUtil::getEndDate(_startDate,numOfMonthIncr*(++i),true);
 		}
+		
+		
 
 		cout<<"size of paymentDates="<<_paymentDates.size()<<endl;
 		int count=0;

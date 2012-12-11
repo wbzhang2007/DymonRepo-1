@@ -132,11 +132,25 @@ void CashFlowTest() {
 	cout << "******** CashFlow Test ********" << endl;
 	date tradeDate(2012,11,2);
 	date startDate(2012,10,2);
-	date maturityDate(2014,8,13);
+	date maturityDate(2016,8,13);
 	double notional=1000000.0;
 	double couponRate=0.04;
-	double margin=0.05;
+	vector<double> margin;
 	int paymentFreq=4;
+	
+	vector<double>::iterator itMargin=margin.begin();
+
+	int numOfMonthIncr=12/paymentFreq;
+	int i=1;
+	date iteratorDate=dateUtil::getEndDate(startDate,numOfMonthIncr*i,true);
+	while(dateUtil::getBizDaysBetween(iteratorDate,maturityDate)>0){
+			
+			cout<<"i="<<i<<endl;
+			margin.push_back(0.05);
+			
+			iteratorDate=dateUtil::getEndDate(startDate,numOfMonthIncr*(++i),true);
+	}
+    
 
 	currency cashFlowCurr=currency(USD,ACT_360, ACT_365, Mfollowing, paymentFreq,1);
 	cashflow testCashFlow=cashflow(startDate,tradeDate,couponRate,notional, margin, paymentFreq, maturityDate, cashFlowCurr);
