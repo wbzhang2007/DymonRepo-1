@@ -36,15 +36,16 @@ signed long dateUtil::getBizDaysBetween(date startDate, date endDate){
 }
 
 signed long dateUtil::getBizDaysBetween(long startJDN, long endJDN){
-	if (startJDN>endJDN) {
-		return -1;
-	}
-	else {
+	
 	long numBizDay=0;
-	for (long i = 0; i<endJDN-startJDN; i++){
+	for (long i = 0; i<abs(endJDN-startJDN); i++){
 		if (isBizDay(i)) numBizDay++;
 	}
-	return numBizDay;
+	if (startJDN>endJDN) {
+		return -numBizDay;
+	}
+	else {
+		return numBizDay;
 	}
 }
 
