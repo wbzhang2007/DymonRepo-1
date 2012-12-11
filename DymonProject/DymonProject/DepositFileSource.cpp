@@ -5,7 +5,7 @@
 #include "fileUtil.h"
 #include "dateUtil.h"
 #include "date.h"
-#include "DymonRecordHelper.h"
+#include "RecordHelper.h"
 
 using namespace DAO;
 using namespace std;
@@ -20,9 +20,9 @@ DepositFileSource::DepositFileSource(std::string persistDir, std::string fileNam
 
 DepositFileSource::~DepositFileSource(){}
 
-void DepositFileSource::init(Configuration cfg){
-	_fileName = cfg.getProperty("depositRate.file",true);
-	_persistDir = cfg.getProperty("depositRate.path",false);
+void DepositFileSource::init(Configuration* cfg){
+	_fileName = cfg->getProperty("depositRate.file",true);
+	_persistDir = cfg->getProperty("depositRate.path",false);
 	AbstractFileSource::init(cfg);
 }
 
@@ -31,6 +31,7 @@ void DepositFileSource::retrieveRecord(){
 	
 	string value;
 	string currency;
+	map<string, std::map<int, double>> tempMap;
 	while (_inFile.good()){
 		_inFile>>value;
 		//vector<string> vec = fileUtil::split(value,':');
@@ -38,7 +39,8 @@ void DepositFileSource::retrieveRecord(){
 		//vector<string> deposits = fileUtil::split(vec[1],',');
 		//cout<<currency<<" total deposits number:  "<<deposits.size()<<endl;
 		//set<long> JDNSet = buildJDNSet(holidays);
-		//DymonRecordHelper::depositRateMap.insert(pair<string,set<long>>(country,JDNSet));
+		//tempMap.insert(pair<string,set<long>>(country,JDNSet));
 	}
+	//RecordHelper::getInstance()->setDepositRateMap(tempMap);
 	_inFile.close();
 }

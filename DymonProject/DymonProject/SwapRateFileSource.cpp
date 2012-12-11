@@ -5,7 +5,7 @@
 #include "fileUtil.h"
 #include "dateUtil.h"
 #include "date.h"
-#include "DymonRecordHelper.h"
+#include "RecordHelper.h"
 
 using namespace DAO;
 using namespace std;
@@ -20,9 +20,9 @@ SwapRateFileSource::SwapRateFileSource(std::string persistDir, std::string fileN
 
 SwapRateFileSource::~SwapRateFileSource(){}
 
-void SwapRateFileSource::init(Configuration cfg){
-	_fileName = cfg.getProperty("swapRate.file",true);
-	_persistDir = cfg.getProperty("swapRate.path",false);
+void SwapRateFileSource::init(Configuration* cfg){
+	_fileName = cfg->getProperty("swapRate.file",true);
+	_persistDir = cfg->getProperty("swapRate.path",false);
 	AbstractFileSource::init(cfg);
 }
 
@@ -31,6 +31,7 @@ void SwapRateFileSource::retrieveRecord(){
 	
 	string value;
 	string currency;
+	map<string, std::map<int, double>> tempMap;
 	while (_inFile.good()){
 		_inFile>>value;
 		//vector<string> vec = fileUtil::split(value,':');
@@ -38,7 +39,8 @@ void SwapRateFileSource::retrieveRecord(){
 		//vector<string> swapRates = fileUtil::split(vec[1],',');
 		//cout<<currency<<" total deposits number:  "<<swapRates.size()<<endl;
 		//set<long> JDNSet = buildJDNSet(holidays);
-		//DymonRecordHelper::depositRateMap.insert(pair<string,set<long>>(country,JDNSet));
+		//tempMap.insert(pair<string,set<long>>(country,JDNSet));
 	}
+	//RecordHelper::getInstance()->setSwapRateMap(tempMap);
 	_inFile.close();
 }

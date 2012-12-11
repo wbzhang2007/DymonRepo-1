@@ -14,9 +14,9 @@ namespace utilities {
 	public:
 		static long getJudianDayNumber(unsigned short year, unsigned short month, unsigned short day);
 
-		static long getDaysBetween(date startDate, date endDate);
+		static signed long getDaysBetween(date startDate, date endDate);
 
-		static long getBizDaysBetween(date startDate, date endDate);
+		static signed long getBizDaysBetween(date startDate, date endDate);
 
 	    static bool isBizDay(date date0);
 

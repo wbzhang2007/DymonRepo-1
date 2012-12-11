@@ -8,17 +8,21 @@ namespace utilities {
 	class Configuration{
 		
 	public:
-		Configuration();
-		~Configuration();
+		static Configuration* getInstance();
 
-		std::map<std::string, std::string> getConfiguration();
+		std::map<std::string, std::string> getConfiguration() {return _config;}
 	
 		void setConfiguration(std::map<std::string, std::string> cfg);
 
 		std::string getProperty(std::string,bool);
-
-		static std::map<std::string, std::string> _config;
 		
+		typedef std::map<std::string, std::string> ConfigMap;
+		
+	private:
+		Configuration();
+		~Configuration();
+		static Configuration* single;
+		ConfigMap _config;
 	};
 }
 #endif

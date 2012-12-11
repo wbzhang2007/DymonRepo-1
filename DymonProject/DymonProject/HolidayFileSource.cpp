@@ -5,7 +5,7 @@
 #include "fileUtil.h"
 #include "dateUtil.h"
 #include "date.h"
-#include "DymonRecordHelper.h"
+#include "RecordHelper.h"
 
 using namespace DAO;
 using namespace std;
@@ -20,9 +20,9 @@ HolidayFileSource::HolidayFileSource(std::string persistDir, std::string fileNam
 
 HolidayFileSource::~HolidayFileSource(){}
 
-void HolidayFileSource::init(Configuration cfg){
-	_fileName = cfg.getProperty("holiday.file",true);
-	_persistDir = cfg.getProperty("holiday.path",false);
+void HolidayFileSource::init(Configuration* cfg){
+	_fileName = cfg->getProperty("holiday.file",true);
+	_persistDir = cfg->getProperty("holiday.path",false);
 	AbstractFileSource::init(cfg);
 }
 
@@ -31,6 +31,7 @@ void HolidayFileSource::retrieveRecord(){
 	
 	string value;
 	string currency;
+	map<string, set<long>> tempMap;
 	while (_inFile.good()){
 		_inFile>>value;
 		vector<string> vec = fileUtil::split(value,':');
@@ -38,8 +39,9 @@ void HolidayFileSource::retrieveRecord(){
 		vector<string> holidays = fileUtil::split(vec[1],',');
 		cout<<currency<<" total holiday number:  "<<holidays.size()<<endl;
 		set<long> JDNSet = buildJDNSet(holidays);
-		DymonRecordHelper::holidayMap.insert(pair<string,set<long>>(currency,JDNSet));
+		tempMap.insert(pair<string,set<long>>(currency,JDNSet));
 	}
+	RecordHelper::getInstance()->setHolidayMap(tempMap);
 	_inFile.close();
 }
 
