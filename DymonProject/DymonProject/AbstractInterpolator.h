@@ -14,13 +14,13 @@ namespace utilities{
 
 		typedef tuple<date, double> point;
 
-		//AbstractInterpolator(point startPoint, point endPoint);
+		AbstractInterpolator(point startPoint, point endPoint);
 
-		//vector<point>* interpolateM(std::vector<date>* dates);
+		vector<point> interpolateM(std::vector<date> dates);
 	
-		//virtual point interpolateS(date date0);
+		virtual point interpolateS(date date0);
 
-	private:
+	protected:
 
 		point _startPoint;
 		
