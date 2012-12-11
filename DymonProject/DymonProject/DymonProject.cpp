@@ -5,7 +5,7 @@
 #include "dateUtil.h"
 #include "zero.h"
 #include "cashflow.h"
-#include "DymonRecordHelper.h"
+#include "RecordHelper.h"
 #include <math.h>
 
 using namespace utilities;
@@ -117,10 +117,9 @@ void DateUtilTest(){
 
 void RecordTest(){
 	cout << "******** RecordHelper Test ********" << endl;
-	Configuration cfg;
-	DymonRecordHelper* recordHelper = new DymonRecordHelper();
-	recordHelper->init(cfg);
-	for(map<string, set<long>>::iterator outer_iter=DymonRecordHelper::holidayMap.begin(); outer_iter!=DymonRecordHelper::holidayMap.end(); ++outer_iter) {
+	RecordHelper* recordHelper = RecordHelper::getInstance();
+	recordHelper->init(Configuration::getInstance());
+	for(map<string, set<long>>::iterator outer_iter=RecordHelper::getInstance()->getHolidayMap().begin(); outer_iter!=RecordHelper::getInstance()->getHolidayMap().end(); ++outer_iter) {
 		for(set<long>::iterator inner_iter=outer_iter->second.begin(); inner_iter!=outer_iter->second.end(); ++inner_iter) {
 			cout << outer_iter->first<< " -> " << *inner_iter << endl;
 		}

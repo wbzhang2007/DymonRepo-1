@@ -3,7 +3,7 @@
 #include "date.h"
 #include <math.h>
 #include <iostream>
-#include "DymonRecordHelper.h"
+#include "RecordHelper.h"
 #include <ctime>
 
 using namespace utilities;
@@ -57,10 +57,10 @@ bool dateUtil::isBizDay(long JDN){
 
 bool dateUtil::isHoliday(long JDN, std::string city){
 	if (city=="") return false;
-	if (DymonRecordHelper::holidayMap.find(city)== DymonRecordHelper::holidayMap.end());
+	if (RecordHelper::getInstance()->getHolidayMap().find(city)== RecordHelper::getInstance()->getHolidayMap().end());
 		throw "City not found in Holiday Map: "+city;
 
-	set<long> holidaySet = DymonRecordHelper::holidayMap[city];
+	set<long> holidaySet = RecordHelper::getInstance()->getHolidayMap()[city];
 	if (holidaySet.find(JDN) != holidaySet.end())
 		return false;
 	return true;

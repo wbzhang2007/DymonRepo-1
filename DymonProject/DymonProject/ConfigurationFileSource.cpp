@@ -5,7 +5,6 @@
 #include "fileUtil.h"
 #include "dateUtil.h"
 #include "date.h"
-#include "DymonRecordHelper.h"
 #include "Configuration.h"
 
 using namespace DAO;
@@ -21,7 +20,7 @@ ConfigurationFileSource::ConfigurationFileSource(std::string persistDir, std::st
 
 ConfigurationFileSource::~ConfigurationFileSource(){}
 
-void ConfigurationFileSource::init(Configuration cfg){
+void ConfigurationFileSource::init(Configuration* cfg){
 	_fileName = "instance.properties";
 	_persistDir = "";
 	AbstractFileSource::init(cfg);
@@ -33,6 +32,7 @@ void ConfigurationFileSource::retrieveRecord(){
 	string keyEqualsValue;
 	string key;
 	string value;
+	map<string, string> configMap;
 	while (_inFile.good()){
 		_inFile>>keyEqualsValue;
 		if (keyEqualsValue.find('=')==0)
@@ -47,12 +47,11 @@ void ConfigurationFileSource::retrieveRecord(){
 			cout<<"Property ignored - Key/value pair not complete: "<<keyEqualsValue<<endl;
 			continue;
 		}
-		Configuration::_config[key]=value;
+		configMap[key]=value;
+		cout << "Item \"" << key << "\" has value \"" << value << '\"' << endl ;
 	}
 
-	for(map<string,string>::iterator i=Configuration::_config.begin();i!=Configuration::_config.end();i++) {
-		cout << "Item \"" << i->first << "\" has value \"" << i->second << '\"' << endl ;
-	}
-	
+	Configuration::getInstance()->setConfiguration(configMap);
+
 	_inFile.close();
 }

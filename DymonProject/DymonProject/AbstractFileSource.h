@@ -16,7 +16,7 @@ namespace DAO {
 		AbstractFileSource(std::string persistDir, std::string fileName);
 		~AbstractFileSource();
 
-		virtual void init(Configuration);
+		virtual void init(Configuration*);
 
 		virtual char* readRecord();
 

@@ -15,7 +15,7 @@ namespace DAO {
 		SwapRateFileSource(std::string persistDir, std::string fileName);
 		~SwapRateFileSource();
 
-		void init(Configuration);
+		void init(Configuration*);
 		
 		void retrieveRecord();
 	};

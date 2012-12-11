@@ -15,7 +15,7 @@ namespace DAO {
 		ConfigurationFileSource(std::string persistDir, std::string fileName);
 		~ConfigurationFileSource();
 
-		void init(Configuration);
+		void init(Configuration*);
 		
 		void retrieveRecord();
 	};

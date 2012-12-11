@@ -11,7 +11,7 @@ namespace Session{
 	class AbstractSession{
 
 	public:
-		virtual void init(Configuration)=0;
+		virtual void init(Configuration*)=0;
 
 		virtual void start();
 

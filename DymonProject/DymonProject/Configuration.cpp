@@ -5,15 +5,21 @@
 using namespace utilities;
 using namespace std;
 
+Configuration* Configuration::single = NULL;
+
+Configuration* Configuration::getInstance()
+{
+	if(! single)
+		single = new Configuration();
+	return single;
+}
+
 Configuration::Configuration(){
 }
 
 Configuration::~Configuration(){
 }
 
-map<string, string> Configuration::getConfiguration(){
-	return _config;
-}
 
 void Configuration::setConfiguration(map<string, string> config){
 	_config = config;
@@ -30,4 +36,3 @@ string Configuration::getProperty(string key, bool compulsory){
 	}
 }
 
-std::map<std::string, std::string> Configuration::_config;

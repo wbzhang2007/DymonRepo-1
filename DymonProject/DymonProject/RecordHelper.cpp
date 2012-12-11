@@ -1,6 +1,6 @@
 //created by Wang Jianwei on 01 Dec 2012
 
-#include "DymonRecordHelper.h"
+#include "RecordHelper.h"
 #include "AbstractDao.h"
 #include "Configuration.h"
 #include "swapRateFileSource.h"
@@ -12,42 +12,45 @@ using namespace Session;
 using namespace DAO;
 using namespace std;
 
-DymonRecordHelper::DymonRecordHelper(){
+RecordHelper* RecordHelper::single = NULL;
+
+RecordHelper* RecordHelper::getInstance()
+{
+	if(! single)
+		single = new RecordHelper();
+	return single;
 }
 
-void DymonRecordHelper::init(Configuration cfg){
+RecordHelper::RecordHelper(){
+}
+
+void RecordHelper::init(Configuration* cfg){
 	buildConfiguration(cfg);
 	buildHolidayMap(cfg);
 	buildSwapRateMap(cfg);
 	buildDepositRateMap(cfg);
 }
 
-void DymonRecordHelper::buildSwapRateMap(Configuration cfg){
+void RecordHelper::buildSwapRateMap(Configuration* cfg){
 	AbstractDAO* SwapRateDataSource = new SwapRateFileSource();
 	SwapRateDataSource->init(cfg);
 	SwapRateDataSource->retrieveRecord();
 }
 
-void DymonRecordHelper::buildDepositRateMap(Configuration cfg){
+void RecordHelper::buildDepositRateMap(Configuration* cfg){
 	AbstractDAO* depositRateDataSource = new DepositFileSource();
 	depositRateDataSource->init(cfg);
 	depositRateDataSource->retrieveRecord();
 }
 
-void DymonRecordHelper::buildHolidayMap(Configuration cfg){
+void RecordHelper::buildHolidayMap(Configuration* cfg){
 	AbstractDAO* holidayDataSource = new HolidayFileSource();
 	holidayDataSource->init(cfg);
 	holidayDataSource->retrieveRecord();
 }
 
-void DymonRecordHelper::buildConfiguration(Configuration cfg){
+void RecordHelper::buildConfiguration(Configuration* cfg){
 	AbstractDAO* configDataSource= new ConfigurationFileSource();
 	configDataSource->init(cfg);
 	configDataSource->retrieveRecord();
 }
-
-std::map<std::string, std::set<long>> DymonRecordHelper::holidayMap;
-
-std::map<std::string, std::map<int, double>> DymonRecordHelper::depositRateMap;
-
-std::map<std::string, std::map<int, double>> DymonRecordHelper::swapRateMap;

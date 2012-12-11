@@ -15,7 +15,7 @@ namespace DAO {
 		HolidayFileSource(std::string persistDir, std::string fileName);
 		~HolidayFileSource();
 
-		void init(Configuration);
+		void init(Configuration*);
 		
 		void retrieveRecord();
 		

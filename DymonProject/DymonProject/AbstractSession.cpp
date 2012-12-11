@@ -4,7 +4,7 @@
 
 using namespace Session;
 
-void  AbstractSession::init(Configuration cfg){}
+void  AbstractSession::init(Configuration* cfg){}
 
 void  AbstractSession::start(){}
 

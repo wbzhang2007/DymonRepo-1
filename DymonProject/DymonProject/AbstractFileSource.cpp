@@ -20,7 +20,7 @@ AbstractFileSource::AbstractFileSource(std::string persistDir, std::string fileN
 AbstractFileSource::~AbstractFileSource(){
 }
 
-void AbstractFileSource::init(Configuration cfg){
+void AbstractFileSource::init(Configuration* cfg){
 	AbstractDAO::init(cfg);
 }
 

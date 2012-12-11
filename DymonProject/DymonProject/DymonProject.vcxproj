@@ -93,7 +93,7 @@
     <ClInclude Include="dateUtil.h" />
     <ClInclude Include="deposit.h" />
     <ClInclude Include="DepositFileSource.h" />
-    <ClInclude Include="DymonRecordHelper.h" />
+    <ClInclude Include="RecordHelper.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="fileUtil.h" />
     <ClInclude Include="forward.h" />
@@ -124,7 +124,7 @@
     <ClCompile Include="dateUtil.cpp" />
     <ClCompile Include="DepositFileSource.cpp" />
     <ClCompile Include="DymonProject.cpp" />
-    <ClCompile Include="DymonRecordHelper.cpp" />
+    <ClCompile Include="RecordHelper.cpp" />
     <ClCompile Include="fileUtil.cpp" />
     <ClCompile Include="HolidayFileSource.cpp" />
     <ClCompile Include="marketdata.cpp" />
