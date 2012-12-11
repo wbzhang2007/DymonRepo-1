@@ -129,7 +129,7 @@ void RecordTest(){
 void CashFlowTest() {
 	
 	cout << "******** CashFlow Test ********" << endl;
-	date tradeDate(2012,11,2);
+	date tradeDate(2013,11,2);
 	date startDate(2012,10,2);
 	date maturityDate(2016,8,13);
 	double notional=1000000.0;
@@ -143,8 +143,6 @@ void CashFlowTest() {
 	int i=1;
 	date iteratorDate=dateUtil::getEndDate(startDate,numOfMonthIncr*i,true);
 	while(dateUtil::getBizDaysBetween(iteratorDate,maturityDate)>0){
-			
-			cout<<"i="<<i<<endl;
 			margin.push_back(0.05);
 			
 			iteratorDate=dateUtil::getEndDate(startDate,numOfMonthIncr*(++i),true);
@@ -152,7 +150,7 @@ void CashFlowTest() {
     
 
 	currency cashFlowCurr=currency(USD,ACT_360, ACT_365, Mfollowing, paymentFreq,1);
-	cashflow testCashFlow=cashflow(startDate,tradeDate,couponRate,notional, margin, paymentFreq, maturityDate, cashFlowCurr);
+	cashflow testCashFlow=cashflow(startDate,tradeDate,couponRate,notional, margin, paymentFreq, maturityDate, cashFlowCurr,false,false);
 
 	testCashFlow.printPVs();
 	cout<<"total MPVs="<<testCashFlow.MPV()<<endl;

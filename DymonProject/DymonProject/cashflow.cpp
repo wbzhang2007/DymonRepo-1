@@ -10,7 +10,11 @@ using namespace std;
 using namespace enums;
 
 namespace instruments {
-	cashflow::cashflow(date startDate,date tradeDate,double couponRate,double notional, vector<double> margin, int paymentFreq, date maturityDate, currency cashFlowCurr) {
+	cashflow::cashflow(date startDate,date tradeDate,double couponRate,double notional, vector<double> margin, int paymentFreq, date maturityDate, currency cashFlowCurr,bool exchangeNotionalBegin, bool exchangeNotionalEnd) {
+		
+		setExchangeNotionalEnd(exchangeNotionalEnd);
+		setExchangeNotionalBegin(exchangeNotionalBegin);
+
 		setStartDate(startDate);
 		setTradeDate(tradeDate);
 		setNotional(notional);
@@ -24,9 +28,26 @@ namespace instruments {
 		setFixingDates();
 		setPaymentDates();
 		setPVs();
+
 	}
 
 	cashflow::~cashflow() {
+	}
+
+	bool cashflow::getExchangeNotionalBegin() {
+		return _exchangeNotionalBegin;
+	}
+
+	bool cashflow::getExchangeNotionalEnd() {
+		return _exchangeNotionalEnd;
+	}
+
+	void cashflow::setExchangeNotionalBegin(bool exchangeNotionalBegin) {
+		_exchangeNotionalBegin=exchangeNotionalBegin;
+	}
+
+	void cashflow::setExchangeNotionalEnd(bool exchangeNotionalEnd) {
+		_exchangeNotionalEnd=exchangeNotionalEnd;
 	}
 
 	void cashflow::setPaymentFreq(int paymentFreq) {
@@ -95,26 +116,38 @@ namespace instruments {
 			
 			iteratorDate=dateUtil::getEndDate(_startDate,numOfMonthIncr*(++i),true);
 		}
+		signed long dayC=dateUtil::getBizDaysBetween(_tradeDate,*_fixingDates.begin());
+		cout<<"dayC="<<dayC<<endl;
 
+		_tradeDate.printDate();
+		date testDate=*_fixingDates.begin();
+		testDate.printDate();
 		if (dateUtil::getBizDaysBetween(_tradeDate,*_fixingDates.begin())>=0) {
 			accuralFactor=0;
 		}else {
-			for (itFix=_paymentDates.begin();itFix!=_paymentDates.end();itFix++) {
+			itFix=_fixingDates.begin();
+			itFix++;
+			for (;itFix!=_fixingDates.end();itFix++) {
 				if (dateUtil::getBizDaysBetween(_tradeDate,*itFix)>0) {
 					nextFixingDate=*itFix;
-					priorFixingDate=*(--itPay);
-
+					priorFixingDate=*(--itFix);
+					cout<<"***********"<<endl;
 					nextFixingDate.printDate();
 					priorFixingDate.printDate();
+					cout<<"***********"<<endl;
 
-					accuralFactor=dateUtil::getBizDaysBetween(_tradeDate,priorFixingDate)/dateUtil::getBizDaysBetween(priorFixingDate,nextFixingDate);
+					cout<<"num="<<dateUtil::getBizDaysBetween(_tradeDate,nextFixingDate)<<endl;
+					cout<<"denom="<<dateUtil::getBizDaysBetween(priorFixingDate,nextFixingDate)<<endl;
+					accuralFactor=(double)dateUtil::getBizDaysBetween(_tradeDate,nextFixingDate)/dateUtil::getBizDaysBetween(priorFixingDate,nextFixingDate);
 					break;
 				}
 			}
 		}
 
+		cout<<"accuralFactor="<<accuralFactor<<endl;
+
 		for (it= _PVs.begin(),itPay=_paymentDates.begin(),itFix=_fixingDates.begin();it!= _PVs.end()&&itPay!=_paymentDates.end()&&itFix!=_fixingDates.end();++it,++itPay,++itFix) {
-			cout<<"itMarg="<<*itMargin<<endl;
+			//cout<<"itMarg="<<*itMargin<<endl;
 			*it=_notional*_couponRate/_paymentFreq/pow((1+*itMargin),(++count)-accuralFactor);
 			itMargin++;
 		}
@@ -174,7 +207,6 @@ namespace instruments {
 		date iteratorDate=dateUtil::getEndDate(_startDate,numOfMonthIncr*i,true);
 		while(dateUtil::getBizDaysBetween(iteratorDate,_maturityDate)>0){
 			
-			//cout<<"i="<<i<<endl;
 			_paymentDates.push_back(0);
 			
 			iteratorDate=dateUtil::getEndDate(_startDate,numOfMonthIncr*(++i),true);

@@ -30,17 +30,22 @@ long dateUtil::getDaysBetween(long startJDN, long endJDN){
 	return startJDN-endJDN;
 }
 
-long dateUtil::getBizDaysBetween(date startDate, date endDate){
+signed long dateUtil::getBizDaysBetween(date startDate, date endDate){
 	return getBizDaysBetween
 		(startDate.getJudianDayNumber(),endDate.getJudianDayNumber());
 }
 
-long dateUtil::getBizDaysBetween(long startJDN, long endJDN){
+signed long dateUtil::getBizDaysBetween(long startJDN, long endJDN){
+	if (startJDN>endJDN) {
+		return -1;
+	}
+	else {
 	long numBizDay=0;
 	for (long i = 0; i<endJDN-startJDN; i++){
 		if (isBizDay(i)) numBizDay++;
 	}
 	return numBizDay;
+	}
 }
 
 bool dateUtil::isBizDay(date date0){

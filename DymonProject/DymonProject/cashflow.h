@@ -20,7 +20,7 @@ namespace instruments {
 		
 
 	public:
-		cashflow(date startDate, date tradeDate,double couponRate,double notional, vector<double> margin, int paymentFreq, date maturityDate, currency cashFlowCurr);
+		cashflow(date startDate, date tradeDate,double couponRate,double notional, vector<double> margin, int paymentFreq, date maturityDate, currency cashFlowCurr,bool exchangeNotionalBegin, bool exchangeNotionalEnd);
 		~cashflow();
 
 		double MPV();
@@ -34,9 +34,13 @@ namespace instruments {
 		date getMaturityDate();
 		currency getCashFlowCurr();
 		vector<double> getMargin();
+		bool getExchangeNotionalBegin();
+		bool getExchangeNotionalEnd();
 		
 		vector<double> getPVs();
 
+		void setExchangeNotionalBegin(bool exchangeNotionalBegin);
+		void setExchangeNotionalEnd(bool exchangeNotionalEnd);
 		void setPVs();
 		void setFixingDates();
 		void setPaymentDates();
@@ -63,6 +67,8 @@ namespace instruments {
 		vector<double> _PVs;
 		double _couponRate;
 		date _tradeDate;
+		bool _exchangeNotionalBegin;
+		bool _exchangeNotionalEnd;
 	};
 
 }
