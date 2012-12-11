@@ -115,6 +115,7 @@
   <ItemGroup>
     <ClCompile Include="AbstractDao.cpp" />
     <ClCompile Include="AbstractFileSource.cpp" />
+    <ClCompile Include="AbstractInterpolator.cpp" />
     <ClCompile Include="AbstractSession.cpp" />
     <ClCompile Include="cashflow.cpp" />
     <ClCompile Include="Configuration.cpp" />

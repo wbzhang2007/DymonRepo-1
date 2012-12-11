@@ -13,7 +13,7 @@ namespace utilities{
 
 		virtual double findRoot(double startVal, double endVal, double tolerance, int iterateCount, NumericAlgo algo);
 
-		virtual double findRoot(double startVal, double increment, double tolerance);
+		double findRoot(double startVal, double increment, double tolerance);
 
 	private:
 

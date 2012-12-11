@@ -2,6 +2,8 @@
 #ifndef ABSTRACTINTERPOLATOR_H
 #define ABSTRACTINTERPOLATOR_H
 #include <vector>
+#include <tuple>
+#include "date.h"
 
 namespace utilities{
 	class AbstractInterpolator{
@@ -10,11 +12,19 @@ namespace utilities{
 
 	public:
 
-		AbstractInterpolator();
+		typedef tuple<date, double> point;
 
-		template <class T>
-		std::vector<T> interpolate(T startPoint, T endPoint, std::vector<long> JDNs, interpolAlgo algo);
+		AbstractInterpolator(point startPoint, point endPoint);
+
+		vector<point>* interpolateM(std::vector<date>* dates);
+	
+		virtual point interpolateS(date date0);
+
+	private:
+
+		point _startPoint;
 		
+		point _endPoint;
 	};
 }
 #endif
