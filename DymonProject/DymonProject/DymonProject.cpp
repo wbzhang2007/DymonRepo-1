@@ -180,12 +180,12 @@ void CashFlowTest() {
 	cout << "******** CashFlow Test starts********" << endl;
 	date fixingDate(2013,11,2);
 	date paymentDate(2014,2,6);
-	date accuralStartDate(2013,11,4);
-	date accuralEndDate(2014,2,4);
+	date accuralStartDate(2013,11,3);
+	date accuralEndDate(2014,2,5);
 	double notional=1000000.0;
 	double couponRate=0.05;
 	int paymentFreq=4;
-	currency cashFlowCurr=currency(USD,ACT_365, ACT_365, Mfollowing, paymentFreq,1);
+	currency cashFlowCurr=currency(USD,ACT_365, ACT_ACT, Mfollowing, paymentFreq,1);
 
 	cashflow testCashFlow(couponRate,notional,  fixingDate, paymentDate,accuralStartDate, accuralEndDate, cashFlowCurr);
 	cout<<"couponRate="<<couponRate<<endl;

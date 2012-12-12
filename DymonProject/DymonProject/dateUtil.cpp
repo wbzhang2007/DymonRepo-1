@@ -191,24 +191,24 @@ double dateUtil::getAccrualFactor(date startDate,date endDate, enums::DayCountEn
 date dateUtil::dayRollAdjust(date aDate,DayRollEnum aDayRollConvention, string city) {
 	long adjustedJDN;
 	switch(aDayRollConvention){
-	case Following:
+	case enums::Following:
 		adjustedJDN = getFolloingJDN(aDate.getJudianDayNumber(), city);
 		break;
-	case Preceding:
+	case enums::Preceding:
 		adjustedJDN = getPrecedingJDN(aDate.getJudianDayNumber(), city);
 		break;
-	case Mfollowing:
+	case enums::Mfollowing:
 		adjustedJDN = getFolloingJDN(aDate.getJudianDayNumber(), city);
 		if (getYearMonthDay(adjustedJDN)[1]!=getYearMonthDay(aDate.getJudianDayNumber())[1])
 			adjustedJDN = getPrecedingJDN(aDate.getJudianDayNumber(), city);
 		break;
-	case Mfollowingbi:	
+	case enums::Mfollowingbi:	
 		adjustedJDN = getFolloingJDN(aDate.getJudianDayNumber(), city);
 		if (getYearMonthDay(adjustedJDN)[2]!=getYearMonthDay(aDate.getJudianDayNumber())[2]||
 			getYearMonthDay(adjustedJDN)[3]>=15)
 			adjustedJDN = getPrecedingJDN(aDate.getJudianDayNumber(), city);
 		break;
-	case EOM:
+	case enums::EOM:
 		break;
 	}
 	date adjustedDate(adjustedJDN);
