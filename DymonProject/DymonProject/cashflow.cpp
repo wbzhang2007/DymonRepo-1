@@ -22,7 +22,7 @@ namespace instruments {
 		setAccuralEndDate(accuralEndDate);
 		setCashFlowCurr(cashFlowCurr);
 
-		setAccuralFactor();
+		//setAccuralFactor();
 	}
 	
 	cashflow::~cashflow() {
