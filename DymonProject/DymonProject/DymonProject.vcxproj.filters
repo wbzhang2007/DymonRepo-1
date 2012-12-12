@@ -118,6 +118,27 @@
     <ClInclude Include="RecordHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LinearInterpolator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractCurve.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LogLinearInterpolator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="YieldCurve.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bisection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractBootStrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="YieldCurveBootStrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="cashflowLeg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -181,6 +202,30 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AbstractInterpolator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LinearInterpolator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LogLinearInterpolator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractCurve.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="YieldCurve.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bisection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Newton.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Newton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="YieldCurveBootStrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cashflowLeg.cpp">
