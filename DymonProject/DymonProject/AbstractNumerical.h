@@ -4,20 +4,20 @@
 
 namespace utilities{
 	class AbstractNumerical{
-		
-	enum NumericAlgo {BISECTION,CUBICSPLINE};
 
 	public:
+		
+		enum NumericAlgo {BISECTION, NEWTON};
 
-		AbstractNumerical();
+		typedef int (*targetFuncT) (double d);
 
-		virtual double findRoot(double startVal, double endVal, double tolerance, int iterateCount, NumericAlgo algo);
+		AbstractNumerical(targetFuncT* func){};
 
-		double findRoot(double startVal, double increment, double tolerance);
+		virtual double findRoot(targetFuncT func, double startVal, double endVal, double tolerance, int iterateCount);
 
 	private:
 
-
-	}
+		targetFuncT func;
+	};
 }
 #endif

@@ -8,9 +8,9 @@
 namespace utilities{
 	class AbstractInterpolator{
 
-		enum interpolAlgo{LINEAR,LOGLINEAR};
-
 	public:
+
+		enum interpolAlgo{LINEAR,LOGLINEAR};
 
 		typedef tuple<date, double> point;
 
@@ -19,6 +19,10 @@ namespace utilities{
 		vector<point> interpolateM(std::vector<date> dates);
 	
 		virtual point interpolateS(date date0);
+
+		point getStartPoint();
+		
+		point getEndPoint();
 
 	protected:
 

@@ -2,9 +2,9 @@
 
 #include "AbstractInterpolator.h"
 
+
 using namespace utilities;
 using namespace std;
-
 
 typedef tuple<date, double> point;
 
@@ -19,4 +19,16 @@ vector<point> AbstractInterpolator::interpolateM(std::vector<date> dates){
 		pointVector.push_back(interpolateS(dates[i]));
 	}
 	return pointVector;
+}
+
+point AbstractInterpolator::interpolateS(date date0){
+	return point(NULL,0);
+}
+
+point AbstractInterpolator::getStartPoint(){
+	return _startPoint;
+}
+
+point AbstractInterpolator::getEndPoint(){
+	return _endPoint;
 }
