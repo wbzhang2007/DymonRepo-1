@@ -15,6 +15,7 @@ using namespace Session;
 
 void RecordTest();
 void DateUtilTest();
+void CashFlowLegTest();
 void CashFlowTest();
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -126,7 +127,7 @@ void RecordTest(){
 	}
 }
 
-void CashFlowTest() {
+void CashFlowLegTest() {
 	
 	cout << "******** CashFlow Test ********" << endl;
 	date tradeDate(2013,11,2);
@@ -160,14 +161,52 @@ void CashFlowTest() {
     
 
 	currency cashFlowCurr=currency(USD,ACT_360, ACT_365, Mfollowing, paymentFreq,1);
-	cashflow testCashFlow=cashflow(startDate,tradeDate,couponRate,notional, margin, paymentFreq, maturityDate, cashFlowCurr,0,0);
+	//cashflow testCashFlow=cashflow(startDate,tradeDate,couponRate,notional, margin, paymentFreq, maturityDate, cashFlowCurr,0,0);
 	
-	cout<<"****************NVs streams starts*************"<<endl;
-	testCashFlow.printNVs();
-	cout<<"****************NVs streams ends*************"<<endl;
+	//cout<<"****************NVs streams starts*************"<<endl;
+	//testCashFlow.printNVs();
+	//cout<<"****************NVs streams ends*************"<<endl;
 
-	cout<<"****************PVs streams starts*************"<<endl;
-	testCashFlow.printPVs();
-	cout<<"****************PVs streams ends*************"<<endl;
-	cout<<"total MPVs="<<testCashFlow.MPV()<<endl;
+	//cout<<"****************PVs streams starts*************"<<endl;
+	//testCashFlow.printPVs();
+	//cout<<"****************PVs streams ends*************"<<endl;
+	//cout<<"total MPVs="<<testCashFlow.MPV()<<endl;
+}
+
+void CashFlowTest() {
+
+	cout << "******** CashFlow Test starts********" << endl;
+	date fixingDate(2013,11,2);
+	date paymentDate(2014,2,6);
+	date accuralStartDate(2013,11,4);
+	date accuralEndDate(2014,2,4);
+	double notional=1000000.0;
+	double couponRate=0.05;
+	int paymentFreq=4;
+	currency cashFlowCurr=currency(USD,ACT_360, ACT_365, Mfollowing, paymentFreq,1);
+
+	cashflow testCashFlow(couponRate,notional,  fixingDate, paymentDate,accuralStartDate, accuralEndDate, cashFlowCurr);
+	cout<<"couponRate="<<couponRate<<endl;
+	cout<<"couponAmonunt="<<testCashFlow.getCouponAmount()<<endl;
+	cout<<"fixingDate=";
+	testCashFlow.getFixingDate().printDate();
+	cout<<endl;
+
+	cout<<"paymentDate=";
+	testCashFlow.getPaymentDate().printDate();
+	cout<<endl;
+
+	cout<<"accuralStartDate=";
+	testCashFlow.getAccuralStartDate().printDate();
+	cout<<endl;
+
+	cout<<"accuralEndDate=";
+	testCashFlow.getAccuralEndDate().printDate();
+	cout<<endl;
+
+	cout<<"cashFlowCurr="<<testCashFlow.getCashFlowCurr().getCurrencyName()<<endl;
+	cout<<"accuralFactor="<<testCashFlow.getAccuralFactor()<<endl;
+
+	cout << "******** CashFlow Test ends********" << endl;
+
 }
