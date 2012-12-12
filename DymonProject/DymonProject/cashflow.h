@@ -25,6 +25,7 @@ namespace instruments {
 
 		double getCouponAmount();
 		double getCouponRate();
+		double getNotional();
 		date getFixingDate();
 		date getPaymentDate();
 		date getAccuralStartDate();
