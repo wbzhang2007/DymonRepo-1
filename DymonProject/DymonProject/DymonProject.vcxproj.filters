@@ -142,6 +142,9 @@
     <ClInclude Include="cashflowLeg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BuilderCashFlowLeg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -229,6 +232,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cashflowLeg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BuilderCashFlowLeg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
