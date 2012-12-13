@@ -10,7 +10,12 @@ currency::currency() {
 }
 
 currency::currency(enums::CurrencyEnum currencyName,enums::DayCountEnum dayCountCashConvention, enums::DayCountEnum dayCountSwapConvention, enums::DayRollEnum dayRollConvention, int paymentFreq, int compoundFreq) {
-
+	_currencyName=currencyName;
+	_dayCountCashConvention=dayCountCashConvention;
+	_dayCountSwapConvention=dayCountSwapConvention;
+	_dayRollConvention=dayRollConvention;
+	_paymentFreq=paymentFreq;
+	_compoundFreq=compoundFreq;
 }
 currency::~currency(){
 }
