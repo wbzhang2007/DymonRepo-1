@@ -149,12 +149,13 @@ double dateUtil::getAccrualFactor(date startDate,date endDate, enums::DayCountEn
 		//This day count is also called Money Market basis or Actual 360
 		//This is the most used day count convention for money market instruments (maturity below one year).
 		accrualFactor = (endDate.getJudianDayNumber()-startDate.getJudianDayNumber())/360.0;
+		//cout<<"inside ACT_360"<<endl;
 		break;
 	case enums::ACT_365:
 		//Also called English Money Market basis.
 		//The number 365 is used even in a leap year.
 		accrualFactor = (endDate.getJudianDayNumber()-startDate.getJudianDayNumber())/365.0;
-		cout<<"inside ACT_365"<<(endDate.getJudianDayNumber()-startDate.getJudianDayNumber())<<endl;
+		//cout<<"inside ACT_365"<<endl;
 		break;
 	case enums::ACT_ACT:
 		//To compute the number of days, the period first day is included and the last day is excluded.
@@ -178,11 +179,7 @@ double dateUtil::getAccrualFactor(date startDate,date endDate, enums::DayCountEn
 		accrualFactor = numBizDay/252.0;
 		break;
 	default:
-    	numBizDay=0;
-		for(long i = startDate.getJudianDayNumber();i<endDate.getJudianDayNumber();i++)
-			if (isBizDay(i))
-				numBizDay++;
-		accrualFactor = numBizDay/252.0;
+		accrualFactor = (endDate.getJudianDayNumber()-startDate.getJudianDayNumber())/360.0;
 	
 	}
 	return accrualFactor;

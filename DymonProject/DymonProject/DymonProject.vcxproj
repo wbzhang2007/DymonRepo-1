@@ -87,6 +87,7 @@
     <ClInclude Include="AbstractSession.h" />
     <ClInclude Include="Bisection.h" />
     <ClInclude Include="bond.h" />
+    <ClInclude Include="BuilderCashFlowLeg.h" />
     <ClInclude Include="cashflow.h" />
     <ClInclude Include="cashflowLeg.h" />
     <ClInclude Include="configuration.h" />
@@ -127,6 +128,7 @@
     <ClCompile Include="AbstractInterpolator.cpp" />
     <ClCompile Include="AbstractSession.cpp" />
     <ClCompile Include="Bisection.cpp" />
+    <ClCompile Include="BuilderCashFlowLeg.cpp" />
     <ClCompile Include="cashflow.cpp" />
     <ClCompile Include="cashflowLeg.cpp" />
     <ClCompile Include="Configuration.cpp" />

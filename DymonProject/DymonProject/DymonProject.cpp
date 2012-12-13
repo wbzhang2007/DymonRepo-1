@@ -22,7 +22,7 @@ void CashFlowTest();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	DateUtilTest();
+	//DateUtilTest();
 	//RecordTest();
 	CashFlowTest();
 }
@@ -145,7 +145,7 @@ void CashFlowLegTest() {
 	cout<<"tradeDate=";
 	tradeDate.printDate();
 
-	double notional=1000000.0;
+	double notional=1000000;
 	double couponRate=0.04;
 	vector<double> margin;
 	int paymentFreq=4;
@@ -182,10 +182,10 @@ void CashFlowTest() {
 	date paymentDate(2014,2,6);
 	date accuralStartDate(2013,11,3);
 	date accuralEndDate(2014,2,5);
-	double notional=1000000.0;
+	double notional=1000000;
 	double couponRate=0.05;
 	int paymentFreq=4;
-	currency cashFlowCurr=currency(USD,ACT_365, ACT_ACT, Mfollowing, paymentFreq,1);
+	currency cashFlowCurr=currency(enums::USD,enums::ACT_360, enums::ACT_ACT, enums::Mfollowing, paymentFreq,1);
 
 	cashflow testCashFlow(couponRate,notional,  fixingDate, paymentDate,accuralStartDate, accuralEndDate, cashFlowCurr);
 	cout<<"couponRate="<<couponRate<<endl;
