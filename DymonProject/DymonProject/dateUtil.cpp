@@ -128,8 +128,9 @@ unsigned short* dateUtil::getYearMonthDay(long JDN){
 
 double dateUtil::getAccrualFactor(date startDate,date endDate, enums::DayCountEnum dayCount){
 	double accrualFactor;
+	int numBizDay=0;
 	switch(dayCount){
-	case thirty_360US:
+	case enums::thirty_360US:
 		//This day count convention is also called Bond basis.
 		if (endDate.getDay()==31 && (startDate.getDay()==30||31))
 			endDate.setDay(30);
@@ -137,24 +138,25 @@ double dateUtil::getAccrualFactor(date startDate,date endDate, enums::DayCountEn
 			startDate.setDay(30);
 		accrualFactor = thirty_360(startDate, endDate);
 		break;
-	case thirthE_360:
+	case enums::thirthE_360:
 		if (startDate.getDay()==31)
 			startDate.setDay(30);
 		if (endDate.getDay()==31)
 			endDate.setDay(30);
 		accrualFactor = thirty_360(startDate, endDate);
 		break;
-	case ACT_360:
+	case enums::ACT_360:
 		//This day count is also called Money Market basis or Actual 360
 		//This is the most used day count convention for money market instruments (maturity below one year).
 		accrualFactor = (endDate.getJudianDayNumber()-startDate.getJudianDayNumber())/360.0;
 		break;
-	case ACT_365:
+	case enums::ACT_365:
 		//Also called English Money Market basis.
 		//The number 365 is used even in a leap year.
 		accrualFactor = (endDate.getJudianDayNumber()-startDate.getJudianDayNumber())/365.0;
+		cout<<"inside ACT_365"<<(endDate.getJudianDayNumber()-startDate.getJudianDayNumber())<<endl;
 		break;
-	case ACT_ACT:
+	case enums::ACT_ACT:
 		//To compute the number of days, the period first day is included and the last day is excluded.
 		if (startDate.getYear()==endDate.getYear()){
 			int numDays = endDate.getJudianDayNumber()-startDate.getJudianDayNumber();
@@ -167,14 +169,21 @@ double dateUtil::getAccrualFactor(date startDate,date endDate, enums::DayCountEn
 			accrualFactor = startYearFactor + endYearFactor +(endDate.getYear()-startDate.getYear()-1);
 		}
 		break;
-	case BUS_252:
+	case enums::BUS_252:
 		//Numerator is the number of business days (in a given calendar) from and including the start date up to and excluding the end date.
-		int numBizDay=0;
+		numBizDay=0;
 		for(long i = startDate.getJudianDayNumber();i<endDate.getJudianDayNumber();i++)
 			if (isBizDay(i))
 				numBizDay++;
 		accrualFactor = numBizDay/252.0;
 		break;
+	default:
+    	numBizDay=0;
+		for(long i = startDate.getJudianDayNumber();i<endDate.getJudianDayNumber();i++)
+			if (isBizDay(i))
+				numBizDay++;
+		accrualFactor = numBizDay/252.0;
+	
 	}
 	return accrualFactor;
 }
@@ -182,24 +191,24 @@ double dateUtil::getAccrualFactor(date startDate,date endDate, enums::DayCountEn
 date dateUtil::dayRollAdjust(date aDate,DayRollEnum aDayRollConvention, string city) {
 	long adjustedJDN;
 	switch(aDayRollConvention){
-	case Following:
+	case enums::Following:
 		adjustedJDN = getFolloingJDN(aDate.getJudianDayNumber(), city);
 		break;
-	case Preceding:
+	case enums::Preceding:
 		adjustedJDN = getPrecedingJDN(aDate.getJudianDayNumber(), city);
 		break;
-	case Mfollowing:
+	case enums::Mfollowing:
 		adjustedJDN = getFolloingJDN(aDate.getJudianDayNumber(), city);
 		if (getYearMonthDay(adjustedJDN)[1]!=getYearMonthDay(aDate.getJudianDayNumber())[1])
 			adjustedJDN = getPrecedingJDN(aDate.getJudianDayNumber(), city);
 		break;
-	case Mfollowingbi:	
+	case enums::Mfollowingbi:	
 		adjustedJDN = getFolloingJDN(aDate.getJudianDayNumber(), city);
 		if (getYearMonthDay(adjustedJDN)[2]!=getYearMonthDay(aDate.getJudianDayNumber())[2]||
 			getYearMonthDay(adjustedJDN)[3]>=15)
 			adjustedJDN = getPrecedingJDN(aDate.getJudianDayNumber(), city);
 		break;
-	case EOM:
+	case enums::EOM:
 		break;
 	}
 	date adjustedDate(adjustedJDN);

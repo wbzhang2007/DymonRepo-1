@@ -5,6 +5,8 @@
 #include "cashflow.h"
 #include <math.h>
 #include <stdio.h>
+#include "date.h"
+#include "dateUtil.h"
 
 
 using namespace utilities;
@@ -23,6 +25,7 @@ namespace instruments {
 		setCashFlowCurr(cashFlowCurr);
 
 		setAccuralFactor();
+		setCouponAmount();
 	}
 	
 	cashflow::~cashflow() {
@@ -69,6 +72,10 @@ namespace instruments {
 		return _accuralFactor;
 	}
 
+	double cashflow::getNotional() {
+		return _notional;
+	}
+
 
 	//set methods:
 	void cashflow::setCouponAmount() {
@@ -105,6 +112,7 @@ namespace instruments {
 	}
 	
 	void cashflow::setAccuralFactor() {
+		
 		_accuralFactor=dateUtil::getAccrualFactor(_accuralStartDate,_accuralEndDate,_cashFlowCurr.getDayCountCashConvention());
 	}
 	
