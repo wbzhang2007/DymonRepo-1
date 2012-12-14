@@ -97,7 +97,8 @@
     <ClInclude Include="ConfigurationFileSource.h" />
     <ClInclude Include="currency.h" />
     <ClInclude Include="AbstractFileSource.h" />
-    <ClInclude Include="CurveBuilder.h" />
+    <ClInclude Include="DepositRateBootStrapper.h" />
+    <ClInclude Include="YieldCurveBuilder.h" />
     <ClInclude Include="date.h" />
     <ClInclude Include="dateUtil.h" />
     <ClInclude Include="deposit.h" />
@@ -112,7 +113,7 @@
     <ClInclude Include="forward.h" />
     <ClInclude Include="future.h" />
     <ClInclude Include="HolidayFileSource.h" />
-    <ClInclude Include="instrumentBase.h" />
+    <ClInclude Include="AbstractInstrument.h" />
     <ClInclude Include="instrumentValue.h" />
     <ClInclude Include="marketdata.h" />
     <ClInclude Include="option.h" />
@@ -123,7 +124,7 @@
     <ClInclude Include="swapRateFileSource.h" />
     <ClInclude Include="swaption.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="YieldCurveBootStrapper.h" />
+    <ClInclude Include="SwapRateBootStrapper.h" />
     <ClInclude Include="YieldCurve.h" />
     <ClInclude Include="zero.h" />
   </ItemGroup>
@@ -143,6 +144,7 @@
     <ClCompile Include="date.cpp" />
     <ClCompile Include="dateUtil.cpp" />
     <ClCompile Include="DepositFileSource.cpp" />
+    <ClCompile Include="DepositRateBootStrapper.cpp" />
     <ClCompile Include="DymonProject.cpp" />
     <ClCompile Include="InterpolatorFactory.cpp" />
     <ClCompile Include="LinearInterpolator.cpp" />
@@ -161,7 +163,8 @@
     <ClCompile Include="swap.cpp" />
     <ClCompile Include="SwapRateFileSource.cpp" />
     <ClCompile Include="YieldCurve.cpp" />
-    <ClCompile Include="YieldCurveBootStrapper.cpp" />
+    <ClCompile Include="SwapRateBootStrapper.cpp" />
+    <ClCompile Include="YieldCurveBuilder.cpp" />
     <ClCompile Include="zero.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -3,13 +3,13 @@
 #include "date.h"
 #include "zero.h"
 #include <math.h>
-#include "instrumentBase.h"
+#include "AbstractInstrument.h"
 #include <stdio.h>
 
 using namespace std;
 using namespace utilities;
+using namespace instruments;
 
-namespace instruments {
 zero::zero() {
 	//spotRate=0;
 	//notional=0;
@@ -20,6 +20,7 @@ zero::zero() {
 	
 	//date todayDate;
 }
+
 zero::zero(double aSpotRate,double aNotional,date aMaturityDate,date aIssueDate) {
 
 	int yy=dateUtil::getTodayYear();
@@ -93,6 +94,4 @@ void zero::setIssueDate(date aIssueDate) {
 
 void zero::setMaturityDate(date aMaturityDate){
 	maturityDate=aMaturityDate;
-}
-
 }

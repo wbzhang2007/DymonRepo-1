@@ -6,7 +6,7 @@
 #define SWAP_H
 #include "currency.h"
 #include "date.h"
-#include "instrumentBase.h"
+#include "AbstractInstrument.h"
 #include <vector>
 #include "zero.h"
 #include <tuple>
@@ -17,7 +17,7 @@ using namespace std;
 using namespace enums;
 
 namespace instruments {
-	class swap: public instrumentBase {
+	class swap: public AbstractInstrument {
 	public:
 		//tuple<double rate,date historicalDates,double tenors> floatLegBenchMark
 		//contains the Libors obervations historicals across tenors

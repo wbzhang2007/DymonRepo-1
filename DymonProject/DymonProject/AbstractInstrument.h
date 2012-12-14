@@ -1,18 +1,18 @@
 //created by Hu Kun on 29 Nov 2012
-#ifndef INSTRUMENTBASE_H
-#define INSTRUMENTBASE_H
+#ifndef ABSTRACTINSTRUMENT_H
+#define ABSTRACTINSTRUMENT_H
 #include "currency.h"
 #include "date.h"
 
 using namespace utilities;
 
 namespace instruments {
-	class instrumentBase {
+	class AbstractInstrument {
 	
 	public:
-		//instrumentBase();
-		//instrumentBase(instruments::currency domCurrency, instruments::currency forCurrency, utilities::date issueDate, utilities::date maturityDate);
-		//~instrumentBase();
+		//AbstractInstrument();
+		//AbstractInstrument(instruments::currency domCurrency, instruments::currency forCurrency, utilities::date issueDate, utilities::date maturityDate);
+		//~AbstractInstrument();
 
 		//base class for all other instruments to be derived from
 		virtual utilities::date getIssueDate() =0;

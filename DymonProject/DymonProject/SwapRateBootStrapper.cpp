@@ -1,6 +1,6 @@
 //created by Wang Jianwei on 1 Dec 2012
 
-#include "YieldCurveBootStrapper.h"
+#include "SwapRateBootStrapper.h"
 #include <iostream>
 #include "YieldCurve.h"
 #include "InterpolatorFactory.h"
@@ -9,7 +9,7 @@
 
 using namespace utilities;
 
-AbstractInterpolator* YieldCurveBootStrapper::bootStrap(){
+AbstractInterpolator* SwapRateBootStrapper::bootStrap(){
 	
 	targetFuncT numericalFunc;
 
@@ -20,6 +20,6 @@ AbstractInterpolator* YieldCurveBootStrapper::bootStrap(){
 	return ai;
 }
 
-double YieldCurveBootStrapper::numericalFunc(double x){
+double SwapRateBootStrapper::numericalFunc(double x){
 	return 0;
 }

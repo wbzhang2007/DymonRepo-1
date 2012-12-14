@@ -3,7 +3,7 @@
 #define MARKETDATA_H
 #include "currency.h"
 #include "date.h"
-#include "instrumentBase.h"
+#include "AbstractInstrument.h"
 #include "instrumentValue.h"
 #include "AbstractInterpolator.h"
 #include <map>
