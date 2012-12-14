@@ -22,5 +22,7 @@ AbstractInterpolator* InterpolatorFactory::getInterpolator(point startPoint, poi
 		return new LinearInterpolator(startPoint, endPoint);
 	case AbstractInterpolator::LOGLINEAR:
 		return new LogLinearInterpolator(startPoint, endPoint);
+	default:
+		return new LinearInterpolator(startPoint, endPoint);
 	}
 }

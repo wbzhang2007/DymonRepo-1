@@ -54,7 +54,7 @@ bool dateUtil::isBizDay(date date0){
 }
 
 bool dateUtil::isBizDay(long JDN){
-	int dayOfWeek = 1 + fmod(JDN+1,7.0);
+	int dayOfWeek = 1 + (int)fmod(JDN+1,7.0);
 	if (dayOfWeek==1||dayOfWeek==7){
 		return false;
 	}
@@ -63,7 +63,7 @@ bool dateUtil::isBizDay(long JDN){
 
 bool dateUtil::isHoliday(long JDN, std::string city){
 	if (city=="") return false;
-	if (RecordHelper::getInstance()->getHolidayMap().find(city)== RecordHelper::getInstance()->getHolidayMap().end());
+	if (RecordHelper::getInstance()->getHolidayMap().find(city)== RecordHelper::getInstance()->getHolidayMap().end())
 		throw "City not found in Holiday Map: "+city;
 
 	set<long> holidaySet = RecordHelper::getInstance()->getHolidayMap()[city];
@@ -73,7 +73,7 @@ bool dateUtil::isHoliday(long JDN, std::string city){
 }
 
 bool dateUtil::isHoliday(date aDate, std::string city){
-	return isHoliday(aDate,city);
+	return isHoliday(aDate.getJudianDayNumber(),city);
 }
 
 int dateUtil::getTodayDay() {
@@ -104,7 +104,7 @@ int dateUtil::getTodayYear() {
 }
 
 unsigned short* dateUtil::getYearMonthDay(long JDN){
-	unsigned short _year, _month, _day;
+	long _year, _month, _day;
 	JDN = JDN - 1721119 ;
 	_year = (4 * JDN - 1) / 146097 ; 
 	JDN = 4 * JDN - 1 - 146097 * _year ; 
@@ -120,10 +120,14 @@ unsigned short* dateUtil::getYearMonthDay(long JDN){
 		_month = _month + 3;
 	}
 	else{
-		_month = _month - 9 ; _year = _year + 1;
+		_month = _month - 9 ; 
+		_year = _year + 1;
 	}
-	unsigned short yearMonthDay[3] = {_year,_month,_day};
-	return yearMonthDay;
+	unsigned short* returnArray = new unsigned short[3]();
+	returnArray[0]=(unsigned short) _year;
+	returnArray[1]=(unsigned short) _month;
+	returnArray[2]=(unsigned short) _day;
+	return returnArray;
 }
 
 double dateUtil::getAccrualFactor(date startDate,date endDate, enums::DayCountEnum dayCount){
