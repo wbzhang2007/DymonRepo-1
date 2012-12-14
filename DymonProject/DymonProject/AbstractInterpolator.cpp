@@ -2,7 +2,6 @@
 
 #include "AbstractInterpolator.h"
 
-
 using namespace utilities;
 using namespace std;
 

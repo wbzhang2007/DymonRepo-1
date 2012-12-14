@@ -19,8 +19,8 @@ namespace utilities {
 		typedef std::map<std::string, std::string> ConfigMap;
 		
 	private:
-		Configuration();
-		~Configuration();
+		Configuration(){};
+		~Configuration(){};
 		static Configuration* single;
 		ConfigMap _config;
 	};

@@ -14,13 +14,6 @@ Configuration* Configuration::getInstance()
 	return single;
 }
 
-Configuration::Configuration(){
-}
-
-Configuration::~Configuration(){
-}
-
-
 void Configuration::setConfiguration(map<string, string> config){
 	_config = config;
 }

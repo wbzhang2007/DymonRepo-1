@@ -8,12 +8,17 @@ namespace utilities {
 	class YieldCurveBootStrapper: public AbstractBootStrapper{
 		
 	public:
-		YieldCurveBootStrapper():AbstractBootStrapper(){};
-
-		void init(Configuration*);
 		
-		virtual AbstractCurve bootStrap();
-	};
+		typedef tuple<date, double> point;
 
+		typedef double (*targetFuncT) (double d);
+
+		YieldCurveBootStrapper(point startPoint, date endDate, double targetVal, AbstractInterpolator::interpolAlgo interpolAlgo,
+		AbstractNumerical::NumericAlgo numericAlgo):AbstractBootStrapper(startPoint, endDate, targetVal, interpolAlgo, numericAlgo){};
+				
+		AbstractInterpolator* bootStrap();
+	
+		double numericalFunc(double xVal);
+	};
 }
 #endif

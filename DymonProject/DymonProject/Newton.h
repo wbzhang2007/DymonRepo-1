@@ -10,7 +10,7 @@ namespace utilities{
 		
 		Newton(targetFuncT* func):AbstractNumerical(func){};
 
-		double findRoot(targetFuncT func, double startVal, double endVal, double tolerance, int iterateCount);
+		double findRoot(double startVal, double endVal, double tolerance, int iterateCount);
 	};
 }
 #endif

@@ -13,19 +13,15 @@ namespace utilities{
 
 		AbstractCurve();
 
-		AbstractCurve(std::vector<AbstractInterpolator>* lineSectionVector, AbstractInterpolator::interpolAlgo algo);
+		AbstractCurve(std::vector<AbstractInterpolator>* lineSectionVector);
 
 		virtual void insertLineSection(const AbstractInterpolator& lineSection);
 
 		virtual double getY(date date0);
 
-		void setAlgo(AbstractInterpolator::interpolAlgo algo);
-
 		void setLineSectionVector(std::vector<AbstractInterpolator>* lineSectionVector);
 
 	private:
-
-		AbstractInterpolator::interpolAlgo _algo;
 
 		std::vector<AbstractInterpolator>* _lineSectionVector;
 
