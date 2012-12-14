@@ -80,11 +80,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractBootStrapper.h" />
+    <ClInclude Include="AbstractBuilder.h" />
     <ClInclude Include="AbstractCurve.h" />
     <ClInclude Include="AbstractDao.h" />
+    <ClInclude Include="AbstractDataStructure.h" />
     <ClInclude Include="AbstractInterpolator.h" />
     <ClInclude Include="AbstractNumerical.h" />
     <ClInclude Include="AbstractSession.h" />
+    <ClInclude Include="AbstractSurface.h" />
     <ClInclude Include="Bisection.h" />
     <ClInclude Include="bond.h" />
     <ClInclude Include="BuilderCashFlowLeg.h" />
@@ -94,6 +97,7 @@
     <ClInclude Include="ConfigurationFileSource.h" />
     <ClInclude Include="currency.h" />
     <ClInclude Include="AbstractFileSource.h" />
+    <ClInclude Include="CurveBuilder.h" />
     <ClInclude Include="date.h" />
     <ClInclude Include="dateUtil.h" />
     <ClInclude Include="deposit.h" />

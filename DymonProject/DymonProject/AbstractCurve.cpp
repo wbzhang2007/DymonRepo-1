@@ -7,9 +7,6 @@ using namespace std;
 
 typedef tuple<date, double> point;
 
-AbstractCurve::AbstractCurve(){
-}
-
 AbstractCurve::AbstractCurve(std::vector<AbstractInterpolator>* lineSectionVector){
 	_lineSectionVector = lineSectionVector;
 }

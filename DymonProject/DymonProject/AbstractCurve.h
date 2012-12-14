@@ -2,16 +2,17 @@
 #ifndef ABSTRACTCURVE_H
 #define ABSTRACTCURVE_H
 #include "AbstractInterpolator.h"
+#include "AbstractDataStructure.h"
 #include <vector>
 
 namespace utilities{
-	class AbstractCurve{
+	class AbstractCurve: public AbstractDataStructure{
 		
 	public:
 		
 		typedef tuple<date, double> point;
 
-		AbstractCurve();
+		AbstractCurve():AbstractDataStructure(){};
 
 		AbstractCurve(std::vector<AbstractInterpolator>* lineSectionVector);
 

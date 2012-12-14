@@ -133,9 +133,6 @@
     <ClInclude Include="Bisection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AbstractBootStrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="YieldCurveBootStrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -143,12 +140,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BuilderCashFlowLeg.h">
-	<Filter>Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="InterpolatorFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NumericalFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CurveBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractDataStructure.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractSurface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractBootStrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
