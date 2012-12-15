@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include <tchar.h>
 
-#include "instrumentBase.h"
 #include "currency.h"
 #include "date.h"
 #include <vector>

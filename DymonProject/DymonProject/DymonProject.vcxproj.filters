@@ -31,9 +31,6 @@
     <ClInclude Include="instrumentValue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="instrumentBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="marketdata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -133,16 +130,40 @@
     <ClInclude Include="Bisection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AbstractBootStrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="YieldCurveBootStrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="cashflowLeg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BuilderCashFlowLeg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InterpolatorFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NumericalFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractDataStructure.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractSurface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractBootStrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="YieldCurveBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SwapRateBootStrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DepositRateBootStrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractInstrument.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -228,13 +249,25 @@
     <ClCompile Include="Newton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="YieldCurveBootStrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="cashflowLeg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BuilderCashFlowLeg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InterpolatorFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NumericalFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SwapRateBootStrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="YieldCurveBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DepositRateBootStrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

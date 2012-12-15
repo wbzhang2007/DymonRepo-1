@@ -3,23 +3,39 @@
 #define ABSTRACTBOOTSTRAPPER_H
 #include "AbstractSession.h"
 #include "AbstractCurve.h"
+#include "AbstractInterpolator.h"
+#include "AbstractNumerical.h"
+#include <vector>
 
 using namespace Session;
 
 namespace utilities{
-	class AbstractBootStrapper: public AbstractSession{
+	class AbstractBootStrapper{
 	public:
+		typedef tuple<date, double> point;
 
-		AbstractBootStrapper(){};
+		AbstractBootStrapper(point startPoint, date endDate, AbstractInterpolator::interpolAlgo interpolAlgo,
+		AbstractNumerical::NumericAlgo numericAlgo){
+			_startPoint = startPoint;
+			_endDate = endDate;
+			_interpolAlgo = interpolAlgo;
+			_numericAlgo = numericAlgo;
+		}
 
-		virtual void init(Configuration*)=0;
+		virtual AbstractInterpolator* bootStrap();
 
-		virtual void start();
+		virtual double numericalFunc(double x);
 
-		virtual void stop();
+	protected:
+	
+		point _startPoint;
 
-		virtual AbstractCurve bootStrap();
+		date _endDate;
 
+		AbstractInterpolator::interpolAlgo _interpolAlgo;
+
+		AbstractNumerical::NumericAlgo _numericAlgo; 
+	
 	};
 }
 #endif

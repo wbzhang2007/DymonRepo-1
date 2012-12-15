@@ -5,14 +5,14 @@
 #define ZERO_H
 #include "currency.h"
 #include "date.h"
-#include "instrumentBase.h"
+#include "AbstractInstrument.h"
 #include <vector>
 
 using namespace utilities;
 using namespace std;
 
 namespace instruments {
-	class zero: public instrumentBase {
+	class zero: public AbstractInstrument {
 
 	public:
 		zero();

@@ -53,27 +53,27 @@ void DateUtilTest(){
 		cout<<date0.isEqual(date1)<<endl;} 
 	{
 		date date0(2011,9,18);
-		date date1 = dateUtil::dayRollAdjust(date0, DayRollEnum::Following, "");
+		date date1 = dateUtil::dayRollAdjust(date0, Following, "");
 		date date2(2011,9,19);
 		cout<<date1.isEqual(date2)<<endl;}
 	{
 		date date0(2011,9,18);
-		date date1 = dateUtil::dayRollAdjust(date0, DayRollEnum::Preceding, "");
+		date date1 = dateUtil::dayRollAdjust(date0, Preceding, "");
 		date date2(2011,9,16);
 		cout<<date1.isEqual(date2)<<endl;}
 	{
 		date date0(2011,7,30);
-		date date1 = dateUtil::dayRollAdjust(date0, DayRollEnum::Mfollowing, "");
+		date date1 = dateUtil::dayRollAdjust(date0, Mfollowing, "");
 		date date2(2011,7,29);
 		cout<<date1.isEqual(date2)<<endl;}
 	{
 		date date0(2011,7,30);
-		date date1 = dateUtil::dayRollAdjust(date0, DayRollEnum::Mfollowingbi, "");
+		date date1 = dateUtil::dayRollAdjust(date0, Mfollowingbi, "");
 		date date2(2011,7,29);
 		cout<<date1.isEqual(date2)<<endl;}
 	{
 		date date0(2011,10,15);
-		date date1 = dateUtil::dayRollAdjust(date0, DayRollEnum::Mfollowingbi, "");
+		date date1 = dateUtil::dayRollAdjust(date0, Mfollowingbi, "");
 		date date2(2011,10,14);
 		cout<<date1.isEqual(date2)<<endl;}
 	cout << "******** GetEndDate Test ********" << endl;

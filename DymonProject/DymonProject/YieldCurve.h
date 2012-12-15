@@ -11,7 +11,7 @@ namespace utilities{
 		
 		YieldCurve():AbstractCurve(){};
 
-		YieldCurve(std::vector<AbstractInterpolator>* lineSectionVector, AbstractInterpolator::interpolAlgo algo):AbstractCurve(lineSectionVector, algo){};
+		YieldCurve(std::vector<AbstractInterpolator>* lineSectionVector):AbstractCurve(lineSectionVector){};
 
 		void insertLineSection(const AbstractInterpolator& lineSection);
 

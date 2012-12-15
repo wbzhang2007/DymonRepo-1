@@ -9,15 +9,15 @@ namespace utilities{
 		
 		enum NumericAlgo {BISECTION, NEWTON};
 
-		typedef int (*targetFuncT) (double d);
+		typedef double (*targetFuncT) (double d);
 
 		AbstractNumerical(targetFuncT* func){};
 
-		virtual double findRoot(targetFuncT func, double startVal, double endVal, double tolerance, int iterateCount);
+		virtual double findRoot(double startVal, double endVal, double tolerance, int iterateCount){return 0;}
 
-	private:
+	protected:
 
-		targetFuncT func;
+		targetFuncT _func;
 	};
 }
 #endif

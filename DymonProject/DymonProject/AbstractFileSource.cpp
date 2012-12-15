@@ -28,7 +28,7 @@ char* AbstractFileSource::readRecord(){
 	if (isModified){
 		_inFile.open(_fileName);
 		_inFile.seekg(0, ios::end);
-		_fileSize = _inFile.tellg();
+		_fileSize = (long) _inFile.tellg();
 		_inFile.seekg(0, ios::beg);
 				
 		if (_fileSize<0)
