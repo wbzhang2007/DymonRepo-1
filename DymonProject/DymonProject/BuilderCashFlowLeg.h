@@ -45,9 +45,5 @@ namespace instruments {
 		bool _rollAccuralDates;
 		RecordHelper::HolidayMap _holidayMap;		
 	};
-
 }
-
-
-
 #endif

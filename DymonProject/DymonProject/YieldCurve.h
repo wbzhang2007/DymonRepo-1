@@ -18,6 +18,8 @@ namespace utilities{
 		double getValue(date date0);
 
 		double getDiscountFactor(date Date0);
+
+		void toString();
 	};
 }
 #endif

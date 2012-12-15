@@ -31,7 +31,7 @@ void HolidayFileSource::retrieveRecord(){
 	
 	string value;
 	string currency;
-	map<string, set<long>> tempMap;
+	RecordHelper::HolidayMap tempMap;
 	while (_inFile.good()){
 		_inFile>>value;
 		vector<string> vec = fileUtil::split(value,':');

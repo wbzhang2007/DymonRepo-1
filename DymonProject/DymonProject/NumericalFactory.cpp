@@ -23,6 +23,7 @@ AbstractNumerical* NumericalFactory::getNumerical(targetFuncT* func, AbstractNum
 		return new Newton(func);
 	case AbstractNumerical::BISECTION:
 		return new Bisection(func);
+	default:
+		return new Bisection(func);
 	}
-	return NULL;
 }

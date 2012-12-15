@@ -27,6 +27,7 @@ namespace utilities {
 		long getJudianDayNumber();
 		bool isEqual(date date0);
 		void printDate();
+		void toString();
 		
 	private:
 

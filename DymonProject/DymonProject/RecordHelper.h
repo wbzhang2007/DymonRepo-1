@@ -18,7 +18,7 @@ namespace Session {
 
 		typedef std::map<std::string, std::set<long>> HolidayMap;
 		
-		typedef std::map<std::string, std::map<int, double>> RateMap;
+		typedef std::map<std::string, std::map<long, double>> RateMap;
 
 		HolidayMap getHolidayMap(){return _holidayMap;}
 		void setHolidayMap(HolidayMap map){_holidayMap=map;}

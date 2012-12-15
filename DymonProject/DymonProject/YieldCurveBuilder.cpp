@@ -12,5 +12,8 @@ void YieldCurveBuilder::init(Configuration* cfg){
 }
 
 YieldCurve* YieldCurveBuilder::buildCurve(){
+
+
+
 	return new YieldCurve();
 }
