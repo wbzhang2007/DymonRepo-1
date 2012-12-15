@@ -6,8 +6,10 @@
 #include "zero.h"
 #include "cashflow.h"
 #include "RecordHelper.h"
+#include "BuilderCashFlowLeg.h"
 #include <math.h>
 #include "currency.h"
+#include <vector>
 #include "Enums.h"
 
 using namespace utilities;
@@ -24,7 +26,12 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	//DateUtilTest();
 	//RecordTest();
-	CashFlowTest();
+	//CashFlowTest();
+    CashFlowLegTest();
+
+	char c;
+	while( cin.get(c) != "\n" )
+	;
 }
 
 void ZeroTest(){
@@ -129,51 +136,51 @@ void RecordTest(){
 	}
 }
 
-void CashFlowLegTest() {
-	
-	cout << "******** CashFlow Test ********" << endl;
-	date tradeDate(2013,11,2);
-	date startDate(2012,10,2);
-	date maturityDate(2016,8,13);
-
-	cout<<"startDate=";
-	startDate.printDate();
-
-	cout<<"maturityDate=";
-	maturityDate.printDate();
-
-	cout<<"tradeDate=";
-	tradeDate.printDate();
-
-	double notional=1000000;
-	double couponRate=0.04;
-	vector<double> margin;
-	int paymentFreq=4;
-	
-	vector<double>::iterator itMargin=margin.begin();
-
-	int numOfMonthIncr=12/paymentFreq;
-	int i=1;
-	date iteratorDate=dateUtil::getEndDate(startDate,numOfMonthIncr*i,true);
-	while(dateUtil::getBizDaysBetween(iteratorDate,maturityDate)>0){
-			margin.push_back(0.05);
-			
-			iteratorDate=dateUtil::getEndDate(startDate,numOfMonthIncr*(++i),true);
-	}
-    
-
-	currency cashFlowCurr=currency(USD,ACT_360, ACT_365, Mfollowing, paymentFreq,1);
-	//cashflow testCashFlow=cashflow(startDate,tradeDate,couponRate,notional, margin, paymentFreq, maturityDate, cashFlowCurr,0,0);
-	
-	//cout<<"****************NVs streams starts*************"<<endl;
-	//testCashFlow.printNVs();
-	//cout<<"****************NVs streams ends*************"<<endl;
-
-	//cout<<"****************PVs streams starts*************"<<endl;
-	//testCashFlow.printPVs();
-	//cout<<"****************PVs streams ends*************"<<endl;
-	//cout<<"total MPVs="<<testCashFlow.MPV()<<endl;
-}
+//void CashFlowLegTest() {
+//	
+//	cout << "******** CashFlow Test ********" << endl;
+//	///*date tradeDate(2013,11,2);
+//	//date startDate(2012,10,2);
+//	//*/date maturityDate(2016,8,13);
+//
+//	cout<<"startDate=";
+//	startDate.printDate();
+//
+//	cout<<"maturityDate=";
+//	maturityDate.printDate();
+//
+//	cout<<"tradeDate=";
+//	tradeDate.printDate();
+//
+//	double notional=1000000;
+//	double couponRate=0.04;
+//	vector<double> margin;
+//	int paymentFreq=4;
+//	
+//	vector<double>::iterator itMargin=margin.begin();
+//
+//	int numOfMonthIncr=12/paymentFreq;
+//	int i=1;
+//	date iteratorDate=dateUtil::getEndDate(startDate,numOfMonthIncr*i,true);
+//	while(dateUtil::getBizDaysBetween(iteratorDate,maturityDate)>0){
+//			margin.push_back(0.05);
+//			
+//			iteratorDate=dateUtil::getEndDate(startDate,numOfMonthIncr*(++i),true);
+//	}
+//    
+//
+//	currency cashFlowCurr=currency(USD,ACT_360, ACT_365, Mfollowing, paymentFreq,1);
+//	//cashflow testCashFlow=cashflow(startDate,tradeDate,couponRate,notional, margin, paymentFreq, maturityDate, cashFlowCurr,0,0);
+//	
+//	//cout<<"****************NVs streams starts*************"<<endl;
+//	//testCashFlow.printNVs();
+//	//cout<<"****************NVs streams ends*************"<<endl;
+//
+//	//cout<<"****************PVs streams starts*************"<<endl;
+//	//testCashFlow.printPVs();
+//	//cout<<"****************PVs streams ends*************"<<endl;
+//	//cout<<"total MPVs="<<testCashFlow.MPV()<<endl;
+//}
 
 void CashFlowTest() {
 
@@ -212,4 +219,72 @@ void CashFlowTest() {
 	cout<<"notional="<<testCashFlow.getNotional()<<endl;
 	cout << "******** CashFlow Test ends********" << endl;
 
+}
+
+void CashFlowLegTest() {
+	date startDate(2013,11,2);
+	date maturityDate(2015,2,6);
+	//date accuralStartDate(2013,11,3);
+	//date accuralEndDate(2014,2,5);
+	
+	double notional=1000000;
+	double couponRate=0.05;
+	int paymentFreq=4;
+	int buildDirection=1;
+	RecordHelper::HolidayMap holidayMap;
+	bool rollAccuralDates=true;
+
+	currency cashFlowLegCurr=currency(enums::USD,enums::ACT_360, enums::ACT_ACT, enums::Mfollowing, paymentFreq,1);
+
+	BuilderCashFlowLeg testCashFlowLeg(startDate, maturityDate,couponRate,notional, paymentFreq, cashFlowLegCurr, rollAccuralDates, buildDirection,holidayMap);
+
+	cout<<"**********************************************"<<endl;
+	cout << "******** CashFlow Test starts********" << endl;
+
+	std::vector<cashflow> cfVector=testCashFlowLeg.getCashFlowLeg().getCashFlowVector();
+	std::vector<cashflow>::iterator it=cfVector.begin();
+
+	cout<<"start date=";
+	startDate.printDate();
+	cout<<endl;
+
+	cout<<"maturity date=";
+	maturityDate.printDate();
+	cout<<endl;
+
+	cout<<endl;
+	int i=0;
+	for (;it!=cfVector.end();it++) {
+	 cashflow aCF(*it);
+	 cout<<"*********CF stream #"<<++i<<"****************"<<endl;
+	 cout<<"fixingDate=";
+	 aCF.getFixingDate().printDate();
+	 cout<<endl;
+	 cout<<"accuralStartDate=";
+	 aCF.getAccuralStartDate().printDate();
+	 cout<<endl;
+	 cout<<"accuralEndDate=";
+	 aCF.getAccuralEndDate().printDate();
+	 cout<<endl;
+	 cout<<"paymentDate=";
+	 aCF.getPaymentDate().printDate();
+	 cout<<endl;
+	 cout<<"accuralFactor=";
+	 
+
+	 cout<<aCF.getAccuralFactor()<<endl;
+	 cout<<"couponAmonunt=";
+
+	 cout<<aCF.getCouponAmount()<<endl;
+	 cout<<"notional=";
+	 cout<<aCF.getNotional()<<endl;
+	 cout<<endl;
+	 
+	}
+
+	cout <<"Total number of CF streams="<<i<<endl;
+	cout << "******** CashFlow Test ends***********************" << endl;
+	cout<<"****************************************************"<<endl;
+	string s;
+	getline(cin,s);
 }

@@ -216,19 +216,6 @@ date dateUtil::dayRollAdjust(date aDate,DayRollEnum aDayRollConvention, string c
 	return adjustedDate;
 }
 
-// *** To be deprecated ***
-date dateUtil::getBizDate(date refDate, long bias, DayRollEnum dayRollType) {
-	//long refDateJudianNum=refDate.getJudianDayNumber();
-
-	//if (dateUtil::getJudianDate(refDateJudianNum+bias).isBusinessDay()) {
-	//	return dateUtil::getJudianDate(refDateJudianNum+bias);
-	//}
-	//else {
-	//	return refDate;
-	//}
-	return refDate;
-}
-
 date dateUtil::getEndDate(date startDate, int numMonth, bool adjustInvalidDay){
 	unsigned short startMonth = startDate.getMonth();
 	unsigned short endMonth = (startMonth + numMonth)%12;
@@ -236,6 +223,13 @@ date dateUtil::getEndDate(date startDate, int numMonth, bool adjustInvalidDay){
 	date endDate(endYear, endMonth, startDate.getDay());
 	endDate = adjustInvalidateDate(endDate);
 	return endDate;
+}
+
+date dateUtil::getBizDate(date refDate, long bias, enums::DayRollEnum dayRollType, std::string city) {
+	long cal=dateUtil::getJudianDayNumber(refDate.getYear(),refDate.getMonth(),refDate.getDay())+bias;
+	unsigned short* dateArray=dateUtil::getYearMonthDay(cal);
+	date aDate=dateUtil::dayRollAdjust(date(dateArray[0],dateArray[1],dateArray[2]),dayRollType,city);
+	return aDate; 
 }
 
 date dateUtil::adjustInvalidateDate(date aDate){

@@ -21,7 +21,7 @@ namespace instruments {
 	public:
 		//tuple<double rate,date historicalDates,double tenors> floatLegBenchMark
 		//contains the Libors obervations historicals across tenors
-		swap(double notional,double fixLegRate, double floatLegSpread, tuple<double,date,double> floatLegBenchMark,date issueDate, date maturityDate, currency fixLegCurr, currency floatLegCurr);
+		swap(double notional,double fixLegRate, double floatLegSpread, tuple<double,date,double> floatLegBenchMark,date isueDate, date maturityDate, currency fixLegCurr, currency floatLegCurr);
 		~swap();
 
 		double getParRate();

@@ -5,5 +5,5 @@
 using namespace utilities;
 
 double Newton::findRoot(double startVal, double endVal, double tolerance, int iterateCount){
-	return 0;
+	return 0.0;
 }

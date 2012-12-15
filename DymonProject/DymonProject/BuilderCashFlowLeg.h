@@ -1,3 +1,5 @@
+//created by Hu Kun Dec 13
+
 #ifndef BUILDERCASHFLOWLEG_H
 #define BUILDERCASHFLOWLEG_H
 
@@ -29,7 +31,7 @@ namespace instruments {
 		
 		~BuilderCashFlowLeg();
 
-		
+		cashflowLeg getCashFlowLeg();
 		
 	private:
 		cashflowLeg _cashflowLeg;

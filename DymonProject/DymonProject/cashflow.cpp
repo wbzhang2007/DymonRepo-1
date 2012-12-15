@@ -14,6 +14,7 @@ using namespace std;
 using namespace enums;
 
 namespace instruments {
+	
 
 	cashflow::cashflow(double couponRate,double notional,  date fixingDate, date paymentDate,date accuralStartDate, date accuralEndDate, currency cashFlowCurr) {
 	    setCouponRate(couponRate);
@@ -28,6 +29,20 @@ namespace instruments {
 		setCouponAmount();
 	}
 	
+	/*cashflow::cashflow(instruments::cashflow& aCashflow) {
+		
+		_couponRate=aCashflow.getCouponRate();
+		_notional=aCashflow.getNotional();
+		_fixingDate=aCashflow.getFixingDate();
+		_paymentDate=aCashflow.getPaymentDate();
+		_accuralStartDate=aCashflow.getAccuralStartDate();
+		_accuralEndDate=aCashflow.getAccuralEndDate();
+		_cashFlowCurr=aCashflow.getCashFlowCurr();
+
+		setAccuralFactor();
+		setCouponAmount();
+
+	}*/
 	cashflow::~cashflow() {
 
 	}
