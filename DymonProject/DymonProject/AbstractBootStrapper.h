@@ -14,7 +14,7 @@ namespace utilities{
 	public:
 		typedef tuple<date, double> point;
 
-		AbstractBootStrapper(point startPoint, date endDate, AbstractInterpolator::interpolAlgo interpolAlgo,
+		AbstractBootStrapper(point startPoint, date endDate,AbstractInterpolator::interpolAlgo interpolAlgo,
 		AbstractNumerical::NumericAlgo numericAlgo){
 			_startPoint = startPoint;
 			_endDate = endDate;

@@ -14,7 +14,7 @@ AbstractCurve::AbstractCurve(std::vector<AbstractInterpolator>* lineSectionVecto
 void AbstractCurve::insertLineSection(const AbstractInterpolator& lineSection){
 }
 
-double AbstractCurve::getY(date date0){
+double AbstractCurve::getValue(date date0){
 	return 0;
 }
 

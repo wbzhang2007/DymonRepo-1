@@ -2,10 +2,10 @@
 #ifndef SWAPRATEBOOTSTRAPPER_H
 #define SWAPRATEBOOTSTRAPPER_H
 #include <string>
+#include <vector>
 #include "AbstractBootStrapper.h"
-#include "cashflowLeg.h"
-
-using namespace instruments;
+#include "YieldCurve.h"
+#include "Enums.h"
 
 namespace utilities {
 	class SwapRateBootStrapper: public AbstractBootStrapper{
@@ -16,9 +16,12 @@ namespace utilities {
 
 		typedef double (*targetFuncT) (double d);
 
-		SwapRateBootStrapper(point startPoint, date endDate, cashflowLeg* cashflows, AbstractInterpolator::interpolAlgo interpolAlgo,
-		AbstractNumerical::NumericAlgo numericAlgo):AbstractBootStrapper(startPoint, endDate, interpolAlgo, numericAlgo){
-			_cashflows = cashflows;
+		SwapRateBootStrapper(point startPoint, date endDate, double swapRate, vector<date>* timeLine, YieldCurve* curve, AbstractInterpolator::interpolAlgo interpolAlgo,
+			AbstractNumerical::NumericAlgo numericAlgo, enums::DayCountEnum dayCount):AbstractBootStrapper(startPoint, endDate, interpolAlgo, numericAlgo){
+			_curve = curve;
+			_swapRate = swapRate;
+			_timeLine = *timeLine;
+			_dayCount = dayCount;
 		}
 				
 		AbstractInterpolator* bootStrap();
@@ -27,7 +30,15 @@ namespace utilities {
 
 	private:
 
-		cashflowLeg* _cashflows;
+		YieldCurve* _curve;
+		double _swapRate;
+		vector<date> _timeLine;
+		enums::DayCountEnum _dayCount;
+
+		unsigned int _startIndex;
+		unsigned int _endIndex;
+
+		unsigned int findElementIndex(date date0);
 	};
 }
 #endif

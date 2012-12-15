@@ -15,7 +15,9 @@ namespace utilities{
 
 		void insertLineSection(const AbstractInterpolator& lineSection);
 
-		double getY(date date0);
+		double getValue(date date0);
+
+		double getDiscountFactor(date Date0);
 	};
 }
 #endif

@@ -10,7 +10,7 @@ namespace utilities{
 
 		LinearInterpolator(point startPoint, point endPoint);
 
-		point interpolateS(date date0);
+		point interpolate(date date0);
 
 	};
 }
