@@ -25,9 +25,9 @@ void CashFlowTest();
 int _tmain(int argc, _TCHAR* argv[])
 {
 	//DateUtilTest();
-	//RecordTest();
+	RecordTest();
 	//CashFlowTest();
-    CashFlowLegTest();
+    //CashFlowLegTest();
 
 	char c;
 	while( cin.get(c) != "\n" )
@@ -129,58 +129,18 @@ void RecordTest(){
 	cout << "******** RecordHelper Test ********" << endl;
 	RecordHelper* recordHelper = RecordHelper::getInstance();
 	recordHelper->init(Configuration::getInstance());
-	for(map<string, set<long>>::iterator outer_iter=RecordHelper::getInstance()->getHolidayMap().begin(); outer_iter!=RecordHelper::getInstance()->getHolidayMap().end(); ++outer_iter) {
-		for(set<long>::iterator inner_iter=outer_iter->second.begin(); inner_iter!=outer_iter->second.end(); ++inner_iter) {
-			cout << outer_iter->first<< " -> " << *inner_iter << endl;
-		}
-	}
-}
+	//for(RecordHelper::HolidayMap::iterator outer_iter=RecordHelper::getInstance()->getHolidayMap().begin(); outer_iter!=RecordHelper::getInstance()->getHolidayMap().end(); ++outer_iter) {
+	//	for(set<long>::iterator inner_iter=outer_iter->second.begin(); inner_iter!=outer_iter->second.end(); ++inner_iter) {
+	//		cout << outer_iter->first<< " -> " << *inner_iter << endl;
+	//	}
+	//}
 
-//void CashFlowLegTest() {
-//	
-//	cout << "******** CashFlow Test ********" << endl;
-//	///*date tradeDate(2013,11,2);
-//	//date startDate(2012,10,2);
-//	//*/date maturityDate(2016,8,13);
-//
-//	cout<<"startDate=";
-//	startDate.printDate();
-//
-//	cout<<"maturityDate=";
-//	maturityDate.printDate();
-//
-//	cout<<"tradeDate=";
-//	tradeDate.printDate();
-//
-//	double notional=1000000;
-//	double couponRate=0.04;
-//	vector<double> margin;
-//	int paymentFreq=4;
-//	
-//	vector<double>::iterator itMargin=margin.begin();
-//
-//	int numOfMonthIncr=12/paymentFreq;
-//	int i=1;
-//	date iteratorDate=dateUtil::getEndDate(startDate,numOfMonthIncr*i,true);
-//	while(dateUtil::getBizDaysBetween(iteratorDate,maturityDate)>0){
-//			margin.push_back(0.05);
-//			
-//			iteratorDate=dateUtil::getEndDate(startDate,numOfMonthIncr*(++i),true);
-//	}
-//    
-//
-//	currency cashFlowCurr=currency(USD,ACT_360, ACT_365, Mfollowing, paymentFreq,1);
-//	//cashflow testCashFlow=cashflow(startDate,tradeDate,couponRate,notional, margin, paymentFreq, maturityDate, cashFlowCurr,0,0);
-//	
-//	//cout<<"****************NVs streams starts*************"<<endl;
-//	//testCashFlow.printNVs();
-//	//cout<<"****************NVs streams ends*************"<<endl;
-//
-//	//cout<<"****************PVs streams starts*************"<<endl;
-//	//testCashFlow.printPVs();
-//	//cout<<"****************PVs streams ends*************"<<endl;
-//	//cout<<"total MPVs="<<testCashFlow.MPV()<<endl;
-//}
+	//for(RecordHelper::RateMap::iterator outer_iter=RecordHelper::getInstance()->getDepositRateMap().begin(); outer_iter!=RecordHelper::getInstance()->getDepositRateMap().end(); ++outer_iter) {
+	//	for(map<long, double>::iterator inner_iter=outer_iter->second.begin(); inner_iter!=outer_iter->second.end(); ++inner_iter) {
+	//		cout << outer_iter->first<< " -> " << inner_iter->first <<" "<< inner_iter->second << endl;
+	//	}
+	//}
+}
 
 void CashFlowTest() {
 

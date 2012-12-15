@@ -23,7 +23,7 @@ namespace instruments {
 		
 		int numOfMonthIncr=12/paymentFreq;
 		int i=1;
-		vector<cashflow> builtCashflowLeg;
+		vector<cashflow> cashflows;
 		date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,true);
 		while(dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*i,rollAccuralDates),maturityDate)>=0){
 			date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,rollAccuralDates);
@@ -32,7 +32,7 @@ namespace instruments {
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
 			
 			cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
-			builtCashflowLeg.push_back(aCashflow);
+			cashflows.push_back(aCashflow);
 
 			i++;
 		}
@@ -44,9 +44,9 @@ namespace instruments {
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
 			cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
 			//cashflow(double couponRate,double notional,  date fixingDate, date paymentDate,date accuralStartDate, date accuralEndDate, currency cashFlowCurr)
-			builtCashflowLeg.push_back(aCashflow);
+			cashflows.push_back(aCashflow);
 		}
-		_cashflowLeg=cashflowLeg(builtCashflowLeg).getCashFlowLeg();
+		_cashflowLeg=cashflowLeg(cashflows).getCashFlowLeg();
 	}
 	
 	cashflowLeg BuilderCashFlowLeg::getCashFlowLeg() {

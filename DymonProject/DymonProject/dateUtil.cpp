@@ -76,6 +76,11 @@ bool dateUtil::isHoliday(date aDate, std::string city){
 	return isHoliday(aDate.getJudianDayNumber(),city);
 }
 
+date dateUtil::getToday(){
+	date today(getTodayYear(),getTodayMonth(),getTodayDay());
+	return today;
+}
+
 int dateUtil::getTodayDay() {
 	time_t     rawtime;
 	struct tm* timeinfo;
@@ -217,12 +222,30 @@ date dateUtil::dayRollAdjust(date aDate,DayRollEnum aDayRollConvention, string c
 }
 
 date dateUtil::getEndDate(date startDate, int numMonth, bool adjustInvalidDay){
-	unsigned short startMonth = startDate.getMonth();
-	unsigned short endMonth = (startMonth + numMonth)%12;
-	unsigned short endYear = startDate.getYear()+(startMonth + numMonth)/12;
-	date endDate(endYear, endMonth, startDate.getDay());
+	short startMonth = startDate.getMonth();
+	short endMonth = (startMonth + numMonth)%12;
+	short endYear = startDate.getYear()+(startMonth + numMonth)/12;
+	date endDate((unsigned short) endYear,(unsigned short) endMonth, startDate.getDay());
 	endDate = adjustInvalidateDate(endDate);
 	return endDate;
+}
+
+date dateUtil::getEndDate(date startDate, int increment, bool adjustInvalidDay, DateUnit dateUnit){
+	date endDate;
+	switch(dateUnit){
+	case YEAR:
+		endDate = date(startDate.getYear()+1,startDate.getMonth(), startDate.getDay());
+		return endDate;
+	case MONTH:
+		return getEndDate(startDate, increment, adjustInvalidDay);
+	case DAY:
+		endDate = date(startDate.getJudianDayNumber()+increment);
+		return endDate;
+	case WEEK:
+		endDate = date(startDate.getJudianDayNumber()+increment*7);
+		return endDate;
+	}
+	return NULL;
 }
 
 date dateUtil::getBizDate(date refDate, long bias, enums::DayRollEnum dayRollType, std::string city) {
@@ -267,3 +290,16 @@ double dateUtil::thirty_360(date startDate, date endDate){
 	return (yearFactor+monthFactor+dayFactor)/360.0;
 }
 
+dateUtil::DateUnit dateUtil::getDateUnit(char letterDateUnit){
+	switch(letterDateUnit){
+	case 'D':
+		return DAY;
+	case 'M':
+		return MONTH;
+	case 'W':
+		return WEEK;
+	case 'Y':
+		return YEAR;
+	}
+	throw "DateUnit not found: "+letterDateUnit;
+}
