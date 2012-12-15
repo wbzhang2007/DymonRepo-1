@@ -230,6 +230,7 @@ void CashFlowLegTest() {
 	double notional=1000000;
 	double couponRate=0.05;
 	int paymentFreq=4;
+	//build from start to end (build forward)
 	int buildDirection=1;
 	RecordHelper::HolidayMap holidayMap;
 	bool rollAccuralDates=true;
@@ -239,7 +240,7 @@ void CashFlowLegTest() {
 	BuilderCashFlowLeg testCashFlowLeg(startDate, maturityDate,couponRate,notional, paymentFreq, cashFlowLegCurr, rollAccuralDates, buildDirection,holidayMap);
 
 	cout<<"**********************************************"<<endl;
-	cout << "******** CashFlow Test starts********" << endl;
+	cout << "******** CashFlowLeg Build Test starts********" << endl;
 
 	std::vector<cashflow> cfVector=testCashFlowLeg.getCashFlowLeg().getCashFlowVector();
 	std::vector<cashflow>::iterator it=cfVector.begin();
@@ -283,8 +284,62 @@ void CashFlowLegTest() {
 	}
 
 	cout <<"Total number of CF streams="<<i<<endl;
-	cout << "******** CashFlow Test ends***********************" << endl;
+	cout << "******** CashFlowLeg Build Test ends***********************" << endl;
+	std::cout << (-20 % 12) << std::endl;
 	cout<<"****************************************************"<<endl;
+
+	buildDirection=-1;
+	BuilderCashFlowLeg testCashFlowLegReverse(startDate, maturityDate,couponRate,notional, paymentFreq, cashFlowLegCurr, rollAccuralDates, buildDirection,holidayMap);
+
+	
+	cout<<"**********************************************"<<endl;
+	cout << "******** CashFlowLeg ReverseBuild Test starts********" << endl;
+
+	std::vector<cashflow> cfVectorR=testCashFlowLegReverse.getCashFlowLeg().getCashFlowVector();
+	std::vector<cashflow>::iterator itR=cfVectorR.begin();
+
+	cout<<"start date=";
+	startDate.printDate();
+	cout<<endl;
+
+	cout<<"maturity date=";
+	maturityDate.printDate();
+	cout<<endl;
+
+	cout<<endl;
+	i=0;
+	for (;itR!=cfVectorR.end();itR++) {
+	 cashflow aCF(*itR);
+	 cout<<"*********CF stream #"<<++i<<"****************"<<endl;
+	 cout<<"fixingDate=";
+	 aCF.getFixingDate().printDate();
+	 cout<<endl;
+	 cout<<"accuralStartDate=";
+	 aCF.getAccuralStartDate().printDate();
+	 cout<<endl;
+	 cout<<"accuralEndDate=";
+	 aCF.getAccuralEndDate().printDate();
+	 cout<<endl;
+	 cout<<"paymentDate=";
+	 aCF.getPaymentDate().printDate();
+	 cout<<endl;
+	 cout<<"accuralFactor=";
+	 
+
+	 cout<<aCF.getAccuralFactor()<<endl;
+	 cout<<"couponAmonunt=";
+
+	 cout<<aCF.getCouponAmount()<<endl;
+	 cout<<"notional=";
+	 cout<<aCF.getNotional()<<endl;
+	 cout<<endl;
+	 
+	}
+
+	cout <<"Total number of CF streams="<<i<<endl;
+	cout << "******** CashFlow ReverseBuild Test ends***********************" << endl;
+	cout<<"****************************************************"<<endl;
+
 	string s;
 	getline(cin,s);
 }
