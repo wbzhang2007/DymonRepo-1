@@ -18,10 +18,13 @@ namespace instruments {
 
 	}
 		
-	vector<cashflow> cashflowLeg::getCashFlowLeg() {
+	vector<cashflow> cashflowLeg::getCashFlowVector() {
 		return _cashflowLeg;
 	}
 	
+	cashflowLeg cashflowLeg::getCashFlowLeg() {
+		return _cashflowLeg;
+	}
 	void cashflowLeg::setCashFlowLeg(vector<cashflow> cashflowLeg) {
 		_cashflowLeg=cashflowLeg;
 	}

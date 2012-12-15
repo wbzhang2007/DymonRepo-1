@@ -21,7 +21,8 @@ namespace instruments {
 		cashflowLeg(vector<cashflow> cashflowLeg);
 		~cashflowLeg();
 		
-		vector<cashflow> getCashFlowLeg();
+		vector<cashflow> getCashFlowVector();
+		cashflowLeg getCashFlowLeg();
 
 		void setCashFlowLeg(vector<cashflow> cashflowLeg);
 		
