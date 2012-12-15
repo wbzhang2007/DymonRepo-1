@@ -18,7 +18,7 @@ namespace utilities{
 
 		vector<point> interpolateM(std::vector<date> dates);
 	
-		virtual point interpolateS(date date0);
+		virtual point interpolate(date date0);
 
 		point getStartPoint();
 		

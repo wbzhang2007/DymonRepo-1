@@ -18,7 +18,7 @@ namespace utilities{
 
 		virtual void insertLineSection(const AbstractInterpolator& lineSection);
 
-		virtual double getY(date date0);
+		virtual double getValue(date date0);
 
 		void setLineSectionVector(std::vector<AbstractInterpolator>* lineSectionVector);
 

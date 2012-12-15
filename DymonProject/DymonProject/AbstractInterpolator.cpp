@@ -15,12 +15,12 @@ AbstractInterpolator::AbstractInterpolator(point startPoint, point endPoint){
 vector<point> AbstractInterpolator::interpolateM(std::vector<date> dates){
 	vector<point> pointVector;
 	for (unsigned int i = 0; i<dates.size(); i++){
-		pointVector.push_back(interpolateS(dates[i]));
+		pointVector.push_back(interpolate(dates[i]));
 	}
 	return pointVector;
 }
 
-point AbstractInterpolator::interpolateS(date date0){
+point AbstractInterpolator::interpolate(date date0){
 	return point(NULL,0);
 }
 

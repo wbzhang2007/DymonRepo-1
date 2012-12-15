@@ -10,7 +10,7 @@ typedef tuple<date, double> point;
 LogLinearInterpolator::LogLinearInterpolator(point startPoint, point endPoint):
 	AbstractInterpolator(startPoint, endPoint){}
 
-point LogLinearInterpolator::interpolateS(date date0){
+point LogLinearInterpolator::interpolate(date date0){
 	double yDiff = log(std::get<1>(_endPoint)) - log(std::get<1>(_startPoint));
 	double xDiff = std::get<0>(_endPoint).getJudianDayNumber() - std::get<0>(_startPoint).getJudianDayNumber();
 	double slope = yDiff / xDiff;

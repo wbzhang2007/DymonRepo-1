@@ -1,6 +1,7 @@
 //created by Wang Jianwei on 1 Dec 2012
 
 #include "YieldCurve.h"
+#include <cmath>
 
 using namespace utilities;
 using namespace std;
@@ -12,6 +13,10 @@ void YieldCurve::insertLineSection(const AbstractInterpolator& lineSection){
 	super::insertLineSection(lineSection);
 }
 
-double YieldCurve::getY(date date0){
-	return super::getY(date0);
+double YieldCurve::getValue(date date0){
+	return super::getValue(date0);
+}
+
+double YieldCurve::getDiscountFactor(date date0){
+	return exp(-getValue(date0));
 }
