@@ -223,9 +223,18 @@ date dateUtil::dayRollAdjust(date aDate,DayRollEnum aDayRollConvention, string c
 
 date dateUtil::getEndDate(date startDate, int numMonth, bool adjustInvalidDay){
 	short startMonth = startDate.getMonth();
-	short endMonth = (startMonth + numMonth)%12;
-	short endYear = startDate.getYear()+(startMonth + numMonth)/12;
-	date endDate((unsigned short) endYear,(unsigned short) endMonth, startDate.getDay());
+	short endMonth;
+
+	short endYear;
+	if ((startMonth+numMonth)<0) {
+		int interim=ceil(-(startMonth + numMonth)/12.0)*12;
+		endMonth= (startMonth + numMonth+interim)%12;
+		endYear= startDate.getYear()-ceil((double)-(startMonth + numMonth)/12);
+	} else {
+		endMonth = (startMonth + numMonth)%12;
+		endYear= startDate.getYear()+(startMonth + numMonth)/12;
+	}
+	date endDate(endYear, endMonth, startDate.getDay());
 	endDate = adjustInvalidateDate(endDate);
 	return endDate;
 }
