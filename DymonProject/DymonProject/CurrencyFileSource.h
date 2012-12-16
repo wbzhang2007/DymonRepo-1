@@ -7,8 +7,6 @@
 #include <set>
 #include <tuple>
 
-using namespace enums;
-
 namespace DAO {
 	class CurrencyFileSource: public AbstractFileSource{
 		

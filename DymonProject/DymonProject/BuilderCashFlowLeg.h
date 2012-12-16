@@ -17,16 +17,15 @@ using namespace utilities;
 using namespace std;
 using namespace enums;
 using namespace Session;
+using namespace instruments;
 
 namespace instruments {
 	class BuilderCashFlowLeg {
 		
-
 	public:
 		// buildDirection: 1=build from startDate towards maturityDate
 		// buildDirection: -1=build from maturityDate towards startDate
-		BuilderCashFlowLeg();
-
+		BuilderCashFlowLeg(){};
 		
 		BuilderCashFlowLeg(date startDate, date maturityDate,double couponRate,double notional, int paymentFreq, currency cashFlowLegCurr,bool rollAccuralDates, int buildDirection,RecordHelper::HolidayMap holidayMap);
 		BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,double couponRate,double notional, int paymentFreq, currency cashFlowLegCurr,bool rollAccuralDates,RecordHelper::HolidayMap holidayMap);

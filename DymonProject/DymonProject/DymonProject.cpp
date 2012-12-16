@@ -150,7 +150,7 @@ void CashFlowTest() {
 	double notional=1000000;
 	double couponRate=0.05;
 	int paymentFreq=4;
-	currency cashFlowCurr=currency(enums::USD,enums::ACT_360, enums::ACT_ACT, enums::Mfollowing, paymentFreq,1);
+	currency cashFlowCurr=currency(enums::USD,enums::ACT_360, enums::ACT_ACT, enums::Mfollowing);
 
 	cashflow testCashFlow(couponRate,notional,  fixingDate, paymentDate,accuralStartDate, accuralEndDate, cashFlowCurr);
 	cout<<"couponRate="<<couponRate<<endl;

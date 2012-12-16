@@ -16,9 +16,6 @@ using namespace std;
 using namespace enums;
 
 namespace instruments {
-
-	BuilderCashFlowLeg::BuilderCashFlowLeg() {
-	}
 	
 BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double couponRate,double notional, int paymentFreq, currency cashFlowLegCurr,bool rollAccuralDates, int buildDirection,RecordHelper::HolidayMap holidayMap) {
 		

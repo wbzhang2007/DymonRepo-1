@@ -44,7 +44,7 @@ void CurrencyFileSource::retrieveRecord(){
 		enums::DayCountEnum dayCountSwapConvention = EnumHelper::getDayCountEnum(properties[1]);
 		enums::DayRollEnum dayRollConvention = EnumHelper::getDayRollEnum(properties[2]);
 
-		RecordHelper::currencyTuple ccyTuple(currencyName, dayCountCashConvention, dayCountSwapConvention, dayRollConvention);
+		RecordHelper::currencyTuple ccyTuple(dayCountCashConvention, dayCountSwapConvention, dayRollConvention);
 
 		cout << currency<< " -> " << dayCountCashConvention<<" "<<dayCountSwapConvention <<" "<< dayRollConvention << endl;
 		currencyMap.insert(pair<enums::CurrencyEnum, RecordHelper::currencyTuple>(currencyName,ccyTuple));

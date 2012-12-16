@@ -3,7 +3,9 @@
 #include "EnumHelper.h"
 #include "Enums.h"
 
-enums::CurrencyEnum getCcyEnum(std::string ccyName){
+using namespace utilities;
+
+enums::CurrencyEnum EnumHelper::getCcyEnum(std::string ccyName){
 	if (ccyName =="EUR")
 		return EUR;
 	else if (ccyName == "USD")
@@ -19,7 +21,7 @@ enums::CurrencyEnum getCcyEnum(std::string ccyName){
 	throw "Currency name not foud: "+ccyName;
 }
 
-enums::DayRollEnum getDayRollEnum(std::string dayRoll){
+enums::DayRollEnum EnumHelper::getDayRollEnum(std::string dayRoll){
 	if (dayRoll =="Following")
 		return Following;
 	else if (dayRoll == "Preceding")
@@ -33,7 +35,7 @@ enums::DayRollEnum getDayRollEnum(std::string dayRoll){
 	throw "Day roll name not foud: "+dayRoll;
 }
 
-enums::DayCountEnum getDayCountEnum(std::string dayCount){
+enums::DayCountEnum EnumHelper::getDayCountEnum(std::string dayCount){
 	if (dayCount =="thirty_360US")
 		return thirty_360US;
 	else if (dayCount == "thirthE_360")

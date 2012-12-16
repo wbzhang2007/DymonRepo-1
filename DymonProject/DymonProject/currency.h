@@ -11,7 +11,7 @@ namespace instruments {
 	class currency {
 
 	public:
-		currency(std::string currency);
+		currency(){};
 		currency(enums::CurrencyEnum);
 		currency(enums::CurrencyEnum currencyName,enums::DayCountEnum dayCountCashConvention, enums::DayCountEnum dayCountSwapConvention, enums::DayRollEnum dayRollConvention);
 		~currency();

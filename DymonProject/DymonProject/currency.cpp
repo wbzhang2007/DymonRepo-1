@@ -4,16 +4,19 @@
 #include "currency.h"
 #include "Enums.h"
 #include "EnumHelper.h"
+#include "RecordHelper.h"
 
 using namespace instruments;
 using namespace utilities;
+using namespace Session;
 
-currency::currency(string currency){
-	currency::currency(EnumHelper::getCcyEnum(currency));
-}
-
-currency::currency(enums::CurrencyEnum) {
-
+currency::currency(enums::CurrencyEnum currency) {
+	RecordHelper::currencyMap ccyMap = RecordHelper::getInstance()->getCurrencyMap();
+	RecordHelper::currencyTuple ccyTuple =  ccyMap[currency];
+	enums::DayCountEnum dayCountCashConvention = std::get<0>(ccyTuple);
+	enums::DayCountEnum dayCountSwapConvention = std::get<1>(ccyTuple);
+	enums::DayRollEnum dayRollConvention = std::get<2>(ccyTuple);
+	currency::currency(currency, dayCountCashConvention,dayCountSwapConvention,dayRollConvention);
 }
 
 currency::currency(enums::CurrencyEnum currencyName,enums::DayCountEnum dayCountCashConvention, enums::DayCountEnum dayCountSwapConvention, enums::DayRollEnum dayRollConvention) {
