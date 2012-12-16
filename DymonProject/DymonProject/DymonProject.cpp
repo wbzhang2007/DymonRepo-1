@@ -29,9 +29,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	//CashFlowTest();
     //CashFlowLegTest();
 
-	char c;
-	while( cin.get(c) != "\n" )
-	;
+	
 }
 
 void ZeroTest(){
