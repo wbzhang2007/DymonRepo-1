@@ -1,4 +1,5 @@
 //created by Hu Kun 04 Dec 2012
+//rewrote again with cashflow constructs by Kun 16 Dec 2012
 #include "swap.h"
 #include <iterator>
 #include "date.h"
@@ -13,32 +14,14 @@ using namespace utilities;
 using namespace std;
 using namespace enums;
 
+namespace instruments {
 swap::swap(date tradeDate, date maturityDate, double notional, double couponRate, vector<double> FLiborRate, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, RecordHelper::HolidayMap holidayMap) {
 	
-	/*_fixLegRate=fixLegRate;
-	_floatLegSpread=floatLegSpread;
-	_floatLegBenchMark=floatLegBenchMark;
-    _notional=notional;
-
-	_issueDate=issueDate;
-	_maturityDate=maturityDate;
-	_fixLegCurr=fixLegCurr;
-	_floatLegCurr=floatLegCurr;
-*/
-	//date startDate(2013,11,2);
-	//date maturityDate(2015,2,6);
-	////date accuralStartDate(2013,11,3);
-	////date accuralEndDate(2014,2,5);
-	//
-	//double notional=1000000;
-	//double couponRate=0.05;
-	//int paymentFreq=4;
-	//build from start to end (build forward)
+	
 	int buildDirection=1;
-	//RecordHelper::HolidayMap holidayMap;
-	//bool rollAccuralDates=false;
 
-	//currency cashFlowLegCurr=currency(enums::USD,enums::ACT_360, enums::ACT_ACT, enums::Mfollowing);
+	setTradeDate(tradeDate);
+	setMaturityDate(maturityDate);
 
 	BuilderCashFlowLeg builtCashflowLeg1(tradeDate, maturityDate,couponRate,notional, paymentFreqFixLeg, fixLegCurr, rollAccuralDates, buildDirection,holidayMap);
 
@@ -58,6 +41,16 @@ cashflowLeg swap::getCashflowLegFix() {
 
 cashflowLeg swap::getCashflowLegFloat() {
 	return _floatingCashflowLeg;
+}
+}
+
+void swap::printCashflowLegFix() {
+	_fixCashflowLeg.printCashFlowLeg();
+}
+void swap::printCashflowLegFloat() {
+
+	_floatingCashflowLeg.printCashFlowLeg();
+	
 }
 
 //double swap::getParRate() {

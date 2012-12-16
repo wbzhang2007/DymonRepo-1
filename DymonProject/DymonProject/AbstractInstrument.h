@@ -12,10 +12,10 @@ namespace instruments {
 	public:
 		//base class for all other instruments to be derived from
 		AbstractInstrument(){};
-		virtual date getIssueDate() =0;
-	    virtual date getMaturityDate()=0;
-		virtual void setIssueDate(date tradeDate)=0;
-		virtual void setMaturityDate(date maturityDate)=0;
+		virtual date getTradeDate() {return _tradeDate;};
+		virtual date getMaturityDate() {return _maturityDate;};
+		virtual void setTradeDate(date tradeDate) {_tradeDate=tradeDate;};
+		virtual void setMaturityDate(date maturityDate) {_maturityDate=maturityDate;};
 
 	protected: 
 		currency _domCurrency;

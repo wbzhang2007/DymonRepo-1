@@ -4,6 +4,7 @@
 #include "cashflow.h"
 #include <math.h>
 #include <stdio.h>
+#include <iterator>
 
 using namespace utilities;
 using namespace std;
@@ -41,5 +42,16 @@ namespace instruments {
 		}
 
 		return aDates;
+	}
+
+	void cashflowLeg::printCashFlowLeg() {
+		std::vector<cashflow>::iterator itT=_cashflowLeg.begin();
+
+		for (;itT!=_cashflowLeg.end();itT++) {
+			cashflow aCF=*itT;
+
+			aCF.printCashFlow();
+
+		}
 	}
 }

@@ -113,3 +113,26 @@ void cashflow::setAccuralFactor() {
 
 	_accuralFactor=dateUtil::getAccrualFactor(_accuralStartDate,_accuralEndDate,_cashFlowCurr.getDayCountCashConvention());
 }
+
+void cashflow::printCashFlow() {
+	 cout<<"fixingDate=";
+	 _fixingDate.printDate();
+	 cout<<endl;
+	 cout<<"accuralStartDate=";
+	 _accuralStartDate.printDate();
+	 cout<<endl;
+	 cout<<"accuralEndDate=";
+	 _accuralEndDate.printDate();
+	 cout<<endl;
+	 cout<<"paymentDate=";
+	 _paymentDate.printDate();
+	 cout<<endl;
+	 cout<<"accuralFactor="<<_accuralFactor<<endl;
+	 
+	 cout<<"couponAmonunt="<<_couponAmount<<endl;
+
+
+	 cout<<"notional="<<_notional<<endl;
+	 cout<<"*******************************"<<endl<<endl;
+
+}

@@ -28,6 +28,7 @@ namespace instruments {
 		void setCashFlowLeg(vector<cashflow> cashflowLeg);
 		vector<date> getAccuralDates();
 		
+		void printCashFlowLeg();
 		
 	private:
 		vector<cashflow> _cashflowLeg;
