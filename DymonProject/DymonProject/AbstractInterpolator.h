@@ -23,6 +23,12 @@ namespace utilities{
 		point getStartPoint();
 		
 		point getEndPoint();
+		
+		long getStartingJDN();
+
+		long getEndingJDN();
+
+		virtual std::string toString();
 
 	protected:
 

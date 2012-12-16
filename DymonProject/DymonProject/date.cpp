@@ -4,6 +4,7 @@
 #include "date.h"
 #include "dateUtil.h"
 #include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -64,5 +65,11 @@ namespace utilities {
 	
 	void date::printDate() {
 		cout <<_year<<"-"<<_month<<"-"<<_day<<endl;
+	}
+
+	string date::toString(){
+		std::stringstream ss (stringstream::in | stringstream::out);
+		ss<<"Date {"<<getDay()+"/"<<getMonth()<<"/"<<getYear()<<" - "<<_judianDayNumber<<"}";
+		return ss.str();
 	}
 }
