@@ -49,6 +49,12 @@ void RecordHelper::buildHolidayMap(Configuration* cfg){
 	holidayDataSource->retrieveRecord();
 }
 
+void RecordHelper::buildCurrencyMap(Configuration* cfg){
+	AbstractDAO* currencyDataSource= new ConfigurationFileSource();
+	currencyDataSource->init(cfg);
+	currencyDataSource->retrieveRecord();
+}
+
 void RecordHelper::buildConfiguration(Configuration* cfg){
 	AbstractDAO* configDataSource= new ConfigurationFileSource();
 	configDataSource->init(cfg);

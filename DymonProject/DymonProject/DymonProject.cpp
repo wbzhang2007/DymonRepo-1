@@ -25,9 +25,9 @@ void CashFlowTest();
 int _tmain(int argc, _TCHAR* argv[])
 {
 	//DateUtilTest();
-	//RecordTest();
+	RecordTest();
 	//CashFlowTest();
-    CashFlowLegTest();
+    //CashFlowLegTest();
 
 	
 }
@@ -193,7 +193,7 @@ void CashFlowLegTest() {
 	RecordHelper::HolidayMap holidayMap;
 	bool rollAccuralDates=false;
 
-	currency cashFlowLegCurr=currency(enums::USD,enums::ACT_360, enums::ACT_ACT, enums::Mfollowing, paymentFreq,1);
+	currency cashFlowLegCurr=currency(enums::USD,enums::ACT_360, enums::ACT_ACT, enums::Mfollowing);
 
 	BuilderCashFlowLeg testCashFlowLeg(startDate, maturityDate,couponRate,notional, paymentFreq, cashFlowLegCurr, rollAccuralDates, buildDirection,holidayMap);
 

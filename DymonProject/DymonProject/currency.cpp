@@ -3,37 +3,26 @@
 
 #include "currency.h"
 #include "Enums.h"
+#include "EnumHelper.h"
 
 using namespace instruments;
+using namespace utilities;
 
-currency::currency() {
+currency::currency(string currency){
+	currency::currency(EnumHelper::getCcyEnum(currency));
 }
 
-currency::currency(enums::CurrencyEnum currencyName,enums::DayCountEnum dayCountCashConvention, enums::DayCountEnum dayCountSwapConvention, enums::DayRollEnum dayRollConvention, int paymentFreq, int compoundFreq) {
+currency::currency(enums::CurrencyEnum) {
+
+}
+
+currency::currency(enums::CurrencyEnum currencyName,enums::DayCountEnum dayCountCashConvention, enums::DayCountEnum dayCountSwapConvention, enums::DayRollEnum dayRollConvention) {
 	_currencyName=currencyName;
 	_dayCountCashConvention=dayCountCashConvention;
 	_dayCountSwapConvention=dayCountSwapConvention;
 	_dayRollConvention=dayRollConvention;
-	_paymentFreq=paymentFreq;
-	_compoundFreq=compoundFreq;
 }
 currency::~currency(){
-}
-
-int currency::getPaymentFreq() {
-	return _paymentFreq;
-}
-
-int currency::getCompoundFreq() {
-	return _compoundFreq;
-}
-
-void currency::setPaymentFreq(int paymentFreq) {
-	_paymentFreq=paymentFreq;
-}
-
-void currency::setCompoundFreq(int compoundFreq) {
-	_compoundFreq=compoundFreq;
 }
 
 enums::CurrencyEnum currency::getCurrencyName() {
