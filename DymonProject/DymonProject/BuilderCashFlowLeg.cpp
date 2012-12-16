@@ -26,7 +26,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 		int i=1;
 		vector<cashflow> builtCashflowLeg;
 		date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,true);
-		while(dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*i,rollAccuralDates),maturityDate)>=0){
+		while((dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*i,rollAccuralDates),maturityDate)>=0)&&(dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),rollAccuralDates),maturityDate)>=0)){
 			date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,rollAccuralDates);
 			date calDateNewEnd=dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),rollAccuralDates);
 			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollConvention(),"");
@@ -38,8 +38,8 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 			i++;
 		}
 
-		if (dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*i,true),maturityDate)<0) {
-			date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*(i-1),rollAccuralDates);
+		if ((dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*i,true),maturityDate)<0)||(dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),true),maturityDate)<0)) {
+			date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,rollAccuralDates);
 			date calDateNewEnd=maturityDate;
 			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollConvention(),"");
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
