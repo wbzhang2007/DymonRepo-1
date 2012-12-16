@@ -7,6 +7,7 @@
 #include "HolidayFileSource.h"
 #include "DepositFileSource.h"
 #include "ConfigurationFileSource.h"
+#include "CurrencyFileSource.h"
 
 using namespace Session;
 using namespace DAO;
@@ -26,6 +27,7 @@ RecordHelper::RecordHelper(){
 
 void RecordHelper::init(Configuration* cfg){
 	buildConfiguration(cfg);
+	buildCurrencyMap(cfg);
 	buildHolidayMap(cfg);
 	buildSwapRateMap(cfg);
 	buildDepositRateMap(cfg);
@@ -47,6 +49,12 @@ void RecordHelper::buildHolidayMap(Configuration* cfg){
 	AbstractDAO* holidayDataSource = new HolidayFileSource();
 	holidayDataSource->init(cfg);
 	holidayDataSource->retrieveRecord();
+}
+
+void RecordHelper::buildCurrencyMap(Configuration* cfg){
+	AbstractDAO* currencyDataSource= new CurrencyFileSource();
+	currencyDataSource->init(cfg);
+	currencyDataSource->retrieveRecord();
 }
 
 void RecordHelper::buildConfiguration(Configuration* cfg){

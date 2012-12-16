@@ -11,13 +11,10 @@ namespace instruments {
 	class currency {
 
 	public:
-		currency();
-		currency(enums::CurrencyEnum currencyName,enums::DayCountEnum dayCountCashConvention, enums::DayCountEnum dayCountSwapConvention, enums::DayRollEnum dayRollConvention, int paymentFreq, int compoundFreq);
+		currency(){};
+		currency(enums::CurrencyEnum);
+		currency(enums::CurrencyEnum currencyName,enums::DayCountEnum dayCountCashConvention, enums::DayCountEnum dayCountSwapConvention, enums::DayRollEnum dayRollConvention);
 		~currency();
-		int getPaymentFreq();
-		int getCompoundFreq();
-		void setPaymentFreq(int paymentFreq);
-		void setCompoundFreq(int compoundFreq);
 
 		enums::CurrencyEnum getCurrencyName();
 		enums::DayCountEnum getDayCountCashConvention();
@@ -28,14 +25,12 @@ namespace instruments {
 		void setDayCountCashConvention(enums::DayCountEnum dayCountCashConvention);
 		void setDayCountSwapConvention(enums::DayCountEnum dayCountSwapConvention);
 		void setDayRollConvention(enums::DayRollEnum dayRollConvention);
-
+		
 	private:
 		enums::CurrencyEnum _currencyName;
 		enums::DayCountEnum _dayCountCashConvention;
 		enums::DayCountEnum _dayCountSwapConvention;
 		enums::DayRollEnum _dayRollConvention;
-		int _paymentFreq;
-		int _compoundFreq;
 	};
 
 }

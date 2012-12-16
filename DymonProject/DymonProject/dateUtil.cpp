@@ -244,7 +244,7 @@ date dateUtil::getEndDate(date startDate, int numMonth, bool adjustInvalidDay){
 	return endDate;
 }
 
-date dateUtil::getEndDate(date startDate, int increment, bool adjustInvalidDay, DateUnit dateUnit){
+date dateUtil::getEndDate(date startDate, int increment, bool adjustInvalidDay, DateUnit dateUnit, string city){
 	date endDate;
 	switch(dateUnit){
 	case YEAR:
@@ -253,7 +253,7 @@ date dateUtil::getEndDate(date startDate, int increment, bool adjustInvalidDay, 
 	case MONTH:
 		return getEndDate(startDate, increment, adjustInvalidDay);
 	case DAY:
-		endDate = date(startDate.getJudianDayNumber()+increment);
+		endDate = getBizDate(startDate,increment, enums::Following, city);
 		return endDate;
 	case WEEK:
 		endDate = date(startDate.getJudianDayNumber()+increment*7);
@@ -262,7 +262,7 @@ date dateUtil::getEndDate(date startDate, int increment, bool adjustInvalidDay, 
 	return NULL;
 }
 
-date dateUtil::getBizDate(date refDate, long bias, enums::DayRollEnum dayRollType, std::string city) {
+date dateUtil::getBizDate(date refDate, long bias, enums::DayRollEnum dayRollType, string city) {
 	long cal=dateUtil::getJudianDayNumber(refDate.getYear(),refDate.getMonth(),refDate.getDay())+bias;
 	unsigned short* dateArray=dateUtil::getYearMonthDay(cal);
 	date aDate=dateUtil::dayRollAdjust(date(dateArray[0],dateArray[1],dateArray[2]),dayRollType,city);

@@ -5,7 +5,12 @@
 #include <fstream>
 #include <map>
 #include <set>
+#include <tuple>
 #include "AbstractSession.h"
+#include "Enums.h"
+
+using namespace utilities;
+using namespace enums;
 
 namespace Session {
 	class RecordHelper: public AbstractSession{
@@ -19,7 +24,11 @@ namespace Session {
 		typedef std::map<std::string, std::set<long>> HolidayMap;
 		
 		typedef std::map<std::string, std::map<long, double>> RateMap;
+		
+		typedef std::tuple<enums::DayCountEnum, enums::DayCountEnum, enums::DayRollEnum> currencyTuple;
 
+		typedef std::map<enums::CurrencyEnum, currencyTuple> currencyMap;
+		
 		HolidayMap getHolidayMap(){return _holidayMap;}
 		void setHolidayMap(HolidayMap map){_holidayMap=map;}
 
@@ -28,6 +37,9 @@ namespace Session {
 
 		RateMap getSwapRateMap(){return _swapRateMap;}
 		void setSwapRateMap(RateMap map){_swapRateMap=map;}
+
+		currencyMap getCurrencyMap(){return _currencyMap;}
+		void setCurrencyMap(currencyMap map){_currencyMap=map;}
 
 	private:		
 		
@@ -41,11 +53,14 @@ namespace Session {
 		RateMap _depositRateMap;
 
 		RateMap _swapRateMap;
+				
+		currencyMap _currencyMap;
 		
 		void buildConfiguration(Configuration*);
 		void buildHolidayMap(Configuration*);
 		void buildSwapRateMap(Configuration*);
 		void buildDepositRateMap(Configuration*);
+		void buildCurrencyMap(Configuration*);
 
 	};
 }

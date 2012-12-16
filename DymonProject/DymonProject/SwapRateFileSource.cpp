@@ -47,7 +47,7 @@ void SwapRateFileSource::retrieveRecord(){
 			char letterDateUnit = *tenureRate[0].rbegin(); // 'Y'
 			int increment = std::stoi(tenureRate[0].substr(0,tenureRate[0].size()-1)); // 2
 			double swapRate = std::stod(tenureRate[1]); // 3.134
-			long JDN = dateUtil::getEndDate(dateUtil::getToday(),increment, true, dateUtil::getDateUnit(letterDateUnit)).getJudianDayNumber();
+			long JDN = dateUtil::getEndDate(dateUtil::getToday(),increment, true, dateUtil::getDateUnit(letterDateUnit), country).getJudianDayNumber();
 			rateMap.insert(pair<long, double>(JDN, swapRate));
 			cout << country<< " -> " << tenureRate[0]<<" "<<JDN <<" "<< swapRate << endl;
 		}

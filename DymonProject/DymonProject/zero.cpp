@@ -35,12 +35,8 @@ zero::zero(double aSpotRate,double aNotional,date aMaturityDate,date aIssueDate)
 	maturityDate=aMaturityDate;
 	price=getPrice();
 	issueDate=aIssueDate;
-	
-	
 
 	cout<<"maturity date is yy="<<maturityDate.getYear()<<" mm="<<maturityDate.getMonth()<<" dd="<<maturityDate.getDay()<<endl;
-
-	
 }
 
 zero::~zero() {

@@ -47,7 +47,7 @@ void DepositFileSource::retrieveRecord(){
 			char letterDateUnit = *tenureRate[0].rbegin(); // 'D'
 			int increment = std::stoi(tenureRate[0].substr(0,tenureRate[0].size()-1)); // 2
 			double depositRate = std::stod(tenureRate[1]); // 0.1
-			long JDN = dateUtil::getEndDate(dateUtil::getToday(),increment, true, dateUtil::getDateUnit(letterDateUnit)).getJudianDayNumber();
+			long JDN = dateUtil::getEndDate(dateUtil::getToday(),increment, true, dateUtil::getDateUnit(letterDateUnit), country).getJudianDayNumber();
 			rateMap.insert(pair<long, double>(JDN, depositRate));
 			cout << country<< " -> " << tenureRate[0]<<" "<<JDN <<" "<< depositRate << endl;
 		}

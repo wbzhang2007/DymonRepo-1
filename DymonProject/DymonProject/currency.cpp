@@ -3,37 +3,29 @@
 
 #include "currency.h"
 #include "Enums.h"
+#include "EnumHelper.h"
+#include "RecordHelper.h"
 
 using namespace instruments;
+using namespace utilities;
+using namespace Session;
 
-currency::currency() {
+currency::currency(enums::CurrencyEnum currency) {
+	RecordHelper::currencyMap ccyMap = RecordHelper::getInstance()->getCurrencyMap();
+	RecordHelper::currencyTuple ccyTuple =  ccyMap[currency];
+	enums::DayCountEnum dayCountCashConvention = std::get<0>(ccyTuple);
+	enums::DayCountEnum dayCountSwapConvention = std::get<1>(ccyTuple);
+	enums::DayRollEnum dayRollConvention = std::get<2>(ccyTuple);
+	currency::currency(currency, dayCountCashConvention,dayCountSwapConvention,dayRollConvention);
 }
 
-currency::currency(enums::CurrencyEnum currencyName,enums::DayCountEnum dayCountCashConvention, enums::DayCountEnum dayCountSwapConvention, enums::DayRollEnum dayRollConvention, int paymentFreq, int compoundFreq) {
+currency::currency(enums::CurrencyEnum currencyName,enums::DayCountEnum dayCountCashConvention, enums::DayCountEnum dayCountSwapConvention, enums::DayRollEnum dayRollConvention) {
 	_currencyName=currencyName;
 	_dayCountCashConvention=dayCountCashConvention;
 	_dayCountSwapConvention=dayCountSwapConvention;
 	_dayRollConvention=dayRollConvention;
-	_paymentFreq=paymentFreq;
-	_compoundFreq=compoundFreq;
 }
 currency::~currency(){
-}
-
-int currency::getPaymentFreq() {
-	return _paymentFreq;
-}
-
-int currency::getCompoundFreq() {
-	return _compoundFreq;
-}
-
-void currency::setPaymentFreq(int paymentFreq) {
-	_paymentFreq=paymentFreq;
-}
-
-void currency::setCompoundFreq(int compoundFreq) {
-	_compoundFreq=compoundFreq;
 }
 
 enums::CurrencyEnum currency::getCurrencyName() {
