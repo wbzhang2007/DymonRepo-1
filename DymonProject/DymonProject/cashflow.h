@@ -21,7 +21,7 @@ namespace instruments {
 
 	public:
 		cashflow(double couponRate,double notional,  date fixingDate, date paymentDate,date accuralStartDate, date accuralEndDate, currency cashFlowCurr);
-		//cashflow(instruments::cashflow& aCashflow);
+
 		~cashflow();
 
 		double getCouponAmount();
@@ -43,6 +43,8 @@ namespace instruments {
 		void setAccuralEndDate(date accuralEndDate);
 		void setCashFlowCurr(currency cashFlowCurr);
 		void setAccuralFactor();
+
+		void printCashFlow();
 		
 	private:
 		double _couponRate;

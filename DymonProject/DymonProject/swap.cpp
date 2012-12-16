@@ -1,30 +1,56 @@
 //created by Hu Kun 04 Dec 2012
+//rewrote again with cashflow constructs by Kun 16 Dec 2012
 #include "swap.h"
 #include <iterator>
 #include "date.h"
 #include "dateUtil.h"
+#include "cashflow.h"
+#include "cashflowLeg.h"
+#include "BuilderCashFlowLeg.h"
+#include "RecordHelper.h"
 
 using namespace instruments;
 using namespace utilities;
 using namespace std;
 using namespace enums;
 
-swap::swap(double notional, double fixLegRate, double floatLegSpread, tuple<double,date,double> floatLegBenchMark,date issueDate, date maturityDate, currency fixLegCurr, currency floatLegCurr) {
-	/*_fixLegRate=fixLegRate;
-	_floatLegSpread=floatLegSpread;
-	_floatLegBenchMark=floatLegBenchMark;
-    _notional=notional;
+namespace instruments {
+swap::swap(date tradeDate, date maturityDate, double notional, double couponRate, vector<double> FLiborRate, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, RecordHelper::HolidayMap holidayMap) {
+	
+	
+	int buildDirection=1;
 
-	_issueDate=issueDate;
-	_maturityDate=maturityDate;
-	_fixLegCurr=fixLegCurr;
-	_floatLegCurr=floatLegCurr;
-*/
+	setTradeDate(tradeDate);
+	setMaturityDate(maturityDate);
 
+	BuilderCashFlowLeg builtCashflowLeg1(tradeDate, maturityDate,couponRate,notional, paymentFreqFixLeg, fixLegCurr, rollAccuralDates, buildDirection,holidayMap);
+
+	BuilderCashFlowLeg builtCashflowLeg2(tradeDate, maturityDate,FLiborRate,notional, paymentFreqFloatingLeg, floatingLegCurr, rollAccuralDates, buildDirection,holidayMap);
+	
+	_fixCashflowLeg=builtCashflowLeg1.getCashFlowLeg();
+	_floatingCashflowLeg=builtCashflowLeg2.getCashFlowLeg();
 }
 
 swap::~swap() {
 
+}
+
+cashflowLeg swap::getCashflowLegFix() {
+	return _fixCashflowLeg;
+}
+
+cashflowLeg swap::getCashflowLegFloat() {
+	return _floatingCashflowLeg;
+}
+}
+
+void swap::printCashflowLegFix() {
+	_fixCashflowLeg.printCashFlowLeg();
+}
+void swap::printCashflowLegFloat() {
+
+	_floatingCashflowLeg.printCashFlowLeg();
+	
 }
 
 //double swap::getParRate() {

@@ -11,6 +11,8 @@
 #include "currency.h"
 #include <vector>
 #include "Enums.h"
+#include "swap.h"
+
 
 using namespace utilities;
 using namespace std;
@@ -21,13 +23,16 @@ void RecordTest();
 void DateUtilTest();
 void CashFlowLegTest();
 void CashFlowTest();
+void SwapTest();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	//DateUtilTest();
-	RecordTest();
+	//RecordTest();
 	//CashFlowTest();
     //CashFlowLegTest();
+
+	SwapTest();
 
 	
 }
@@ -322,29 +327,7 @@ void CashFlowLegTest() {
 	for (;itT!=cfVectorT.end();itT++) {
 	 cashflow aCF(*itT);
 	 cout<<"*********CF stream #"<<++i<<"****************"<<endl;
-	 cout<<"fixingDate=";
-	 aCF.getFixingDate().printDate();
-	 cout<<endl;
-	 cout<<"accuralStartDate=";
-	 aCF.getAccuralStartDate().printDate();
-	 cout<<endl;
-	 cout<<"accuralEndDate=";
-	 aCF.getAccuralEndDate().printDate();
-	 cout<<endl;
-	 cout<<"paymentDate=";
-	 aCF.getPaymentDate().printDate();
-	 cout<<endl;
-	 cout<<"accuralFactor=";
-	 
-
-	 cout<<aCF.getAccuralFactor()<<endl;
-	 cout<<"couponAmonunt=";
-
-	 cout<<aCF.getCouponAmount()<<endl;
-	 cout<<"notional=";
-	 cout<<aCF.getNotional()<<endl;
-	 cout<<endl;
-	 
+	 aCF.printCashFlow(); 
 	}
 
 	cout <<"Total number of CF streams="<<i<<endl;
@@ -353,4 +336,42 @@ void CashFlowLegTest() {
 
 	string s;
 	getline(cin,s);
+}
+
+void SwapTest() {
+	date tradeDate(2013,11,2);
+	date maturityDate(2015,2,6);
+		
+	double notional=1000000;
+	double couponRate=0.05;
+	int paymentFreqFixLeg=4;
+	int paymentFreqFloatingLeg=2;
+	//build from start to end (build forward)
+	int buildDirection=1;
+	RecordHelper::HolidayMap holidayMap;
+	bool rollAccuralDates=false;
+	vector<double> FLiborRate;
+
+	FLiborRate.resize(100,0.05);
+
+	currency fixLegCurr=currency(enums::USD,enums::ACT_360, enums::ACT_ACT, enums::Mfollowing);
+	currency floatingLegCurr=currency(enums::USD,enums::ACT_360, enums::ACT_ACT, enums::Mfollowing);
+	instruments::swap swap1(tradeDate, maturityDate, notional, couponRate, FLiborRate, fixLegCurr, floatingLegCurr,paymentFreqFixLeg, paymentFreqFloatingLeg, rollAccuralDates, holidayMap);
+
+	cout<<"tradeDate=";
+	tradeDate.printDate();
+	cout<<endl;
+
+	cout<<"maturityDate=";
+	maturityDate.printDate();
+	cout<<endl;
+
+	cout<<"Fix Leg of Swap1 is:"<<endl;
+	swap1.printCashflowLegFix();
+
+
+	cout<<"Floating Leg of Swap1 is:"<<endl;
+	swap1.printCashflowLegFloat();
+
+
 }
