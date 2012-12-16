@@ -8,6 +8,7 @@
 #include "dateUtil.h"
 #include <vector>
 #include "RecordHelper.h"
+#include <algorithm>
 
 using namespace Session;
 using namespace utilities;
@@ -199,6 +200,11 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 
 	if (buildDirection==-1) {
 		int numOfMonthIncr=12/paymentFreq;
+		vector<double> rFLiborRate;
+		rFLiborRate.resize(FLiborRate.size());
+
+		copy_backward(FLiborRate.begin(),FLiborRate.end(),rFLiborRate.begin());
+		
 		int i=0;
 		vector<cashflow> builtCashflowLeg;
 		date calDateNewStart=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,true);
@@ -214,7 +220,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollConvention(),"");
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
 			
-			cashflow aCashflow(FLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
+			cashflow aCashflow(rFLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
 			
 			builtCashflowLeg.insert(builtCashflowLeg.begin(),aCashflow);
 
@@ -232,7 +238,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 				calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
 			}
 
-			cashflow aCashflow(FLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
+			cashflow aCashflow(rFLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
 			
 			builtCashflowLeg.insert(builtCashflowLeg.begin(),aCashflow);
 		}
