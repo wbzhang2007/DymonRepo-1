@@ -6,13 +6,16 @@
 #include "AbstractInterpolator.h"
 #include "AbstractNumerical.h"
 #include <vector>
+#include "AbstractSession.h"
 
 using namespace Session;
 
 namespace utilities{
-	class AbstractBootStrapper{
+	class AbstractBootStrapper: public AbstractSession{
 	public:
 		typedef tuple<date, double> point;
+
+		virtual void init(Configuration* cfg);
 
 		AbstractBootStrapper(point startPoint, date endDate,AbstractInterpolator::interpolAlgo interpolAlgo,
 		AbstractNumerical::NumericAlgo numericAlgo){
@@ -35,6 +38,12 @@ namespace utilities{
 		AbstractInterpolator::interpolAlgo _interpolAlgo;
 
 		AbstractNumerical::NumericAlgo _numericAlgo; 
+
+		double _tolerance;
+
+		int _iterateCount;
+
+		int _plusMinus;
 	
 	};
 }

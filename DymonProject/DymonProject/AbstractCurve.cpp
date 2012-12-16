@@ -26,7 +26,17 @@ void AbstractCurve::insertLineSection(AbstractInterpolator* lineSection){
 }
 
 double AbstractCurve::getValue(date date0){
-	return 0;
+	long startJDN;
+		long endJDN;
+	for (unsigned int i = 0; i<_lineSectionVector->size(); i++){
+		startJDN = _lineSectionVector->at(i).getStartingJDN();
+		endJDN = _lineSectionVector->at(i).getEndingJDN();
+		if (startJDN<=date0.getJudianDayNumber() && date0.getJudianDayNumber()<endJDN){
+			point pointOnCurve = _lineSectionVector->at(i).interpolate(date0);
+			return std::get<1>(pointOnCurve);
+		}
+	}
+	throw "Point not found on curve for date: "+date0.toString();
 }
 
 void AbstractCurve::setLineSectionVector(std::vector<AbstractInterpolator>* lineSectionVector){

@@ -14,7 +14,7 @@ namespace utilities {
 	
 		void setConfiguration(std::map<std::string, std::string> cfg);
 
-		std::string getProperty(std::string,bool);
+		std::string getProperty(std::string key, bool compulsory, std::string defaultVal);
 		
 		typedef std::map<std::string, std::string> ConfigMap;
 		

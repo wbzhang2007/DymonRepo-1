@@ -11,6 +11,12 @@
 
 using namespace utilities;
 
+void SwapRateBootStrapper::init(Configuration* cfg){
+	_iterateCount = std::stoi(cfg->getProperty("numerical.iteration",true,"50"));
+	_plusMinus = std::stoi(cfg->getProperty("numerical.plusminus",true,"20"));
+	_tolerance = std::stod(cfg->getProperty("numerical.tolerance",true,"0.0000001"));
+}
+
 AbstractInterpolator* SwapRateBootStrapper::bootStrap(){
 	
 	targetFuncT numericalFunc;
@@ -19,7 +25,8 @@ AbstractInterpolator* SwapRateBootStrapper::bootStrap(){
 	_endIndex = findElementIndex(_endDate);
 
 	AbstractNumerical* an = NumericalFactory::getInstance()->getNumerical(&numericalFunc,_numericAlgo);
-	double swapPointValue = an->findRoot(0,0,0,0);
+	double previousVal = std::get<1>(_startPoint);
+	double swapPointValue = an->findRoot(previousVal*(1-_plusMinus/100),previousVal*(1+_plusMinus/100),_tolerance,_iterateCount);
 
 	AbstractInterpolator* ai = InterpolatorFactory::getInstance()->getInterpolator(_startPoint, point(_endDate,swapPointValue) , _interpolAlgo);
 	return ai;

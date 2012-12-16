@@ -18,12 +18,12 @@ void Configuration::setConfiguration(map<string, string> config){
 	_config = config;
 }
 
-string Configuration::getProperty(string key, bool compulsory){
+string Configuration::getProperty(string key, bool compulsory, string defaultVal){
 	if(_config.find(key)==_config.end()){
 		if(compulsory)
 			throw "Property not found: "+key;
 		else
-			return "";
+			return defaultVal;
 	}else{
 		return _config[key];
 	}
