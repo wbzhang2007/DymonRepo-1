@@ -26,6 +26,7 @@ namespace instruments {
 		cashflowLeg getCashFlowLeg();
 
 		void setCashFlowLeg(vector<cashflow> cashflowLeg);
+		vector<date> getAccuralDates();
 		
 		
 	private:
