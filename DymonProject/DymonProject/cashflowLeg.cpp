@@ -30,5 +30,16 @@ namespace instruments {
 	void cashflowLeg::setCashFlowLeg(vector<cashflow> cashflowLeg) {
 		_cashflowLeg=cashflowLeg;
 	}
-	
+
+	vector<date> cashflowLeg::getAccuralDates() {
+		vector<date> aDates;
+
+		std::vector<cashflow>::iterator itT=_cashflowLeg.begin();
+		for (;itT!=_cashflowLeg.end();itT++) {
+			cashflow aCF=*itT;
+			aDates.push_back(aCF.getAccuralStartDate());
+		}
+
+		return aDates;
+	}
 }

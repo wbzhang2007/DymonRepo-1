@@ -10,21 +10,17 @@ namespace instruments {
 	class AbstractInstrument {
 	
 	public:
-		//AbstractInstrument();
-		//AbstractInstrument(instruments::currency domCurrency, instruments::currency forCurrency, utilities::date issueDate, utilities::date maturityDate);
-		//~AbstractInstrument();
-
 		//base class for all other instruments to be derived from
-		virtual utilities::date getIssueDate() =0;
-	    virtual utilities::date getMaturityDate()=0;
-		virtual void setIssueDate(utilities::date issueDate)=0;
-		virtual void setMaturityDate(utilities::date maturityDate)=0;
+		virtual date getIssueDate() =0;
+	    virtual date getMaturityDate()=0;
+		virtual void setIssueDate(date tradeDate)=0;
+		virtual void setMaturityDate(date maturityDate)=0;
 
 	protected: 
-		instruments::currency domCurrency;
-		instruments::currency forCurrency;
-		utilities::date tradeDate;
-		utilities::date maturityDate;
+		currency _domCurrency;
+		currency _forCurrency;
+		date _tradeDate;
+		date _maturityDate;
 
 		
 	};
