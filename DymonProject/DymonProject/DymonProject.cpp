@@ -25,13 +25,11 @@ void CashFlowTest();
 int _tmain(int argc, _TCHAR* argv[])
 {
 	//DateUtilTest();
-	RecordTest();
+	//RecordTest();
 	//CashFlowTest();
-    //CashFlowLegTest();
+    CashFlowLegTest();
 
-	char c;
-	while( cin.get(c) != "\n" )
-	;
+	
 }
 
 void ZeroTest(){
@@ -193,7 +191,7 @@ void CashFlowLegTest() {
 	//build from start to end (build forward)
 	int buildDirection=1;
 	RecordHelper::HolidayMap holidayMap;
-	bool rollAccuralDates=true;
+	bool rollAccuralDates=false;
 
 	currency cashFlowLegCurr=currency(enums::USD,enums::ACT_360, enums::ACT_ACT, enums::Mfollowing, paymentFreq,1);
 

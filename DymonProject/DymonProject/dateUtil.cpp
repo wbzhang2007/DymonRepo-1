@@ -225,6 +225,8 @@ date dateUtil::getEndDate(date startDate, int numMonth, bool adjustInvalidDay){
 	short startMonth = startDate.getMonth();
 	short endMonth;
 
+	//modified to cater for negative month offset cases -Kun 15 Dec
+
 	short endYear;
 	if ((startMonth+numMonth)<0) {
 		int interim=ceil(-(startMonth + numMonth)/12.0)*12;
@@ -235,7 +237,10 @@ date dateUtil::getEndDate(date startDate, int numMonth, bool adjustInvalidDay){
 		endYear= startDate.getYear()+(startMonth + numMonth)/12;
 	}
 	date endDate(endYear, endMonth, startDate.getDay());
+	 
 	endDate = adjustInvalidateDate(endDate);
+
+	
 	return endDate;
 }
 
