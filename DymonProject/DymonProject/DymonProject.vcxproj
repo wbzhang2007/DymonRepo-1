@@ -87,6 +87,7 @@
     <ClInclude Include="AbstractDataStructure.h" />
     <ClInclude Include="AbstractInterpolator.h" />
     <ClInclude Include="AbstractNumerical.h" />
+    <ClInclude Include="AbstractPricer.h" />
     <ClInclude Include="AbstractSession.h" />
     <ClInclude Include="AbstractSurface.h" />
     <ClInclude Include="Bisection.h" />

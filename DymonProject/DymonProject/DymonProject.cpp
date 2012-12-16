@@ -25,9 +25,9 @@ void CashFlowTest();
 int _tmain(int argc, _TCHAR* argv[])
 {
 	//DateUtilTest();
-	RecordTest();
+	//RecordTest();
 	//CashFlowTest();
-    //CashFlowLegTest();
+    CashFlowLegTest();
 
 	
 }

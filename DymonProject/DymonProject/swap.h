@@ -14,6 +14,7 @@
 #include "cashflow.h"
 #include "cashflowLeg.h"
 #include "BuilderCashFlowLeg.h"
+#include "RecordHelper.h"
 
 using namespace utilities;
 using namespace std;
@@ -24,8 +25,12 @@ namespace instruments {
 	public:
 		//tuple<double rate,date historicalDates,double tenors> floatLegBenchMark
 		//contains the Libors obervations historicals across tenors
-		swap(double notional,double fixLegRate, double floatLegSpread, tuple<double,date,double> floatLegBenchMark,date isueDate, date maturityDate, currency fixLegCurr, currency floatLegCurr);
+		swap(date tradeDate, date maturityDate, double notional, double couponRate, vector<double> FLiborRate, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, RecordHelper::HolidayMap holidayMap);
+
 		~swap();
+
+		cashflowLeg getCashflowLegFix();
+		cashflowLeg getCashflowLegFloat();
 
 		/*double getParRate();
 		vector<date> getFloatingFixingDate();
@@ -39,7 +44,11 @@ namespace instruments {
 
 	protected:
 
+
 	private:
+
+		cashflowLeg _fixCashflowLeg;
+		cashflowLeg _floatingCashflowLeg;
 		//double _fixLegRate;
 		//double _floatLegSpread;
 		//tuple<double,date,double> _floatLegBenchMark; //example: Libor floating rate
