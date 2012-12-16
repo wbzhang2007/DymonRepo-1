@@ -298,6 +298,59 @@ void CashFlowLegTest() {
 	cout << "******** CashFlow ReverseBuild Test ends***********************" << endl;
 	cout<<"****************************************************"<<endl;
 
+	int tenorNumMonth=12;
+
+	BuilderCashFlowLeg testCashFlowLegTenor(startDate, tenorNumMonth, couponRate, notional,  paymentFreq, cashFlowLegCurr,rollAccuralDates,holidayMap);
+
+	
+	cout<<"**********************************************"<<endl;
+	cout << "******** CashFlowLeg TenorBuild Test starts********" << endl;
+
+	std::vector<cashflow> cfVectorT=testCashFlowLegTenor.getCashFlowLeg().getCashFlowVector();
+	std::vector<cashflow>::iterator itT=cfVectorT.begin();
+
+	cout<<"start date=";
+	startDate.printDate();
+	cout<<endl;
+
+	cout<<"tenorNumOfMonths="<<tenorNumMonth<<endl;
+	
+	cout<<endl;
+
+	cout<<endl;
+	i=0;
+	for (;itT!=cfVectorT.end();itT++) {
+	 cashflow aCF(*itT);
+	 cout<<"*********CF stream #"<<++i<<"****************"<<endl;
+	 cout<<"fixingDate=";
+	 aCF.getFixingDate().printDate();
+	 cout<<endl;
+	 cout<<"accuralStartDate=";
+	 aCF.getAccuralStartDate().printDate();
+	 cout<<endl;
+	 cout<<"accuralEndDate=";
+	 aCF.getAccuralEndDate().printDate();
+	 cout<<endl;
+	 cout<<"paymentDate=";
+	 aCF.getPaymentDate().printDate();
+	 cout<<endl;
+	 cout<<"accuralFactor=";
+	 
+
+	 cout<<aCF.getAccuralFactor()<<endl;
+	 cout<<"couponAmonunt=";
+
+	 cout<<aCF.getCouponAmount()<<endl;
+	 cout<<"notional=";
+	 cout<<aCF.getNotional()<<endl;
+	 cout<<endl;
+	 
+	}
+
+	cout <<"Total number of CF streams="<<i<<endl;
+	cout << "******** CashFlowLeg TenorBuild Test ends***********************" << endl;
+	cout<<"****************************************************"<<endl;
+
 	string s;
 	getline(cin,s);
 }
