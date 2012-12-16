@@ -9,7 +9,7 @@ using namespace std;
 typedef tuple<date, double> point;
 typedef AbstractCurve super;
 
-void YieldCurve::insertLineSection(const AbstractInterpolator& lineSection){
+void YieldCurve::insertLineSection(AbstractInterpolator* lineSection){
 	super::insertLineSection(lineSection);
 }
 
@@ -19,4 +19,8 @@ double YieldCurve::getValue(date date0){
 
 double YieldCurve::getDiscountFactor(date date0){
 	return exp(-getValue(date0));
+}
+
+std::string YieldCurve::toString(){
+	return "Yield "+AbstractCurve::toString();
 }

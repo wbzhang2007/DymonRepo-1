@@ -13,13 +13,13 @@ namespace utilities{
 
 		YieldCurve(std::vector<AbstractInterpolator>* lineSectionVector):AbstractCurve(lineSectionVector){};
 
-		void insertLineSection(const AbstractInterpolator& lineSection);
+		void insertLineSection(AbstractInterpolator* lineSection);
 
 		double getValue(date date0);
 
 		double getDiscountFactor(date Date0);
 
-		void toString();
+		std::string toString();
 	};
 }
 #endif
