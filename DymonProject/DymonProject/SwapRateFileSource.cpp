@@ -21,8 +21,8 @@ SwapRateFileSource::SwapRateFileSource(std::string persistDir, std::string fileN
 SwapRateFileSource::~SwapRateFileSource(){}
 
 void SwapRateFileSource::init(Configuration* cfg){
-	_fileName = cfg->getProperty("swapRate.file",true);
-	_persistDir = cfg->getProperty("swapRate.path",false);
+	_fileName = cfg->getProperty("swapRate.file",true,"");
+	_persistDir = cfg->getProperty("swapRate.path",false,"");
 	AbstractFileSource::init(cfg);
 }
 

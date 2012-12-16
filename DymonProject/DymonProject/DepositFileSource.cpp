@@ -21,8 +21,8 @@ DepositFileSource::DepositFileSource(std::string persistDir, std::string fileNam
 DepositFileSource::~DepositFileSource(){}
 
 void DepositFileSource::init(Configuration* cfg){
-	_fileName = cfg->getProperty("depositRate.file",true);
-	_persistDir = cfg->getProperty("depositRate.path",false);
+	_fileName = cfg->getProperty("depositRate.file",true,"");
+	_persistDir = cfg->getProperty("depositRate.path",false,"");
 	AbstractFileSource::init(cfg);
 }
 

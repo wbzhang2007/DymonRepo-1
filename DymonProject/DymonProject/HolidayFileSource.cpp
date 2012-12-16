@@ -21,8 +21,8 @@ HolidayFileSource::HolidayFileSource(std::string persistDir, std::string fileNam
 HolidayFileSource::~HolidayFileSource(){}
 
 void HolidayFileSource::init(Configuration* cfg){
-	_fileName = cfg->getProperty("holiday.file",true);
-	_persistDir = cfg->getProperty("holiday.path",false);
+	_fileName = cfg->getProperty("holiday.file",true,"");
+	_persistDir = cfg->getProperty("holiday.path",false,"");
 	AbstractFileSource::init(cfg);
 }
 
