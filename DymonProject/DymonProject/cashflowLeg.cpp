@@ -5,6 +5,8 @@
 #include <math.h>
 #include <stdio.h>
 #include <iterator>
+#include <iostream>
+#include <sstream>
 
 using namespace utilities;
 using namespace std;
@@ -53,5 +55,16 @@ namespace instruments {
 			aCF.printCashFlow();
 
 		}
+	}
+
+	void cashflowLeg::printTimeLine() {
+		std::stringstream ss (stringstream::in | stringstream::out);
+		ss<<"Time Line: \n";
+		std::vector<cashflow>::iterator itT=_cashflowLeg.begin();
+		for (;itT!=_cashflowLeg.end();itT++) {
+			cashflow aCF=*itT;
+			ss<<aCF.getAccuralStartDate().toString()<<"\n";
+		}
+		cout<<ss.str()<<endl;
 	}
 }

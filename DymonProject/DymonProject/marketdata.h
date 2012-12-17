@@ -9,10 +9,12 @@
 #include <map>
 #include <utility>
 #include <tuple>
+#include "Enums.h"
 
 using namespace utilities;
 using namespace instruments;
 using namespace std;
+using namespace enums;
 
 namespace markets {
 
@@ -24,7 +26,7 @@ namespace markets {
 		void setPrice(double aPrice);
 
 		template <class T>
-		map<double,vector<T>> getYieldCurve(vector<T> inputPoints, date startTenor, date endTenor, AbstractInterpolator::interpolAlgo algo);
+		map<double,vector<T>> getYieldCurve(vector<T> inputPoints, date startTenor, date endTenor, enums::interpolAlgo algo);
 		
 		template <class T>
 		map<double,tuple<T,T>> getVolSurface(double underlyingPrice, vector<double> delta, date tradeDate, vector<date> maturity);
@@ -33,13 +35,13 @@ namespace markets {
 		map<double,tuple<T,T,T>> swaptionVolSurface(double underlyingPrice, vector<double> delta, date tradeDate, vector<date> swapMaturity, vector<date> optionMaturity);
 
 		template <class T>
-		map<double,vector<T>> getBondCurve(vector<T> inputPoints, date startTenor, date endTenor, AbstractInterpolator::interpolAlgo algo);
+		map<double,vector<T>> getBondCurve(vector<T> inputPoints, date startTenor, date endTenor, enums::interpolAlgo algo);
 
 		template <class T>
-		map<double,vector<T>> getFxForwardCurve(vector<T> inputPoints, date startTenor, date endTenor, AbstractInterpolator::interpolAlgo algo);
+		map<double,vector<T>> getFxForwardCurve(vector<T> inputPoints, date startTenor, date endTenor, enums::interpolAlgo algo);
 
 		template <class T>
-		map<double,vector<T>> getImpliedYieldCurve(vector<T> inputPoints, date startTenor, date endTenor, AbstractInterpolator::interpolAlgo algo);
+		map<double,vector<T>> getImpliedYieldCurve(vector<T> inputPoints, date startTenor, date endTenor, enums::interpolAlgo algo);
 
 	protected:
 		//private copy constructor

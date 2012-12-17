@@ -34,7 +34,6 @@ namespace instruments {
 		BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,vector<double> FLiborRate,double notional, int paymentFreq, currency cashFlowLegCurr,bool rollAccuralDates,RecordHelper::HolidayMap holidayMap);
 
 		~BuilderCashFlowLeg();
-
 		cashflowLeg getCashFlowLeg();
 		
 	private:

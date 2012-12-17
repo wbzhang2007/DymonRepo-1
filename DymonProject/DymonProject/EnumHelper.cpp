@@ -50,3 +50,23 @@ enums::DayCountEnum EnumHelper::getDayCountEnum(std::string dayCount){
 		return BUS_252;
 	throw "Day count name not foud: "+dayCount;
 }
+
+enums::interpolAlgo EnumHelper::getInterpolAlgo(std::string interpolAlgo){
+	if (interpolAlgo == "LINEAR")
+		return LINEAR;
+	else if ( interpolAlgo == "LOGLINEAR")
+		return LOGLINEAR;
+	throw "Interpolation algo not foud: "+interpolAlgo;
+}
+
+enums::NumericAlgo EnumHelper::getNumericalAlgo(std::string numericalAlgo){
+	if (numericalAlgo == "BISECTION")
+		return BISECTION;
+	else if ( numericalAlgo == "RIDDER")
+		return RIDDER;
+	else if ( numericalAlgo == "SECANT")
+		return SECANT;
+	else if ( numericalAlgo == "FALSEPOSITION")
+		return FALSEPOSITION;
+	throw "Numerical algo not foud: "+numericalAlgo;
+}

@@ -12,8 +12,6 @@ namespace utilities{
 
 		typedef tuple<date, double> point;
 
-		enum interpolAlgo{LINEAR,LOGLINEAR};
-
 		AbstractInterpolator(point startPoint, point endPoint);
 
 		vector<point> interpolateM(std::vector<date> dates);

@@ -17,9 +17,9 @@ namespace utilities{
 	public:
 		typedef tuple<date, double> point;
 
-		virtual void init(Configuration* cfg);
+		virtual void init(Configuration* cfg){};
 
-		AbstractBootStrapper(point startPoint, date endDate,AbstractInterpolator::interpolAlgo interpolAlgo,
+		AbstractBootStrapper(point startPoint, date endDate,enums::interpolAlgo interpolAlgo,
 		enums::NumericAlgo numericAlgo){
 			_startPoint = startPoint;
 			_endDate = endDate;
@@ -27,9 +27,9 @@ namespace utilities{
 			_numericAlgo = numericAlgo;
 		}
 
-		virtual AbstractInterpolator* bootStrap();
+		virtual AbstractInterpolator* bootStrap(){return NULL;};
 
-		virtual double numericalFunc(double x);
+		virtual double numericalFunc(double x){return 0;};
 
 	protected:
 	
@@ -37,7 +37,7 @@ namespace utilities{
 
 		date _endDate;
 
-		AbstractInterpolator::interpolAlgo _interpolAlgo;
+		enums::interpolAlgo _interpolAlgo;
 
 		enums::NumericAlgo _numericAlgo; 
 
