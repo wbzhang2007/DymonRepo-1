@@ -20,7 +20,8 @@ NumericalFactory* NumericalFactory::getInstance()
 AbstractNumerical* NumericalFactory::getNumerical(targetFuncT* func, AbstractNumerical::NumericAlgo algo){
 	switch (algo){
 	case AbstractNumerical::NEWTON:
-		return new Newton(func);
+		//return new Newton(func);
+		//function signiture for newtons needs to be modified
 	case AbstractNumerical::BISECTION:
 		return new Bisection(func);
 	default:

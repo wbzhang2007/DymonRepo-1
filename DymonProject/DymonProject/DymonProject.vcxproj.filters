@@ -176,6 +176,15 @@
     <ClInclude Include="AbstractPricer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Secant.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ridder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FalsePosition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -284,6 +293,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EnumHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FalsePosition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Secant.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ridder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

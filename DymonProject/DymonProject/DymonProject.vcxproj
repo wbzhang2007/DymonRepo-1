@@ -102,6 +102,9 @@
     <ClInclude Include="CurrencyFileSource.h" />
     <ClInclude Include="DepositRateBootStrapper.h" />
     <ClInclude Include="EnumHelper.h" />
+    <ClInclude Include="FalsePosition.h" />
+    <ClInclude Include="Ridder.h" />
+    <ClInclude Include="Secant.h" />
     <ClInclude Include="YieldCurveBuilder.h" />
     <ClInclude Include="date.h" />
     <ClInclude Include="dateUtil.h" />
@@ -152,6 +155,7 @@
     <ClCompile Include="DepositRateBootStrapper.cpp" />
     <ClCompile Include="DymonProject.cpp" />
     <ClCompile Include="EnumHelper.cpp" />
+    <ClCompile Include="FalsePosition.cpp" />
     <ClCompile Include="InterpolatorFactory.cpp" />
     <ClCompile Include="LinearInterpolator.cpp" />
     <ClCompile Include="LogLinearInterpolator.cpp" />
@@ -162,6 +166,8 @@
     <ClCompile Include="fileUtil.cpp" />
     <ClCompile Include="HolidayFileSource.cpp" />
     <ClCompile Include="marketdata.cpp" />
+    <ClCompile Include="Ridder.cpp" />
+    <ClCompile Include="Secant.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
