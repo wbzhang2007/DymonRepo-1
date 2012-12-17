@@ -6,26 +6,22 @@ using namespace std;
 
 #ifndef ABSTRACTNUMERICAL_H
 #define ABSTRACTNUMERICAL_H
+#include "TestNumerical.h"
 
 
 namespace utilities{
-	class AbstractNumerical{
+	template<typename T> class AbstractNumerical{
 
 	public:
-		
-		enum NumericAlgo {BISECTION, NEWTON};
 
-		typedef double (*targetFuncT) (double d);
-
-		AbstractNumerical(targetFuncT* func){};
+		AbstractNumerical(T* callerObj){_callerObj=callerObj;};
 
 		virtual double findRoot(double startVal, double endVal, double tolerance, int iterateCount){return 0;}
-
-	protected:
-
-		targetFuncT _func;
-
 		
+	protected:
+		
+		T* _callerObj;
+
 	};
 }
 #endif

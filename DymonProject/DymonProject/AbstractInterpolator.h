@@ -10,9 +10,9 @@ namespace utilities{
 
 	public:
 
-		enum interpolAlgo{LINEAR,LOGLINEAR};
-
 		typedef tuple<date, double> point;
+
+		enum interpolAlgo{LINEAR,LOGLINEAR};
 
 		AbstractInterpolator(point startPoint, point endPoint);
 
@@ -31,6 +31,8 @@ namespace utilities{
 		virtual std::string toString();
 
 	protected:
+
+		void dateInRangeCheck(date date0);
 
 		point _startPoint;
 		

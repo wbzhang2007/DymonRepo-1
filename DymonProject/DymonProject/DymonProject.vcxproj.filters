@@ -185,6 +185,12 @@
     <ClInclude Include="FalsePosition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TestNumerical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestInterpolator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -259,14 +265,8 @@
     <ClCompile Include="YieldCurve.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Bisection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Newton.h">
       <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Newton.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cashflowLeg.cpp">
       <Filter>Source Files</Filter>
@@ -275,9 +275,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="InterpolatorFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NumericalFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SwapRateBootStrapper.cpp">
@@ -295,13 +292,10 @@
     <ClCompile Include="EnumHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FalsePosition.cpp">
+    <ClCompile Include="TestNumerical.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Secant.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Ridder.cpp">
+    <ClCompile Include="TestInterpolator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

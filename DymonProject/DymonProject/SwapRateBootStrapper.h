@@ -14,12 +14,10 @@ namespace utilities {
 		
 		typedef tuple<date, double> point;
 
-		typedef double (*targetFuncT) (double d);
-
 		void init(Configuration* cfg);
 
 		SwapRateBootStrapper(point startPoint, date endDate, double swapRate, vector<date>* timeLine, YieldCurve* curve, AbstractInterpolator::interpolAlgo interpolAlgo,
-			AbstractNumerical::NumericAlgo numericAlgo, enums::DayCountEnum dayCount):AbstractBootStrapper(startPoint, endDate, interpolAlgo, numericAlgo){
+			enums::NumericAlgo numericAlgo, enums::DayCountEnum dayCount):AbstractBootStrapper(startPoint, endDate, interpolAlgo, numericAlgo){
 			_curve = curve;
 			_swapRate = swapRate;
 			_timeLine = *timeLine;

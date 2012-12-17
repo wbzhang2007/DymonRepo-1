@@ -12,12 +12,14 @@
 #include <vector>
 #include "Enums.h"
 #include "swap.h"
-
+#include "TestNumerical.h"
+#include "TestInterpolator.h"
 
 using namespace utilities;
 using namespace std;
 using namespace instruments;
 using namespace Session;
+using namespace UnitTest;
 
 void RecordTest();
 void DateUtilTest();
@@ -31,8 +33,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	//RecordTest();
 	//CashFlowTest();
     //CashFlowLegTest();
-
-	SwapTest();
+	TestNumerical numericalTest;
+	numericalTest.runTest();
+	TestInterpolator interpolatorTest;
+	interpolatorTest.runTest();
+	//SwapTest();
 
 	
 }
@@ -184,7 +189,7 @@ void CashFlowTest() {
 
 }
 
-void CashFlowLegTest() {
+void CashFlowLegTest()  {
 	date startDate(2013,11,2);
 	date maturityDate(2015,2,6);
 	//date accuralStartDate(2013,11,3);

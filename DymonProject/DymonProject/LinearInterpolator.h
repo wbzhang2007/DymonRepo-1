@@ -12,6 +12,9 @@ namespace utilities{
 
 		point interpolate(date date0);
 
+	private:
+
+		double _slope;
 	};
 }
 #endif
