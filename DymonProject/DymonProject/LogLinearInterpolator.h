@@ -11,7 +11,10 @@ namespace utilities{
 		LogLinearInterpolator(point startPoint, point endPoint);
 
 		point interpolate(date date0);
+		
+	private:
 
+		double _slope;
 	};
 }
 #endif

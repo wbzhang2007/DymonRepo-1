@@ -105,6 +105,7 @@
     <ClInclude Include="FalsePosition.h" />
     <ClInclude Include="Ridder.h" />
     <ClInclude Include="Secant.h" />
+    <ClInclude Include="TestInterpolator.h" />
     <ClInclude Include="TestNumerical.h" />
     <ClInclude Include="YieldCurveBuilder.h" />
     <ClInclude Include="date.h" />
@@ -169,6 +170,7 @@
     </ClCompile>
     <ClCompile Include="swap.cpp" />
     <ClCompile Include="SwapRateFileSource.cpp" />
+    <ClCompile Include="TestInterpolator.cpp" />
     <ClCompile Include="TestNumerical.cpp" />
     <ClCompile Include="YieldCurve.cpp" />
     <ClCompile Include="SwapRateBootStrapper.cpp" />

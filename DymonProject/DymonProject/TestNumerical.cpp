@@ -52,8 +52,8 @@ double TestNumerical::func(double x){
 void TestNumerical::compareResult(string testName, double derivedVal, double expectedVal, double startVal, double endVal){
 	std::stringstream ss (stringstream::in | stringstream::out);
 	if (abs(derivedVal-expectedVal)>_EPSILON)
-		ss<<"Newton Test Failed: startVal["<<startVal<<"], endVal["<<endVal<<"], root found ["<<derivedVal<<"], desired root ["<<expectedVal<<"]";
+		ss<<testName<<" Test Failed: startVal["<<startVal<<"], endVal["<<endVal<<"], root found ["<<derivedVal<<"], desired root ["<<expectedVal<<"]";
 	else
-		ss<<"Newton Test Passed: startVal["<<startVal<<"], endVal["<<endVal<<"], root found ["<<derivedVal<<"]";
+		ss<<testName<<" Test Passed: startVal["<<startVal<<"], endVal["<<endVal<<"], root found ["<<derivedVal<<"]";
 	cout<<ss.str()<<endl;
 }

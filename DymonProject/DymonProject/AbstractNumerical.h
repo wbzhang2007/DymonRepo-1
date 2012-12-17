@@ -16,7 +16,7 @@ namespace utilities{
 
 		AbstractNumerical(T* callerObj){_callerObj=callerObj;};
 
-		virtual float findRoot(float startVal, float endVal, float tolerance, int iterateCount){return 0;}
+		virtual double findRoot(double startVal, double endVal, double tolerance, int iterateCount){return 0;}
 		
 	protected:
 		

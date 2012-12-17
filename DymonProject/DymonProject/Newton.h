@@ -16,7 +16,7 @@ namespace utilities{
 
 		Newton(T* callerObj, void (T::*func)(float,float *, float *)):AbstractNumerical(callerObj){_func = func;};
 
-		float findRoot(float x1, float x2, float xacc, int iterateCount);
+		double findRoot(double x1, double x2, double xacc, int iterateCount);
 
 	private:
 
@@ -24,7 +24,7 @@ namespace utilities{
 	};
 
 	template <class T>
-	float Newton<T>::findRoot(float x1, float x2, float xacc, int iterateCount){
+	double Newton<T>::findRoot(double x1, double x2, double xacc, int iterateCount){
 
 		int j;
 		float df,dx,dxold,f,fh,fl;

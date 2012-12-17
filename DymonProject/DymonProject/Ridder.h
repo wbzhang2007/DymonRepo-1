@@ -12,7 +12,7 @@ namespace utilities{
 
 		Ridder(T* callerObj, double (T::*func) (double d)):AbstractNumerical(callerObj){_func = func;};
 
-		float findRoot(float x1, float x2, float xacc, int iterateCount);
+		double findRoot(double x1, double x2, double xacc, int iterateCount);
 		
 	private:
 
@@ -20,10 +20,10 @@ namespace utilities{
 	};
 
 	template<typename T> 
-	float Ridder<T>::findRoot(float x1, float x2, float xacc, int iterateCount){
+	double Ridder<T>::findRoot(double x1, double x2, double xacc, int iterateCount){
 
 		int j;
-		float ans,fh,fl,fm,fnew,s,xh,xl,xm,xnew;
+		double ans,fh,fl,fm,fnew,s,xh,xl,xm,xnew;
 
 		fl=(*_callerObj.*_func)(x1);
 		fh=(*_callerObj.*_func)(x2);

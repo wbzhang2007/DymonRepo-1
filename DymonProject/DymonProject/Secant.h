@@ -11,7 +11,7 @@ namespace utilities{
 
 		Secant(T* callerObj, double (T::*func) (double d)):AbstractNumerical(callerObj){_func = func;};
 
-		float findRoot(float x1, float x2, float xacc, int iterateCount);
+		double findRoot(double x1, double x2, double xacc, int iterateCount);
 
 	private:
 
@@ -20,7 +20,7 @@ namespace utilities{
 	};
 
 	template <class T> 	
-	float Secant<T>::findRoot(float x1, float x2, float xacc, int iterateCount){
+	double Secant<T>::findRoot(double x1, double x2, double xacc, int iterateCount){
 
 		int j;
 		double fl,f,dx,temp,xl,rts;

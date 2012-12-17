@@ -11,7 +11,7 @@ namespace utilities{
 
 		Bisection(T* callerObj, double (T::*func) (double d)):AbstractNumerical(callerObj){_func = func;};
 
-		float findRoot(float startVal, float endVal, float tolerance, int iterateCount);
+		double findRoot(double startVal, double endVal, double tolerance, int iterateCount);
 
 	private:
 
@@ -20,7 +20,7 @@ namespace utilities{
 	};
 
 	template <class T> 
-	float Bisection<T>::findRoot(float startVal, float endVal, float tolerance, int iterateCount){
+	double Bisection<T>::findRoot(double startVal, double endVal, double tolerance, int iterateCount){
 
 		if ((*_callerObj.*_func)(startVal)*(*_callerObj.*_func)(endVal)>0)
 			throw "Invalid startVal or endVal!";
@@ -29,8 +29,8 @@ namespace utilities{
 		if ((*_callerObj.*_func)(endVal)==0)
 			return endVal;
 
-		float midVal;
-		float y;
+		double midVal;
+		double y;
 		for (int i = 0; i < iterateCount; i++) {        
 			midVal = (startVal + endVal) / 2; 
 			y = (*_callerObj.*_func)(midVal);

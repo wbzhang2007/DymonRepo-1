@@ -188,6 +188,9 @@
     <ClInclude Include="TestNumerical.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TestInterpolator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -290,6 +293,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TestNumerical.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestInterpolator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

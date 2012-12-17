@@ -51,3 +51,15 @@ string AbstractInterpolator::toString(){
 	ss << std::get<0>(_endPoint).toString() << "," <<std::get<1>(_endPoint)<<"}";
 	return ss.str();
 }
+
+void AbstractInterpolator::dateInRangeCheck(date date0){
+	if (date0.getJudianDayNumber()<getStartingJDN()){
+		std::stringstream ss (stringstream::in | stringstream::out);
+		ss<<"Date ["<<date0.getJudianDayNumber()<<"] is smaller than the line section starting date ["<<getStartingJDN()<<"]";
+		throw ss.str();
+	}else if (date0.getJudianDayNumber()>getEndingJDN()){
+		std::stringstream ss (stringstream::in | stringstream::out);
+		ss<<"Date ["<<date0.getJudianDayNumber()<<"] is larger than the line section ending date ["<<getEndingJDN()<<"]";
+		throw ss.str();
+	}
+}

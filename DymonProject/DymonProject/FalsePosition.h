@@ -11,7 +11,7 @@ namespace utilities{
 
 		FalsePosition(T* callerObj, double (T::*func) (double d)):AbstractNumerical(callerObj){_func = func;};
 
-		float findRoot(float x1, float x2, float xacc, int iterateCount);
+		double findRoot(double x1, double x2, double xacc, int iterateCount);
 
 	private:
 
@@ -19,10 +19,10 @@ namespace utilities{
 	};
 
 	template <class T> 
-	float FalsePosition<T>::findRoot(float x1, float x2, float xacc, int iterateCount){
+	double FalsePosition<T>::findRoot(double x1, double x2, double xacc, int iterateCount){
 
 		int j;
-		float fl,fh,xl,xh,temp,dx,del,f,rtf;
+		double fl,fh,xl,xh,temp,dx,del,f,rtf;
 
 		fl=(*_callerObj.*_func)(x1);
 		fh=(*_callerObj.*_func)(x2);
