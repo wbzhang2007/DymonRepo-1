@@ -229,9 +229,9 @@ date dateUtil::getEndDate(date startDate, int numMonth, bool adjustInvalidDay){
 
 	short endYear;
 	if ((startMonth+numMonth)<0) {
-		int interim=ceil(-(startMonth + numMonth)/12.0)*12;
+		int interim=(int) ceil(-(startMonth + numMonth)/12.0)*12;
 		endMonth= (startMonth + numMonth+interim)%12;
-		endYear= startDate.getYear()-ceil((double)-(startMonth + numMonth)/12);
+		endYear= (short)( startDate.getYear()-ceil((double)-(startMonth + numMonth)/12));
 	} else {
 		endMonth = (startMonth + numMonth)%12;
 		endYear= startDate.getYear()+(startMonth + numMonth)/12;

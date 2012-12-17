@@ -12,12 +12,13 @@
 #include <vector>
 #include "Enums.h"
 #include "swap.h"
-
+#include "TestNumerical.h"
 
 using namespace utilities;
 using namespace std;
 using namespace instruments;
 using namespace Session;
+using namespace UnitTest;
 
 void RecordTest();
 void DateUtilTest();
@@ -31,8 +32,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	//RecordTest();
 	//CashFlowTest();
     //CashFlowLegTest();
-
-	SwapTest();
+	TestNumerical numericalTest;
+	numericalTest.runTest();
+	//SwapTest();
 
 	
 }

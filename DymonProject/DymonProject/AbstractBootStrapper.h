@@ -5,10 +5,12 @@
 #include "AbstractCurve.h"
 #include "AbstractInterpolator.h"
 #include "AbstractNumerical.h"
+#include "Enums.h"
 #include <vector>
 #include "AbstractSession.h"
 
 using namespace Session;
+using namespace enums;
 
 namespace utilities{
 	class AbstractBootStrapper: public AbstractSession{
@@ -18,7 +20,7 @@ namespace utilities{
 		virtual void init(Configuration* cfg);
 
 		AbstractBootStrapper(point startPoint, date endDate,AbstractInterpolator::interpolAlgo interpolAlgo,
-		AbstractNumerical::NumericAlgo numericAlgo){
+		enums::NumericAlgo numericAlgo){
 			_startPoint = startPoint;
 			_endDate = endDate;
 			_interpolAlgo = interpolAlgo;
@@ -37,7 +39,7 @@ namespace utilities{
 
 		AbstractInterpolator::interpolAlgo _interpolAlgo;
 
-		AbstractNumerical::NumericAlgo _numericAlgo; 
+		enums::NumericAlgo _numericAlgo; 
 
 		double _tolerance;
 

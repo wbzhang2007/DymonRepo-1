@@ -13,7 +13,7 @@ namespace utilities {
 		typedef tuple<date, double> point;
 
 		DepositRateBootStrapper(point startPoint, date endDate, double depositRate, vector<date>* timeLine, AbstractInterpolator::interpolAlgo interpolAlgo,
-		AbstractNumerical::NumericAlgo numericAlgo):AbstractBootStrapper(startPoint, endDate, interpolAlgo, numericAlgo){
+		enums::NumericAlgo numericAlgo):AbstractBootStrapper(startPoint, endDate, interpolAlgo, numericAlgo){
 			_depositRate = depositRate;
 			_timeLine = *timeLine;
 		};

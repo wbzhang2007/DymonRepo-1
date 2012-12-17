@@ -105,6 +105,7 @@
     <ClInclude Include="FalsePosition.h" />
     <ClInclude Include="Ridder.h" />
     <ClInclude Include="Secant.h" />
+    <ClInclude Include="TestNumerical.h" />
     <ClInclude Include="YieldCurveBuilder.h" />
     <ClInclude Include="date.h" />
     <ClInclude Include="dateUtil.h" />
@@ -141,7 +142,6 @@
     <ClCompile Include="AbstractFileSource.cpp" />
     <ClCompile Include="AbstractInterpolator.cpp" />
     <ClCompile Include="AbstractSession.cpp" />
-    <ClCompile Include="Bisection.cpp" />
     <ClCompile Include="BuilderCashFlowLeg.cpp" />
     <ClCompile Include="cashflow.cpp" />
     <ClCompile Include="cashflowLeg.cpp" />
@@ -155,25 +155,21 @@
     <ClCompile Include="DepositRateBootStrapper.cpp" />
     <ClCompile Include="DymonProject.cpp" />
     <ClCompile Include="EnumHelper.cpp" />
-    <ClCompile Include="FalsePosition.cpp" />
     <ClCompile Include="InterpolatorFactory.cpp" />
     <ClCompile Include="LinearInterpolator.cpp" />
     <ClCompile Include="LogLinearInterpolator.cpp" />
-    <ClCompile Include="Newton.cpp" />
     <ClCompile Include="Newton.h" />
-    <ClCompile Include="NumericalFactory.cpp" />
     <ClCompile Include="RecordHelper.cpp" />
     <ClCompile Include="fileUtil.cpp" />
     <ClCompile Include="HolidayFileSource.cpp" />
     <ClCompile Include="marketdata.cpp" />
-    <ClCompile Include="Ridder.cpp" />
-    <ClCompile Include="Secant.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="swap.cpp" />
     <ClCompile Include="SwapRateFileSource.cpp" />
+    <ClCompile Include="TestNumerical.cpp" />
     <ClCompile Include="YieldCurve.cpp" />
     <ClCompile Include="SwapRateBootStrapper.cpp" />
     <ClCompile Include="YieldCurveBuilder.cpp" />

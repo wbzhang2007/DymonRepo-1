@@ -19,12 +19,10 @@ void SwapRateBootStrapper::init(Configuration* cfg){
 
 AbstractInterpolator* SwapRateBootStrapper::bootStrap(){
 	
-	targetFuncT numericalFunc;
-		
 	_startIndex = findElementIndex(std::get<0>(_startPoint));
 	_endIndex = findElementIndex(_endDate);
 
-	AbstractNumerical* an = NumericalFactory::getInstance()->getNumerical(&numericalFunc,_numericAlgo);
+	AbstractNumerical<SwapRateBootStrapper>* an = NumericalFactory<SwapRateBootStrapper>::getInstance()->getNumerical(this,&SwapRateBootStrapper::numericalFunc,_numericAlgo);
 	double previousVal = std::get<1>(_startPoint);
 	double swapPointValue = an->findRoot(previousVal*(1-_plusMinus/100),previousVal*(1+_plusMinus/100),_tolerance,_iterateCount);
 
