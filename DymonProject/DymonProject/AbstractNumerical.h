@@ -1,6 +1,12 @@
 //created by Wang Jianwei on 01 Dec 2012
+#include <iostream>
+
+using namespace std;
+
+
 #ifndef ABSTRACTNUMERICAL_H
 #define ABSTRACTNUMERICAL_H
+
 
 namespace utilities{
 	class AbstractNumerical{
@@ -18,6 +24,8 @@ namespace utilities{
 	protected:
 
 		targetFuncT _func;
+
+		
 	};
 }
 #endif

@@ -366,11 +366,11 @@ void SwapTest() {
 	maturityDate.printDate();
 	cout<<endl;
 
-	cout<<"Fix Leg of Swap1 is:"<<endl;
+	cout<<"========================Fix Leg of Swap1 is:========================="<<endl;
 	swap1.printCashflowLegFix();
 
 
-	cout<<"Floating Leg of Swap1 is:"<<endl;
+	cout<<"========================Floating Leg of Swap1 is:===================="<<endl;
 	swap1.printCashflowLegFloat();
 
 

@@ -3,6 +3,8 @@
 #define ABSTRACTPRICER_H
 #include "currency.h"
 #include "date.h"
+#include <vector>
+#include <tuple>
 
 using namespace std;
 using namespace instruments;
@@ -14,9 +16,12 @@ namespace models {
 	public:
 		//base class for all other instruments to be derived from
 		AbstractPricer(){};
+		~AbstractPricer(){};
+		typedef tuple<int,double> point;
+		
+		template <class InstrumentType>
+		virtual double getPrice(InstrumentType aInstrumentType,vector<point> yieldCurve)=0;
 
-		template <class T>
-		virtual double getPrice(T,vector<double> yieldCurve)=0;
 	    /*virtual date getMaturityDate()=0;
 		virtual void setIssueDate(date tradeDate)=0;
 		virtual void setMaturityDate(date maturityDate)=0;*/
