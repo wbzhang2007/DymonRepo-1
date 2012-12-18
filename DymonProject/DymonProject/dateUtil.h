@@ -22,7 +22,7 @@ namespace utilities {
 
 	    static bool isBizDay(date date0);
 
-		static bool isHoliday(date aDate, std::string city);
+		static bool isHoliday(date aDate, enums::CurrencyEnum market);
 		
 		static date getToday();
 		static int getTodayYear();
@@ -31,10 +31,9 @@ namespace utilities {
 		static unsigned short* getYearMonthDay(long JDN);
 
 		//to be used by instruments namespaces to calc dates
-		static date getBizDate(date refDate, long bias, enums::DayRollEnum dayRollType, std::string city);
-		static date getEndDate(date refDate, int numMonth, bool adjustInvalidDay);
-		static date getEndDate(date refDate, int increment, bool adjustInvalidDay, DateUnit dateUnit, std::string city);
-		static date dayRollAdjust(date aDate,enums::DayRollEnum aDayRollConvention, std::string city);
+		static date getBizDate(date refDate, long bias, enums::DayRollEnum dayRollType, enums::CurrencyEnum market);
+		static date getEndDate(date refDate, int increment, enums::DayRollEnum dayRoll, enums::CurrencyEnum market, DateUnit dateUnit);
+		static date dayRollAdjust(date aDate,enums::DayRollEnum aDayRollConvention, enums::CurrencyEnum market);
 		static double getAccrualFactor(date startDate,date endDate, enums::DayCountEnum dayCount);
 		static DateUnit getDateUnit(char letterDateUnit);
 
@@ -43,12 +42,13 @@ namespace utilities {
 		static long getDaysBetween(long startJDN, long endJDN);		
 		static long getBizDaysBetween(long startJDN, long endJDN);
 	    static bool isBizDay(long JDN);
-		static bool isHoliday(long JDN, std::string city);
+		static bool isHoliday(long JDN, enums::CurrencyEnum market);
 		static bool isleapyear(unsigned short year);
-		static long getPrecedingJDN(long JDN, std::string city);
-		static long getFolloingJDN(long JDN, std::string city);
+		static long getPrecedingJDN(long JDN, enums::CurrencyEnum market);
+		static long getFolloingJDN(long JDN, enums::CurrencyEnum market);
 		static date adjustInvalidateDate(date aDate);
 		static double thirty_360(date startDate, date endDate);
+		static date getEndDateMonthIncrement(date refDate, int numMonth, enums::DayRollEnum dayRoll, enums::CurrencyEnum market);
 	};
 }
 

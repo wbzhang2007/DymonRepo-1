@@ -21,9 +21,9 @@ namespace Session {
 
 		void init(Configuration*);
 
-		typedef std::map<std::string, std::set<long>> HolidayMap;
+		typedef std::map<enums::CurrencyEnum, std::set<long>> HolidayMap;
 		
-		typedef std::map<std::string, std::map<long, double>> RateMap;
+		typedef std::map<enums::CurrencyEnum, std::map<long, double>> RateMap;
 		
 		typedef std::tuple<enums::DayCountEnum, enums::DayCountEnum, enums::DayRollEnum, enums::DayRollEnum, enums::DayRollEnum, enums::DayRollEnum> currencyTuple;
 

@@ -69,7 +69,7 @@ namespace utilities {
 
 	string date::toString(){
 		std::stringstream ss (stringstream::in | stringstream::out);
-		ss<<"Date {"<<getDay()<<"/"<<getMonth()<<"/"<<getYear()<<" - "<<_judianDayNumber<<"}";
+		ss<<getDay()<<"/"<<getMonth()<<"/"<<getYear()<<"-"<<_judianDayNumber;
 		return ss.str();
 	}
 }

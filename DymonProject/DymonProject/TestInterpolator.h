@@ -29,7 +29,7 @@ namespace UnitTest{
 
 		void logLinearTest(point startPoint, point endPoint, date targetDate, double tolerance, double expectedVal);
 
-		void compareResult(std::string testName, double derivedVal, double expectedVal, point startPoint, point endPoint, date targetDate);
+		bool compareResult(std::string testName, double derivedVal, double expectedVal, point startPoint, point endPoint, date targetDate);
 
 		std::string getString(point point0);
 

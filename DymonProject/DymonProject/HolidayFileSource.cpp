@@ -6,6 +6,8 @@
 #include "dateUtil.h"
 #include "date.h"
 #include "RecordHelper.h"
+#include "Enums.h"
+#include "EnumHelper.h"
 
 using namespace DAO;
 using namespace std;
@@ -30,16 +32,16 @@ void HolidayFileSource::retrieveRecord(){
 	AbstractFileSource::retrieveRecord();
 	
 	string value;
-	string currency;
+	enums::CurrencyEnum market;
 	RecordHelper::HolidayMap tempMap;
 	while (_inFile.good()){
 		_inFile>>value;
 		vector<string> vec = fileUtil::split(value,':');
-		currency = vec[0];
+		market = EnumHelper::getCcyEnum(vec[0]);
 		vector<string> holidays = fileUtil::split(vec[1],',');
-		cout<<currency<<" total holiday number:  "<<holidays.size()<<endl;
+		cout<<market<<" market has total holiday number:  "<<holidays.size()<<endl;
 		set<long> JDNSet = buildJDNSet(holidays);
-		tempMap.insert(pair<string,set<long>>(currency,JDNSet));
+		tempMap.insert(pair<enums::CurrencyEnum,set<long>>(market,JDNSet));
 	}
 	RecordHelper::getInstance()->setHolidayMap(tempMap);
 	_inFile.close();

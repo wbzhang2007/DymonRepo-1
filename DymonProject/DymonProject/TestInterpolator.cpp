@@ -68,7 +68,7 @@ void TestInterpolator::logLinearTest(point startPoint, point endPoint, date targ
 	compareResult("LogLinear Interpolation",derivedVal, expectedVal, startPoint, endPoint, targetDate);
 }
 
-void TestInterpolator::compareResult(string testName, double derivedVal, double expectedVal, point startPoint, point endPoint, date targetDate){
+bool TestInterpolator::compareResult(string testName, double derivedVal, double expectedVal, point startPoint, point endPoint, date targetDate){
 	std::stringstream ss (stringstream::in | stringstream::out);
 	if (abs(derivedVal-expectedVal)>_EPSILON)
 		ss<<testName<<" Test Failed: startPoint["<<getString(startPoint)<<"], endPoint["<<getString(endPoint)<<"], value found ["<<derivedVal<<"], desired value ["<<expectedVal<<"], date ["+targetDate.toString()+"]";

@@ -6,6 +6,8 @@
 #include "dateUtil.h"
 #include "date.h"
 #include "RecordHelper.h"
+#include "Enums.h"
+#include "EnumHelper.h"
 
 using namespace DAO;
 using namespace std;
@@ -30,14 +32,14 @@ void SwapRateFileSource::retrieveRecord(){
 	AbstractFileSource::retrieveRecord();
 	
 	string value;
-	string country;
+	enums::CurrencyEnum market;
 	RecordHelper::RateMap tempMap;
 	while (_inFile.good()){
 		_inFile>>value;
 		vector<string> vec = fileUtil::split(value,':');
-		country = vec[0];
+		market = EnumHelper::getCcyEnum(vec[0]);
 		vector<string> deposits = fileUtil::split(vec[1],',');
-		cout<<country<<" total swap rate number:  "<<deposits.size()<<endl;
+		cout<<market<<" market has total swap rate number:  "<<deposits.size()<<endl;
 
 		std::map<long, double> rateMap;
 		for (unsigned int i = 0; i<deposits.size(); i++)
@@ -47,11 +49,11 @@ void SwapRateFileSource::retrieveRecord(){
 			char letterDateUnit = *tenureRate[0].rbegin(); // 'Y'
 			int increment = std::stoi(tenureRate[0].substr(0,tenureRate[0].size()-1)); // 2
 			double swapRate = std::stod(tenureRate[1]); // 3.134
-			long JDN = dateUtil::getEndDate(dateUtil::getToday(),increment, true, dateUtil::getDateUnit(letterDateUnit), country).getJudianDayNumber();
+			long JDN = dateUtil::getEndDate(dateUtil::getToday(),increment, true, dateUtil::getDateUnit(letterDateUnit), market).getJudianDayNumber();
 			rateMap.insert(pair<long, double>(JDN, swapRate));
-			cout << country<< " -> " << tenureRate[0]<<" "<<JDN <<" "<< swapRate << endl;
+			cout << market<< " -> " << tenureRate[0]<<" "<<JDN <<" "<< swapRate << endl;
 		}
-		tempMap.insert(pair<string, map<long, double>>(country,rateMap));
+		tempMap.insert(pair<enums::CurrencyEnum, map<long, double>>(market,rateMap));
 	}
 	RecordHelper::getInstance()->setSwapRateMap(tempMap);
 	_inFile.close();

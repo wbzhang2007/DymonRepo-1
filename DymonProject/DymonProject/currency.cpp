@@ -10,13 +10,13 @@ using namespace instruments;
 using namespace utilities;
 using namespace Session;
 
-currency::currency(enums::CurrencyEnum currency) {
+currency::currency(enums::CurrencyEnum market) {
 	RecordHelper::currencyMap ccyMap = RecordHelper::getInstance()->getCurrencyMap();
-	RecordHelper::currencyTuple ccyTuple =  ccyMap[currency];
-	enums::DayCountEnum dayCountCashConvention = std::get<0>(ccyTuple);
-	enums::DayCountEnum dayCountSwapConvention = std::get<1>(ccyTuple);
-	enums::DayRollEnum dayRollCashConvention = std::get<2>(ccyTuple);
-	enums::DayRollEnum dayRollSwapConvention = std::get<3>(ccyTuple);
-	enums::DayRollEnum cashAccrualAdjust = std::get<4>(ccyTuple);
-	enums::DayRollEnum swapAccrualAdjust = std::get<5>(ccyTuple);	
+	RecordHelper::currencyTuple ccyTuple =  ccyMap[market];
+	setDayCountCashConvention(std::get<0>(ccyTuple));
+	setDayCountSwapConvention(std::get<1>(ccyTuple));
+	setDayRollCashConvention(std::get<2>(ccyTuple));
+	setDayRollSwapConvention(std::get<3>(ccyTuple));
+	setAccrualAdjustCashConvention(std::get<4>(ccyTuple));
+	setAccrualAdjustSwapConvention(std::get<5>(ccyTuple));	
 }

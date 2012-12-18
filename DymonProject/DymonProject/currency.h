@@ -15,7 +15,7 @@ namespace instruments {
 		currency(enums::CurrencyEnum);
 		~currency(){};
 
-		enums::CurrencyEnum getCurrencyName(){return _currencyName;}
+		enums::CurrencyEnum getCurrencyName(){return _marketName;}
 		enums::DayCountEnum getDayCountCashConvention(){return _dayCountCashConvention;}
 		enums::DayCountEnum getDayCountSwapConvention(){return _dayCountSwapConvention;}
 		enums::DayRollEnum getDayRollCashConvention(){return _dayRollCashConvention;}
@@ -23,7 +23,7 @@ namespace instruments {
 		enums::DayRollEnum getAccrualAdjustCashConvention(){return _accrualAdjustCashConvention;}
 		enums::DayRollEnum getAccrualAdjustSwapConvention(){return _accrualAdjustSwapConvention;}
 
-		void setCurrencyName(enums::CurrencyEnum currencyName){_currencyName = currencyName;}
+		void setCurrencyName(enums::CurrencyEnum marketName){_marketName = marketName;}
 		void setDayCountCashConvention(enums::DayCountEnum dayCountCashConvention){_dayCountCashConvention = dayCountCashConvention;}
 		void setDayCountSwapConvention(enums::DayCountEnum dayCountSwapConvention){_dayCountSwapConvention = dayCountSwapConvention;}
 		void setDayRollCashConvention(enums::DayRollEnum dayRollCashConvention){_dayRollCashConvention = dayRollCashConvention;}
@@ -32,7 +32,7 @@ namespace instruments {
 		void setAccrualAdjustSwapConvention(enums::DayRollEnum accrualAdjustSwapConvention){_accrualAdjustSwapConvention = accrualAdjustSwapConvention;}
 		
 	private:
-		enums::CurrencyEnum _currencyName;
+		enums::CurrencyEnum _marketName;
 		enums::DayCountEnum _dayCountCashConvention;
 		enums::DayCountEnum _dayCountSwapConvention;
 		enums::DayRollEnum _dayRollCashConvention;
