@@ -8,6 +8,8 @@
 #include "cashflowLeg.h"
 #include "BuilderCashFlowLeg.h"
 #include "RecordHelper.h"
+#include "SwapPricer.h"
+#include "AbstractPricer.h"
 
 using namespace instruments;
 using namespace utilities;

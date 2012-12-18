@@ -6,15 +6,16 @@
 #include <vector>
 #include <tuple>
 #include <map>
+#include "YieldCurve.h"
 
 using namespace std;
 using namespace instruments;
+using namespace utilities;
 
-
-namespace models {
-	//tuple<tenorNumofMonths,zeroRates>
-	typedef tuple<double,double> yieldCurvePoint;
-	typedef tuple<double,double> PV;
+namespace instruments {
+	//tuple<date,double>
+	typedef tuple<date,double> PV;
+	//typedef map<tuple<date,date>,double> FWDR;
 
 	//map<tuple<tenorNumofMonths,delta>, volatility>
 	typedef map<tuple<double,double>,double> volSurfacePoint;
@@ -27,10 +28,10 @@ namespace models {
 		~AbstractPricer(){};
 		
 		
-		template <class T, typename P> double getMPV(T aInstrument,vector<P> curve);
+		template <class T, class P> double getMPV(T aInstrument,YieldCurve curve);
 		
 		
-		template <class T, typename P> vector<PV> getPVLeg(T aInstrument,vector<P> curve, int fixOrFloating);
+		template <class T, class P> vector<PV> getPVLeg(T aInstrument,YieldCurve curve, int fixOrFloating);
 		
 
 	protected: 

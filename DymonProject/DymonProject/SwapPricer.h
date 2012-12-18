@@ -4,14 +4,14 @@
 #include "currency.h"
 #include "date.h"
 #include "AbstractPricer.h"
-#include "swap.h"
+
 #include "cashflowLeg.h"
 
 using namespace std;
 using namespace instruments;
 
 
-namespace models {
+namespace instruments {
 	class SwapPricer: public AbstractPricer {
 	
 	public:
@@ -22,24 +22,33 @@ namespace models {
 				
 		
 		
-		double getMPV(instruments::swap aSwap,vector<yieldCurvePoint> aYieldCurve);
+		virtual double getMPV(cashflowLeg fixCashflowLeg,cashflowLeg floatCashflowLeg,YieldCurve aYieldCurve);
 
-		vector<PV> getPVLeg(instruments::swap aSwap,vector<yieldCurvePoint> aYieldCurve,int fixOrFloating);
+		//fixOrFloating=-1 ==>floating
+		//fixOrFloating=1 ==>fixed
+
+		//vector<PV> getPVLeg(instruments::swap aSwap,YieldCurve aYieldCurve,int fixOrFloating);
 		
-		double getParRate(instruments::swap aSwap,vector<yieldCurvePoint> aYieldCurve);
+		virtual double getParRate(cashflowLeg floatCashflowLeg,cashflowLeg fixCashflowLeg,YieldCurve aYieldCurve);
+
+	protected:
+		virtual double getMPVFixLeg(cashflowLeg fixCashflowLeg,YieldCurve aYieldCurve);
+		virtual double getMPVFloatLeg(cashflowLeg floatCashflowLeg,YieldCurve aYieldCurve);
+		virtual double calFLiborRate(date forwardStartDate, date forwardEndDate, double accuralFactor);
 
 	private: 
 		double _MPV;
-		vector<PV> _PVLeg;
+		vector<PV> _PVFixLeg;
+		vector<PV> _PVFloatingLeg;
 		double _parRate;
 		cashflowLeg _fixCashflowLeg;
 		cashflowLeg _floatCashflowLeg;
+		//vector<FWDR> _FLiborRate;
 
-		instruments::swap _swapToBePriced;
-		vector<yieldCurvePoint> _pricingYieldCurve;
+		//instruments::swap _swapToBePriced;
+		YieldCurve _pricingYieldCurve;
 
-		double getMPVFixLeg(cashflowLeg fixCashflowLeg,vector<yieldCurvePoint> aYieldCurve);
-		double getMPVFloatLeg(cashflowLeg floatCashflowLeg,vector<yieldCurvePoint> aYieldCurve);
+	
 	};
 }
 #endif
