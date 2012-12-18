@@ -21,7 +21,7 @@ void DepositRateBootStrapper::init(Configuration* cfg){
 AbstractInterpolator* DepositRateBootStrapper::bootStrap(){
 
 	double accrualFactor = dateUtil::getAccrualFactor(_timeLine[0],_endDate, _dayCount);
-	double cashPointValue = log(1+accrualFactor*_depositRate);
+	double cashPointValue = log(1+accrualFactor*_depositRate)/accrualFactor;
 
 	AbstractInterpolator* ai = InterpolatorFactory::getInstance()->getInterpolator(_startPoint, point(_endDate,cashPointValue) , _interpolAlgo);
 	return ai;

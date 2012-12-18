@@ -14,13 +14,17 @@ AbstractCurve::AbstractCurve(std::vector<AbstractInterpolator>* lineSectionVecto
 }
 
 void AbstractCurve::insertLineSection(AbstractInterpolator* lineSection){
-	for (unsigned int i = 0; i<_lineSectionVector->size(); i++){
-		long iterateStartingJDN = _lineSectionVector->at(i).getStartingJDN();
-		if (iterateStartingJDN>=(*lineSection).getStartingJDN()){
-			if (iterateStartingJDN<(*lineSection).getEndingJDN()){
-				throw "LineSection miss match: "+ lineSection->toString();
+	if (_lineSectionVector->size()==0){
+		_lineSectionVector->insert(_lineSectionVector->begin(),*lineSection);
+	} else{
+		for (unsigned int i = 0; i<_lineSectionVector->size(); i++){
+			long iterateStartingJDN = _lineSectionVector->at(i).getStartingJDN();
+			if (iterateStartingJDN>=(*lineSection).getStartingJDN()){
+				if (iterateStartingJDN<(*lineSection).getEndingJDN()){
+					throw "LineSection miss match: "+ lineSection->toString();
+				}
+				_lineSectionVector->insert(_lineSectionVector->begin()+i,*lineSection);
 			}
-			_lineSectionVector->insert(_lineSectionVector->begin()+i,*lineSection);
 		}
 	}
 }
