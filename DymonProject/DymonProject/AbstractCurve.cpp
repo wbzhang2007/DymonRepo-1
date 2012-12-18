@@ -17,15 +17,20 @@ void AbstractCurve::insertLineSection(AbstractInterpolator* lineSection){
 	if (_lineSectionVector->size()==0){
 		_lineSectionVector->insert(_lineSectionVector->begin(),*lineSection);
 	} else{
-		for (unsigned int i = 0; i<_lineSectionVector->size(); i++){
-			long iterateStartingJDN = _lineSectionVector->at(i).getStartingJDN();
-			if (iterateStartingJDN>=(*lineSection).getStartingJDN()){
-				if (iterateStartingJDN<(*lineSection).getEndingJDN()){
-					throw "LineSection miss match: "+ lineSection->toString();
-				}
-				_lineSectionVector->insert(_lineSectionVector->begin()+i,*lineSection);
-			}
-		}
+		int vectorSize = _lineSectionVector->size();
+		_lineSectionVector->insert(_lineSectionVector->begin()+vectorSize,*lineSection);
+		//for (unsigned int i = 0; i<_lineSectionVector->size(); i++){
+		//	long iterateStartingJDN = _lineSectionVector->at(i).getStartingJDN();
+		//	long iterateEndingJDN = _lineSectionVector->at(i).getEndingJDN();
+		//	if (i==0){
+		//		if (iterateStartingJDN>=(*lineSection).getEndingJDN()){
+		//			_lineSectionVector->insert(_lineSectionVector->begin()+i,*lineSection);
+		//		}
+		//	}
+		//	if (iterateEndingJDN<=(*lineSection).getStartingJDN()){
+		//		_lineSectionVector->insert(_lineSectionVector->begin()+i+1,*lineSection);
+		//	}
+		//}
 	}
 }
 
@@ -63,7 +68,7 @@ bool AbstractCurve::validateLineSections(){
 string AbstractCurve::toString(){
 	std::stringstream ss (stringstream::in | stringstream::out);
 	ss << "Curve - Line sections: \n";
-	for (unsigned int i = 1; i<=_lineSectionVector->size(); i++){
+	for (unsigned int i = 0; i<_lineSectionVector->size(); i++){
 		ss << _lineSectionVector->at(i).toString() <<"\n";
 	}
 	return ss.str();

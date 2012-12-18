@@ -13,24 +13,32 @@ namespace instruments {
 	public:
 		currency(){};
 		currency(enums::CurrencyEnum);
-		currency(enums::CurrencyEnum currencyName,enums::DayCountEnum dayCountCashConvention, enums::DayCountEnum dayCountSwapConvention, enums::DayRollEnum dayRollConvention);
-		~currency();
+		~currency(){};
 
-		enums::CurrencyEnum getCurrencyName();
-		enums::DayCountEnum getDayCountCashConvention();
-		enums::DayCountEnum getDayCountSwapConvention();
-		enums::DayRollEnum getDayRollConvention();
+		enums::CurrencyEnum getCurrencyName(){return _currencyName;}
+		enums::DayCountEnum getDayCountCashConvention(){return _dayCountCashConvention;}
+		enums::DayCountEnum getDayCountSwapConvention(){return _dayCountSwapConvention;}
+		enums::DayRollEnum getDayRollCashConvention(){return _dayRollCashConvention;}
+		enums::DayRollEnum getDayRollSwapConvention(){return _dayRollSwapConvention;}
+		enums::DayRollEnum getAccrualAdjustCashConvention(){return _accrualAdjustCashConvention;}
+		enums::DayRollEnum getAccrualAdjustSwapConvention(){return _accrualAdjustSwapConvention;}
 
-		void setCurrencyName(enums::CurrencyEnum currencyName);
-		void setDayCountCashConvention(enums::DayCountEnum dayCountCashConvention);
-		void setDayCountSwapConvention(enums::DayCountEnum dayCountSwapConvention);
-		void setDayRollConvention(enums::DayRollEnum dayRollConvention);
+		void setCurrencyName(enums::CurrencyEnum currencyName){_currencyName = currencyName;}
+		void setDayCountCashConvention(enums::DayCountEnum dayCountCashConvention){_dayCountCashConvention = dayCountCashConvention;}
+		void setDayCountSwapConvention(enums::DayCountEnum dayCountSwapConvention){_dayCountSwapConvention = dayCountSwapConvention;}
+		void setDayRollCashConvention(enums::DayRollEnum dayRollCashConvention){_dayRollCashConvention = dayRollCashConvention;}
+		void setDayRollSwapConvention(enums::DayRollEnum dayRollSwapConvention){_dayRollSwapConvention = dayRollSwapConvention;}
+		void setAccrualAdjustCashConvention(enums::DayRollEnum accrualAdjustCashConvention){_accrualAdjustCashConvention = accrualAdjustCashConvention;}
+		void setAccrualAdjustSwapConvention(enums::DayRollEnum accrualAdjustSwapConvention){_accrualAdjustSwapConvention = accrualAdjustSwapConvention;}
 		
 	private:
 		enums::CurrencyEnum _currencyName;
 		enums::DayCountEnum _dayCountCashConvention;
 		enums::DayCountEnum _dayCountSwapConvention;
-		enums::DayRollEnum _dayRollConvention;
+		enums::DayRollEnum _dayRollCashConvention;
+		enums::DayRollEnum _dayRollSwapConvention;
+		enums::DayRollEnum _accrualAdjustCashConvention;
+		enums::DayRollEnum _accrualAdjustSwapConvention;
 	};
 
 }

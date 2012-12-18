@@ -32,6 +32,8 @@ enums::DayRollEnum EnumHelper::getDayRollEnum(std::string dayRoll){
 		return Mfollowingbi;
 	else if (dayRoll == "EOM")
 		return EOM;
+	else if (dayRoll == "Null")
+		return DayRollEnum::NullDayRoll;
 	throw "Day roll name not foud: "+dayRoll;
 }
 
@@ -48,6 +50,8 @@ enums::DayCountEnum EnumHelper::getDayCountEnum(std::string dayCount){
 		return ACT_ACT;
 	else if (dayCount == "BUS_252")
 		return BUS_252;
+	else if (dayCount == "Null")
+		return DayCountEnum::NullDayCount;
 	throw "Day count name not foud: "+dayCount;
 }
 

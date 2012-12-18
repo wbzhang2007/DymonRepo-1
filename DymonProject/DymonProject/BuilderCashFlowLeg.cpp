@@ -29,11 +29,11 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 			date calDateNewEnd=dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),true);
 
 			if (rollAccuralDates) {
-				calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollConvention(),"");
-				calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+				calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollSwapConvention(),"");
+				calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 			}
-			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollConvention(),"");
-			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollSwapConvention(),"");
+			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 
 			cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
 			builtCashflowLeg.push_back(aCashflow);
@@ -46,12 +46,12 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 			date calDateNewEnd=maturityDate;
 
 			if (rollAccuralDates) {
-				calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollConvention(),"");
-				calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+				calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollSwapConvention(),"");
+				calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 			}
 
-			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollConvention(),"");
-			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollSwapConvention(),"");
+			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 			cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
 
 			builtCashflowLeg.push_back(aCashflow);
@@ -69,12 +69,12 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 			date calDateNewEnd=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,true);
 
 			if (rollAccuralDates) {
-				calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollConvention(),"");
-				calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+				calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollSwapConvention(),"");
+				calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 			}
 
-			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollConvention(),"");
-			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollSwapConvention(),"");
+			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 
 			cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
 
@@ -86,12 +86,12 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 		if ((dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,true))<0)||(dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*(i+1),true))<0)) {
 			date calDateNewStart=startDate;
 			date calDateNewEnd=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,true);
-			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollConvention(),"");
-			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollSwapConvention(),"");
+			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 
 			if (rollAccuralDates) {
-				calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollConvention(),"");
-				calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+				calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollSwapConvention(),"");
+				calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 			}
 
 			cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
@@ -119,11 +119,11 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,doub
 		date calDateNewEnd=dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),true);
 
 		if (rollAccuralDates) {
-			calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollConvention(),"");
-			calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+			calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollSwapConvention(),"");
+			calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 		}
-		date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollConvention(),"");
-		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+		date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollSwapConvention(),"");
+		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 
 		cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
 		builtCashflowLeg.push_back(aCashflow);
@@ -136,12 +136,12 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,doub
 		date calDateNewEnd=dateUtil::getEndDate(startDate,tenorNumOfMonths,true);
 
 		if (rollAccuralDates) {
-			calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollConvention(),"");
-			calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+			calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollSwapConvention(),"");
+			calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 		}
 
-		date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollConvention(),"");
-		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+		date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollSwapConvention(),"");
+		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 		cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
 
 		builtCashflowLeg.push_back(aCashflow);
@@ -164,11 +164,11 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,vector<
 			date calDateNewEnd=dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),true);
 
 			if (rollAccuralDates) {
-				calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollConvention(),"");
-				calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+				calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollSwapConvention(),"");
+				calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 			}
-			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollConvention(),"");
-			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollSwapConvention(),"");
+			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 
 			cashflow aCashflow(FLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
 			builtCashflowLeg.push_back(aCashflow);
@@ -181,12 +181,12 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,vector<
 			date calDateNewEnd=maturityDate;
 
 			if (rollAccuralDates) {
-				calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollConvention(),"");
-				calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+				calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollSwapConvention(),"");
+				calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 			}
 
-			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollConvention(),"");
-			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollSwapConvention(),"");
+			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 			cashflow aCashflow(FLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
 
 			builtCashflowLeg.push_back(aCashflow);
@@ -209,12 +209,12 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,vector<
 			date calDateNewEnd=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,true);
 
 			if (rollAccuralDates) {
-				calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollConvention(),"");
-				calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+				calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollSwapConvention(),"");
+				calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 			}
 
-			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollConvention(),"");
-			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollSwapConvention(),"");
+			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 
 			cashflow aCashflow(rFLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
 
@@ -226,12 +226,12 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,vector<
 		if ((dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,true))<0)||(dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*(i+1),true))<0)) {
 			date calDateNewStart=startDate;
 			date calDateNewEnd=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,true);
-			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollConvention(),"");
-			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollSwapConvention(),"");
+			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 
 			if (rollAccuralDates) {
-				calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollConvention(),"");
-				calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+				calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollSwapConvention(),"");
+				calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 			}
 
 			cashflow aCashflow(rFLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
@@ -255,11 +255,11 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,vect
 		date calDateNewEnd=dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),true);
 
 		if (rollAccuralDates) {
-			calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollConvention(),"");
-			calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+			calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollSwapConvention(),"");
+			calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 		}
-		date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollConvention(),"");
-		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+		date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollSwapConvention(),"");
+		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 
 		cashflow aCashflow(FLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
 		builtCashflowLeg.push_back(aCashflow);
@@ -272,12 +272,12 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,vect
 		date calDateNewEnd=dateUtil::getEndDate(startDate,tenorNumOfMonths,true);
 
 		if (rollAccuralDates) {
-			calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollConvention(),"");
-			calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+			calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollSwapConvention(),"");
+			calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 		}
 
-		date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollConvention(),"");
-		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollConvention(),"");
+		date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollSwapConvention(),"");
+		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
 		cashflow aCashflow(FLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
 
 		builtCashflowLeg.push_back(aCashflow);

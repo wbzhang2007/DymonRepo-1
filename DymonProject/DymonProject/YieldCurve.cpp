@@ -22,5 +22,5 @@ double YieldCurve::getDiscountFactor(date date0){
 }
 
 std::string YieldCurve::toString(){
-	return "Yield "+AbstractCurve::toString();
+	return "\nYield "+AbstractCurve::toString();
 }

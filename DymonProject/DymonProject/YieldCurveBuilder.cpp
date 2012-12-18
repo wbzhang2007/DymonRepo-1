@@ -32,10 +32,10 @@ void YieldCurveBuilder::init(Configuration* cfg){
 
 YieldCurve* YieldCurveBuilder::build(){
 	date startDate = dateUtil::getToday();
-	currency cashFlowLegCurr=currency(_currencyName,_dayCountCashConvention, _dayCountSwapConvention, _dayRollConvention);
+	currency cashFlowLegCurr=currency(enums::USD);
 
-	BuilderCashFlowLeg builtCashflowLeg1(startDate,600,1,1, _floatFreqency, cashFlowLegCurr, _rollAccuralDates,RecordHelper::getInstance()->getHolidayMap());
-	cashflowLeg _cashflowLeg=builtCashflowLeg1.getCashFlowLeg();
+	BuilderCashFlowLeg builtCashflowLeg(startDate,600,1,1, _floatFreqency, cashFlowLegCurr, _rollAccuralDates,RecordHelper::getInstance()->getHolidayMap());
+	cashflowLeg _cashflowLeg=builtCashflowLeg.getCashFlowLeg();
 	vector<date> timeLine = _cashflowLeg.getAccuralDates();
 	_cashflowLeg.printTimeLine();
 
@@ -43,8 +43,8 @@ YieldCurve* YieldCurveBuilder::build(){
 	YieldCurve* yc = new YieldCurve();
 	
 	map<long,double> rateMap = RecordHelper::getInstance()->getDepositRateMap()["USD"];
-	for (map<long,double>::iterator it=rateMap.begin() ; it != rateMap.end(); it++ ){
-		cout << (*it).first << " => " << (*it).second << endl;
+	for (map<long,double>::iterator it=rateMap.begin(); it != rateMap.end(); it++ ){
+		cout << "Deposit rate at date: "<<(*it).first << " => " << (*it).second << endl;
 		date endDate((*it).first);
 		double depositRate = (*it).second;
 		DepositRateBootStrapper depositBS(startPoint, endDate, depositRate,&timeLine, _interpolAlgo, _numericalAlgo, _dayCountCashConvention);

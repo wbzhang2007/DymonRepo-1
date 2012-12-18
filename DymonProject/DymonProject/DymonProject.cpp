@@ -22,6 +22,7 @@ using namespace std;
 using namespace instruments;
 using namespace Session;
 using namespace UnitTest;
+using namespace enums;
 
 void RecordTest();
 void DateUtilTest();
@@ -40,16 +41,16 @@ int _tmain(int argc, _TCHAR* argv[])
 	//numericalTest.runTest();
 	//TestInterpolator interpolatorTest;
 	//interpolatorTest.runTest();
-	SwapTest();
+	//SwapTest();
 
-	//buildYieldCurve();
+	buildYieldCurve();
 }
 
 void buildYieldCurve(){
 	cout << "******** Build Record Helper ********\n" << endl;
 	RecordHelper* recordHelper = RecordHelper::getInstance();
 	recordHelper->init(Configuration::getInstance());
-	cout << "\n******** Build Record Helper ********\n" << endl;
+	cout << "\n******** Build Yield Curve ********\n" << endl;
 	YieldCurveBuilder* builder = new YieldCurveBuilder();
 	builder->init(Configuration::getInstance());
 	YieldCurve* yc = builder->build();
@@ -151,17 +152,6 @@ void RecordTest(){
 	cout << "******** RecordHelper Test ********" << endl;
 	RecordHelper* recordHelper = RecordHelper::getInstance();
 	recordHelper->init(Configuration::getInstance());
-	//for(RecordHelper::HolidayMap::iterator outer_iter=RecordHelper::getInstance()->getHolidayMap().begin(); outer_iter!=RecordHelper::getInstance()->getHolidayMap().end(); ++outer_iter) {
-	//	for(set<long>::iterator inner_iter=outer_iter->second.begin(); inner_iter!=outer_iter->second.end(); ++inner_iter) {
-	//		cout << outer_iter->first<< " -> " << *inner_iter << endl;
-	//	}
-	//}
-
-	//for(RecordHelper::RateMap::iterator outer_iter=RecordHelper::getInstance()->getDepositRateMap().begin(); outer_iter!=RecordHelper::getInstance()->getDepositRateMap().end(); ++outer_iter) {
-	//	for(map<long, double>::iterator inner_iter=outer_iter->second.begin(); inner_iter!=outer_iter->second.end(); ++inner_iter) {
-	//		cout << outer_iter->first<< " -> " << inner_iter->first <<" "<< inner_iter->second << endl;
-	//	}
-	//}
 }
 
 void CashFlowTest() {
@@ -174,7 +164,10 @@ void CashFlowTest() {
 	double notional=1000000;
 	double couponRate=0.05;
 	int paymentFreq=4;
-	currency cashFlowCurr=currency(enums::USD,enums::ACT_360, enums::ACT_ACT, enums::Mfollowing);
+	currency cashFlowCurr=currency(enums::USD);
+	cashFlowCurr.setDayCountCashConvention(enums::ACT_360);
+	cashFlowCurr.setDayCountSwapConvention(enums::ACT_ACT);
+	cashFlowCurr.setDayRollCashConvention(enums::Mfollowing);
 
 	cashflow testCashFlow(couponRate,notional,  fixingDate, paymentDate,accuralStartDate, accuralEndDate, cashFlowCurr);
 	cout<<"couponRate="<<couponRate<<endl;
@@ -217,7 +210,10 @@ void CashFlowLegTest()  {
 	RecordHelper::HolidayMap holidayMap;
 	bool rollAccuralDates=false;
 
-	currency cashFlowLegCurr=currency(enums::USD,enums::ACT_360, enums::ACT_ACT, enums::Mfollowing);
+	currency cashFlowLegCurr=currency(enums::USD);
+	cashFlowLegCurr.setDayCountCashConvention(enums::ACT_360);
+	cashFlowLegCurr.setDayCountSwapConvention(enums::ACT_ACT);
+	cashFlowLegCurr.setDayRollCashConvention(enums::Mfollowing);
 
 	BuilderCashFlowLeg testCashFlowLeg(startDate, maturityDate,couponRate,notional, paymentFreq, cashFlowLegCurr, rollAccuralDates, buildDirection,holidayMap);
 
@@ -373,8 +369,17 @@ void SwapTest() {
 
 	FLiborRate.resize(100,0.05);
 
-	currency fixLegCurr=currency(enums::USD,enums::ACT_360, enums::ACT_ACT, enums::Mfollowing);
-	currency floatingLegCurr=currency(enums::USD,enums::ACT_360, enums::ACT_ACT, enums::Mfollowing);
+	currency fixLegCurr=currency(enums::USD);
+	currency floatingLegCurr=currency(enums::USD);
+	
+	fixLegCurr.setDayCountCashConvention(enums::ACT_360);
+	fixLegCurr.setDayCountSwapConvention(enums::ACT_ACT);
+	fixLegCurr.setDayRollCashConvention(enums::Mfollowing);
+	
+	floatingLegCurr.setDayCountCashConvention(enums::ACT_360);
+	floatingLegCurr.setDayCountSwapConvention(enums::ACT_ACT);
+	floatingLegCurr.setDayRollCashConvention(enums::Mfollowing);
+
 	instruments::swap swap1(tradeDate, maturityDate, notional, couponRate, FLiborRate, fixLegCurr, floatingLegCurr,paymentFreqFixLeg, paymentFreqFloatingLeg, rollAccuralDates, holidayMap);
 
 	cout<<"tradeDate=";

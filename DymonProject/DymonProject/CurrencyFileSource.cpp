@@ -31,22 +31,31 @@ void CurrencyFileSource::retrieveRecord(){
 	AbstractFileSource::retrieveRecord();
 
 	string value;
-	string currency;
+	string market;
 	RecordHelper::currencyMap currencyMap;
 	while (_inFile.good()){
 		_inFile>>value;
 		vector<string> vec = fileUtil::split(value,':');
-		currency = vec[0];
+		market = vec[0];
 		vector<string> properties = fileUtil::split(vec[1],',');
 
-		enums::CurrencyEnum currencyName = EnumHelper::getCcyEnum(currency);
-		enums::DayCountEnum dayCountCashConvention = EnumHelper::getDayCountEnum(properties[0]);
-		enums::DayCountEnum dayCountSwapConvention = EnumHelper::getDayCountEnum(properties[1]);
-		enums::DayRollEnum dayRollConvention = EnumHelper::getDayRollEnum(properties[2]);
+		enums::CurrencyEnum currencyName = EnumHelper::getCcyEnum(market);
+		enums::DayCountEnum dayCountCash = EnumHelper::getDayCountEnum(properties[0]);
+		enums::DayCountEnum dayCountSwap = EnumHelper::getDayCountEnum(properties[1]);
+		enums::DayRollEnum dayRollCash = EnumHelper::getDayRollEnum(properties[2]);
+		enums::DayRollEnum dayRollSwap = EnumHelper::getDayRollEnum(properties[3]);
+		enums::DayRollEnum accrualAdjustCash = EnumHelper::getDayRollEnum(properties[4]);
+		enums::DayRollEnum accrualAdjustSwap = EnumHelper::getDayRollEnum(properties[5]);
 
-		RecordHelper::currencyTuple ccyTuple(dayCountCashConvention, dayCountSwapConvention, dayRollConvention);
+		RecordHelper::currencyTuple ccyTuple(dayCountCash, dayCountSwap, dayRollCash, dayRollSwap, accrualAdjustCash, accrualAdjustSwap);
 
-		cout << currency<< " -> " << dayCountCashConvention<<" "<<dayCountSwapConvention <<" "<< dayRollConvention << endl;
+		cout << market<< " -> "<< "DayCountCashConvention "<< dayCountCash<<endl;
+		cout << market<< " -> "<< "DayCountSwapConvention "<< dayCountSwap<<endl;
+		cout << market<< " -> "<< "DayRollCashConvention "<< dayRollCash<<endl;
+		cout << market<< " -> "<< "DayRollSwapConvention "<< dayRollSwap<<endl;
+		cout << market<< " -> "<< "AccrualAdjustCashConvention "<< accrualAdjustCash<<endl;
+		cout << market<< " -> "<< "AccrualAdjustSwapConvention "<< accrualAdjustSwap<<endl;
+
 		currencyMap.insert(pair<enums::CurrencyEnum, RecordHelper::currencyTuple>(currencyName,ccyTuple));
 	}	
 	RecordHelper::getInstance()->setCurrencyMap(currencyMap);
