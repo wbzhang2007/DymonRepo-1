@@ -16,12 +16,14 @@
 #include "TestInterpolator.h"
 #include "YieldCurveBuilder.h"
 #include "YieldCurve.h"
+#include "LinearInterpolator.h"
 
 using namespace utilities;
 using namespace std;
 using namespace instruments;
 using namespace Session;
 using namespace UnitTest;
+using namespace enums;
 
 void RecordTest();
 void DateUtilTest();
@@ -45,15 +47,33 @@ int _tmain(int argc, _TCHAR* argv[])
 	//buildYieldCurve();
 }
 
+		
+
 void buildYieldCurve(){
 	cout << "******** Build Record Helper ********\n" << endl;
 	RecordHelper* recordHelper = RecordHelper::getInstance();
 	recordHelper->init(Configuration::getInstance());
-	cout << "\n******** Build Record Helper ********\n" << endl;
+	cout << "\n******** Build Yield Curve ********\n" << endl;
 	YieldCurveBuilder* builder = new YieldCurveBuilder();
 	builder->init(Configuration::getInstance());
 	YieldCurve* yc = builder->build();
 	cout<<yc->toString()<<endl;
+}
+
+void buildSampleCurve(){
+
+	typedef tuple<date, double> point;
+	date date0(10005);
+	date date1(10006);
+	date date2(10007);
+	point point1(date0, 1);
+	point point2(date1, 2);
+	point point3(date2, 2.5);
+	YieldCurve* yc = new YieldCurve();
+	LinearInterpolator* li1 = new LinearInterpolator(point1, point2);
+	LinearInterpolator* li2 = new LinearInterpolator(point2, point3);
+	yc->insertLineSection(li1);
+	yc->insertLineSection(li2);
 }
 
 void ZeroTest(){
@@ -82,38 +102,38 @@ void DateUtilTest(){
 		cout<<date0.isEqual(date1)<<endl;} 
 	{
 		date date0(2011,9,18);
-		date date1 = dateUtil::dayRollAdjust(date0, Following, "");
+		date date1 = dateUtil::dayRollAdjust(date0, Following, USD);
 		date date2(2011,9,19);
 		cout<<date1.isEqual(date2)<<endl;}
 	{
 		date date0(2011,9,18);
-		date date1 = dateUtil::dayRollAdjust(date0, Preceding, "");
+		date date1 = dateUtil::dayRollAdjust(date0, Preceding, USD);
 		date date2(2011,9,16);
 		cout<<date1.isEqual(date2)<<endl;}
 	{
 		date date0(2011,7,30);
-		date date1 = dateUtil::dayRollAdjust(date0, Mfollowing, "");
+		date date1 = dateUtil::dayRollAdjust(date0, Mfollowing, USD);
 		date date2(2011,7,29);
 		cout<<date1.isEqual(date2)<<endl;}
 	{
 		date date0(2011,7,30);
-		date date1 = dateUtil::dayRollAdjust(date0, Mfollowingbi, "");
+		date date1 = dateUtil::dayRollAdjust(date0, Mfollowingbi, USD);
 		date date2(2011,7,29);
 		cout<<date1.isEqual(date2)<<endl;}
 	{
 		date date0(2011,10,15);
-		date date1 = dateUtil::dayRollAdjust(date0, Mfollowingbi, "");
+		date date1 = dateUtil::dayRollAdjust(date0, Mfollowingbi, USD);
 		date date2(2011,10,14);
 		cout<<date1.isEqual(date2)<<endl;}
 	cout << "******** GetEndDate Test ********" << endl;
 	{
 		date date0(2012,1,31);
-		date date1 = dateUtil::getEndDate(date0, 1, true);
+		date date1 = dateUtil::getEndDate(date0, 1, Null,USD,dateUtil::MONTH);
 		date date2(2012,2,29);
 		cout<<date1.isEqual(date2)<<endl;}
 	{
 		date date0(2012,10,31);
-		date date1 = dateUtil::getEndDate(date0, 4, true);
+		date date1 = dateUtil::getEndDate(date0, 4, Null,USD,dateUtil::MONTH);
 		date date2(2013,2,28);
 		cout<<date1.isEqual(date2)<<endl;}
 	cout << "******** DayCount Test ********" << endl;
@@ -151,17 +171,6 @@ void RecordTest(){
 	cout << "******** RecordHelper Test ********" << endl;
 	RecordHelper* recordHelper = RecordHelper::getInstance();
 	recordHelper->init(Configuration::getInstance());
-	//for(RecordHelper::HolidayMap::iterator outer_iter=RecordHelper::getInstance()->getHolidayMap().begin(); outer_iter!=RecordHelper::getInstance()->getHolidayMap().end(); ++outer_iter) {
-	//	for(set<long>::iterator inner_iter=outer_iter->second.begin(); inner_iter!=outer_iter->second.end(); ++inner_iter) {
-	//		cout << outer_iter->first<< " -> " << *inner_iter << endl;
-	//	}
-	//}
-
-	//for(RecordHelper::RateMap::iterator outer_iter=RecordHelper::getInstance()->getDepositRateMap().begin(); outer_iter!=RecordHelper::getInstance()->getDepositRateMap().end(); ++outer_iter) {
-	//	for(map<long, double>::iterator inner_iter=outer_iter->second.begin(); inner_iter!=outer_iter->second.end(); ++inner_iter) {
-	//		cout << outer_iter->first<< " -> " << inner_iter->first <<" "<< inner_iter->second << endl;
-	//	}
-	//}
 }
 
 void CashFlowTest() {
@@ -174,7 +183,10 @@ void CashFlowTest() {
 	double notional=1000000;
 	double couponRate=0.05;
 	int paymentFreq=4;
-	currency cashFlowCurr=currency(enums::USD,enums::ACT_360, enums::ACT_ACT, enums::Mfollowing);
+	currency cashFlowCurr=currency(enums::USD);
+	cashFlowCurr.setDayCountCashConvention(enums::ACT_360);
+	cashFlowCurr.setDayCountSwapConvention(enums::ACT_ACT);
+	cashFlowCurr.setDayRollCashConvention(enums::Mfollowing);
 
 	cashflow testCashFlow(couponRate,notional,  fixingDate, paymentDate,accuralStartDate, accuralEndDate, cashFlowCurr);
 	cout<<"couponRate="<<couponRate<<endl;
@@ -217,9 +229,12 @@ void CashFlowLegTest()  {
 	RecordHelper::HolidayMap holidayMap;
 	bool rollAccuralDates=false;
 
-	currency cashFlowLegCurr=currency(enums::USD,enums::ACT_360, enums::ACT_ACT, enums::Mfollowing);
+	currency cashFlowLegCurr=currency(enums::USD);
+	cashFlowLegCurr.setDayCountCashConvention(enums::ACT_360);
+	cashFlowLegCurr.setDayCountSwapConvention(enums::ACT_ACT);
+	cashFlowLegCurr.setDayRollCashConvention(enums::Mfollowing);
 
-	BuilderCashFlowLeg testCashFlowLeg(startDate, maturityDate,couponRate,notional, paymentFreq, cashFlowLegCurr, rollAccuralDates, buildDirection,holidayMap);
+	BuilderCashFlowLeg testCashFlowLeg(startDate, maturityDate,couponRate,notional, paymentFreq, enums::USD, buildDirection);
 
 	cout<<"**********************************************"<<endl;
 	cout << "******** CashFlowLeg Build Test starts********" << endl;
@@ -271,7 +286,7 @@ void CashFlowLegTest()  {
 	cout<<"****************************************************"<<endl;
 
 	buildDirection=-1;
-	BuilderCashFlowLeg testCashFlowLegReverse(startDate, maturityDate,couponRate,notional, paymentFreq, cashFlowLegCurr, rollAccuralDates, buildDirection,holidayMap);
+	BuilderCashFlowLeg testCashFlowLegReverse(startDate, maturityDate,couponRate,notional, paymentFreq, enums::USD, buildDirection);
 
 	
 	cout<<"**********************************************"<<endl;
@@ -324,7 +339,7 @@ void CashFlowLegTest()  {
 
 	int tenorNumMonth=12;
 
-	BuilderCashFlowLeg testCashFlowLegTenor(startDate, tenorNumMonth, couponRate, notional,  paymentFreq, cashFlowLegCurr,rollAccuralDates,holidayMap);
+	BuilderCashFlowLeg testCashFlowLegTenor(startDate, tenorNumMonth, couponRate, notional,  paymentFreq, enums::USD);
 
 	
 	cout<<"**********************************************"<<endl;
@@ -370,14 +385,33 @@ void SwapTest() {
 	RecordHelper::HolidayMap holidayMap;
 	bool rollAccuralDates=false;
 	vector<double> FLiborRate;
-	
+
 	FLiborRate.resize(100,0.05);
 
-	YieldCurve pricingYieldCurve;
-	pricingYieldCurve.resize
+	 typedef tuple<date, double> point;
+	 date date0(2013,11,2);
+	 date date1(2015,2,6);
+	 date date2(2016,2,6);
+	 point point1(date0, 1);
+	 point point2(date1, 2);
+	 point point3(date2, 2.5);
+	 YieldCurve* yc = new YieldCurve();
+	 LinearInterpolator* li1 = new LinearInterpolator(point1, point2);
+	 LinearInterpolator* li2 = new LinearInterpolator(point2, point3);
+	 yc->insertLineSection(li1);
+	 yc->insertLineSection(li2);
 
-	currency fixLegCurr=currency(enums::USD,enums::ACT_360, enums::ACT_ACT, enums::Mfollowing);
-	currency floatingLegCurr=currency(enums::USD,enums::ACT_360, enums::ACT_ACT, enums::Mfollowing);
+	currency fixLegCurr=currency(enums::USD);
+	currency floatingLegCurr=currency(enums::USD);
+	
+	fixLegCurr.setDayCountCashConvention(enums::ACT_360);
+	fixLegCurr.setDayCountSwapConvention(enums::ACT_ACT);
+	fixLegCurr.setDayRollCashConvention(enums::Mfollowing);
+	
+	floatingLegCurr.setDayCountCashConvention(enums::ACT_360);
+	floatingLegCurr.setDayCountSwapConvention(enums::ACT_ACT);
+	floatingLegCurr.setDayRollCashConvention(enums::Mfollowing);
+
 	instruments::swap swap1(tradeDate, maturityDate, notional, couponRate, FLiborRate, fixLegCurr, floatingLegCurr,paymentFreqFixLeg, paymentFreqFloatingLeg, rollAccuralDates, holidayMap);
 
 	cout<<"tradeDate=";
@@ -387,7 +421,14 @@ void SwapTest() {
 	cout<<"maturityDate=";
 	maturityDate.printDate();
 	cout<<endl;
-
+	
+	cashflowLeg fixLeg=swap1.getCashflowLegFix();
+	cashflowLeg floatLeg=swap1.getCashflowLegFloat();
+	YieldCurve aYC=*yc;
+	cout<<"MPV="<<swap1.getMPV(fixLeg,floatLeg,aYC)<<endl;
+	
+	cout<<"ParRate="<<swap1.getParRate(fixLeg,floatLeg,aYC)<<endl;
+	
 	cout<<"========================Fix Leg of Swap1 is:========================="<<endl;
 	swap1.printCashflowLegFix();
 
