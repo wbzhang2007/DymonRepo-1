@@ -21,49 +21,37 @@ cashflow::cashflow(double couponRate,double notional,  date fixingDate, date pay
 	setAccuralStartDate(accuralStartDate);
 	setAccuralEndDate(accuralEndDate);
 	setCashFlowCurr(cashFlowCurr);
-
 	setAccuralFactor();
 	setCouponAmount();
 }
 
-cashflow::~cashflow() {
-
-}
-
 //get methods:
 double cashflow::getCouponAmount() {
-
 	return _couponAmount;
 }
 
 double cashflow::getCouponRate() {
 	return _couponRate;
-
 }
 
 date cashflow::getFixingDate() {
 	return _fixingDate;
-
 }
 
 date cashflow::getPaymentDate() {
 	return _paymentDate;
-
 }
 
 date cashflow::getAccuralStartDate() {
 	return _accuralStartDate;
-
 }
 
 date cashflow::getAccuralEndDate() {
 	return _accuralEndDate;
-
 }
 
 currency cashflow::getCashFlowCurr() {
 	return _cashFlowCurr;
-
 }
 
 double cashflow::getAccuralFactor() {
@@ -74,10 +62,8 @@ double cashflow::getNotional() {
 	return _notional;
 }
 
-
 //set methods:
 void cashflow::setCouponAmount() {
-
 	_couponAmount=_couponRate*_notional*_accuralFactor;
 }
 
@@ -105,34 +91,16 @@ void cashflow::setAccuralEndDate(date accuralEndDate) {
 }
 
 void cashflow::setCashFlowCurr(currency cashFlowCurr) {
-
 	_cashFlowCurr=cashFlowCurr;
 }
 
 void cashflow::setAccuralFactor() {
-
 	_accuralFactor=dateUtil::getAccrualFactor(_accuralStartDate,_accuralEndDate,_cashFlowCurr.getDayCountCashConvention());
 }
 
 void cashflow::printCashFlow() {
-	 cout<<"fixingDate=";
-	 _fixingDate.printDate();
-	 cout<<endl;
-	 cout<<"accuralStartDate=";
-	 _accuralStartDate.printDate();
-	 cout<<endl;
-	 cout<<"accuralEndDate=";
-	 _accuralEndDate.printDate();
-	 cout<<endl;
-	 cout<<"paymentDate=";
-	 _paymentDate.printDate();
-	 cout<<endl;
-	 cout<<"accuralFactor="<<_accuralFactor<<endl;
-	 
-	 cout<<"couponAmonunt="<<_couponAmount<<endl;
-
-
-	 cout<<"notional="<<_notional<<endl;
+	cout<<"fixingDate ["<< _fixingDate.toString()<<"], accuralStartDate ["<< _accuralStartDate.toString()<<"], "<<
+		"accuralEndDate ["<<_accuralEndDate.toString()<<"] paymentDate["<< _paymentDate.toString()<<"]"<<endl;
+	 cout<<"accuralFactor ["<<_accuralFactor<<"], couponAmonunt["<<_couponAmount<<"] notional["<<_notional<<"]"<<endl;
 	 cout<<"*******************************"<<endl<<endl;
-
 }

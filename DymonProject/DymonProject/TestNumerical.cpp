@@ -11,6 +11,8 @@ using namespace UnitTest;
 using namespace utilities;
 using namespace std;
 
+typedef AbstractTest super;
+
 void TestNumerical::runTest(){
 	_EPSILON = 0.000001;
 	newtonTestSuit();
@@ -51,7 +53,8 @@ double TestNumerical::func(double x){
 
 void TestNumerical::compareResult(string testName, double derivedVal, double expectedVal, double startVal, double endVal){
 	std::stringstream ss (stringstream::in | stringstream::out);
-	if (abs(derivedVal-expectedVal)>_EPSILON)
+	bool result = super::compareResult(derivedVal, expectedVal);	
+	if (result)
 		ss<<testName<<" Test Failed: startVal["<<startVal<<"], endVal["<<endVal<<"], root found ["<<derivedVal<<"], desired root ["<<expectedVal<<"]";
 	else
 		ss<<testName<<" Test Passed: startVal["<<startVal<<"], endVal["<<endVal<<"], root found ["<<derivedVal<<"]";

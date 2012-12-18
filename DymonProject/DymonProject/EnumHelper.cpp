@@ -32,6 +32,8 @@ enums::DayRollEnum EnumHelper::getDayRollEnum(std::string dayRoll){
 		return Mfollowingbi;
 	else if (dayRoll == "EOM")
 		return EOM;
+	else if (dayRoll == "Null")
+		return Null;
 	throw "Day roll name not foud: "+dayRoll;
 }
 

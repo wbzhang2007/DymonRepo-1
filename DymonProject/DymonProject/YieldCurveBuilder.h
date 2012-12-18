@@ -25,9 +25,6 @@ namespace utilities{
 	private:
 
 		enums::CurrencyEnum _currencyName;
-		enums::DayCountEnum _dayCountCashConvention;
-		enums::DayCountEnum _dayCountSwapConvention;
-		enums::DayRollEnum _dayRollConvention;
 		int _floatFreqency;
 		int _fixFreqency;
 		int _timeLineBuildDirection;
