@@ -24,11 +24,11 @@ namespace models {
 		
 		double getMPV(instruments::swap aSwap,vector<yieldCurvePoint> aYieldCurve);
 
-		vector<PV> getPVLeg(instruments::swap aSwap,vector<yieldCurvePoint> aYieldCurve);
+		vector<PV> getPVLeg(instruments::swap aSwap,vector<yieldCurvePoint> aYieldCurve,int fixOrFloating);
 		
 		double getParRate(instruments::swap aSwap,vector<yieldCurvePoint> aYieldCurve);
 
-	protected: 
+	private: 
 		double _MPV;
 		vector<PV> _PVLeg;
 		double _parRate;

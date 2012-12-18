@@ -50,12 +50,14 @@ namespace models {
 		return _MPV;
 	}
 		
-	vector<PV> SwapPricer::getPVLeg(instruments::swap aSwap,vector<yieldCurvePoint> aYieldCurve) {
+	vector<PV> SwapPricer::getPVLeg(instruments::swap aSwap,vector<yieldCurvePoint> aYieldCurve,int fixOrFloating) {
 		vector<PV> dummy;
 		return dummy;
 	}
-	
+
 	double SwapPricer::getParRate(instruments::swap aSwap,vector<yieldCurvePoint> aYieldCurve) {
+
+		
 		_parRate=getMPVFloatLeg(_floatCashflowLeg,_pricingYieldCurve)/getMPVFixLeg(_fixCashflowLeg,_pricingYieldCurve);
 		
 		return _parRate;

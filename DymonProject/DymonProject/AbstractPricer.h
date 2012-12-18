@@ -30,7 +30,7 @@ namespace models {
 		template <class T, typename P> double getMPV(T aInstrument,vector<P> curve);
 		
 		
-		template <class T, typename P> vector<PV> getPVLeg(T aInstrument,vector<P> curve);
+		template <class T, typename P> vector<PV> getPVLeg(T aInstrument,vector<P> curve, int fixOrFloating);
 		
 
 	protected: 
