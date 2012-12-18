@@ -105,6 +105,7 @@
     <ClInclude Include="FalsePosition.h" />
     <ClInclude Include="Ridder.h" />
     <ClInclude Include="Secant.h" />
+    <ClInclude Include="SwapPricer.h" />
     <ClInclude Include="TestInterpolator.h" />
     <ClInclude Include="TestNumerical.h" />
     <ClInclude Include="YieldCurveBuilder.h" />
@@ -169,6 +170,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="swap.cpp" />
+    <ClCompile Include="SwapPricer.cpp" />
     <ClCompile Include="SwapRateFileSource.cpp" />
     <ClCompile Include="TestInterpolator.cpp" />
     <ClCompile Include="TestNumerical.cpp" />

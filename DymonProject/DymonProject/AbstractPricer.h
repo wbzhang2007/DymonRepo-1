@@ -5,32 +5,35 @@
 #include "date.h"
 #include <vector>
 #include <tuple>
+#include <map>
 
 using namespace std;
 using namespace instruments;
 
 
 namespace models {
+	//tuple<tenorNumofMonths,zeroRates>
+	typedef tuple<double,double> yieldCurvePoint;
+	typedef tuple<double,double> PV;
+
+	//map<tuple<tenorNumofMonths,delta>, volatility>
+	typedef map<tuple<double,double>,double> volSurfacePoint;
+	
 	class AbstractPricer {
 	
 	public:
 		//base class for all other instruments to be derived from
 		AbstractPricer(){};
 		~AbstractPricer(){};
-		typedef tuple<int,double> point;
 		
-		template <class InstrumentType>
-		virtual double getPrice(InstrumentType aInstrumentType,vector<point> yieldCurve)=0;
-
-	    /*virtual date getMaturityDate()=0;
-		virtual void setIssueDate(date tradeDate)=0;
-		virtual void setMaturityDate(date maturityDate)=0;*/
+		
+		template <class T, typename P> double getMPV(T aInstrument,vector<P> curve);
+		
+		
+		template <class T, typename P> vector<PV> getPVLeg(T aInstrument,vector<P> curve);
+		
 
 	protected: 
-		/*currency _domCurrency;
-		currency _forCurrency;
-		date _tradeDate;
-		date _maturityDate;*/
 
 		
 	};

@@ -25,6 +25,7 @@ using namespace instruments;
 namespace instruments {
 	class swap: public AbstractInstrument {
 	public:
+		swap() {};
 		swap(date tradeDate, date maturityDate, double notional, double couponRate, vector<double> FLiborRate, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, RecordHelper::HolidayMap holidayMap);
 
 		~swap();
