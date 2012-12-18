@@ -16,17 +16,24 @@ namespace utilities{
 		
 	public:
 		
-		YieldCurveBuilder(cashflowLeg cashflowLeg):AbstractBuilder(){
-			_cashflowLeg = cashflowLeg;
-		}
+		YieldCurveBuilder():AbstractBuilder(){}
 
-		virtual void init(Configuration* cfg);
+		void init(Configuration* cfg);
 
-		YieldCurve* buildCurve();
+		YieldCurve* build();
 
 	private:
 
-		cashflowLeg _cashflowLeg;
+		enums::CurrencyEnum _currencyName;
+		enums::DayCountEnum _dayCountCashConvention;
+		enums::DayCountEnum _dayCountSwapConvention;
+		enums::DayRollEnum _dayRollConvention;
+		int _floatFreqency;
+		int _fixFreqency;
+		int _timeLineBuildDirection;
+		bool _rollAccuralDates;
+		enums::interpolAlgo _interpolAlgo;
+		enums::NumericAlgo _numericalAlgo;
 	};
 }
 #endif

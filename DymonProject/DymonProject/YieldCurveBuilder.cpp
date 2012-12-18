@@ -6,32 +6,51 @@
 #include "BuilderCashFlowLeg.h"
 #include "cashflow.h"
 #include "cashflowLeg.h"
+#include "EnumHelper.h"
+#include "dateUtil.h"
+#include "RecordHelper.h"
+#include "DepositRateBootStrapper.h"
 
 using namespace utilities;
 typedef AbstractBuilder super;
+typedef tuple<date, double> point;
 
 void YieldCurveBuilder::init(Configuration* cfg){
 	super::init(cfg);
+	
+	_currencyName = EnumHelper::getCcyEnum("USD");
+	_dayCountCashConvention = EnumHelper::getDayCountEnum(cfg->getProperty("yieldcurve.usd.dayCountCashConvention",false,"ACT_360"));
+	_dayCountSwapConvention = EnumHelper::getDayCountEnum(cfg->getProperty("yieldcurve.usd.dayCountSwapConvention",false,"ACT_ACT"));
+	_dayRollConvention = EnumHelper::getDayRollEnum(cfg->getProperty("yieldcurve.usd.dayRollConvention",false,"Mfollowing"));
+	_floatFreqency = std::stoi(cfg->getProperty("swap.usd.floatfreq",false,"4"));
+	_fixFreqency = std::stoi(cfg->getProperty("swap.usd.fixfreq",false,"2"));
+	_timeLineBuildDirection = std::stoi(cfg->getProperty("timeline.usd.builddirection",false,"1"));
+	_rollAccuralDates =  cfg->getProperty("timeline.usd.rollaccuraldates",false,"0")=="0"?false:true;
+	_interpolAlgo = EnumHelper::getInterpolAlgo(cfg->getProperty("yieldcurve.usd.interpol",false,"LINEAR"));
+	_numericalAlgo = EnumHelper::getNumericalAlgo(cfg->getProperty("yieldcurve.usd.numerical",false,"BISECTION"));
 }
 
-YieldCurve* YieldCurveBuilder::buildCurve(){
+YieldCurve* YieldCurveBuilder::build(){
+	date startDate = dateUtil::getToday();
+	currency cashFlowLegCurr=currency(_currencyName,_dayCountCashConvention, _dayCountSwapConvention, _dayRollConvention);
 
-	date tradeDate(2013,11,2);
-	date maturityDate(2015,2,6);
+	BuilderCashFlowLeg builtCashflowLeg1(startDate,600,1,1, _floatFreqency, cashFlowLegCurr, _rollAccuralDates,RecordHelper::getInstance()->getHolidayMap());
+	cashflowLeg _cashflowLeg=builtCashflowLeg1.getCashFlowLeg();
+	vector<date> timeLine = _cashflowLeg.getAccuralDates();
+	_cashflowLeg.printTimeLine();
+
+	point startPoint(startDate, 1);
+	YieldCurve* yc = new YieldCurve();
 	
-	//
-	double notional=1000000;
-	double couponRate=0.05;
-	int paymentFreq=4;
-	//build from start to end (build forward)
-	int buildDirection=1;
-	RecordHelper::HolidayMap holidayMap;
-	bool rollAccuralDates=false;
+	map<long,double> rateMap = RecordHelper::getInstance()->getDepositRateMap()["USD"];
+	for (map<long,double>::iterator it=rateMap.begin() ; it != rateMap.end(); it++ ){
+		cout << (*it).first << " => " << (*it).second << endl;
+		date endDate((*it).first);
+		double depositRate = (*it).second;
+		DepositRateBootStrapper depositBS(startPoint, endDate, depositRate,&timeLine, _interpolAlgo, _numericalAlgo);
+		AbstractInterpolator* lineSection = depositBS.bootStrap();
+		yc->insertLineSection(lineSection);
+	}
 
-	currency cashFlowLegCurr=currency(enums::USD,enums::ACT_360, enums::ACT_ACT, enums::Mfollowing);
-
-	BuilderCashFlowLeg builtCashflowLeg1(tradeDate, maturityDate,couponRate,notional, paymentFreq, cashFlowLegCurr, rollAccuralDates, buildDirection,holidayMap);
-	_cashflowLeg=builtCashflowLeg1.getCashFlowLeg();
-
-	return new YieldCurve();
+	return yc;
 }

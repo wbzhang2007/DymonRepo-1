@@ -3,8 +3,10 @@
 #include "InterpolatorFactory.h"
 #include "LinearInterpolator.h"
 #include "LogLinearInterpolator.h"
+#include "Enums.h"
 
 using namespace utilities;
+using namespace enums;
 
 InterpolatorFactory* InterpolatorFactory::single = NULL;
 
@@ -16,11 +18,11 @@ InterpolatorFactory* InterpolatorFactory::getInstance()
 }
 
 
-AbstractInterpolator* InterpolatorFactory::getInterpolator(point startPoint, point endPoint, AbstractInterpolator::interpolAlgo algo){
+AbstractInterpolator* InterpolatorFactory::getInterpolator(point startPoint, point endPoint, enums::interpolAlgo algo){
 	switch (algo){
-	case AbstractInterpolator::LINEAR:
+	case LINEAR:
 		return new LinearInterpolator(startPoint, endPoint);
-	case AbstractInterpolator::LOGLINEAR:
+	case LOGLINEAR:
 		return new LogLinearInterpolator(startPoint, endPoint);
 	default:
 		return new LinearInterpolator(startPoint, endPoint);

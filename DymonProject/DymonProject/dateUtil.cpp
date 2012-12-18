@@ -236,7 +236,7 @@ date dateUtil::getEndDate(date startDate, int numMonth, bool adjustInvalidDay){
 		endMonth = (startMonth + numMonth)%12;
 		endYear= startDate.getYear()+(startMonth + numMonth)/12;
 	}
-	date endDate(endYear, endMonth, startDate.getDay());
+	date endDate(endYear, endMonth==0?12:endMonth, startDate.getDay());
 	 
 	endDate = adjustInvalidateDate(endDate);
 

@@ -19,6 +19,10 @@ namespace utilities{
 		static enums::DayRollEnum getDayRollEnum(std::string dayRoll);
 
 		static enums::DayCountEnum getDayCountEnum(std::string dayCount);
+
+		static enums::interpolAlgo getInterpolAlgo(std::string interpolAlgo);
+
+		static enums::NumericAlgo getNumericalAlgo(std::string numericalAlgo);
 	};
 }
 #endif
