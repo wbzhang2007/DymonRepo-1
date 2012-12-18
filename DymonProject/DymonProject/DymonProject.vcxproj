@@ -90,6 +90,7 @@
     <ClInclude Include="AbstractPricer.h" />
     <ClInclude Include="AbstractSession.h" />
     <ClInclude Include="AbstractSurface.h" />
+    <ClInclude Include="AbstractTest.h" />
     <ClInclude Include="Bisection.h" />
     <ClInclude Include="bond.h" />
     <ClInclude Include="BuilderCashFlowLeg.h" />
@@ -144,6 +145,7 @@
     <ClCompile Include="AbstractFileSource.cpp" />
     <ClCompile Include="AbstractInterpolator.cpp" />
     <ClCompile Include="AbstractSession.cpp" />
+    <ClCompile Include="AbstractTest.cpp" />
     <ClCompile Include="BuilderCashFlowLeg.cpp" />
     <ClCompile Include="cashflow.cpp" />
     <ClCompile Include="cashflowLeg.cpp" />

@@ -83,38 +83,38 @@ void DateUtilTest(){
 		cout<<date0.isEqual(date1)<<endl;} 
 	{
 		date date0(2011,9,18);
-		date date1 = dateUtil::dayRollAdjust(date0, Following, "");
+		date date1 = dateUtil::dayRollAdjust(date0, Following, USD);
 		date date2(2011,9,19);
 		cout<<date1.isEqual(date2)<<endl;}
 	{
 		date date0(2011,9,18);
-		date date1 = dateUtil::dayRollAdjust(date0, Preceding, "");
+		date date1 = dateUtil::dayRollAdjust(date0, Preceding, USD);
 		date date2(2011,9,16);
 		cout<<date1.isEqual(date2)<<endl;}
 	{
 		date date0(2011,7,30);
-		date date1 = dateUtil::dayRollAdjust(date0, Mfollowing, "");
+		date date1 = dateUtil::dayRollAdjust(date0, Mfollowing, USD);
 		date date2(2011,7,29);
 		cout<<date1.isEqual(date2)<<endl;}
 	{
 		date date0(2011,7,30);
-		date date1 = dateUtil::dayRollAdjust(date0, Mfollowingbi, "");
+		date date1 = dateUtil::dayRollAdjust(date0, Mfollowingbi, USD);
 		date date2(2011,7,29);
 		cout<<date1.isEqual(date2)<<endl;}
 	{
 		date date0(2011,10,15);
-		date date1 = dateUtil::dayRollAdjust(date0, Mfollowingbi, "");
+		date date1 = dateUtil::dayRollAdjust(date0, Mfollowingbi, USD);
 		date date2(2011,10,14);
 		cout<<date1.isEqual(date2)<<endl;}
 	cout << "******** GetEndDate Test ********" << endl;
 	{
 		date date0(2012,1,31);
-		date date1 = dateUtil::getEndDate(date0, 1, true);
+		date date1 = dateUtil::getEndDate(date0, 1, Null,USD,dateUtil::MONTH);
 		date date2(2012,2,29);
 		cout<<date1.isEqual(date2)<<endl;}
 	{
 		date date0(2012,10,31);
-		date date1 = dateUtil::getEndDate(date0, 4, true);
+		date date1 = dateUtil::getEndDate(date0, 4, Null,USD,dateUtil::MONTH);
 		date date2(2013,2,28);
 		cout<<date1.isEqual(date2)<<endl;}
 	cout << "******** DayCount Test ********" << endl;

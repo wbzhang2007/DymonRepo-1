@@ -4,6 +4,7 @@
 
 #include <string>
 #include "date.h"
+#include <tuple>
 
 using namespace std;
 using namespace utilities;
@@ -15,7 +16,9 @@ namespace UnitTest{
 
 		typedef tuple<date, double> point;
 
-		virtual void runTest(){};
+		AbstractTest(){};
+
+		virtual void runTest()=0;
 
 	protected:
 

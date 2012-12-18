@@ -1,16 +1,18 @@
 //created by Wang Jianwei on 1 Dec 2012
 #include "TestInterpolator.h"
 #include "AbstractInterpolator.h"
-#include <iostream>
-#include <sstream>
 #include <cmath>
 #include <string>
+#include <iostream>
+#include <sstream>
 #include "LinearInterpolator.h"
 #include "LogLinearInterpolator.h"
 
 using namespace UnitTest;
 using namespace utilities;
 using namespace std;
+
+typedef AbstractTest super;
 
 void TestInterpolator::runTest(){
 	_EPSILON = 0.000001;
@@ -70,15 +72,11 @@ void TestInterpolator::logLinearTest(point startPoint, point endPoint, date targ
 
 bool TestInterpolator::compareResult(string testName, double derivedVal, double expectedVal, point startPoint, point endPoint, date targetDate){
 	std::stringstream ss (stringstream::in | stringstream::out);
-	if (abs(derivedVal-expectedVal)>_EPSILON)
-		ss<<testName<<" Test Failed: startPoint["<<getString(startPoint)<<"], endPoint["<<getString(endPoint)<<"], value found ["<<derivedVal<<"], desired value ["<<expectedVal<<"], date ["+targetDate.toString()+"]";
-	else
+	bool result = super::compareResult(derivedVal, expectedVal);
+	if (result)
 		ss<<testName<<" Test Passed: startPoint["<<getString(startPoint)<<"], endPoint["<<getString(endPoint)<<"], value found ["<<derivedVal<<"], date ["+targetDate.toString()+"]";
-	cout<<ss.str()<<endl;
-}
+	else
+		ss<<testName<<" Test Failed: startPoint["<<getString(startPoint)<<"], endPoint["<<getString(endPoint)<<"], value found ["<<derivedVal<<"], desired value ["<<expectedVal<<"], date ["+targetDate.toString()+"]";
 
-string TestInterpolator::getString(point point0){
-	std::stringstream ss (stringstream::in | stringstream::out);
-	ss<<std::get<0>(point0).toString()<<": "<<std::get<1>(point0);
-	return ss.str();
+	cout<<ss.str()<<endl;
 }

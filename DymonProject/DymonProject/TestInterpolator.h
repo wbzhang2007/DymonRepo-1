@@ -5,17 +5,18 @@
 #include "AbstractInterpolator.h"
 #include <string>
 #include "date.h"
+#include "AbstractTest.h"
 
 using namespace std;
 using namespace utilities;
 
 namespace UnitTest{
-	class TestInterpolator{
+	class TestInterpolator: public AbstractTest{
 
 	public:
 		typedef tuple<date, double> point;
 
-		TestInterpolator(){}
+		TestInterpolator():AbstractTest(){}
 
 		void runTest();
 
@@ -30,10 +31,6 @@ namespace UnitTest{
 		void logLinearTest(point startPoint, point endPoint, date targetDate, double tolerance, double expectedVal);
 
 		bool compareResult(std::string testName, double derivedVal, double expectedVal, point startPoint, point endPoint, date targetDate);
-
-		std::string getString(point point0);
-
-		double _EPSILON;
 	};
 }
 #endif

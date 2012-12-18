@@ -6,17 +6,20 @@
 #include "dateUtil.h"
 #include "date.h"
 #include "RecordHelper.h"
+#include "currency.h"
+#include "EnumHelper.h"
 
 using namespace DAO;
 using namespace std;
 using namespace utilities;
 using namespace Session;
+using namespace instruments;
 
 DepositFileSource::DepositFileSource():
-	AbstractFileSource(){}
+AbstractFileSource(){}
 
 DepositFileSource::DepositFileSource(std::string persistDir, std::string fileName):
-	AbstractFileSource(persistDir, fileName){}
+AbstractFileSource(persistDir, fileName){}
 
 DepositFileSource::~DepositFileSource(){}
 
@@ -28,16 +31,18 @@ void DepositFileSource::init(Configuration* cfg){
 
 void DepositFileSource::retrieveRecord(){
 	AbstractFileSource::retrieveRecord();
-	
+
 	string value;
-	string country;
+	enums::CurrencyEnum market;
 	RecordHelper::RateMap tempMap;
 	while (_inFile.good()){
 		_inFile>>value;
 		vector<string> vec = fileUtil::split(value,':');
-		country = vec[0];
+		market = EnumHelper::getCcyEnum(vec[0]);
+		currency mkt(market);
+		enums::DayRollEnum dayRoll=mkt.getAccrualAdjustCashConvention();
 		vector<string> deposits = fileUtil::split(vec[1],',');
-		cout<<country<<" total deposits number:  "<<deposits.size()<<endl;
+		cout<<market<<" total deposits number:  "<<deposits.size()<<endl;
 
 		std::map<long, double> rateMap;
 		for (unsigned int i = 0; i<deposits.size(); i++)
@@ -47,11 +52,11 @@ void DepositFileSource::retrieveRecord(){
 			char letterDateUnit = *tenureRate[0].rbegin(); // 'D'
 			int increment = std::stoi(tenureRate[0].substr(0,tenureRate[0].size()-1)); // 2
 			double depositRate = std::stod(tenureRate[1]); // 0.1
-			long JDN = dateUtil::getEndDate(dateUtil::getToday(),increment, true, dateUtil::getDateUnit(letterDateUnit), country).getJudianDayNumber();
+			long JDN = dateUtil::getEndDate(dateUtil::getToday(),increment, dayRoll, market, dateUtil::getDateUnit(letterDateUnit)).getJudianDayNumber();
 			rateMap.insert(pair<long, double>(JDN, depositRate));
-			cout << country<< " -> " << tenureRate[0]<<" "<<JDN <<" "<< depositRate << endl;
+			cout << market<< " -> " << tenureRate[0]<<" "<<JDN <<" "<< depositRate << endl;
 		}
-		tempMap.insert(pair<string, map<long, double>>(country,rateMap));
+		tempMap.insert(pair<enums::CurrencyEnum, map<long, double>>(market,rateMap));
 	}
 	RecordHelper::getInstance()->setDepositRateMap(tempMap);
 	_inFile.close();

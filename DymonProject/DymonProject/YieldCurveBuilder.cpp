@@ -39,7 +39,7 @@ YieldCurve* YieldCurveBuilder::build(){
 	point startPoint(startDate, 0);
 	YieldCurve* yc = new YieldCurve();
 	
-	map<long,double> rateMap = RecordHelper::getInstance()->getDepositRateMap()["USD"];
+	map<long,double> rateMap = RecordHelper::getInstance()->getDepositRateMap()[enums::USD];
 	for (map<long,double>::iterator it=rateMap.begin(); it != rateMap.end(); it++ ){
 		cout << "Deposit rate at date: "<<(*it).first << " => " << (*it).second << endl;
 		date endDate((*it).first);

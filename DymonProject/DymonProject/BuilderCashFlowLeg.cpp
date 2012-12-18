@@ -17,25 +17,25 @@ using namespace enums;
 
 using namespace instruments;
 
-BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double couponRate,double notional, int paymentFreq, currency cashFlowLegCurr,bool rollAccuralDates, int buildDirection,RecordHelper::HolidayMap holidayMap) {
+BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double couponRate,double notional, int paymentFreq, currency market, int buildDirection){
+
+	enums::DayCountEnum dayCountSwapConvention = market.getDayCountSwapConvention();
+	enums::DayRollEnum dayRollSwapConvention = market.getDayRollSwapConvention();
+	enums::DayRollEnum accrualAdjustSwapConvention = market.getAccrualAdjustSwapConvention();
 
 	if (buildDirection==1) {
 		int numOfMonthIncr=12/paymentFreq;
 		int i=0;
 		vector<cashflow> builtCashflowLeg;
-		date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,true);
-		while((dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*i,true),maturityDate)>=0)&&(dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),true),maturityDate)>=0)){
+		while((dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*i,true),maturityDate)>=0)&&
+			(dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),true),maturityDate)>=0)){
 			date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,true);
 			date calDateNewEnd=dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),true);
+			
+			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,market.getDayRollSwapConvention(),"");
+			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,market.getDayRollSwapConvention(),"");
 
-			if (rollAccuralDates) {
-				calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollSwapConvention(),"");
-				calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
-			}
-			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollSwapConvention(),"");
-			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
-
-			cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
+			cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
 			builtCashflowLeg.push_back(aCashflow);
 
 			i++;
@@ -45,13 +45,11 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 			date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,true);
 			date calDateNewEnd=maturityDate;
 
-			if (rollAccuralDates) {
-				calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,cashFlowLegCurr.getDayRollSwapConvention(),"");
-				calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
-			}
+			calDateNewStart=dateUtil::dayRollAdjust(calDateNewStart,market.getDayRollSwapConvention(),"");
+			calDateNewEnd=dateUtil::dayRollAdjust(calDateNewEnd,market.getDayRollSwapConvention(),"");
 
-			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,cashFlowLegCurr.getDayRollSwapConvention(),"");
-			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,cashFlowLegCurr.getDayRollSwapConvention(),"");
+			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,market.getDayRollSwapConvention(),"");
+			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,market.getDayRollSwapConvention(),"");
 			cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,cashFlowLegCurr);
 
 			builtCashflowLeg.push_back(aCashflow);
@@ -103,10 +101,6 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 
 }
 
-cashflowLeg BuilderCashFlowLeg::getCashFlowLeg() {
-	return _cashflowLeg;
-}
-
 BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,double couponRate,double notional, int paymentFreq, currency cashFlowLegCurr,bool rollAccuralDates,RecordHelper::HolidayMap holidayMap) {
 
 	int numOfMonthIncr=12/paymentFreq;
@@ -147,9 +141,6 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,doub
 		builtCashflowLeg.push_back(aCashflow);
 	}
 	_cashflowLeg=cashflowLeg(builtCashflowLeg).getCashFlowLeg();
-}
-
-BuilderCashFlowLeg::~BuilderCashFlowLeg() {
 }
 
 BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,vector<double> FLiborRate,double notional, int paymentFreq, currency cashFlowLegCurr,bool rollAccuralDates, int buildDirection,RecordHelper::HolidayMap holidayMap) {
