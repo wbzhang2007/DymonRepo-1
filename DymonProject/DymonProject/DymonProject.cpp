@@ -43,7 +43,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	//interpolatorTest.runTest();
 	//SwapTest();
 
-	buildYieldCurve();
+	//buildYieldCurve();
 }
 
 void buildYieldCurve(){
@@ -215,7 +215,7 @@ void CashFlowLegTest()  {
 	cashFlowLegCurr.setDayCountSwapConvention(enums::ACT_ACT);
 	cashFlowLegCurr.setDayRollCashConvention(enums::Mfollowing);
 
-	BuilderCashFlowLeg testCashFlowLeg(startDate, maturityDate,couponRate,notional, paymentFreq, cashFlowLegCurr, rollAccuralDates, buildDirection,holidayMap);
+	BuilderCashFlowLeg testCashFlowLeg(startDate, maturityDate,couponRate,notional, paymentFreq, enums::USD, buildDirection);
 
 	cout<<"**********************************************"<<endl;
 	cout << "******** CashFlowLeg Build Test starts********" << endl;
@@ -267,7 +267,7 @@ void CashFlowLegTest()  {
 	cout<<"****************************************************"<<endl;
 
 	buildDirection=-1;
-	BuilderCashFlowLeg testCashFlowLegReverse(startDate, maturityDate,couponRate,notional, paymentFreq, cashFlowLegCurr, rollAccuralDates, buildDirection,holidayMap);
+	BuilderCashFlowLeg testCashFlowLegReverse(startDate, maturityDate,couponRate,notional, paymentFreq, enums::USD, buildDirection);
 
 	
 	cout<<"**********************************************"<<endl;
@@ -320,7 +320,7 @@ void CashFlowLegTest()  {
 
 	int tenorNumMonth=12;
 
-	BuilderCashFlowLeg testCashFlowLegTenor(startDate, tenorNumMonth, couponRate, notional,  paymentFreq, cashFlowLegCurr,rollAccuralDates,holidayMap);
+	BuilderCashFlowLeg testCashFlowLegTenor(startDate, tenorNumMonth, couponRate, notional,  paymentFreq, enums::USD);
 
 	
 	cout<<"**********************************************"<<endl;

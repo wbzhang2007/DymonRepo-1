@@ -70,7 +70,7 @@ void TestInterpolator::logLinearTest(point startPoint, point endPoint, date targ
 	compareResult("LogLinear Interpolation",derivedVal, expectedVal, startPoint, endPoint, targetDate);
 }
 
-bool TestInterpolator::compareResult(string testName, double derivedVal, double expectedVal, point startPoint, point endPoint, date targetDate){
+void TestInterpolator::compareResult(string testName, double derivedVal, double expectedVal, point startPoint, point endPoint, date targetDate){
 	std::stringstream ss (stringstream::in | stringstream::out);
 	bool result = super::compareResult(derivedVal, expectedVal);
 	if (result)

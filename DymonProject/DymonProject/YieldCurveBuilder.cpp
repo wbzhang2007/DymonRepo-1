@@ -31,7 +31,7 @@ YieldCurve* YieldCurveBuilder::build(){
 	date startDate = dateUtil::getToday();
 	currency market(enums::USD);
 
-	BuilderCashFlowLeg builtCashflowLeg(startDate,600,1,1, _floatFreqency, market, _rollAccuralDates,RecordHelper::getInstance()->getHolidayMap());
+	BuilderCashFlowLeg builtCashflowLeg(startDate,600,1,1, _floatFreqency, enums::USD);
 	cashflowLeg _cashflowLeg=builtCashflowLeg.getCashFlowLeg();
 	vector<date> timeLine = _cashflowLeg.getAccuralDates();
 	_cashflowLeg.printTimeLine();

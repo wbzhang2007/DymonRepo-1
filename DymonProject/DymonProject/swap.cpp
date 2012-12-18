@@ -25,9 +25,9 @@ swap::swap(date tradeDate, date maturityDate, double notional, double couponRate
 	setTradeDate(tradeDate);
 	setMaturityDate(maturityDate);
 
-	BuilderCashFlowLeg builtCashflowLeg1(tradeDate, maturityDate,couponRate,notional, paymentFreqFixLeg, fixLegCurr, rollAccuralDates, buildDirection,holidayMap);
+	BuilderCashFlowLeg builtCashflowLeg1(tradeDate, maturityDate,couponRate,notional, paymentFreqFixLeg, fixLegCurr.getCurrencyName(),buildDirection);
 
-	BuilderCashFlowLeg builtCashflowLeg2(tradeDate, maturityDate,FLiborRate,notional, paymentFreqFloatingLeg, floatingLegCurr, rollAccuralDates, buildDirection,holidayMap);
+	BuilderCashFlowLeg builtCashflowLeg2(tradeDate, maturityDate,FLiborRate,notional, paymentFreqFloatingLeg, floatingLegCurr.getCurrencyName(), buildDirection);
 	
 	_fixCashflowLeg=builtCashflowLeg1.getCashFlowLeg();
 	_floatingCashflowLeg=builtCashflowLeg2.getCashFlowLeg();
