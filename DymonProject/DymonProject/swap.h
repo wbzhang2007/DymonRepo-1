@@ -16,14 +16,17 @@
 #include "cashflowLeg.h"
 #include "BuilderCashFlowLeg.h"
 #include "RecordHelper.h"
+#include "SwapPricer.h"
+#include "AbstractPricer.h"
 
 using namespace utilities;
 using namespace std;
 using namespace enums;
 using namespace instruments;
 
+
 namespace instruments {
-	class swap: public AbstractInstrument {
+	class swap:  SwapPricer, public AbstractInstrument{
 	public:
 		swap() {};
 		swap(date tradeDate, date maturityDate, double notional, double couponRate, vector<double> FLiborRate, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, RecordHelper::HolidayMap holidayMap);

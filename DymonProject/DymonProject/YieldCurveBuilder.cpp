@@ -39,7 +39,7 @@ YieldCurve* YieldCurveBuilder::build(){
 	vector<date> timeLine = _cashflowLeg.getAccuralDates();
 	_cashflowLeg.printTimeLine();
 
-	point startPoint(startDate, 1);
+	point startPoint(startDate, 0);
 	YieldCurve* yc = new YieldCurve();
 	
 	map<long,double> rateMap = RecordHelper::getInstance()->getDepositRateMap()["USD"];
@@ -47,9 +47,10 @@ YieldCurve* YieldCurveBuilder::build(){
 		cout << (*it).first << " => " << (*it).second << endl;
 		date endDate((*it).first);
 		double depositRate = (*it).second;
-		DepositRateBootStrapper depositBS(startPoint, endDate, depositRate,&timeLine, _interpolAlgo, _numericalAlgo);
+		DepositRateBootStrapper depositBS(startPoint, endDate, depositRate,&timeLine, _interpolAlgo, _numericalAlgo, _dayCountCashConvention);
 		AbstractInterpolator* lineSection = depositBS.bootStrap();
 		yc->insertLineSection(lineSection);
+		startPoint = lineSection->getEndPoint();
 	}
 
 	return yc;

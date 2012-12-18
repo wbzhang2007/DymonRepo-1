@@ -15,9 +15,10 @@ namespace utilities {
 		void init(Configuration* cfg);
 
 		DepositRateBootStrapper(point startPoint, date endDate, double depositRate, vector<date>* timeLine, enums::interpolAlgo interpolAlgo,
-		enums::NumericAlgo numericAlgo):AbstractBootStrapper(startPoint, endDate, interpolAlgo, numericAlgo){
+			enums::NumericAlgo numericAlgo, enums::DayCountEnum dayCount):AbstractBootStrapper(startPoint, endDate, interpolAlgo, numericAlgo){
 			_depositRate = depositRate;
 			_timeLine = *timeLine;
+			_dayCount = dayCount;
 		};
 				
 		AbstractInterpolator* bootStrap();
