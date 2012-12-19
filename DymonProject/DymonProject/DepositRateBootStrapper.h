@@ -19,10 +19,12 @@ namespace utilities {
 		void init(Configuration* cfg);
 
 		DepositRateBootStrapper(point startPoint, date endDate, cashflow cashFlow, enums::interpolAlgo interpolAlgo,
-			enums::NumericAlgo numericAlgo, currency market):AbstractBootStrapper(startPoint, endDate, interpolAlgo, numericAlgo){
+			enums::NumericAlgo numericAlgo, currency market, double bizDaysAfterSpotRate):AbstractBootStrapper(startPoint, endDate, interpolAlgo, numericAlgo){
 			_depositRate = cashFlow.getCouponRate();
 			_cashFlow = cashFlow;
 			_market = market;
+			_bizDaysAfterSpotRate = bizDaysAfterSpotRate;
+			_dayCountCash = market.getDayCountCashConvention();
 		};
 				
 		AbstractInterpolator* bootStrap();
@@ -34,6 +36,8 @@ namespace utilities {
 		double _depositRate;
 		currency _market;
 		cashflow _cashFlow;
+		double _bizDaysAfterSpotRate;
+		enums::DayCountEnum _dayCountCash;
 	};
 }
 #endif

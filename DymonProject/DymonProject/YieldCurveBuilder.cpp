@@ -11,7 +11,7 @@
 #include "RecordHelper.h"
 #include "DepositRateBootStrapper.h"
 #include "OvernightRateBootStrapper.h"
-#define NaN log(-1.0) 
+#define NaN -9999999 
 
 using namespace utilities;
 typedef AbstractBuilder super;
@@ -34,7 +34,7 @@ void YieldCurveBuilder::init(Configuration* cfg){
 YieldCurve* YieldCurveBuilder::build(){
 	YieldCurve* yc = new YieldCurve();
 	buildOvernightSection(yc);
-	//buildDepositSection(yc);
+	buildDepositSection(yc);
 	//buildSwapSection(yc);
 	return yc;
 }
@@ -53,11 +53,12 @@ void YieldCurveBuilder::buildOvernightSection(YieldCurve* yc){
 
 		cashflow cf(depositRate,0, startDate, paymentDate,startDate, paymentDate, _market);
 		OvernightRateBootStrapper overnightBS(_curvePointer, paymentDate, cf, _interpolAlgo, _numericalAlgo, _market);
+		overnightBS.init(Configuration::getInstance());
 		AbstractInterpolator* lineSection = overnightBS.bootStrap();
 		yc->insertLineSection(lineSection);
 		_curvePointer = lineSection->getEndPoint();
 
-		if (numOfNights = _bizDaysAfterSpot) _bizDaysAfterSpotRate = std::get<1>(lineSection->getEndPoint());
+		if (numOfNights == _bizDaysAfterSpot) _bizDaysAfterSpotRate = std::get<1>(lineSection->getEndPoint());
 	}
 }
 
@@ -71,25 +72,20 @@ void YieldCurveBuilder::buildDepositSection(YieldCurve* yc){
 		date accrualEndDate((*it).first);
 		date paymentDate = dateUtil::dayRollAdjust(accrualEndDate,_market.getDayRollSwapConvention(),enums::USD);
 		double depositRate = (*it).second;
-
 		cout << "Deposit rate at fixing date ["<<fixingDate.toString()<<"], accrual start date ["<<accrualStartDate.toString()<<
 			"], accrual end date ["<<accrualEndDate.toString()<<"], payment day ["<<paymentDate.toString()<<"], rate ["<< depositRate<<"]"<< endl;
 
 		cashflow cf(depositRate,0, fixingDate, paymentDate,accrualStartDate, accrualEndDate, _market);
 
 		AbstractInterpolator* lineSection;
-		if (_bizDaysAfterSpotRate == NaN){
-			DepositRateBootStrapper depositBS(_curvePointer, paymentDate, cf, _interpolAlgo, _numericalAlgo, _market);
-			lineSection = depositBS.bootStrap();
-			_bizDaysAfterSpotRate = std::get<1>(lineSection->getEndPoint());
-		}else{
-			DepositRateBootStrapper depositBS(_curvePointer, paymentDate, cf, _interpolAlgo, _numericalAlgo, _market);
-			lineSection = depositBS.bootStrap();
-		}
+		DepositRateBootStrapper depositBS(_curvePointer, paymentDate, cf, _interpolAlgo, _numericalAlgo, _market, _bizDaysAfterSpotRate);
+		depositBS.init(Configuration::getInstance());
+		lineSection = depositBS.bootStrap();
 		yc->insertLineSection(lineSection);
 		_curvePointer = lineSection->getEndPoint();
-	}
 
+		if (_bizDaysAfterSpotRate == NaN) _bizDaysAfterSpotRate = std::get<1>(lineSection->getEndPoint());
+	}
 }
 
 void YieldCurveBuilder::buildSwapSection(YieldCurve* yc){

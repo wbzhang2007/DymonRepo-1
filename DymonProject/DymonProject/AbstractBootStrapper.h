@@ -17,7 +17,7 @@ namespace utilities{
 	public:
 		typedef tuple<date, double> point;
 
-		virtual void init(Configuration* cfg){};
+		virtual void init(Configuration* cfg);
 
 		AbstractBootStrapper(point startPoint, date endDate,enums::interpolAlgo interpolAlgo,
 		enums::NumericAlgo numericAlgo){

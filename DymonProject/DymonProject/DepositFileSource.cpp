@@ -58,15 +58,15 @@ void DepositFileSource::retrieveRecord(){
 			int increment = std::stoi(tenureRate[0].substr(0,tenureRate[0].size()-1)); // 2
 			double depositRate = std::stod(tenureRate[1]); // 0.1
 			long JDN = dateUtil::getEndDate(startDate,increment, accrualAdjust, market, dateUtil::getDateUnit(letterDateUnit)).getJudianDayNumber();
-			depositRateMap.insert(pair<long, double>(JDN, depositRate));
 			if (letterDateUnit == 'D'){
 				overnightRateMap.insert(pair<long, double>(increment, depositRate));
 				cout << mkt.getNameString()<< " -> tenor[" << tenureRate[0]<<"], accrual start["<<startDate.toString()<<"], duration ["
 					<<increment <<"], deposit rate["<< depositRate << "]"<<endl;
 			}else{
-				date tempDate(JDN);
+				date accrualEndDate(JDN);
+				depositRateMap.insert(pair<long, double>(JDN, depositRate));
 				cout << mkt.getNameString()<< " -> tenor[" << tenureRate[0]<<"], accrual start["<<startDate.toString()<<"], accrual end["
-					<<tempDate.toString() <<"], deposit rate["<< depositRate << "]"<<endl;
+					<<accrualEndDate.toString() <<"], deposit rate["<< depositRate << "]"<<endl;
 			}
 		}
 		tempDepositMap.insert(pair<enums::CurrencyEnum, map<long, double>>(market,depositRateMap));
