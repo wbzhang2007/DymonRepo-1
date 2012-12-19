@@ -23,6 +23,7 @@ namespace utilities {
 		int getMonth();
 		int getDay();
 		void setDay(unsigned short day);
+		void setMonth(unsigned short month);
 		void setJudianDayNumber(long JDN);
 		long getJudianDayNumber();
 		bool isEqual(date date0);

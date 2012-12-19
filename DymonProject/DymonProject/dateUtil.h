@@ -44,11 +44,11 @@ namespace utilities {
 	    static bool isBizDay(long JDN);
 		static bool isHoliday(long JDN, enums::CurrencyEnum market);
 		static bool isleapyear(unsigned short year);
-		static long getPrecedingJDN(long JDN, enums::CurrencyEnum market);
-		static long getFolloingJDN(long JDN, enums::CurrencyEnum market);
-		static date adjustInvalidateDate(date aDate);
+		static long getPrecedingJDN(date refDate, enums::CurrencyEnum market);
+		static long getFolloingJDN(date refDate, enums::CurrencyEnum market);
+		static date adjustInvalidateDate(date aDate, bool forwardAdjust);
 		static double thirty_360(date startDate, date endDate);
-		static date getEndDateMonthIncrement(date refDate, int numMonth, enums::DayRollEnum dayRoll, enums::CurrencyEnum market);
+		static date getEndDateMonthIncrement(date refDate, int numMonth, enums::CurrencyEnum market);
 	};
 }
 

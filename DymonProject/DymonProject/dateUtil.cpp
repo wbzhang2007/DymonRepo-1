@@ -63,13 +63,15 @@ bool dateUtil::isBizDay(long JDN){
 
 bool dateUtil::isHoliday(long JDN, enums::CurrencyEnum market){
 	RecordHelper::HolidayMap holidayMap= RecordHelper::getInstance()->getHolidayMap();
-	if (holidayMap.find(market)== holidayMap.end())
-		throw "Market not found in Holiday Map: "+market;
+	if (holidayMap.find(market)== holidayMap.end()){
+		cout<< "Market not found in Holiday Map: "+market<<endl;
+		return false;
+	}
 
 	set<long> holidaySet = holidayMap[market];
 	if (holidaySet.find(JDN) != holidaySet.end())
-		return false;
-	return true;
+		return true;
+	return false;
 }
 
 bool dateUtil::isHoliday(date aDate, enums::CurrencyEnum market){
@@ -198,21 +200,21 @@ date dateUtil::dayRollAdjust(date aDate,DayRollEnum aDayRollConvention, enums::C
 	long adjustedJDN;
 	switch(aDayRollConvention){
 	case enums::Following:
-		adjustedJDN = getFolloingJDN(aDate.getJudianDayNumber(), market);
+		adjustedJDN = getFolloingJDN(aDate, market);
 		break;
 	case enums::Preceding:
-		adjustedJDN = getPrecedingJDN(aDate.getJudianDayNumber(), market);
+		adjustedJDN = getPrecedingJDN(aDate, market);
 		break;
 	case enums::Mfollowing:
-		adjustedJDN = getFolloingJDN(aDate.getJudianDayNumber(), market);
-		if (getYearMonthDay(adjustedJDN)[1]!=getYearMonthDay(aDate.getJudianDayNumber())[1])
-			adjustedJDN = getPrecedingJDN(aDate.getJudianDayNumber(), market);
+		adjustedJDN = getFolloingJDN(aDate, market);
+		if (getYearMonthDay(adjustedJDN)[1]!=aDate.getMonth())
+			adjustedJDN = getPrecedingJDN(aDate, market);
 		break;
 	case enums::Mfollowingbi:	
-		adjustedJDN = getFolloingJDN(aDate.getJudianDayNumber(), market);
-		if (getYearMonthDay(adjustedJDN)[2]!=getYearMonthDay(aDate.getJudianDayNumber())[2]||
-			getYearMonthDay(adjustedJDN)[3]>=15)
-			adjustedJDN = getPrecedingJDN(aDate.getJudianDayNumber(), market);
+		adjustedJDN = getFolloingJDN(aDate, market);
+		if (getYearMonthDay(adjustedJDN)[1]!=aDate.getMonth()||
+			getYearMonthDay(adjustedJDN)[2]>=15)
+			adjustedJDN = getPrecedingJDN(aDate, market);
 		break;
 	case enums::EOM:
 		break;
@@ -224,7 +226,7 @@ date dateUtil::dayRollAdjust(date aDate,DayRollEnum aDayRollConvention, enums::C
 	return adjustedDate;
 }
 
-date dateUtil::getEndDateMonthIncrement(date startDate, int numMonth, enums::DayRollEnum dayRoll, enums::CurrencyEnum market){
+date dateUtil::getEndDateMonthIncrement(date startDate, int numMonth, enums::CurrencyEnum market){
 	short startMonth = startDate.getMonth();
 	short endMonth;
 
@@ -248,15 +250,19 @@ date dateUtil::getEndDate(date startDate, int increment, enums::DayRollEnum dayR
 	switch(dateUnit){
 	case YEAR:
 		endDate = date(startDate.getYear()+1,startDate.getMonth(), startDate.getDay());
+		break;
 	case MONTH:
-		return getEndDateMonthIncrement(startDate, increment, dayRoll, market);
+		endDate = getEndDateMonthIncrement(startDate, increment, market);
+		break;
 	case DAY:
 		endDate = getBizDate(startDate,increment, enums::Following, market);
+		break;
 	case WEEK:
 		endDate = date(startDate.getJudianDayNumber()+increment*7);
+		break;
 	}
 	endDate = dayRollAdjust(endDate,dayRoll, market);
-	return NULL;
+	return endDate;
 }
 
 date dateUtil::getBizDate(date refDate, long bias, enums::DayRollEnum dayRollType, enums::CurrencyEnum market) {
@@ -266,11 +272,16 @@ date dateUtil::getBizDate(date refDate, long bias, enums::DayRollEnum dayRollTyp
 	return aDate; 
 }
 
-date dateUtil::adjustInvalidateDate(date aDate){
+date dateUtil::adjustInvalidateDate(date aDate, bool forwardAdjust){
 	unsigned short monthlen[]={31,28,31,30,31,30,31,31,30,31,30,31};
 	if (isleapyear(aDate.getYear()) && aDate.getMonth()==2)
 		monthlen[1]++;
 	if (aDate.getDay()>monthlen[aDate.getMonth()-1]){
+		if (forwardAdjust){
+			aDate.setMonth(aDate.getMonth()%12+1);
+			aDate.setDay(1);
+		}
+		else
 			aDate.setDay(monthlen[aDate.getMonth()-1]);
 	}
 	return aDate;
@@ -280,15 +291,19 @@ bool dateUtil::isleapyear(unsigned short year){
 	return (!(year%4) && (year%100) || !(year%400));
 }
 
-long dateUtil::getPrecedingJDN(long JDN, enums::CurrencyEnum market){
-	while(!isBizDay(JDN) && !isHoliday(JDN,market)){
+long dateUtil::getPrecedingJDN(date refDate, enums::CurrencyEnum market){
+	date adjustedDate = adjustInvalidateDate(refDate,false);
+	long JDN = adjustedDate.getJudianDayNumber();
+	while(!isBizDay(JDN) || isHoliday(JDN,market)){
 		JDN--;
 	}
 	return JDN;
 }
 
-long dateUtil::getFolloingJDN(long JDN, enums::CurrencyEnum market){
-	while(!isBizDay(JDN) && !isHoliday(JDN,market)){
+long dateUtil::getFolloingJDN(date refDate, enums::CurrencyEnum market){
+	date adjustedDate = adjustInvalidateDate(refDate,true);
+	long JDN = adjustedDate.getJudianDayNumber();
+	while(!isBizDay(JDN) || isHoliday(JDN,market)){
 		JDN++;
 	}
 	return JDN;

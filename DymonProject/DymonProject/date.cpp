@@ -62,7 +62,12 @@ namespace utilities {
 		_day=day;
 		setJudianDayNumber();
 	}
-	
+
+	void date::setMonth(unsigned short month){
+		_month = month;
+		setJudianDayNumber();
+	}
+
 	void date::printDate() {
 		cout <<_year<<"-"<<_month<<"-"<<_day<<endl;
 	}

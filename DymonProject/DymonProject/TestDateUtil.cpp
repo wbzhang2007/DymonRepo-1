@@ -55,12 +55,22 @@ void TestDateUtil::getEndDateTestSuit(){
 	cout << "******** GetEndDate Test ********" << endl;
 	{
 		date date0(2012,1,31);
-		date date1 = dateUtil::getEndDate(date0, 1, Null,USD,dateUtil::MONTH);
+		date date1 = dateUtil::getEndDate(date0, 1, Preceding,USD,dateUtil::MONTH);
 		date date2(2012,2,29);
 		cout<<date1.isEqual(date2)<<endl;}
 	{
 		date date0(2012,10,31);
-		date date1 = dateUtil::getEndDate(date0, 4, Null,USD,dateUtil::MONTH);
+		date date1 = dateUtil::getEndDate(date0, 4, Preceding,USD,dateUtil::MONTH);
+		date date2(2013,2,28);
+		cout<<date1.isEqual(date2)<<endl;}
+	{
+		date date0(2012,10,31);
+		date date1 = dateUtil::getEndDate(date0, 4, Following,USD,dateUtil::MONTH);
+		date date2(2013,3,1);
+		cout<<date1.isEqual(date2)<<endl;}
+	{
+		date date0(2012,10,31);
+		date date1 = dateUtil::getEndDate(date0, 4, Mfollowing,USD,dateUtil::MONTH);
 		date date2(2013,2,28);
 		cout<<date1.isEqual(date2)<<endl;}
 }
@@ -95,4 +105,7 @@ void TestDateUtil::DayCountTestSuit(){
 		date sd(2012,12,7);
 		date ed(2012,12,17);
 		cout<<(dateUtil::getAccrualFactor(sd,ed,BUS_252)-(6/252.0)<pow(10.0,-12))<<endl;}
+}
+
+void compareResult(std::string testName, date derivedVal, date expectedVal){
 }

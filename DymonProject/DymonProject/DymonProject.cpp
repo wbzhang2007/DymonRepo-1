@@ -44,7 +44,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	//numericalTest.runTest();
 	//TestInterpolator interpolatorTest;
 	//interpolatorTest.runTest();
-	SwapTest();
+	//SwapTest();
 
 	//buildYieldCurve();
 }		
