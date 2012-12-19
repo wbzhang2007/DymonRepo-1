@@ -104,6 +104,7 @@
     <ClInclude Include="DepositRateBootStrapper.h" />
     <ClInclude Include="EnumHelper.h" />
     <ClInclude Include="FalsePosition.h" />
+    <ClInclude Include="OvernightRateBootStrapper.h" />
     <ClInclude Include="Ridder.h" />
     <ClInclude Include="Secant.h" />
     <ClInclude Include="SwapPricer.h" />
@@ -164,6 +165,7 @@
     <ClCompile Include="LinearInterpolator.cpp" />
     <ClCompile Include="LogLinearInterpolator.cpp" />
     <ClCompile Include="Newton.h" />
+    <ClCompile Include="OvernightRateBootStrapper.cpp" />
     <ClCompile Include="RecordHelper.cpp" />
     <ClCompile Include="fileUtil.cpp" />
     <ClCompile Include="HolidayFileSource.cpp" />

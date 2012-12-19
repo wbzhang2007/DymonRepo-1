@@ -20,6 +20,7 @@ namespace instruments {
 		
 
 	public:
+		cashflow(){};
 		cashflow(double couponRate,double notional,  date fixingDate, date paymentDate,date accuralStartDate, date accuralEndDate, currency cashFlowCurr);
 
 		~cashflow(){};

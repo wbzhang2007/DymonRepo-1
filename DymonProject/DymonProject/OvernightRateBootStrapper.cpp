@@ -1,6 +1,6 @@
 //created by Wang Jianwei on 1 Dec 2012
 
-#include "DepositRateBootStrapper.h"
+#include "OvernightRateBootStrapper.h"
 #include <iostream>
 #include <cmath>
 #include "YieldCurve.h"
@@ -15,11 +15,11 @@ using namespace utilities;
 
 typedef AbstractBootStrapper super;
 
-void DepositRateBootStrapper::init(Configuration* cfg){
+void OvernightRateBootStrapper::init(Configuration* cfg){
 	super::init(cfg);
 }
 
-AbstractInterpolator* DepositRateBootStrapper::bootStrap(){
+AbstractInterpolator* OvernightRateBootStrapper::bootStrap(){
 	AbstractInterpolator* ai;
 	enums::DayCountEnum dayCountCashConvention = _market.getDayCountCashConvention();
 	double accrualFactor = dateUtil::getAccrualFactor(_cashFlow.getAccuralStartDate(),_cashFlow.getAccuralEndDate(), dayCountCashConvention);
@@ -28,6 +28,6 @@ AbstractInterpolator* DepositRateBootStrapper::bootStrap(){
 	return ai;
 }
 
-double DepositRateBootStrapper::numericalFunc(double x){
+double OvernightRateBootStrapper::numericalFunc(double x){
 	return 0;
 }

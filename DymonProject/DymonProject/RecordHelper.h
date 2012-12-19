@@ -35,6 +35,9 @@ namespace Session {
 		RateMap getDepositRateMap(){return _depositRateMap;}
 		void setDepositRateMap(RateMap map){_depositRateMap=map;}
 
+		RateMap getOverNightRateMap(){return _overNightRateMap;}
+		void setOverNightRateMap(RateMap map){_overNightRateMap=map;}
+
 		RateMap getSwapRateMap(){return _swapRateMap;}
 		void setSwapRateMap(RateMap map){_swapRateMap=map;}
 
@@ -51,6 +54,8 @@ namespace Session {
 		HolidayMap _holidayMap;
 
 		RateMap _depositRateMap;
+
+		RateMap _overNightRateMap;
 
 		RateMap _swapRateMap;
 				

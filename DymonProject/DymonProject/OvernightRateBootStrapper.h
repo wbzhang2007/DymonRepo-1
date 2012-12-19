@@ -1,6 +1,6 @@
 //created by Wang Jianwei on 01 Dec 2012
-#ifndef DEPOSITRATEBOOTSTRAPPER_H
-#define DEPOSITRATEBOOTSTRAPPER_H
+#ifndef OVERNIGHTRATEBOOTSTRAPPER_H
+#define OVERNIGHTRATEBOOTSTRAPPER_H
 #include <string>
 #include "AbstractBootStrapper.h"
 #include "cashflow.h"
@@ -10,7 +10,7 @@
 using namespace instruments;
 
 namespace utilities {
-	class DepositRateBootStrapper: public AbstractBootStrapper{
+	class OvernightRateBootStrapper: public AbstractBootStrapper{
 		
 	public:
 		
@@ -18,7 +18,7 @@ namespace utilities {
 
 		void init(Configuration* cfg);
 
-		DepositRateBootStrapper(point startPoint, date endDate, cashflow cashFlow, enums::interpolAlgo interpolAlgo,
+		OvernightRateBootStrapper(point startPoint, date endDate, cashflow cashFlow, enums::interpolAlgo interpolAlgo,
 			enums::NumericAlgo numericAlgo, currency market):AbstractBootStrapper(startPoint, endDate, interpolAlgo, numericAlgo){
 			_depositRate = cashFlow.getCouponRate();
 			_cashFlow = cashFlow;

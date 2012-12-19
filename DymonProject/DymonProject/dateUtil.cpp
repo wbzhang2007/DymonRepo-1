@@ -327,6 +327,8 @@ double dateUtil::thirty_360(date startDate, date endDate){
 
 dateUtil::DateUnit dateUtil::getDateUnit(char letterDateUnit){
 	switch(letterDateUnit){
+	case 'BD':
+		return BIZDAY;
 	case 'D':
 		return DAY;
 	case 'M':

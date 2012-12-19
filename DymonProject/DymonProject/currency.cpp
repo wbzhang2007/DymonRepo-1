@@ -38,4 +38,5 @@ std::string currency::getNameString(){
 	case::JPY:
 		return "JPY";
 	}
+	return NULL;
 }
