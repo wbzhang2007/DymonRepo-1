@@ -55,7 +55,8 @@ void SwapRateFileSource::retrieveRecord(){
 			double swapRate = std::stod(tenureRate[1]); // 3.134
 			long JDN = dateUtil::getEndDate(dateUtil::getToday(),increment, dayRoll, market, dateUtil::getDateUnit(letterDateUnit)).getJudianDayNumber();
 			rateMap.insert(pair<long, double>(JDN, swapRate));
-			cout << market<< " -> " << tenureRate[0]<<" "<<JDN <<" "<< swapRate << endl;
+			date tempDate(JDN);
+			cout << mkt.getNameString()<< " -> " << tenureRate[0]<<" "<<tempDate.toString() <<" "<< swapRate << endl;
 		}
 		tempMap.insert(pair<enums::CurrencyEnum, map<long, double>>(market,rateMap));
 	}

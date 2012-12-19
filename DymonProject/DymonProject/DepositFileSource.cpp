@@ -54,7 +54,8 @@ void DepositFileSource::retrieveRecord(){
 			double depositRate = std::stod(tenureRate[1]); // 0.1
 			long JDN = dateUtil::getEndDate(dateUtil::getToday(),increment, dayRoll, market, dateUtil::getDateUnit(letterDateUnit)).getJudianDayNumber();
 			rateMap.insert(pair<long, double>(JDN, depositRate));
-			cout << market<< " -> " << tenureRate[0]<<" "<<JDN <<" "<< depositRate << endl;
+			date tempDate(JDN);
+			cout << mkt.getNameString()<< " -> " << tenureRate[0]<<" "<<tempDate.toString() <<" "<< depositRate << endl;
 		}
 		tempMap.insert(pair<enums::CurrencyEnum, map<long, double>>(market,rateMap));
 	}

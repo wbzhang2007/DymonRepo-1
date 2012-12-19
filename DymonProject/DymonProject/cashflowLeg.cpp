@@ -59,7 +59,7 @@ namespace instruments {
 
 	void cashflowLeg::printTimeLine() {
 		std::stringstream ss (stringstream::in | stringstream::out);
-		ss<<"Time Line: \n";
+		ss<<"Accrual Time Line: \n";
 		std::vector<cashflow>::iterator itT=_cashflowLeg.begin();
 		for (;itT!=_cashflowLeg.end();itT++) {
 			cashflow aCF=*itT;

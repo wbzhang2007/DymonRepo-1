@@ -15,7 +15,9 @@ namespace instruments {
 		currency(enums::CurrencyEnum);
 		~currency(){};
 
-		enums::CurrencyEnum getCurrencyName(){return _marketName;}
+		std::string getNameString();
+
+		enums::CurrencyEnum getCurrencyEnum(){return _marketName;}
 		enums::DayCountEnum getDayCountCashConvention(){return _dayCountCashConvention;}
 		enums::DayCountEnum getDayCountSwapConvention(){return _dayCountSwapConvention;}
 		enums::DayRollEnum getDayRollCashConvention(){return _dayRollCashConvention;}
@@ -23,7 +25,7 @@ namespace instruments {
 		enums::DayRollEnum getAccrualAdjustCashConvention(){return _accrualAdjustCashConvention;}
 		enums::DayRollEnum getAccrualAdjustSwapConvention(){return _accrualAdjustSwapConvention;}
 
-		void setCurrencyName(enums::CurrencyEnum marketName){_marketName = marketName;}
+		void setCurrencyEnum(enums::CurrencyEnum marketName){_marketName = marketName;}
 		void setDayCountCashConvention(enums::DayCountEnum dayCountCashConvention){_dayCountCashConvention = dayCountCashConvention;}
 		void setDayCountSwapConvention(enums::DayCountEnum dayCountSwapConvention){_dayCountSwapConvention = dayCountSwapConvention;}
 		void setDayRollCashConvention(enums::DayRollEnum dayRollCashConvention){_dayRollCashConvention = dayRollCashConvention;}

@@ -102,5 +102,4 @@ void cashflow::printCashFlow() {
 	cout<<"fixingDate ["<< _fixingDate.toString()<<"], accuralStartDate ["<< _accuralStartDate.toString()<<"], "<<
 		"accuralEndDate ["<<_accuralEndDate.toString()<<"] paymentDate["<< _paymentDate.toString()<<"]"<<endl;
 	 cout<<"accuralFactor ["<<_accuralFactor<<"], couponAmonunt["<<_couponAmount<<"] notional["<<_notional<<"]"<<endl;
-	 cout<<"*******************************"<<endl<<endl;
 }

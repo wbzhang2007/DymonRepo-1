@@ -23,32 +23,32 @@ void TestDateUtil::dayRollAdjustTestSuit(){
 	{
 		date date0(2456270);
 		date date1(2012,12,8);
-		cout<<date0.isEqual(date1)<<endl;} 
+		compareResult("DayRollAdjust-1", date0,date1);}
 	{
 		date date0(2011,9,18);
 		date date1 = dateUtil::dayRollAdjust(date0, Following, USD);
 		date date2(2011,9,19);
-		cout<<date1.isEqual(date2)<<endl;}
+		compareResult("DayRollAdjust-2", date1,date2);}
 	{
 		date date0(2011,9,18);
 		date date1 = dateUtil::dayRollAdjust(date0, Preceding, USD);
 		date date2(2011,9,16);
-		cout<<date1.isEqual(date2)<<endl;}
+		compareResult("DayRollAdjust-3", date1,date2);}
 	{
 		date date0(2011,7,30);
 		date date1 = dateUtil::dayRollAdjust(date0, Mfollowing, USD);
-		date date2(2011,7,29);
-		cout<<date1.isEqual(date2)<<endl;}
+		date date2(2011,7,29);		
+		compareResult("DayRollAdjust-4", date1,date2);}
 	{
 		date date0(2011,7,30);
 		date date1 = dateUtil::dayRollAdjust(date0, Mfollowingbi, USD);
-		date date2(2011,7,29);
-		cout<<date1.isEqual(date2)<<endl;}
+		date date2(2011,7,29);		
+		compareResult("DayRollAdjust-5", date1,date2);}
 	{
 		date date0(2011,10,15);
 		date date1 = dateUtil::dayRollAdjust(date0, Mfollowingbi, USD);
-		date date2(2011,10,14);
-		cout<<date1.isEqual(date2)<<endl;}
+		date date2(2011,10,14);		
+		compareResult("DayRollAdjust-6", date1,date2);}
 }
 
 void TestDateUtil::getEndDateTestSuit(){
@@ -57,22 +57,22 @@ void TestDateUtil::getEndDateTestSuit(){
 		date date0(2012,1,31);
 		date date1 = dateUtil::getEndDate(date0, 1, Preceding,USD,dateUtil::MONTH);
 		date date2(2012,2,29);
-		cout<<date1.isEqual(date2)<<endl;}
+		compareResult("GetEndDate-1", date1,date2);}
 	{
 		date date0(2012,10,31);
 		date date1 = dateUtil::getEndDate(date0, 4, Preceding,USD,dateUtil::MONTH);
 		date date2(2013,2,28);
-		cout<<date1.isEqual(date2)<<endl;}
+		compareResult("GetEndDate-2", date1,date2);}
 	{
 		date date0(2012,10,31);
 		date date1 = dateUtil::getEndDate(date0, 4, Following,USD,dateUtil::MONTH);
 		date date2(2013,3,1);
-		cout<<date1.isEqual(date2)<<endl;}
+		compareResult("GetEndDate-3", date1,date2);}
 	{
 		date date0(2012,10,31);
 		date date1 = dateUtil::getEndDate(date0, 4, Mfollowing,USD,dateUtil::MONTH);
 		date date2(2013,2,28);
-		cout<<date1.isEqual(date2)<<endl;}
+		compareResult("GetEndDate-4", date1,date2);}
 }
 
 void TestDateUtil::DayCountTestSuit(){
@@ -107,5 +107,12 @@ void TestDateUtil::DayCountTestSuit(){
 		cout<<(dateUtil::getAccrualFactor(sd,ed,BUS_252)-(6/252.0)<pow(10.0,-12))<<endl;}
 }
 
-void compareResult(std::string testName, date derivedVal, date expectedVal){
+void TestDateUtil::compareResult(std::string testName, date derivedVal, date expectedVal){
+	std::stringstream ss (stringstream::in | stringstream::out);
+	if (derivedVal.isEqual(expectedVal)){
+		ss<<testName<<" Test Passed: derived date ["<<derivedVal.toString()<<"]";
+	}else{
+		ss<<testName<<" Test Failed: derived date ["<<derivedVal.toString()<<"], expected date ["+expectedVal.toString()+"]";
+	}
+	cout<<ss.str()<<endl;
 }

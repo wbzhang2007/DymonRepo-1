@@ -249,7 +249,7 @@ date dateUtil::getEndDate(date startDate, int increment, enums::DayRollEnum dayR
 	date endDate;
 	switch(dateUnit){
 	case YEAR:
-		endDate = date(startDate.getYear()+1,startDate.getMonth(), startDate.getDay());
+		endDate = date(startDate.getYear()+increment,startDate.getMonth(), startDate.getDay());
 		break;
 	case MONTH:
 		endDate = getEndDateMonthIncrement(startDate, increment, market);
