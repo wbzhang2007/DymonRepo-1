@@ -28,8 +28,8 @@ void YieldCurveBuilder::init(Configuration* cfg){
 }
 
 YieldCurve* YieldCurveBuilder::build(){
-	date startDate = dateUtil::getToday();
 	currency market(enums::USD);
+	date startDate = dateUtil::getBizDateOffSet(dateUtil::getToday(),market.getBusinessDaysAfterSpot(),enums::USD);
 
 	BuilderCashFlowLeg builtCashflowLeg(startDate,600,1,1, _floatFreqency, enums::USD);
 	cashflowLeg _cashflowLeg=builtCashflowLeg.getCashFlowLeg();

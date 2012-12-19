@@ -13,9 +13,24 @@ typedef AbstractTest super;
 
 void TestDateUtil::runTest(){
 	_EPSILON = 0.000001;
+	bizDateAdjustSuit();
 	dayRollAdjustTestSuit();
 	getEndDateTestSuit();
 	DayCountTestSuit();
+}
+
+void TestDateUtil::bizDateAdjustSuit(){
+	cout << "******** BizDateAdjust Test ********" << endl;
+	{
+		date date0(2012,12,19);
+		date date1 = dateUtil::getBizDateOffSet(date0, 4, USD);
+		date date2(2012,12,25);
+		compareResult("BizDateAdjust-1", date1,date2);}
+	{
+		date date0(2012,12,19);
+		date date1 = dateUtil::getBizDateOffSet(date0, -4, USD);
+		date date2(2012,12,13);
+		compareResult("BizDateAdjust-2", date1,date2);}
 }
 
 void TestDateUtil::dayRollAdjustTestSuit(){

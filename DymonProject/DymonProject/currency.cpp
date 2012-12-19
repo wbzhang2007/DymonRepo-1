@@ -19,7 +19,8 @@ currency::currency(enums::CurrencyEnum market) {
 	setDayRollCashConvention(std::get<2>(ccyTuple));
 	setDayRollSwapConvention(std::get<3>(ccyTuple));
 	setAccrualAdjustCashConvention(std::get<4>(ccyTuple));
-	setAccrualAdjustSwapConvention(std::get<5>(ccyTuple));	
+	setAccrualAdjustSwapConvention(std::get<5>(ccyTuple));
+	setBusinessDaysAfterSpot(std::get<6>(ccyTuple));
 }
 
 std::string currency::getNameString(){

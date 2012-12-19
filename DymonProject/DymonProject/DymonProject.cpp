@@ -36,8 +36,8 @@ void buildYieldCurve();
 int _tmain(int argc, _TCHAR* argv[])
 {
 	RecordTest();
-	//TestDateUtil dateUtilTest;
-	//dateUtilTest.runTest();
+	TestDateUtil dateUtilTest;
+	dateUtilTest.runTest();
 	//CashFlowTest();
     //CashFlowLegTest();
 	//TestNumerical numericalTest;
@@ -46,7 +46,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	//interpolatorTest.runTest();
 	//SwapTest();
 
-	buildYieldCurve();
+	//buildYieldCurve();
 }		
 
 		

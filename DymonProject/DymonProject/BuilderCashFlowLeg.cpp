@@ -32,7 +32,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 			(dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),Null,market,dateUtil::MONTH),maturityDate)>=0)){
 			date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
 			date calDateNewEnd=dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);			
-			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,dayRollSwapConvention,market);
+			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-2,market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
 			cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
@@ -46,7 +46,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 
 			date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
 			date calDateNewEnd=dateUtil::dayRollAdjust(maturityDate,accrualAdjustSwapConvention,market);
-			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,dayRollSwapConvention,market);
+			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-2,market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
 			cashflow aCashflow(couponRate,notional,calFixingDate,calPaymentDate,calDateNewStart,calDateNewEnd,market);
@@ -65,7 +65,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 
 			date calDateNewStart=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);
 			date calDateNewEnd=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,dayRollSwapConvention,market);
+			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-2,market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
 			cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
@@ -78,7 +78,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 
 			date calDateNewStart=dateUtil::dayRollAdjust(startDate,accrualAdjustSwapConvention,market);
 			date calDateNewEnd=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,dayRollSwapConvention,market);
+			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-2,market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
 			cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
@@ -104,7 +104,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,doub
 
 		date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
 		date calDateNewEnd=dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);			
-		date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,dayRollSwapConvention,market);
+		date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-2,market);
 		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
 		cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
@@ -117,7 +117,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,doub
 		date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
 		date calDateNewEnd=dateUtil::getEndDate(startDate,tenorNumOfMonths,accrualAdjustSwapConvention,market,dateUtil::MONTH);
 
-		date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,dayRollSwapConvention,market);
+		date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-2,market);
 		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 		cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
 
@@ -142,7 +142,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,vector<
 
 			date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
 			date calDateNewEnd=dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);			
-			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,dayRollSwapConvention,market);
+			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-2,market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
 			cashflow aCashflow(FLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
@@ -156,7 +156,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,vector<
 			
 			date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
 			date calDateNewEnd=dateUtil::dayRollAdjust(maturityDate,accrualAdjustSwapConvention,market);
-			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,dayRollSwapConvention,market);
+			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-2,market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
 			cashflow aCashflow(FLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
@@ -180,7 +180,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,vector<
 
 			date calDateNewStart=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);
 			date calDateNewEnd=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,dayRollSwapConvention,market);
+			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-2,market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
 			cashflow aCashflow(rFLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
@@ -193,7 +193,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,vector<
 
 			date calDateNewStart=dateUtil::dayRollAdjust(startDate,accrualAdjustSwapConvention,market);
 			date calDateNewEnd=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,dayRollSwapConvention,market);
+			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-2,market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
 			cashflow aCashflow(rFLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd, market);
@@ -219,7 +219,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,vect
 
 		date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
 		date calDateNewEnd=dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);			
-		date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,dayRollSwapConvention,market);
+		date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-2,market);
 		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
 		cashflow aCashflow(FLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
@@ -231,7 +231,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,vect
 
 		date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
 		date calDateNewEnd=dateUtil::getEndDate(startDate,tenorNumOfMonths,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-		date calFixingDate=dateUtil::getBizDate(calDateNewStart,-2,dayRollSwapConvention,market);
+		date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-2,market);
 		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
 		cashflow aCashflow(FLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);

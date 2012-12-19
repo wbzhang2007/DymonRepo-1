@@ -7,6 +7,7 @@
 #include "date.h"
 #include "RecordHelper.h"
 #include "EnumHelper.h"
+#include <iostream>
 
 using namespace DAO;
 using namespace std;
@@ -46,8 +47,9 @@ void CurrencyFileSource::retrieveRecord(){
 		enums::DayRollEnum dayRollSwap = EnumHelper::getDayRollEnum(properties[3]);
 		enums::DayRollEnum accrualAdjustCash = EnumHelper::getDayRollEnum(properties[4]);
 		enums::DayRollEnum accrualAdjustSwap = EnumHelper::getDayRollEnum(properties[5]);
+		int businessDaysAfterSpot = std::stoi(properties[6]);
 
-		RecordHelper::currencyTuple ccyTuple(dayCountCash, dayCountSwap, dayRollCash, dayRollSwap, accrualAdjustCash, accrualAdjustSwap);
+		RecordHelper::currencyTuple ccyTuple(dayCountCash, dayCountSwap, dayRollCash, dayRollSwap, accrualAdjustCash, accrualAdjustSwap, businessDaysAfterSpot);
 
 		cout << market<< " -> "<< "DayCountCashConvention "<< dayCountCash<<endl;
 		cout << market<< " -> "<< "DayCountSwapConvention "<< dayCountSwap<<endl;
@@ -55,6 +57,7 @@ void CurrencyFileSource::retrieveRecord(){
 		cout << market<< " -> "<< "DayRollSwapConvention "<< dayRollSwap<<endl;
 		cout << market<< " -> "<< "AccrualAdjustCashConvention "<< accrualAdjustCash<<endl;
 		cout << market<< " -> "<< "AccrualAdjustSwapConvention "<< accrualAdjustSwap<<endl;
+		cout << market<< " -> "<< "BusinessDaysAfterSpot "<< businessDaysAfterSpot<<endl;
 
 		currencyMap.insert(pair<enums::CurrencyEnum, RecordHelper::currencyTuple>(currencyName,ccyTuple));
 	}	

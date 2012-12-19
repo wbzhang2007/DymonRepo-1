@@ -42,6 +42,7 @@ void SwapRateFileSource::retrieveRecord(){
 		market = EnumHelper::getCcyEnum(vec[0]);
 		currency mkt(market);
 		enums::DayRollEnum dayRoll=mkt.getAccrualAdjustSwapConvention();
+		int businessDaysAfterSpot = mkt.getBusinessDaysAfterSpot();
 		vector<string> deposits = fileUtil::split(vec[1],',');
 		cout<<market<<" market has total swap rate number:  "<<deposits.size()<<endl;
 
@@ -49,11 +50,12 @@ void SwapRateFileSource::retrieveRecord(){
 		for (unsigned int i = 0; i<deposits.size(); i++)
 		{
 			// 2Y-3.134
+			date startDate = dateUtil::getBizDateOffSet(dateUtil::getToday(),mkt.getBusinessDaysAfterSpot(),market); // day after spot adjust
 			vector<string> tenureRate = fileUtil::split(deposits[i],'-');
 			char letterDateUnit = *tenureRate[0].rbegin(); // 'Y'
 			int increment = std::stoi(tenureRate[0].substr(0,tenureRate[0].size()-1)); // 2
 			double swapRate = std::stod(tenureRate[1]); // 3.134
-			long JDN = dateUtil::getEndDate(dateUtil::getToday(),increment, dayRoll, market, dateUtil::getDateUnit(letterDateUnit)).getJudianDayNumber();
+			long JDN = dateUtil::getEndDate(startDate,increment, dayRoll, market, dateUtil::getDateUnit(letterDateUnit)).getJudianDayNumber();
 			rateMap.insert(pair<long, double>(JDN, swapRate));
 			date tempDate(JDN);
 			cout << mkt.getNameString()<< " -> " << tenureRate[0]<<" "<<tempDate.toString() <<" "<< swapRate << endl;

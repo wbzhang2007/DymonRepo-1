@@ -254,22 +254,31 @@ date dateUtil::getEndDate(date startDate, int increment, enums::DayRollEnum dayR
 	case MONTH:
 		endDate = getEndDateMonthIncrement(startDate, increment, market);
 		break;
-	case DAY:
-		endDate = getBizDate(startDate,increment, enums::Following, market);
-		break;
 	case WEEK:
 		endDate = date(startDate.getJudianDayNumber()+increment*7);
+		break;
+	case DAY:
+		endDate = date(startDate.getJudianDayNumber()+increment);
+		break;
+	case BIZDAY:
+		endDate = getBizDateOffSet(startDate,increment, market);
 		break;
 	}
 	endDate = dayRollAdjust(endDate,dayRoll, market);
 	return endDate;
 }
 
-date dateUtil::getBizDate(date refDate, long bias, enums::DayRollEnum dayRollType, enums::CurrencyEnum market) {
-	long cal=dateUtil::getJudianDayNumber(refDate.getYear(),refDate.getMonth(),refDate.getDay())+bias;
-	unsigned short* dateArray=dateUtil::getYearMonthDay(cal);
-	date aDate=dateUtil::dayRollAdjust(date(dateArray[0],dateArray[1],dateArray[2]),dayRollType,market);
-	return aDate; 
+date dateUtil::getBizDateOffSet(date refDate, long offset, enums::CurrencyEnum market) {
+	long JDN = refDate.getJudianDayNumber();
+	bool forward = offset>=0?true:false;
+	for (long i=0; i<abs(offset); i++){
+		forward?JDN++:JDN--;
+		while(!isBizDay(JDN) || isHoliday(JDN,market)){
+			forward?JDN++:JDN--;
+		}
+	}
+	date offsetDate(JDN);
+	return offsetDate; 
 }
 
 date dateUtil::adjustInvalidateDate(date aDate, bool forwardAdjust){

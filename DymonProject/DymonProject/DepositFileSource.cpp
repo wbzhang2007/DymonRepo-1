@@ -48,11 +48,14 @@ void DepositFileSource::retrieveRecord(){
 		for (unsigned int i = 0; i<deposits.size(); i++)
 		{
 			// 2D-0.1
+			date startDate = dateUtil::getToday();			
 			vector<string> tenureRate = fileUtil::split(deposits[i],'-');
 			char letterDateUnit = *tenureRate[0].rbegin(); // 'D'
+			if (letterDateUnit != 'D')
+				startDate = dateUtil::getBizDateOffSet(startDate,mkt.getBusinessDaysAfterSpot(),market); // day after spot adjust
 			int increment = std::stoi(tenureRate[0].substr(0,tenureRate[0].size()-1)); // 2
 			double depositRate = std::stod(tenureRate[1]); // 0.1
-			long JDN = dateUtil::getEndDate(dateUtil::getToday(),increment, dayRoll, market, dateUtil::getDateUnit(letterDateUnit)).getJudianDayNumber();
+			long JDN = dateUtil::getEndDate(startDate,increment, dayRoll, market, dateUtil::getDateUnit(letterDateUnit)).getJudianDayNumber();
 			rateMap.insert(pair<long, double>(JDN, depositRate));
 			date tempDate(JDN);
 			cout << mkt.getNameString()<< " -> " << tenureRate[0]<<" "<<tempDate.toString() <<" "<< depositRate << endl;

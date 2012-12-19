@@ -26,6 +26,8 @@ namespace UnitTest{
 
 		void DayCountTestSuit();
 
+		void bizDateAdjustSuit();
+
 	private:
 
 		void compareResult(std::string testName, date derivedVal, date expectedVal);
