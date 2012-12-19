@@ -107,6 +107,7 @@
     <ClInclude Include="Ridder.h" />
     <ClInclude Include="Secant.h" />
     <ClInclude Include="SwapPricer.h" />
+    <ClInclude Include="TestDateUtil.h" />
     <ClInclude Include="TestInterpolator.h" />
     <ClInclude Include="TestNumerical.h" />
     <ClInclude Include="YieldCurveBuilder.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="swap.cpp" />
     <ClCompile Include="SwapPricer.cpp" />
     <ClCompile Include="SwapRateFileSource.cpp" />
+    <ClCompile Include="TestDateUtil.cpp" />
     <ClCompile Include="TestInterpolator.cpp" />
     <ClCompile Include="TestNumerical.cpp" />
     <ClCompile Include="YieldCurve.cpp" />
