@@ -16,6 +16,7 @@
 #include "TestInterpolator.h"
 #include "YieldCurveBuilder.h"
 #include "YieldCurve.h"
+#include "LinearInterpolator.h"
 
 using namespace utilities;
 using namespace std;
@@ -41,10 +42,12 @@ int _tmain(int argc, _TCHAR* argv[])
 	//numericalTest.runTest();
 	//TestInterpolator interpolatorTest;
 	//interpolatorTest.runTest();
-	//SwapTest();
+	SwapTest();
 
 	//buildYieldCurve();
 }
+
+		
 
 void buildYieldCurve(){
 	cout << "******** Build Record Helper ********\n" << endl;
@@ -55,6 +58,22 @@ void buildYieldCurve(){
 	builder->init(Configuration::getInstance());
 	YieldCurve* yc = builder->build();
 	cout<<yc->toString()<<endl;
+}
+
+void buildSampleCurve(){
+
+	typedef tuple<date, double> point;
+	date date0(10005);
+	date date1(10006);
+	date date2(10007);
+	point point1(date0, 1);
+	point point2(date1, 2);
+	point point3(date2, 2.5);
+	YieldCurve* yc = new YieldCurve();
+	LinearInterpolator* li1 = new LinearInterpolator(point1, point2);
+	LinearInterpolator* li2 = new LinearInterpolator(point2, point3);
+	yc->insertLineSection(li1);
+	yc->insertLineSection(li2);
 }
 
 void ZeroTest(){
@@ -369,6 +388,19 @@ void SwapTest() {
 
 	FLiborRate.resize(100,0.05);
 
+	 typedef tuple<date, double> point;
+	 date date0(2013,11,2);
+	 date date1(2015,2,6);
+	 date date2(2016,2,6);
+	 point point1(date0, 1);
+	 point point2(date1, 2);
+	 point point3(date2, 2.5);
+	 YieldCurve* yc = new YieldCurve();
+	 LinearInterpolator* li1 = new LinearInterpolator(point1, point2);
+	 LinearInterpolator* li2 = new LinearInterpolator(point2, point3);
+	 yc->insertLineSection(li1);
+	 yc->insertLineSection(li2);
+
 	currency fixLegCurr=currency(enums::USD);
 	currency floatingLegCurr=currency(enums::USD);
 	
@@ -389,7 +421,14 @@ void SwapTest() {
 	cout<<"maturityDate=";
 	maturityDate.printDate();
 	cout<<endl;
-
+	
+	cashflowLeg fixLeg=swap1.getCashflowLegFix();
+	cashflowLeg floatLeg=swap1.getCashflowLegFloat();
+	YieldCurve aYC=*yc;
+	cout<<"MPV="<<swap1.getMPV(fixLeg,floatLeg,aYC)<<endl;
+	
+	cout<<"ParRate="<<swap1.getParRate(fixLeg,floatLeg,aYC)<<endl;
+	
 	cout<<"========================Fix Leg of Swap1 is:========================="<<endl;
 	swap1.printCashflowLegFix();
 
