@@ -56,7 +56,7 @@ void DepositFileSource::retrieveRecord(){
 			if (letterDateUnit != 'D')
 				startDate = dateUtil::getBizDateOffSet(startDate,mkt.getBusinessDaysAfterSpot(),market); // day after spot adjust
 			int increment = std::stoi(tenureRate[0].substr(0,tenureRate[0].size()-1)); // 2
-			double depositRate = std::stod(tenureRate[1]); // 0.1
+			double depositRate = std::stod(tenureRate[1])/100.0; // 0.1
 			long JDN = dateUtil::getEndDate(startDate,increment, accrualAdjust, market, dateUtil::getDateUnit(letterDateUnit)).getJudianDayNumber();
 			if (letterDateUnit == 'D'){
 				overnightRateMap.insert(pair<long, double>(increment, depositRate));
