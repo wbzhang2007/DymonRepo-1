@@ -17,8 +17,9 @@ using namespace std;
 using namespace enums;
 
 namespace instruments {
-swap::swap(date tradeDate, date maturityDate, double notional, double couponRate, vector<double> FLiborRate, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, RecordHelper::HolidayMap holidayMap) {
+swap::swap(date tradeDate, date maturityDate, double notional, double couponRate, YieldCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, RecordHelper::HolidayMap holidayMap) {
 	
+
 	
 	int buildDirection=1;
 
@@ -27,15 +28,21 @@ swap::swap(date tradeDate, date maturityDate, double notional, double couponRate
 
 	BuilderCashFlowLeg builtCashflowLeg1(tradeDate, maturityDate,couponRate,notional, paymentFreqFixLeg, fixLegCurr.getCurrencyEnum(),buildDirection);
 
-	BuilderCashFlowLeg builtCashflowLeg2(tradeDate, maturityDate,FLiborRate,notional, paymentFreqFloatingLeg, floatingLegCurr.getCurrencyEnum(), buildDirection);
+	BuilderCashFlowLeg builtCashflowLeg2(tradeDate, maturityDate,yc,notional, paymentFreqFloatingLeg, floatingLegCurr.getCurrencyEnum(), buildDirection);
 	
-	_fixCashflowLeg=builtCashflowLeg1.getCashFlowLeg();
-	_floatingCashflowLeg=builtCashflowLeg2.getCashFlowLeg();
+	_fixCashflowLeg=*builtCashflowLeg1.getCashFlowLeg();
+	_floatingCashflowLeg=*builtCashflowLeg2.getCashFlowLeg();
 }
 
 swap::~swap() {
 
 }
+
+//double swap::calFLiborRate(date forwardStartDate, date forwardEndDate, double accuralFactor) {
+//
+//
+//		return (_pricingYieldCurve.getDiscountFactor(forwardStartDate)/ _pricingYieldCurve.getDiscountFactor(forwardEndDate)-1)/accuralFactor;
+//}
 
 cashflowLeg swap::getCashflowLegFix() {
 	return _fixCashflowLeg;
@@ -54,70 +61,4 @@ void swap::printCashflowLegFloat() {
 	_floatingCashflowLeg.printCashFlowLeg();
 	
 }
-
-//double swap::getParRate() {
-//		
-//	return 0.0;
-//}
-//
-//vector<date> swap::getFloatingFixingDate() {
-//		
-//	int fLegFreq=_floatLegCurr.getPaymentFreq();
-//	//vector<date>::iterator it;
-//	//int i=0;
-//	//long increment=dateUtil::getBizDaysBetween(_issueDate,_maturityDate)/fLegFreq;
-//	//for (it= _floatingFixingDate.begin();it!= _floatingFixingDate.end();++it) { 
-//	//        *it=dateUtil::getBizDate(_issueDate, increment*(++i), _floatLegCurr.getDayRollConvention());
-//	//	}
-//	return _floatingFixingDate;
-//		
-//}
-//
-//vector<date> swap::getFixLegPaymentDate() {
-//	//int fixLegFreq=_fixLegCurr.getPaymentFreq();
-//	//vector<date>::iterator it;
-//	//int i=0;
-//	//long increment=dateUtil::getBizDaysBetween(_issueDate,_maturityDate)/fixLegFreq;
-//	//for (it= _floatingFixingDate.begin();it!= _floatingFixingDate.end();++it) { 
-//	 //       *it=dateUtil::getBizDate(_issueDate, increment*(++i), _floatLegCurr.getDayRollConvention());
-//	//	}
-//	return _fixLegPaymentDate;
-//
-//}
-//
-//vector<date> swap::getFloatLegPaymentDate() {
-//	/*int fLegFreq=_floatLegCurr.getPaymentFreq();
-//	vector<date>::iterator it;
-//	vector<date>::iterator it_floatPay=_floatLegPaymentDate.begin();
-//	int i=0;
-//	long increment=dateUtil::getBizDaysBetween(_issueDate,_maturityDate)/fLegFreq;
-//	for (it= _floatingFixingDate.begin();it!= _floatingFixingDate.end();++it) { 
-//	        *it=dateUtil::getBizDate(_issueDate, increment*(++i), _floatLegCurr.getDayRollConvention());
-//			*it_floatPay=*it;
-//			it_floatPay++;
-//		}*/
-//	return _floatLegPaymentDate;
-//
-//}
-//
-//vector<date> swap::getFloatLegAccuralBeginDate() {
-//	/*int fLegFreq=_floatLegCurr.getPaymentFreq();
-//	vector<date>::iterator it_fix;
-//	vector<date>::iterator it_accrBeg=_accuralBeginDate.begin();
-//
-//	int i=0;
-//	long increment=dateUtil::getBizDaysBetween(_issueDate,_maturityDate)/fLegFreq;
-//	for (it_fix= _floatingFixingDate.begin();it_fix!= _floatingFixingDate.end();++it_fix) { 
-//	        *it_accrBeg=dateUtil::getBizDate(*it_fix, 2, _floatLegCurr.getDayRollConvention());
-//			it_accrBeg++;
-//		}*/
-//	return _accuralBeginDate;
-//
-//}
-//
-//double swap::getSwapValue() {
-//
-//	return 0.0;
-//
-//}
 

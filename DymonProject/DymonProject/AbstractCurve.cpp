@@ -9,16 +9,16 @@ using namespace std;
 
 typedef tuple<date, double> point;
 
-AbstractCurve::AbstractCurve(std::vector<AbstractInterpolator>* lineSectionVector){
+AbstractCurve::AbstractCurve(std::vector<AbstractInterpolator*>* lineSectionVector){
 	_lineSectionVector = lineSectionVector;
 }
 
 void AbstractCurve::insertLineSection(AbstractInterpolator* lineSection){
 	if (_lineSectionVector->size()==0){
-		_lineSectionVector->insert(_lineSectionVector->begin(),*lineSection);
+		_lineSectionVector->insert(_lineSectionVector->begin(),lineSection);
 	} else{
 		int vectorSize = _lineSectionVector->size();
-		_lineSectionVector->insert(_lineSectionVector->begin()+vectorSize,*lineSection);
+		_lineSectionVector->insert(_lineSectionVector->begin()+vectorSize,lineSection);
 		//for (unsigned int i = 0; i<_lineSectionVector->size(); i++){
 		//	long iterateStartingJDN = _lineSectionVector->at(i).getStartingJDN();
 		//	long iterateEndingJDN = _lineSectionVector->at(i).getEndingJDN();
@@ -35,28 +35,28 @@ void AbstractCurve::insertLineSection(AbstractInterpolator* lineSection){
 }
 
 double AbstractCurve::getValue(date date0){
-	long startJDN;
-		long endJDN;
+	long startJDN, endJDN;
 	for (unsigned int i = 0; i<_lineSectionVector->size(); i++){
-		startJDN = _lineSectionVector->at(i).getStartingJDN();
-		endJDN = _lineSectionVector->at(i).getEndingJDN();
-		if (startJDN<=date0.getJudianDayNumber() && date0.getJudianDayNumber()<endJDN){
-			point pointOnCurve = _lineSectionVector->at(i).interpolate(date0);
+		startJDN = _lineSectionVector->at(i)->getStartingJDN();
+		endJDN = _lineSectionVector->at(i)->getEndingJDN();
+		if (startJDN<=date0.getJudianDayNumber() && date0.getJudianDayNumber()<=endJDN){
+			AbstractInterpolator* ai= _lineSectionVector->at(i);
+			point pointOnCurve = ai->interpolate(date0);
 			return std::get<1>(pointOnCurve);
 		}
 	}
 	throw "Point not found on curve for date: "+date0.toString();
 }
 
-void AbstractCurve::setLineSectionVector(std::vector<AbstractInterpolator>* lineSectionVector){
+void AbstractCurve::setLineSectionVector(std::vector<AbstractInterpolator*>* lineSectionVector){
 	_lineSectionVector = lineSectionVector;
 }
 
 bool AbstractCurve::validateLineSections(){
 	bool validationPass = true;
 	for (unsigned int i = 1; i<=_lineSectionVector->size(); i++){
-		long nextStartJDN = _lineSectionVector->at(i).getStartingJDN();
-		long previousEndJDN = _lineSectionVector->at(i-1).getEndingJDN();
+		long nextStartJDN = _lineSectionVector->at(i)->getStartingJDN();
+		long previousEndJDN = _lineSectionVector->at(i-1)->getEndingJDN();
 		if (nextStartJDN!=previousEndJDN){
 			cout<<"Curve gap detected: "<<previousEndJDN<< " " <<nextStartJDN<<endl;
 			validationPass = false;
@@ -69,7 +69,7 @@ string AbstractCurve::toString(){
 	std::stringstream ss (stringstream::in | stringstream::out);
 	ss << "Curve - Line sections: \n";
 	for (unsigned int i = 0; i<_lineSectionVector->size(); i++){
-		ss << _lineSectionVector->at(i).toString() <<"\n";
+		ss << _lineSectionVector->at(i)->toString() <<"\n";
 	}
 	return ss.str();
 }

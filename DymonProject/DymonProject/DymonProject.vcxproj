@@ -142,6 +142,7 @@
     <ClInclude Include="zero.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractBootStrapper.cpp" />
     <ClCompile Include="AbstractCurve.cpp" />
     <ClCompile Include="AbstractDao.cpp" />
     <ClCompile Include="AbstractFileSource.cpp" />

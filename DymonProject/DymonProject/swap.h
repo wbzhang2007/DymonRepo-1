@@ -18,6 +18,7 @@
 #include "RecordHelper.h"
 #include "SwapPricer.h"
 #include "AbstractPricer.h"
+#include "YieldCurve.h"
 
 using namespace utilities;
 using namespace std;
@@ -29,7 +30,7 @@ namespace instruments {
 	class swap:  public SwapPricer, public AbstractInstrument{
 	public:
 		swap() {};
-		swap(date tradeDate, date maturityDate, double notional, double couponRate, vector<double> FLiborRate, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, RecordHelper::HolidayMap holidayMap);
+		swap(date tradeDate, date maturityDate, double notional, double couponRate, YieldCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, RecordHelper::HolidayMap holidayMap);
 
 		~swap();
 
@@ -37,6 +38,7 @@ namespace instruments {
 		cashflowLeg getCashflowLegFloat();
 		void printCashflowLegFix();
 		void printCashflowLegFloat();
+		//double calFLiborRate(date forwardStartDate, date forwardEndDate, double accuralFactor);
 
 	protected:
 
@@ -45,6 +47,7 @@ namespace instruments {
 
 		cashflowLeg _fixCashflowLeg;
 		cashflowLeg _floatingCashflowLeg;
+
 		date _tradeDate;
 		date _maturityDate;
 	

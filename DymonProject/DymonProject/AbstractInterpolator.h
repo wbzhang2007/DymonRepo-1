@@ -4,6 +4,7 @@
 #include <vector>
 #include <tuple>
 #include "date.h"
+#include "Enums.h"
 
 namespace utilities{
 	class AbstractInterpolator{
@@ -35,6 +36,8 @@ namespace utilities{
 		point _startPoint;
 		
 		point _endPoint;
+
+		enums::interpolAlgo _algo;
 	};
 }
 #endif

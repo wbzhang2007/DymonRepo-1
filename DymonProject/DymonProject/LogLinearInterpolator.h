@@ -10,7 +10,7 @@ namespace utilities{
 
 		LogLinearInterpolator(point startPoint, point endPoint);
 
-		point interpolate(date date0);
+		virtual point interpolate(date date0);
 		
 	private:
 

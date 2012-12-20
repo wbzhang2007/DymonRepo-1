@@ -51,10 +51,10 @@ void SwapRateFileSource::retrieveRecord(){
 		{
 			// 2Y-3.134
 			date startDate = dateUtil::getBizDateOffSet(dateUtil::getToday(),mkt.getBusinessDaysAfterSpot(),market); // day after spot adjust
-			vector<string> tenureRate = fileUtil::split(deposits[i],'-');
+			vector<string> tenureRate = fileUtil::split(deposits[i],'=');
 			char letterDateUnit = *tenureRate[0].rbegin(); // 'Y'
 			int increment = std::stoi(tenureRate[0].substr(0,tenureRate[0].size()-1)); // 2
-			double swapRate = std::stod(tenureRate[1]); // 3.134
+			double swapRate = std::stod(tenureRate[1])/100.0; // 3.134
 			long JDN = dateUtil::getEndDate(startDate,increment, accrualAdjust, market, dateUtil::getDateUnit(letterDateUnit)).getJudianDayNumber();
 			rateMap.insert(pair<long, double>(JDN, swapRate));
 			date tempDate(JDN);

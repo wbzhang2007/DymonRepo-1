@@ -9,6 +9,8 @@
 #include <vector>
 #include "RecordHelper.h"
 #include <algorithm>
+#include "YieldCurve.h"
+#include "currency.h"
 
 using namespace Session;
 using namespace utilities;
@@ -126,7 +128,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,doub
 	_cashflowLeg=cashflowLeg(builtCashflowLeg).getCashFlowLeg();
 }
 
-BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,vector<double> FLiborRate,double notional, int paymentFreq, enums::CurrencyEnum market, int buildDirection){
+BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,YieldCurve* yc,double notional, int paymentFreq, enums::CurrencyEnum market, int buildDirection){
 
 	currency mkt(market);
 	enums::DayCountEnum dayCountSwapConvention = mkt.getDayCountSwapConvention();
@@ -145,9 +147,9 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,vector<
 			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-2,market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
-			cashflow aCashflow(FLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
+			double FLiborRate=yc->getFLiborRate(calDateNewStart,calDateNewEnd,mkt.getDayCountSwapConvention());
+			cashflow aCashflow(FLiborRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
 			builtCashflowLeg.push_back(aCashflow);
-
 			i++;
 		}
 
@@ -159,7 +161,8 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,vector<
 			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-2,market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
-			cashflow aCashflow(FLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
+			double FLiborRate=yc->getFLiborRate(calDateNewStart,calDateNewEnd,mkt.getDayCountSwapConvention());
+			cashflow aCashflow(FLiborRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
 			builtCashflowLeg.push_back(aCashflow);
 		}
 		_cashflowLeg=cashflowLeg(builtCashflowLeg).getCashFlowLeg();
@@ -167,10 +170,8 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,vector<
 
 	if (buildDirection==-1) {
 		int numOfMonthIncr=12/paymentFreq;
-		vector<double> rFLiborRate;
-		rFLiborRate.resize(FLiborRate.size());
-
-		copy_backward(FLiborRate.begin(),FLiborRate.end(),rFLiborRate.begin());
+		
+		//copy_backward(FLiborRate.begin(),FLiborRate.end(),rFLiborRate.begin());
 
 		int i=0;
 		vector<cashflow> builtCashflowLeg;
@@ -183,7 +184,8 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,vector<
 			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-2,market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
-			cashflow aCashflow(rFLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
+			double FLiborRate=yc->getFLiborRate(calDateNewStart,calDateNewEnd,mkt.getDayCountSwapConvention());
+			cashflow aCashflow(FLiborRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
 			builtCashflowLeg.insert(builtCashflowLeg.begin(),aCashflow);
 			i++;
 		}
@@ -196,7 +198,8 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,vector<
 			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-2,market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
-			cashflow aCashflow(rFLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd, market);
+			double FLiborRate=yc->getFLiborRate(calDateNewStart,calDateNewEnd,mkt.getDayCountSwapConvention());
+			cashflow aCashflow(FLiborRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd, market);
 			builtCashflowLeg.insert(builtCashflowLeg.begin(),aCashflow);
 		}
 		_cashflowLeg=cashflowLeg(builtCashflowLeg).getCashFlowLeg();
@@ -204,7 +207,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,vector<
 
 }
 
-BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,vector<double> FLiborRate,double notional, int paymentFreq, enums::CurrencyEnum market){
+BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,YieldCurve* yc,double notional, int paymentFreq, enums::CurrencyEnum market){
 	
 	currency mkt(market);
 	enums::DayCountEnum dayCountSwapConvention = mkt.getDayCountSwapConvention();
@@ -222,7 +225,8 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,vect
 		date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-2,market);
 		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
-		cashflow aCashflow(FLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
+		double FLiborRate=yc->getFLiborRate(calDateNewStart,calDateNewEnd,mkt.getDayCountSwapConvention());
+		cashflow aCashflow(FLiborRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
 		builtCashflowLeg.push_back(aCashflow);
 		i++;
 	}
@@ -234,7 +238,8 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,vect
 		date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-2,market);
 		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
-		cashflow aCashflow(FLiborRate.at(i),notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
+		double FLiborRate=yc->getFLiborRate(calDateNewStart,calDateNewEnd,mkt.getDayCountSwapConvention());
+		cashflow aCashflow(FLiborRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
 		builtCashflowLeg.push_back(aCashflow);
 	}
 	_cashflowLeg=cashflowLeg(builtCashflowLeg).getCashFlowLeg();
