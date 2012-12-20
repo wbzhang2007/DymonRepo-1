@@ -95,4 +95,6 @@ void YieldCurveBuilder::buildSwapSection(YieldCurve* yc){
 	//cashflowLeg _cashflowLeg=builtCashflowLeg.getCashFlowLeg();
 	//vector<date> timeLine = _cashflowLeg.getAccuralDates();
 	//_cashflowLeg.printTimeLine();
+
+
 }

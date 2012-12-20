@@ -37,11 +37,13 @@ double SwapRateBootStrapper::numericalFunc(double x){
 	double numerator = 1 - exp(-x);
 	double denominator = 0;
 
-	for( unsigned int i=0; i<=_startIndex; i++){
-		denominator = denominator + dateUtil::getAccrualFactor(_timeLine[0],_timeLine[i],_dayCount)*(*_curve).getDiscountFactor(_timeLine[i]);
+	for( unsigned int i=1; i<=_startIndex; i++){
+		double ithAccuralFactor=dateUtil::getAccrualFactor(_timeLine[0],_timeLine[i],_dayCount)-dateUtil::getAccrualFactor(_timeLine[0],_timeLine[i-1],_dayCount);
+		denominator = denominator + ithAccuralFactor*(*_curve).getDiscountFactor(_timeLine[i]);
 	}
 	for( unsigned int i=_startIndex+1; i<=_endIndex; i++){
-		denominator = denominator + dateUtil::getAccrualFactor(_timeLine[0],_timeLine[i],_dayCount)*std::get<1>((*ai).interpolate(_timeLine[i]));
+		double ithAccuralFactor=dateUtil::getAccrualFactor(_timeLine[0],_timeLine[i],_dayCount)-dateUtil::getAccrualFactor(_timeLine[0],_timeLine[i-1],_dayCount);
+		denominator = denominator + ithAccuralFactor*std::get<1>((*ai).interpolate(_timeLine[i]));
 	}
 
 	return numerator/denominator - _swapRate;
