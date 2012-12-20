@@ -44,9 +44,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	//numericalTest.runTest();
 	//TestInterpolator interpolatorTest;
 	//interpolatorTest.runTest();
-	//SwapTest();
+	SwapTest();
 
-	buildYieldCurve();
+	//buildYieldCurve();
 }		
 
 		
@@ -225,17 +225,10 @@ void SwapTest() {
 	FLiborRate.resize(100,0.05);
 
 	 typedef tuple<date, double> point;
-	 date date0(2013,11,2);
-	 date date1(2015,2,6);
-	 date date2(2016,2,6);
-	 point point1(date0, 1);
-	 point point2(date1, 2);
-	 point point3(date2, 2.5);
-	 YieldCurve* yc = new YieldCurve();
-	 LinearInterpolator* li1 = new LinearInterpolator(point1, point2);
-	 LinearInterpolator* li2 = new LinearInterpolator(point2, point3);
-	 yc->insertLineSection(li1);
-	 yc->insertLineSection(li2);
+	 
+	 YieldCurveBuilder* builder = new YieldCurveBuilder();
+	 builder->init(Configuration::getInstance());
+	 YieldCurve* yc = builder->build();
 
 	currency fixLegCurr=currency(enums::USD);
 	currency floatingLegCurr=currency(enums::USD);
