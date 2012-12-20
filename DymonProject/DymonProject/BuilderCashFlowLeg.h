@@ -12,6 +12,7 @@
 #include <vector>
 #include <iterator>
 #include "RecordHelper.h"
+#include "YieldCurve.h"
 
 using namespace utilities;
 using namespace std;
@@ -27,11 +28,13 @@ namespace instruments {
 		// buildDirection: -1=build from maturityDate towards startDate
 		BuilderCashFlowLeg(){};
 		
+		//for Fixed Legs
 		BuilderCashFlowLeg(date startDate, date maturityDate,double couponRate,double notional, int paymentFreq, enums::CurrencyEnum market, int buildDirection);
 		BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,double couponRate,double notional, int paymentFreq, enums::CurrencyEnum market);
 		
-		BuilderCashFlowLeg(date startDate, date maturityDate,vector<double> FLiborRate,double notional, int paymentFreq, enums::CurrencyEnum market, int buildDirection);
-		BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,vector<double> FLiborRate,double notional, int paymentFreq, enums::CurrencyEnum market);
+		//for Floating Legs
+		BuilderCashFlowLeg(date startDate, date maturityDate,YieldCurve* yc,double notional, int paymentFreq, enums::CurrencyEnum market, int buildDirection);
+		BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,YieldCurve* yc,double notional, int paymentFreq, enums::CurrencyEnum market);
 
 		~BuilderCashFlowLeg(){};
 		cashflowLeg getCashFlowLeg(){return _cashflowLeg;};

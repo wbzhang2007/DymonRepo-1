@@ -11,6 +11,8 @@
 #include "RecordHelper.h"
 #include "DepositRateBootStrapper.h"
 #include "OvernightRateBootStrapper.h"
+#include "SwapRateBootStrapper.h"
+
 #define NaN -9999999 
 
 using namespace utilities;
@@ -90,11 +92,31 @@ void YieldCurveBuilder::buildDepositSection(YieldCurve* yc){
 
 void YieldCurveBuilder::buildSwapSection(YieldCurve* yc){
 	//currency market(enums::USD);
-	//date startDate = dateUtil::getBizDateOffSet(dateUtil::getToday(),market.getBusinessDaysAfterSpot(),enums::USD);
-	//	BuilderCashFlowLeg builtCashflowLeg(startDate,600,1,1, _floatFreqency, enums::USD);
-	//cashflowLeg _cashflowLeg=builtCashflowLeg.getCashFlowLeg();
-	//vector<date> timeLine = _cashflowLeg.getAccuralDates();
+	date startDate = dateUtil::getBizDateOffSet(dateUtil::getToday(),_market.getBusinessDaysAfterSpot(),enums::USD);
+	BuilderCashFlowLeg builtCashflowLeg(startDate,600,1,1, _floatFreqency, enums::USD);
+	cashflowLeg _cashflowLeg=builtCashflowLeg.getCashFlowLeg();
+	vector<date>* timeLine = &_cashflowLeg.getAccuralDates();
 	//_cashflowLeg.printTimeLine();
 
+	map<long,double> rateMap = RecordHelper::getInstance()->getDepositRateMap()[enums::USD];
+	map<long,double>::iterator it=rateMap.begin();
+	point lineStartPoint(date((*it).first),(*it).second);
+	_curvePointer=lineStartPoint;
 
+	for (; it != rateMap.end(); it++ ){
+
+		double aSwapRate=(*it).second;
+		date endDate=((*it).first);
+		
+		
+		AbstractInterpolator* lineSection;
+
+		SwapRateBootStrapper swapBS(_curvePointer, endDate, aSwapRate, timeLine, yc, _interpolAlgo,_numericalAlgo, _market.getDayCountSwapConvention());
+		swapBS.init(Configuration::getInstance());
+		lineSection = swapBS.bootStrap();
+		yc->insertLineSection(lineSection);
+
+		_curvePointer=lineSection->getEndPoint();
+
+	}
 }
