@@ -253,10 +253,10 @@ void SwapTest() {
 	
 	cashflowLeg fixLeg=swap1.getCashflowLegFix();
 	cashflowLeg floatLeg=swap1.getCashflowLegFloat();
-	YieldCurve aYC=*yc;
-	cout<<"MPV="<<swap1.getMPV(fixLeg,floatLeg,aYC)<<endl;
+	//YieldCurve aYC=*yc;
+	cout<<"MPV="<<swap1.getMPV(fixLeg,floatLeg,*yc)<<endl;
 	
-	//cout<<"ParRate="<<swap1.getParRate(fixLeg,floatLeg,aYC)<<endl;
+	cout<<"ParRate="<<swap1.getParRate(fixLeg,floatLeg,*yc)<<endl;
 	
 	cout<<"========================Fix Leg of Swap1 is:========================="<<endl;
 	swap1.printCashflowLegFix();
