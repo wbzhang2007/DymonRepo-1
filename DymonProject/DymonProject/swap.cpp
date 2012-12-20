@@ -30,8 +30,8 @@ swap::swap(date tradeDate, date maturityDate, double notional, double couponRate
 
 	BuilderCashFlowLeg builtCashflowLeg2(tradeDate, maturityDate,yc,notional, paymentFreqFloatingLeg, floatingLegCurr.getCurrencyEnum(), buildDirection);
 	
-	_fixCashflowLeg=builtCashflowLeg1.getCashFlowLeg();
-	_floatingCashflowLeg=builtCashflowLeg2.getCashFlowLeg();
+	_fixCashflowLeg=*builtCashflowLeg1.getCashFlowLeg();
+	_floatingCashflowLeg=*builtCashflowLeg2.getCashFlowLeg();
 }
 
 swap::~swap() {

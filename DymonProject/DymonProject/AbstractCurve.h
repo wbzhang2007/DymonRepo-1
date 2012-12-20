@@ -13,16 +13,16 @@ namespace utilities{
 		typedef tuple<date, double> point;
 
 		AbstractCurve():AbstractDataStructure(){
-			_lineSectionVector = new std::vector<AbstractInterpolator>;
+			_lineSectionVector = new std::vector<AbstractInterpolator*>;
 		};
 
-		AbstractCurve(std::vector<AbstractInterpolator>* lineSectionVector);
+		AbstractCurve(std::vector<AbstractInterpolator*>* lineSectionVector);
 
 		virtual void insertLineSection(AbstractInterpolator* lineSection);
 
 		virtual double getValue(date date0);
 
-		void setLineSectionVector(std::vector<AbstractInterpolator>* lineSectionVector);
+		void setLineSectionVector(std::vector<AbstractInterpolator*>* lineSectionVector);
 
 		bool validateLineSections();
 		
@@ -30,7 +30,7 @@ namespace utilities{
 
 	private:
 
-		std::vector<AbstractInterpolator>* _lineSectionVector;
+		std::vector<AbstractInterpolator*>* _lineSectionVector;
 
 	};
 }

@@ -20,12 +20,14 @@ void SwapRateBootStrapper::init(Configuration* cfg){
 
 AbstractInterpolator* SwapRateBootStrapper::bootStrap(){
 	
-	_startIndex = findElementIndex(std::get<0>(_startPoint));
-	_endIndex = findElementIndex(_endDate);
+	_cashflowStartIndex = findCashFlowIndex(std::get<0>(_startPoint));
+	_cashflowEndIndex = findCashFlowIndex(_endDate);
 
 	AbstractNumerical<SwapRateBootStrapper>* an = NumericalFactory<SwapRateBootStrapper>::getInstance()->getNumerical(this,&SwapRateBootStrapper::numericalFunc,_numericAlgo);
 	double previousVal = std::get<1>(_startPoint);
-	double swapPointValue = an->findRoot(previousVal*(1-_plusMinus/100),previousVal*(1+_plusMinus/100),_tolerance,_iterateCount);
+	double lowerBound = 0; // previousVal*(1-_plusMinus/100.0);
+	double upperBound = (1+_plusMinus/100.0); //previousVal*(1+_plusMinus/100.0);
+	double swapPointValue = an->findRoot(lowerBound,upperBound,_tolerance,_iterateCount);
 
 	AbstractInterpolator* ai = InterpolatorFactory::getInstance()->getInterpolator(_startPoint, point(_endDate,swapPointValue) , _interpolAlgo);
 	return ai;
@@ -35,27 +37,31 @@ double SwapRateBootStrapper::numericalFunc(double x){
 	
 	AbstractInterpolator* ai = InterpolatorFactory::getInstance()->getInterpolator(_startPoint, point(_endDate,x) , _interpolAlgo);
 
-	double numerator = 1 - exp(-x);
+	double numerator = 1 - x;
 	double denominator = 0;
 
-	for( unsigned int i=1; i<=_startIndex; i++){
-		double ithAccuralFactor=dateUtil::getAccrualFactor(_timeLine[0],_timeLine[i],_dayCount)-dateUtil::getAccrualFactor(_timeLine[0],_timeLine[i-1],_dayCount);
-		denominator = denominator + ithAccuralFactor*(*_curve).getDiscountFactor(_timeLine[i]);
+	for( unsigned int i=0; i<=_cashflowStartIndex; i++){
+		cashflow ithCashFlow = _cashflowVector[i];
+		double ithAccuralFactor=dateUtil::getAccrualFactor(ithCashFlow.getAccuralStartDate(),ithCashFlow.getAccuralEndDate(),_dayCount);
+		double ithDF = _curve->getDiscountFactor(ithCashFlow.getPaymentDate());
+		denominator = denominator + ithAccuralFactor*ithDF;
 	}
-	for( unsigned int i=_startIndex+1; i<=_endIndex; i++){
-		double ithAccuralFactor=dateUtil::getAccrualFactor(_timeLine[0],_timeLine[i],_dayCount)-dateUtil::getAccrualFactor(_timeLine[0],_timeLine[i-1],_dayCount);
-		denominator = denominator + ithAccuralFactor*std::get<1>((*ai).interpolate(_timeLine[i]));
+	for( unsigned int i=_cashflowStartIndex+1; i<=_cashflowEndIndex; i++){
+		cashflow ithCashFlow = _cashflowVector[i];
+		double ithAccuralFactor=dateUtil::getAccrualFactor(ithCashFlow.getAccuralStartDate(),ithCashFlow.getAccuralEndDate(),_dayCount);
+		denominator = denominator + ithAccuralFactor*std::get<1>(ai->interpolate(ithCashFlow.getPaymentDate()));
 	}
 
-	return numerator/denominator - _swapRate;
+	return numerator - _swapRate*denominator;
 }
 
-unsigned int SwapRateBootStrapper::findElementIndex(date date0){
-	for(unsigned int i = 0; i < _timeLine.size(); i++)
+unsigned int SwapRateBootStrapper::findCashFlowIndex(date date0){
+	for(unsigned int i = 0; i < _cashflowVector.size(); i++)
 	{
-		if ( _timeLine[i].getJudianDayNumber() == date0.getJudianDayNumber()){
+		cashflow ithCashFlow = _cashflowVector[i];
+		if ( ithCashFlow.getPaymentDate().getJudianDayNumber() == date0.getJudianDayNumber()){
 			return i;
 		}
 	}
-	throw "Date not found in time line: " + date0.getJudianDayNumber();
+	throw "Date not found in all accrual dates: " + date0.getJudianDayNumber();
 }

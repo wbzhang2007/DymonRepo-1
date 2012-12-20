@@ -30,8 +30,8 @@ AbstractInterpolator* DepositRateBootStrapper::bootStrap(){
 	}else{
 		AbstractNumerical<DepositRateBootStrapper>* an = NumericalFactory<DepositRateBootStrapper>::getInstance()->getNumerical(this,&DepositRateBootStrapper::numericalFunc,_numericAlgo);
 		double previousVal = std::get<1>(_startPoint);
-		double lowerBound = abs(previousVal*(1-_plusMinus/100.0));
-		double upperBound = previousVal*(1+_plusMinus/100.0);
+		double lowerBound = 0;// abs(previousVal*(1-_plusMinus/100.0));
+		double upperBound = (1+_plusMinus/100.0);
 		double discountFactor = an->findRoot(lowerBound,upperBound,_tolerance,_iterateCount);
 		ai = InterpolatorFactory::getInstance()->getInterpolator(_startPoint, point(_endDate,discountFactor) , _interpolAlgo);
 	}
@@ -39,19 +39,16 @@ AbstractInterpolator* DepositRateBootStrapper::bootStrap(){
 }
 
 double DepositRateBootStrapper::numericalFunc(double x){
-	point bsStartingPoint(_cashFlow.getFixingDate(),0);
-	AbstractInterpolator* ai = InterpolatorFactory::getInstance()->getInterpolator(bsStartingPoint, point(_endDate,x) , _interpolAlgo);
+	AbstractInterpolator* ai = InterpolatorFactory::getInstance()->getInterpolator(_startPoint, point(_endDate,x) , _interpolAlgo);
 
 	date bizDaysAfterSpotDate = _cashFlow.getAccuralStartDate();
 	double accrualFactorStart = dateUtil::getAccrualFactor(_cashFlow.getFixingDate(),_cashFlow.getAccuralStartDate(), _dayCountCash);
 	double accrualFactorEnd = dateUtil::getAccrualFactor(_cashFlow.getFixingDate(),_cashFlow.getAccuralEndDate(), _dayCountCash);
 	double accrualFactorMid = dateUtil::getAccrualFactor(_cashFlow.getAccuralStartDate(),_cashFlow.getAccuralEndDate(), _dayCountCash);
 
-	double zeroRateStart = std::get<1>(ai->interpolate(_cashFlow.getAccuralStartDate()));
-	double zeroRateEnd = std::get<1>(ai->interpolate(_cashFlow.getAccuralEndDate()));
-	double depositRateStart = (exp(accrualFactorStart*zeroRateStart)-1)/accrualFactorStart;
-	double depositRateEnd = (exp(accrualFactorEnd*zeroRateEnd)-1)/accrualFactorEnd;
+	double startDF = std::get<1>(ai->interpolate(_cashFlow.getAccuralStartDate()));
+	double endDF = std::get<1>(ai->interpolate(_cashFlow.getAccuralEndDate()));
 
-	double shouldBeZero = (1+_depositRate*accrualFactorMid)*depositRateStart - depositRateEnd;
+	double shouldBeZero = (1/(1+_depositRate*accrualFactorMid))*startDF - endDF;
 	return shouldBeZero;
 }

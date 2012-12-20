@@ -11,6 +11,7 @@ typedef tuple<date, double> point;
 LogLinearInterpolator::LogLinearInterpolator(point startPoint, point endPoint):
 AbstractInterpolator(startPoint, endPoint){
 	_slope = NaN;
+	_algo = enums::LOGLINEAR;
 }
 
 point LogLinearInterpolator::interpolate(date date0){

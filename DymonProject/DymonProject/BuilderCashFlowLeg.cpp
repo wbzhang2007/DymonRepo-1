@@ -147,11 +147,9 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,YieldCu
 			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-2,market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
-			
 			double FLiborRate=yc->getFLiborRate(calDateNewStart,calDateNewEnd,mkt.getDayCountSwapConvention());
 			cashflow aCashflow(FLiborRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
 			builtCashflowLeg.push_back(aCashflow);
-
 			i++;
 		}
 

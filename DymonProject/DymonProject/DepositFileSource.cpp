@@ -50,7 +50,7 @@ void DepositFileSource::retrieveRecord(){
 		for (unsigned int i = 0; i<deposits.size(); i++)
 		{
 			// 2D-0.1		
-			vector<string> tenureRate = fileUtil::split(deposits[i],'-');
+			vector<string> tenureRate = fileUtil::split(deposits[i],'=');
 			char letterDateUnit = *tenureRate[0].rbegin(); // 'D'
 			date startDate = dateUtil::getToday();	
 			if (letterDateUnit != 'D')

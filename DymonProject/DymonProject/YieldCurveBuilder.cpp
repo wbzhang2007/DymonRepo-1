@@ -37,7 +37,7 @@ YieldCurve* YieldCurveBuilder::build(){
 	YieldCurve* yc = new YieldCurve();
 	buildOvernightSection(yc);
 	buildDepositSection(yc);
-	//buildSwapSection(yc);
+	buildSwapSection(yc);
 	return yc;
 }
 
@@ -72,7 +72,7 @@ void YieldCurveBuilder::buildDepositSection(YieldCurve* yc){
 
 		date fixingDate = dateUtil::getToday();
 		date accrualEndDate((*it).first);
-		date paymentDate = dateUtil::dayRollAdjust(accrualEndDate,_market.getDayRollSwapConvention(),enums::USD);
+		date paymentDate = dateUtil::dayRollAdjust(accrualEndDate,_market.getDayRollCashConvention(),enums::USD);
 		double depositRate = (*it).second;
 		cout << "Deposit rate at fixing date ["<<fixingDate.toString()<<"], accrual start date ["<<accrualStartDate.toString()<<
 			"], accrual end date ["<<accrualEndDate.toString()<<"], payment day ["<<paymentDate.toString()<<"], rate ["<< depositRate<<"]"<< endl;
@@ -91,27 +91,24 @@ void YieldCurveBuilder::buildDepositSection(YieldCurve* yc){
 }
 
 void YieldCurveBuilder::buildSwapSection(YieldCurve* yc){
-	//currency market(enums::USD);
 	date startDate = dateUtil::getBizDateOffSet(dateUtil::getToday(),_market.getBusinessDaysAfterSpot(),enums::USD);
 	BuilderCashFlowLeg builtCashflowLeg(startDate,600,1,1, _floatFreqency, enums::USD);
-	cashflowLeg _cashflowLeg=builtCashflowLeg.getCashFlowLeg();
-	vector<date>* timeLine = &_cashflowLeg.getAccuralDates();
+	cashflowLeg* _cashflowLeg=builtCashflowLeg.getCashFlowLeg();
 	//_cashflowLeg.printTimeLine();
 
-	map<long,double> rateMap = RecordHelper::getInstance()->getDepositRateMap()[enums::USD];
-	map<long,double>::iterator it=rateMap.begin();
-	point lineStartPoint(date((*it).first),(*it).second);
-	_curvePointer=lineStartPoint;
+	map<long,double> rateMap = RecordHelper::getInstance()->getSwapRateMap()[enums::USD];
 
-	for (; it != rateMap.end(); it++ ){
+	for (map<long,double>::iterator it=rateMap.begin(); it != rateMap.end(); it++ ){
 
-		double aSwapRate=(*it).second;
-		date endDate=((*it).first);
-		
-		
+		date fixingDate = dateUtil::getToday();
+		date accrualEndDate=((*it).first);	
+		double swapRate=(*it).second;
+		date paymentDate = dateUtil::dayRollAdjust(accrualEndDate,_market.getDayRollSwapConvention(),enums::USD);
+
+		cout << "Swap rate at fixing date ["<<fixingDate.toString()<<"], accrual end date ["<<accrualEndDate.toString()<<"], payment day ["<<paymentDate.toString()<<"], rate ["<< swapRate<<"]"<< endl;
+
 		AbstractInterpolator* lineSection;
-
-		SwapRateBootStrapper swapBS(_curvePointer, endDate, aSwapRate, timeLine, yc, _interpolAlgo,_numericalAlgo, _market.getDayCountSwapConvention());
+		SwapRateBootStrapper swapBS(_curvePointer, paymentDate, swapRate, _cashflowLeg, yc, _interpolAlgo,_numericalAlgo, _market.getDayCountSwapConvention());
 		swapBS.init(Configuration::getInstance());
 		lineSection = swapBS.bootStrap();
 		yc->insertLineSection(lineSection);

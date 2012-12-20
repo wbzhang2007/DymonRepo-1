@@ -37,7 +37,7 @@ namespace instruments {
 		BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,YieldCurve* yc,double notional, int paymentFreq, enums::CurrencyEnum market);
 
 		~BuilderCashFlowLeg(){};
-		cashflowLeg getCashFlowLeg(){return _cashflowLeg;};
+		cashflowLeg* getCashFlowLeg(){return &_cashflowLeg;};
 		
 	private:
 		cashflowLeg _cashflowLeg;

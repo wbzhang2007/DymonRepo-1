@@ -20,7 +20,7 @@ double YieldCurve::getValue(date date0){
 }
 
 double YieldCurve::getDiscountFactor(date date0){
-	return exp(-getValue(date0));
+	return getValue(date0);
 }
 
 double YieldCurve::getFLiborRate(date forwardStartDate,date forwardEndDate,enums::DayCountEnum dayCount) {
@@ -28,6 +28,7 @@ double YieldCurve::getFLiborRate(date forwardStartDate,date forwardEndDate,enums
 
 	return (cal-1)/dateUtil::getAccrualFactor(forwardStartDate,forwardEndDate,dayCount);
 }
+
 std::string YieldCurve::toString(){
 	return "\nYield "+AbstractCurve::toString();
 }
