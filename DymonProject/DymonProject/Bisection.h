@@ -22,11 +22,14 @@ namespace utilities{
 	template <class T> 
 	double Bisection<T>::findRoot(double startVal, double endVal, double tolerance, int iterateCount){
 
-		if ((*_callerObj.*_func)(startVal)*(*_callerObj.*_func)(endVal)>0)
+		double startY = (*_callerObj.*_func)(startVal);
+		double endY = (*_callerObj.*_func)(endVal);
+
+		if (startY*endY>0)
 			throw "Invalid startVal or endVal!";
-		if ((*_callerObj.*_func)(startVal)==0)
+		if (startY==0)
 			return startVal;
-		if ((*_callerObj.*_func)(endVal)==0)
+		if (endY==0)
 			return endVal;
 
 		double midVal;

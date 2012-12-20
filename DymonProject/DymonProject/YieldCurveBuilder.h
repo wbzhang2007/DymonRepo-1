@@ -39,7 +39,7 @@ namespace utilities{
 		enums::interpolAlgo _interpolAlgo;
 		enums::NumericAlgo _numericalAlgo;
 		int _bizDaysAfterSpot;
-		double _bizDaysAfterSpotRate;
+		double _bizDaysAfterSpotDF;
 		point _curvePointer;
 	};
 }

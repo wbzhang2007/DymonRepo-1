@@ -28,7 +28,7 @@ void YieldCurveBuilder::init(Configuration* cfg){
 	_interpolAlgo = EnumHelper::getInterpolAlgo(cfg->getProperty("yieldcurve.usd.interpol",false,"LINEAR"));
 	_numericalAlgo = EnumHelper::getNumericalAlgo(cfg->getProperty("yieldcurve.usd.numerical",false,"BISECTION"));
 	_bizDaysAfterSpot = _market.getBusinessDaysAfterSpot();
-	_bizDaysAfterSpotRate = NaN;
+	_bizDaysAfterSpotDF = NaN;
 }
 
 YieldCurve* YieldCurveBuilder::build(){
@@ -40,7 +40,7 @@ YieldCurve* YieldCurveBuilder::build(){
 }
 
 void YieldCurveBuilder::buildOvernightSection(YieldCurve* yc){
-	point lineStartPoint(dateUtil::getToday(), 0);
+	point lineStartPoint(dateUtil::getToday(),1);
 	_curvePointer = lineStartPoint;
 	map<long,double> rateMap = RecordHelper::getInstance()->getOverNightRateMap()[enums::USD];
 	for (map<long,double>::iterator it=rateMap.begin(); it != rateMap.end(); it++ ){
@@ -58,7 +58,7 @@ void YieldCurveBuilder::buildOvernightSection(YieldCurve* yc){
 		yc->insertLineSection(lineSection);
 		_curvePointer = lineSection->getEndPoint();
 
-		if (numOfNights == _bizDaysAfterSpot) _bizDaysAfterSpotRate = std::get<1>(lineSection->getEndPoint());
+		if (numOfNights == _bizDaysAfterSpot) _bizDaysAfterSpotDF = std::get<1>(lineSection->getEndPoint());
 	}
 }
 
@@ -78,13 +78,13 @@ void YieldCurveBuilder::buildDepositSection(YieldCurve* yc){
 		cashflow cf(depositRate,0, fixingDate, paymentDate,accrualStartDate, accrualEndDate, _market);
 
 		AbstractInterpolator* lineSection;
-		DepositRateBootStrapper depositBS(_curvePointer, paymentDate, cf, _interpolAlgo, _numericalAlgo, _market, _bizDaysAfterSpotRate);
+		DepositRateBootStrapper depositBS(_curvePointer, paymentDate, cf, _interpolAlgo, _numericalAlgo, _market, _bizDaysAfterSpotDF);
 		depositBS.init(Configuration::getInstance());
 		lineSection = depositBS.bootStrap();
 		yc->insertLineSection(lineSection);
 		_curvePointer = lineSection->getEndPoint();
 
-		if (_bizDaysAfterSpotRate == NaN) _bizDaysAfterSpotRate = std::get<1>(lineSection->getEndPoint());
+		if (_bizDaysAfterSpotDF == NaN) _bizDaysAfterSpotDF = std::get<1>(lineSection->getEndPoint());
 	}
 }
 
