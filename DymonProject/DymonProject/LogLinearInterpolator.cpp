@@ -17,7 +17,9 @@ AbstractInterpolator(startPoint, endPoint){
 point LogLinearInterpolator::interpolate(date date0){
 	dateInRangeCheck(date0);
 	if (_slope == NaN){
-		double yDiff = log(std::get<1>(_endPoint)) - log(std::get<1>(_startPoint));
+		double startVal = std::get<1>(_startPoint);
+		double endVal = std::get<1>(_endPoint);
+		double yDiff = log(endVal) - log(startVal);
 		double xDiff = std::get<0>(_endPoint).getJudianDayNumber() - std::get<0>(_startPoint).getJudianDayNumber();
 		_slope = yDiff / xDiff;
 	}

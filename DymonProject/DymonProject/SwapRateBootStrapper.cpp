@@ -19,14 +19,14 @@ void SwapRateBootStrapper::init(Configuration* cfg){
 }
 
 AbstractInterpolator* SwapRateBootStrapper::bootStrap(){
-	
+
 	_cashflowStartIndex = findCashFlowIndex(std::get<0>(_startPoint));
 	_cashflowEndIndex = findCashFlowIndex(_endDate);
 
 	AbstractNumerical<SwapRateBootStrapper>* an = NumericalFactory<SwapRateBootStrapper>::getInstance()->getNumerical(this,&SwapRateBootStrapper::numericalFunc,_numericAlgo);
 	double previousVal = std::get<1>(_startPoint);
-	double lowerBound = 0; // previousVal*(1-_plusMinus/100.0);
-	double upperBound = (1+_plusMinus/100.0); //previousVal*(1+_plusMinus/100.0);
+	double lowerBound = abs(previousVal*(1-_plusMinus/100.0));
+	double upperBound = previousVal*(1+_plusMinus/100.0);
 	double swapPointValue = an->findRoot(lowerBound,upperBound,_tolerance,_iterateCount);
 
 	AbstractInterpolator* ai = InterpolatorFactory::getInstance()->getInterpolator(_startPoint, point(_endDate,swapPointValue) , _interpolAlgo);

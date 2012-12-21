@@ -30,8 +30,8 @@ AbstractInterpolator* DepositRateBootStrapper::bootStrap(){
 	}else{
 		AbstractNumerical<DepositRateBootStrapper>* an = NumericalFactory<DepositRateBootStrapper>::getInstance()->getNumerical(this,&DepositRateBootStrapper::numericalFunc,_numericAlgo);
 		double previousVal = std::get<1>(_startPoint);
-		double lowerBound = 0;// abs(previousVal*(1-_plusMinus/100.0));
-		double upperBound = (1+_plusMinus/100.0);
+		double lowerBound = abs(previousVal*(1-_plusMinus/100.0));
+		double upperBound = previousVal*(1+_plusMinus/100.0);
 		double discountFactor = an->findRoot(lowerBound,upperBound,_tolerance,_iterateCount);
 		ai = InterpolatorFactory::getInstance()->getInterpolator(_startPoint, point(_endDate,discountFactor) , _interpolAlgo);
 	}
