@@ -29,10 +29,10 @@ using namespace instruments;
 namespace instruments {
 	class swap:  public SwapPricer, public AbstractInstrument{
 	public:
-		swap() {};
+		swap(){};
+		~swap(){};
 		swap(date tradeDate, date maturityDate, double notional, double couponRate, YieldCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, RecordHelper::HolidayMap holidayMap);
-
-		~swap();
+		swap(date tradeDate, int tenorNumOfMonths, double notional, double couponRate, YieldCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, RecordHelper::HolidayMap holidayMap);
 
 		cashflowLeg getCashflowLegFix();
 		cashflowLeg getCashflowLegFloat();

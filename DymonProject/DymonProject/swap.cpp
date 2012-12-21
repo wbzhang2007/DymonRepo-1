@@ -16,28 +16,28 @@ using namespace utilities;
 using namespace std;
 using namespace enums;
 
-namespace instruments {
-swap::swap(date tradeDate, date maturityDate, double notional, double couponRate, YieldCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, RecordHelper::HolidayMap holidayMap) {
-	
+swap::swap(date tradeDate, int tenorNumOfMonths, double notional, double couponRate, YieldCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, RecordHelper::HolidayMap holidayMap) {
+	int buildDirection=1;
 
-	
+	BuilderCashFlowLeg builtCashflowLeg1(tradeDate, tenorNumOfMonths,couponRate,notional, paymentFreqFixLeg, fixLegCurr.getCurrencyEnum(),buildDirection);
+	BuilderCashFlowLeg builtCashflowLeg2(tradeDate, tenorNumOfMonths,yc,notional, paymentFreqFloatingLeg, floatingLegCurr.getCurrencyEnum(), buildDirection);
+
+	_fixCashflowLeg=*builtCashflowLeg1.getCashFlowLeg();
+	_floatingCashflowLeg=*builtCashflowLeg2.getCashFlowLeg();
+}
+
+swap::swap(date tradeDate, date maturityDate, double notional, double couponRate, YieldCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, RecordHelper::HolidayMap holidayMap) {
 	int buildDirection=1;
 
 	setTradeDate(tradeDate);
 	setMaturityDate(maturityDate);
 
 	BuilderCashFlowLeg builtCashflowLeg1(tradeDate, maturityDate,couponRate,notional, paymentFreqFixLeg, fixLegCurr.getCurrencyEnum(),buildDirection);
-
 	BuilderCashFlowLeg builtCashflowLeg2(tradeDate, maturityDate,yc,notional, paymentFreqFloatingLeg, floatingLegCurr.getCurrencyEnum(), buildDirection);
-	
+
 	_fixCashflowLeg=*builtCashflowLeg1.getCashFlowLeg();
 	_floatingCashflowLeg=*builtCashflowLeg2.getCashFlowLeg();
 }
-
-swap::~swap() {
-
-}
-
 
 cashflowLeg swap::getCashflowLegFix() {
 	return _fixCashflowLeg;
@@ -46,14 +46,12 @@ cashflowLeg swap::getCashflowLegFix() {
 cashflowLeg swap::getCashflowLegFloat() {
 	return _floatingCashflowLeg;
 }
-}
 
 void swap::printCashflowLegFix() {
 	_fixCashflowLeg.printCashFlowLeg();
 }
-void swap::printCashflowLegFloat() {
 
+void swap::printCashflowLegFloat() {
 	_floatingCashflowLeg.printCashFlowLeg();
-	
 }
 
