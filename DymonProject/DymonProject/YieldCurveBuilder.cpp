@@ -91,8 +91,7 @@ void YieldCurveBuilder::buildDepositSection(YieldCurve* yc){
 }
 
 void YieldCurveBuilder::buildSwapSection(YieldCurve* yc){
-	date startDate = dateUtil::getBizDateOffSet(dateUtil::getToday(),_market.getBusinessDaysAfterSpot(),enums::USD);
-	BuilderCashFlowLeg builtCashflowLeg(startDate,600,1,1, _floatFreqency, enums::USD);
+	BuilderCashFlowLeg builtCashflowLeg(dateUtil::getToday(),600,1,1, _floatFreqency, enums::USD);
 	cashflowLeg* _cashflowLeg=builtCashflowLeg.getCashFlowLeg();
 	//_cashflowLeg.printTimeLine();
 

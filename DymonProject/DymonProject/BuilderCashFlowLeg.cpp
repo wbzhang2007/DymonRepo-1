@@ -20,11 +20,12 @@ using namespace enums;
 using namespace instruments;
 
 BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double couponRate,double notional, int paymentFreq, enums::CurrencyEnum market, int buildDirection){
-
+	
 	currency mkt(market);
 	enums::DayCountEnum dayCountSwapConvention = mkt.getDayCountSwapConvention();
 	enums::DayRollEnum dayRollSwapConvention = mkt.getDayRollSwapConvention();
 	enums::DayRollEnum accrualAdjustSwapConvention = mkt.getAccrualAdjustSwapConvention();
+	startDate = dateUtil::getBizDateOffSet(dateUtil::getToday(),mkt.getBusinessDaysAfterSpot(),market);
 
 	if (buildDirection==1) {
 		int numOfMonthIncr=12/paymentFreq;
@@ -97,6 +98,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,doub
 	enums::DayCountEnum dayCountSwapConvention = mkt.getDayCountSwapConvention();
 	enums::DayRollEnum dayRollSwapConvention = mkt.getDayRollSwapConvention();
 	enums::DayRollEnum accrualAdjustSwapConvention = mkt.getAccrualAdjustSwapConvention();
+	startDate = dateUtil::getBizDateOffSet(dateUtil::getToday(),mkt.getBusinessDaysAfterSpot(),market);
 
 	int numOfMonthIncr=12/paymentFreq;
 	int i=0;
@@ -134,6 +136,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,YieldCu
 	enums::DayCountEnum dayCountSwapConvention = mkt.getDayCountSwapConvention();
 	enums::DayRollEnum dayRollSwapConvention = mkt.getDayRollSwapConvention();
 	enums::DayRollEnum accrualAdjustSwapConvention = mkt.getAccrualAdjustSwapConvention();
+	startDate = dateUtil::getBizDateOffSet(dateUtil::getToday(),mkt.getBusinessDaysAfterSpot(),market);
 
 	if (buildDirection==1) {
 		int numOfMonthIncr=12/paymentFreq;
@@ -213,6 +216,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,Yiel
 	enums::DayCountEnum dayCountSwapConvention = mkt.getDayCountSwapConvention();
 	enums::DayRollEnum dayRollSwapConvention = mkt.getDayRollSwapConvention();
 	enums::DayRollEnum accrualAdjustSwapConvention = mkt.getAccrualAdjustSwapConvention();
+	startDate = dateUtil::getBizDateOffSet(dateUtil::getToday(),mkt.getBusinessDaysAfterSpot(),market);
 
 	int numOfMonthIncr=12/paymentFreq;
 	int i=0;
