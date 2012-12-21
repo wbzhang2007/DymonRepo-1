@@ -16,12 +16,9 @@ namespace instruments {
 	
 	public:
 		
-		SwapPricer();
-
-		~SwapPricer();
-				
-		
-		
+		SwapPricer(){};
+		~SwapPricer(){};
+						
 		virtual double getMPV(cashflowLeg fixCashflowLeg,cashflowLeg floatCashflowLeg,YieldCurve aYieldCurve);
 
 		//fixOrFloating=-1 ==>floating
