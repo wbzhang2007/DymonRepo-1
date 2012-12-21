@@ -209,7 +209,7 @@ void CashFlowLegTest()  {
 
 void SwapTest() {
 	date tradeDate(2013,11,2);
-	date maturityDate(2015,2,6);
+	date maturityDate(2023,2,6);
 	
 	
 	double notional=1000000;
@@ -220,9 +220,7 @@ void SwapTest() {
 	int buildDirection=1;
 	RecordHelper::HolidayMap holidayMap;
 	bool rollAccuralDates=false;
-	vector<double> FLiborRate;
-
-	FLiborRate.resize(100,0.05);
+	
 
 	 typedef tuple<date, double> point;
 	 
@@ -253,7 +251,7 @@ void SwapTest() {
 	
 	cashflowLeg fixLeg=swap1.getCashflowLegFix();
 	cashflowLeg floatLeg=swap1.getCashflowLegFloat();
-	//YieldCurve aYC=*yc;
+	
 	cout<<"MPV="<<swap1.getMPV(fixLeg,floatLeg,*yc)<<endl;
 	
 	cout<<"ParRate="<<swap1.getParRate(fixLeg,floatLeg,*yc)<<endl;

@@ -1,5 +1,5 @@
 //created by Wang Jianwei on 1 Dec 2012
-//Added cashflowleg creating - Kun
+//Added cashflowleg creating and swap section - Kun
 #include "YieldCurveBuilder.h"
 #include <iostream>
 #include "YieldCurve.h"

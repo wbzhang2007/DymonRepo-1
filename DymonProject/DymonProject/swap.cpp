@@ -38,11 +38,6 @@ swap::~swap() {
 
 }
 
-//double swap::calFLiborRate(date forwardStartDate, date forwardEndDate, double accuralFactor) {
-//
-//
-//		return (_pricingYieldCurve.getDiscountFactor(forwardStartDate)/ _pricingYieldCurve.getDiscountFactor(forwardEndDate)-1)/accuralFactor;
-//}
 
 cashflowLeg swap::getCashflowLegFix() {
 	return _fixCashflowLeg;
