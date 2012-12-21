@@ -47,8 +47,11 @@ namespace instruments {
 			cashflow aCF=*it;
 			date accrualEndDate=aCF.getAccuralEndDate();
 			date accrualStartDate=aCF.getAccuralStartDate();
-			double FWDR=calFLiborRate(accrualStartDate,accrualEndDate,aCF.getAccuralFactor());
-			sum+=aCF.getAccuralFactor()*(FWDR)*(_pricingYieldCurve.getDiscountFactor(aCF.getPaymentDate()));
+			//double FWDR=calFLiborRate(accrualStartDate,accrualEndDate,aCF.getAccuralFactor());
+			
+			currency cashflowCurr=aCF.getCashFlowCurr();
+			double FLiborRate=aYieldCurve.getFLiborRate(accrualStartDate,accrualEndDate,cashflowCurr.getDayCountSwapConvention());
+			sum+=aCF.getAccuralFactor()*(FLiborRate)*(_pricingYieldCurve.getDiscountFactor(aCF.getPaymentDate()));
 		}
 	
 		return sum;
@@ -71,50 +74,6 @@ namespace instruments {
 		return _MPV;
 	}
 		
-	//vector<PV> SwapPricer::getPVLeg(instruments::swap aSwap,YieldCurve aYieldCurve,int fixOrFloating) {
-	//	//fixOrFloating=-1 ==>floating
-	//	//fixOrFloating=1 ==>fixed
-	//	_pricingYieldCurve=aYieldCurve;
-	//	_swapToBePriced=aSwap;
-
-	//	
-
-	//	if (fixOrFloating=-1) {
-	//		_PVFloatingLeg.clear();
-
-	//		vector<cashflow> cfVector=aSwap.getCashflowLegFloat().getCashFlowLeg().getCashFlowVector();
-	//		vector<cashflow>::iterator it=cfVector.begin();
-	//		for (;it!=cfVector.end();it++) {
-	//			cashflow aCF=*it;
-	//			date accrualEndDate=aCF.getAccuralEndDate();
-	//			double aPV_Value=aCF.getCouponAmount()*(_pricingYieldCurve.getDiscountFactor(accrualEndDate));
-	//			PV aPV=std::make_tuple(accrualEndDate,aPV_Value);
-	//			_PVFloatingLeg.push_back(aPV);
-
-
-	//		}
-
-
-	//		return _PVFloatingLeg;
-	//	}
-
-	//	if (fixOrFloating=1) {
-	//		vector<cashflow> cfVector=aSwap.getCashflowLegFix().getCashFlowLeg().getCashFlowVector();
-	//		vector<cashflow>::iterator it=cfVector.begin();
-	//		for (;it!=cfVector.end();it++) {
-
-
-
-	//		}
-
-
-
-	//		return _PVFixLeg;
-	//	}
-
-	//	
-	//}
-
 	double SwapPricer::getParRate(cashflowLeg floatCashflowLeg,cashflowLeg fixCashflowLeg,YieldCurve aYieldCurve) {
 
 		

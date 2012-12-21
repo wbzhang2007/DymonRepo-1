@@ -44,9 +44,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	//numericalTest.runTest();
 	//TestInterpolator interpolatorTest;
 	//interpolatorTest.runTest();
-	//SwapTest();
+	SwapTest();
 
-	buildYieldCurve();
+	//buildYieldCurve();
 }		
 
 		
@@ -209,7 +209,7 @@ void CashFlowLegTest()  {
 
 void SwapTest() {
 	date tradeDate(2013,11,2);
-	date maturityDate(2015,2,6);
+	date maturityDate(2023,2,6);
 	
 	
 	double notional=1000000;
@@ -220,22 +220,13 @@ void SwapTest() {
 	int buildDirection=1;
 	RecordHelper::HolidayMap holidayMap;
 	bool rollAccuralDates=false;
-	vector<double> FLiborRate;
-
-	FLiborRate.resize(100,0.05);
+	
 
 	 typedef tuple<date, double> point;
-	 date date0(2013,11,2);
-	 date date1(2015,2,6);
-	 date date2(2016,2,6);
-	 point point1(date0, 1);
-	 point point2(date1, 2);
-	 point point3(date2, 2.5);
-	 YieldCurve* yc = new YieldCurve();
-	 LinearInterpolator* li1 = new LinearInterpolator(point1, point2);
-	 LinearInterpolator* li2 = new LinearInterpolator(point2, point3);
-	 yc->insertLineSection(li1);
-	 yc->insertLineSection(li2);
+	 
+	 YieldCurveBuilder* builder = new YieldCurveBuilder();
+	 builder->init(Configuration::getInstance());
+	 YieldCurve* yc = builder->build();
 
 	currency fixLegCurr=currency(enums::USD);
 	currency floatingLegCurr=currency(enums::USD);
@@ -260,10 +251,10 @@ void SwapTest() {
 	
 	cashflowLeg fixLeg=swap1.getCashflowLegFix();
 	cashflowLeg floatLeg=swap1.getCashflowLegFloat();
-	YieldCurve aYC=*yc;
-	cout<<"MPV="<<swap1.getMPV(fixLeg,floatLeg,aYC)<<endl;
 	
-	//cout<<"ParRate="<<swap1.getParRate(fixLeg,floatLeg,aYC)<<endl;
+	cout<<"MPV="<<swap1.getMPV(fixLeg,floatLeg,*yc)<<endl;
+	
+	cout<<"ParRate="<<swap1.getParRate(fixLeg,floatLeg,*yc)<<endl;
 	
 	cout<<"========================Fix Leg of Swap1 is:========================="<<endl;
 	swap1.printCashflowLegFix();
