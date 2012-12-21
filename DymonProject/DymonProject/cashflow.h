@@ -45,6 +45,7 @@ namespace instruments {
 		void setCashFlowCurr(currency cashFlowCurr);
 		void setAccuralFactor();
 
+		bool isDateEqual(cashflow cf);
 		void printCashFlow();
 		
 	private:

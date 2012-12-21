@@ -18,6 +18,7 @@
 #include "YieldCurveBuilder.h"
 #include "YieldCurve.h"
 #include "LinearInterpolator.h"
+#include "TestBuildCashFlowLeg.h"
 
 using namespace utilities;
 using namespace std;
@@ -32,25 +33,30 @@ void CashFlowLegTest();
 void CashFlowTest();
 void SwapTest();
 void buildYieldCurve();
+void unitTest();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	RecordTest();
+	unitTest();
+
+	//buildYieldCurve();
+}		
+
+void unitTest(){	
 	//TestDateUtil dateUtilTest;
-	//dateUtilTest.runTest();
+	//dateUtilTest.runTest();	
 	//CashFlowTest();
     //CashFlowLegTest();
 	//TestNumerical numericalTest;
 	//numericalTest.runTest();
 	//TestInterpolator interpolatorTest;
 	//interpolatorTest.runTest();
-	SwapTest();
-
-	//buildYieldCurve();
-}		
-
-		
-
+	//SwapTest();
+	TestBuildCashFlowLeg buildCashFlowLegTest;
+	buildCashFlowLegTest.runTest();
+}
+	
 void buildYieldCurve(){
 	cout << "******** Build Record Helper ********\n" << endl;
 	RecordHelper* recordHelper = RecordHelper::getInstance();
