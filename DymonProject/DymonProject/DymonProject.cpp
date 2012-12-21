@@ -27,7 +27,7 @@ using namespace Session;
 using namespace UnitTest;
 using namespace enums;
 
-void RecordTest();
+void LoadInitialData();
 void DateUtilTest();
 void CashFlowLegTest();
 void CashFlowTest();
@@ -37,7 +37,7 @@ void unitTest();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	RecordTest();
+	LoadInitialData();
 	unitTest();
 
 	//buildYieldCurve();
@@ -102,7 +102,7 @@ void ZeroTest(){
 	cout<<"zero2 implied spot rate is "<<zero1.getImpliedSpotRate()<<endl;
 }
 
-void RecordTest(){
+void LoadInitialData(){
 	cout << "******** RecordHelper Test ********" << endl;
 	RecordHelper* recordHelper = RecordHelper::getInstance();
 	recordHelper->init(Configuration::getInstance());
