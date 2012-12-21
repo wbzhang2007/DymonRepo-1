@@ -32,7 +32,8 @@ namespace instruments {
 		swap(){};
 		~swap(){};
 		swap(date tradeDate, date maturityDate, double notional, double couponRate, YieldCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, RecordHelper::HolidayMap holidayMap);
-		
+		swap(date tradeDate, int tenorNumOfMonths, double notional, double couponRate, YieldCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, RecordHelper::HolidayMap holidayMap);
+
 		cashflowLeg getCashflowLegFix();
 		cashflowLeg getCashflowLegFloat();
 		void printCashflowLegFix();

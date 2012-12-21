@@ -16,6 +16,16 @@ using namespace utilities;
 using namespace std;
 using namespace enums;
 
+swap::swap(date tradeDate, int tenorNumOfMonths, double notional, double couponRate, YieldCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, RecordHelper::HolidayMap holidayMap) {
+	int buildDirection=1;
+
+	BuilderCashFlowLeg builtCashflowLeg1(tradeDate, tenorNumOfMonths,couponRate,notional, paymentFreqFixLeg, fixLegCurr.getCurrencyEnum(),buildDirection);
+	BuilderCashFlowLeg builtCashflowLeg2(tradeDate, tenorNumOfMonths,yc,notional, paymentFreqFloatingLeg, floatingLegCurr.getCurrencyEnum(), buildDirection);
+
+	_fixCashflowLeg=*builtCashflowLeg1.getCashFlowLeg();
+	_floatingCashflowLeg=*builtCashflowLeg2.getCashFlowLeg();
+}
+
 swap::swap(date tradeDate, date maturityDate, double notional, double couponRate, YieldCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, RecordHelper::HolidayMap holidayMap) {
 	int buildDirection=1;
 

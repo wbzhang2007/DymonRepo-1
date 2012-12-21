@@ -44,9 +44,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	//numericalTest.runTest();
 	//TestInterpolator interpolatorTest;
 	//interpolatorTest.runTest();
-	//SwapTest();
+	SwapTest();
 
-	buildYieldCurve();
+	//buildYieldCurve();
 }		
 
 		
@@ -123,8 +123,8 @@ void CashFlowTest() {
 }
 
 void CashFlowLegTest()  {
-	date startDate(2013,11,2);
-	date maturityDate(2015,2,6);
+	date startDate(2012,12,21);
+	date maturityDate(2014,12,25);
 	//date accuralStartDate(2013,11,3);
 	//date accuralEndDate(2014,2,5);
 	
@@ -208,8 +208,8 @@ void CashFlowLegTest()  {
 }
 
 void SwapTest() {
-	date tradeDate(2013,11,2);
-	date maturityDate(2023,2,6);
+	date tradeDate(2012,12,21);
+	date maturityDate(2062,12,25);
 	
 	
 	double notional=1000000;
@@ -257,11 +257,13 @@ void SwapTest() {
 	cout<<"ParRate="<<swap1.getParRate(fixLeg,floatLeg,*yc)<<endl;
 	
 	cout<<"========================Fix Leg of Swap1 is:========================="<<endl;
-	swap1.printCashflowLegFix();
+	//swap1.printCashflowLegFix();
 
 
 	cout<<"========================Floating Leg of Swap1 is:===================="<<endl;
-	swap1.printCashflowLegFloat();
+	//swap1.printCashflowLegFloat();
+
+
 
 
 }
