@@ -62,7 +62,24 @@ double SwapPricer::getMPV(cashflowLeg fixCashflowLeg,cashflowLeg floatCashflowLe
 }
 
 double SwapPricer::getParRate(cashflowLeg floatCashflowLeg,cashflowLeg fixCashflowLeg,YieldCurve aYieldCurve) {
-	_parRate=getMPVFloatLeg(floatCashflowLeg,_pricingYieldCurve)/getMPVFixLeg(fixCashflowLeg,_pricingYieldCurve);
+
+	_floatCashflowLeg=floatCashflowLeg;
+	_fixCashflowLeg=fixCashflowLeg;
+	_pricingYieldCurve=aYieldCurve;
+	vector<cashflow> cfVector=fixCashflowLeg.getCashFlowLeg().getCashFlowVector();
+	vector<cashflow>::iterator it=cfVector.begin();
+	double denom=0.0;
+
+	for (;it!=cfVector.end();it++) {
+		cashflow aCF=*it;
+		date accrualEndDate=aCF.getAccuralEndDate();
+		date accrualStartDate=aCF.getAccuralStartDate();
+
+		denom+=aCF.getAccuralFactor()*(aYieldCurve.getDiscountFactor(accrualEndDate));
+
+	}
+
+	_parRate=getMPVFloatLeg(floatCashflowLeg,_pricingYieldCurve)/denom;
 	return _parRate;
 }
 
