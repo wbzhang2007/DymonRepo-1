@@ -18,6 +18,7 @@
 #include "YieldCurveBuilder.h"
 #include "YieldCurve.h"
 #include "LinearInterpolator.h"
+#include "TestBuildCashFlowLeg.h"
 
 using namespace utilities;
 using namespace std;
@@ -26,31 +27,36 @@ using namespace Session;
 using namespace UnitTest;
 using namespace enums;
 
-void RecordTest();
+void LoadInitialData();
 void DateUtilTest();
 void CashFlowLegTest();
 void CashFlowTest();
 void SwapTest();
 void buildYieldCurve();
+void unitTest();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	RecordTest();
+	LoadInitialData();
+	unitTest();
+
+	//buildYieldCurve();
+}		
+
+void unitTest(){	
 	//TestDateUtil dateUtilTest;
-	//dateUtilTest.runTest();
+	//dateUtilTest.runTest();	
 	//CashFlowTest();
     //CashFlowLegTest();
 	//TestNumerical numericalTest;
 	//numericalTest.runTest();
 	//TestInterpolator interpolatorTest;
 	//interpolatorTest.runTest();
-	SwapTest();
-
-	//buildYieldCurve();
-}		
-
-		
-
+	//SwapTest();
+	TestBuildCashFlowLeg buildCashFlowLegTest;
+	buildCashFlowLegTest.runTest();
+}
+	
 void buildYieldCurve(){
 	cout << "******** Build Record Helper ********\n" << endl;
 	RecordHelper* recordHelper = RecordHelper::getInstance();
@@ -96,7 +102,7 @@ void ZeroTest(){
 	cout<<"zero2 implied spot rate is "<<zero1.getImpliedSpotRate()<<endl;
 }
 
-void RecordTest(){
+void LoadInitialData(){
 	cout << "******** RecordHelper Test ********" << endl;
 	RecordHelper* recordHelper = RecordHelper::getInstance();
 	recordHelper->init(Configuration::getInstance());

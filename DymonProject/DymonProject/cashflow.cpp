@@ -98,6 +98,14 @@ void cashflow::setAccuralFactor() {
 	_accuralFactor=dateUtil::getAccrualFactor(_accuralStartDate,_accuralEndDate,_cashFlowCurr.getDayCountCashConvention());
 }
 
+bool cashflow::isDateEqual(cashflow cf){
+	if (!getAccuralEndDate().isEqual(cf.getAccuralEndDate())) return false;
+	if (!getAccuralStartDate().isEqual(cf.getAccuralStartDate())) return false;
+	if (!getFixingDate().isEqual(cf.getFixingDate())) return false;
+	if (!getPaymentDate().isEqual(cf.getPaymentDate())) return false;
+	return true;
+}
+
 void cashflow::printCashFlow() {
 	cout<<"fixingDate ["<< _fixingDate.toString()<<"], accuralStartDate ["<< _accuralStartDate.toString()<<"], "<<
 		"accuralEndDate ["<<_accuralEndDate.toString()<<"] paymentDate["<< _paymentDate.toString()<<"]"<<endl;

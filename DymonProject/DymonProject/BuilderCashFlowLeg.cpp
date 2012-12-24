@@ -40,7 +40,6 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 
 			cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
 			builtCashflowLeg.push_back(aCashflow);
-
 			i++;
 		}
 
@@ -89,7 +88,6 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 		}
 		_cashflowLeg=cashflowLeg(builtCashflowLeg).getCashFlowLeg();
 	}
-
 }
 
 BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,double couponRate,double notional, int paymentFreq, enums::CurrencyEnum market){
@@ -151,7 +149,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,YieldCu
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
 			double FLiborRate=yc->getFLiborRate(calDateNewStart,calDateNewEnd,mkt.getDayCountSwapConvention());
-			cashflow aCashflow(FLiborRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
+			cashflow aCashflow(FLiborRate,notional, calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
 			builtCashflowLeg.push_back(aCashflow);
 			i++;
 		}
@@ -207,7 +205,6 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,YieldCu
 		}
 		_cashflowLeg=cashflowLeg(builtCashflowLeg).getCashFlowLeg();
 	}
-
 }
 
 BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,YieldCurve* yc,double notional, int paymentFreq, enums::CurrencyEnum market){
