@@ -87,6 +87,7 @@
     <ClInclude Include="AbstractDataStructure.h" />
     <ClInclude Include="AbstractInterpolator.h" />
     <ClInclude Include="AbstractNumerical.h" />
+    <ClInclude Include="AbstractOption.h" />
     <ClInclude Include="AbstractPricer.h" />
     <ClInclude Include="AbstractSession.h" />
     <ClInclude Include="AbstractSurface.h" />
@@ -104,6 +105,7 @@
     <ClInclude Include="DepositRateBootStrapper.h" />
     <ClInclude Include="EnumHelper.h" />
     <ClInclude Include="FalsePosition.h" />
+    <ClInclude Include="OptionPricer.h" />
     <ClInclude Include="OvernightRateBootStrapper.h" />
     <ClInclude Include="Ridder.h" />
     <ClInclude Include="Secant.h" />
@@ -112,6 +114,8 @@
     <ClInclude Include="TestDateUtil.h" />
     <ClInclude Include="TestInterpolator.h" />
     <ClInclude Include="TestNumerical.h" />
+    <ClInclude Include="TestOption.h" />
+    <ClInclude Include="EuropeanOption.h" />
     <ClInclude Include="YieldCurveBuilder.h" />
     <ClInclude Include="date.h" />
     <ClInclude Include="dateUtil.h" />
@@ -130,7 +134,6 @@
     <ClInclude Include="AbstractInstrument.h" />
     <ClInclude Include="instrumentValue.h" />
     <ClInclude Include="marketdata.h" />
-    <ClInclude Include="option.h" />
     <ClInclude Include="spot.h" />
     <ClInclude Include="spotmatrix.h" />
     <ClInclude Include="stdafx.h" />
@@ -167,6 +170,7 @@
     <ClCompile Include="LinearInterpolator.cpp" />
     <ClCompile Include="LogLinearInterpolator.cpp" />
     <ClCompile Include="Newton.h" />
+    <ClCompile Include="OptionPricer.cpp" />
     <ClCompile Include="OvernightRateBootStrapper.cpp" />
     <ClCompile Include="RecordHelper.cpp" />
     <ClCompile Include="fileUtil.cpp" />
@@ -183,6 +187,8 @@
     <ClCompile Include="TestDateUtil.cpp" />
     <ClCompile Include="TestInterpolator.cpp" />
     <ClCompile Include="TestNumerical.cpp" />
+    <ClCompile Include="TestOption.cpp" />
+    <ClCompile Include="EuropeanOption.cpp" />
     <ClCompile Include="YieldCurve.cpp" />
     <ClCompile Include="SwapRateBootStrapper.cpp" />
     <ClCompile Include="YieldCurveBuilder.cpp" />

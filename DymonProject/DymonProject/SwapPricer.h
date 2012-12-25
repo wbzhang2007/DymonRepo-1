@@ -18,7 +18,7 @@ namespace instruments {
 		
 		SwapPricer(){};
 		~SwapPricer(){};
-						
+								
 		virtual double getMPV(cashflowLeg fixCashflowLeg,cashflowLeg floatCashflowLeg,YieldCurve aYieldCurve);
 
 		//fixOrFloating=-1 ==>floating
@@ -34,7 +34,6 @@ namespace instruments {
 		virtual double calFLiborRate(date forwardStartDate, date forwardEndDate, double accuralFactor);
 
 	private: 
-		double _MPV;
 		vector<PV> _PVFixLeg;
 		vector<PV> _PVFloatingLeg;
 		double _parRate;

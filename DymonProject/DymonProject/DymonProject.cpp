@@ -19,6 +19,7 @@
 #include "YieldCurve.h"
 #include "LinearInterpolator.h"
 #include "TestBuildCashFlowLeg.h"
+#include "TestOption.h"
 
 using namespace utilities;
 using namespace std;
@@ -53,8 +54,10 @@ void unitTest(){
 	//TestInterpolator interpolatorTest;
 	//interpolatorTest.runTest();
 	//SwapTest();
-	TestBuildCashFlowLeg buildCashFlowLegTest;
-	buildCashFlowLegTest.runTest();
+	//TestBuildCashFlowLeg buildCashFlowLegTest;
+	//buildCashFlowLegTest.runTest();
+	TestOption optionTest;
+	optionTest.runTest();
 }
 	
 void buildYieldCurve(){

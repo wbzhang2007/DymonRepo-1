@@ -7,6 +7,7 @@
 #include <tuple>
 #include <map>
 #include "YieldCurve.h"
+#define NaN -9999999 
 
 using namespace std;
 using namespace instruments;
@@ -25,17 +26,14 @@ namespace instruments {
 	public:
 		//base class for all other instruments to be derived from
 		AbstractPricer(){};
-		~AbstractPricer(){};
+		~AbstractPricer(){};		
 		
-		
-		template <class T, class P> double getMPV(T aInstrument,YieldCurve curve);
-		
-		
+		virtual double getMPV(){return NaN;};
+
 		template <class T, class P> vector<PV> getPVLeg(T aInstrument,YieldCurve curve, int fixOrFloating);
 		
-
 	protected: 
-
+		double _MPV;	
 		
 	};
 }

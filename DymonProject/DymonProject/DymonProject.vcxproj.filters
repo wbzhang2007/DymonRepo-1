@@ -53,9 +53,6 @@
     <ClInclude Include="bond.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="option.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="swaption.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -206,6 +203,18 @@
     <ClInclude Include="TestBuildCashFlowLeg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OptionPricer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractOption.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestOption.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EuropeanOption.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -329,6 +338,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TestBuildCashFlowLeg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionPricer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestOption.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EuropeanOption.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
