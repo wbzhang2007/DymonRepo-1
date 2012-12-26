@@ -80,7 +80,7 @@ DiscountCurve* buildDiscountCurve(){
 void forwardStartingSwap(DiscountCurve* yc){
 	int tenorNumOfMonths = 24;	
 	double notional=1000000;
-	double couponRate=0.000;
+	double couponRate=0.03;
 	int paymentFreqFixLeg=2;
 	int paymentFreqFloatingLeg=4;
     bool rollAccuralDates=true;

@@ -40,7 +40,7 @@ double SwapPricer::getMPVFloatLeg(cashflowLeg* floatCashflowLeg,DiscountCurve* a
 
 		currency cashflowCurr=aCF.getCashFlowCurr();
 		double FLiborRate=aDiscountCurve->getFLiborRate(accrualStartDate,accrualEndDate,cashflowCurr.getDayCountSwapConvention());
-		sum+=aCF.getAccuralFactor()*(FLiborRate)*(_pricingDiscountCurve->getDiscountFactor(aCF.getPaymentDate()));
+		sum+=aCF.getNotional()*aCF.getAccuralFactor()*(FLiborRate)*(_pricingDiscountCurve->getDiscountFactor(aCF.getPaymentDate()));
 	}
 
 	return sum;
@@ -52,12 +52,7 @@ double SwapPricer::calFLiborRate(date forwardStartDate, date forwardEndDate, dou
 }
 
 double SwapPricer::getMPV(cashflowLeg* fixCashflowLeg,cashflowLeg* floatCashflowLeg,DiscountCurve* aDiscountCurve) {
-	//_swapToBePriced=aSwap;
-	_fixCashflowLeg=fixCashflowLeg;
-	_floatCashflowLeg=floatCashflowLeg;
-	_pricingDiscountCurve=aDiscountCurve;
-
-	_MPV=getMPVFixLeg(_fixCashflowLeg,_pricingDiscountCurve)-getMPVFloatLeg(_floatCashflowLeg,_pricingDiscountCurve);
+	_MPV=getMPVFixLeg(fixCashflowLeg,aDiscountCurve)-getMPVFloatLeg(floatCashflowLeg,aDiscountCurve);
 	return _MPV;
 }
 
