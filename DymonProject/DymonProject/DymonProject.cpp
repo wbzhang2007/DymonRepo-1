@@ -78,7 +78,7 @@ DiscountCurve* buildDiscountCurve(){
 }
 
 void forwardStartingSwap(DiscountCurve* yc){
-	int tenorNumOfMonths = 24;	
+	int tenorNumOfMonths = 60;	
 	double notional=1000000;
 	double couponRate=0.03;
 	int paymentFreqFixLeg=2;

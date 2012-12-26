@@ -67,10 +67,8 @@ double SwapPricer::getParRate(cashflowLeg* floatCashflowLeg,cashflowLeg* fixCash
 
 	for (;it!=cfVector.end();it++) {
 		cashflow aCF=*it;
-		date accrualEndDate=aCF.getAccuralEndDate();
-		date accrualStartDate=aCF.getAccuralStartDate();
-
-		denom+=aCF.getAccuralFactor()*(aDiscountCurve->getDiscountFactor(accrualEndDate));
+		date paymentDate=aCF.getPaymentDate();
+		denom+=aCF.getNotional()*aCF.getAccuralFactor()*(aDiscountCurve->getDiscountFactor(paymentDate));
 	}
 
 	_parRate=getMPVFloatLeg(floatCashflowLeg,_pricingDiscountCurve)/denom;
