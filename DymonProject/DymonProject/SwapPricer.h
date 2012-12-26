@@ -19,18 +19,18 @@ namespace instruments {
 		SwapPricer(){};
 		~SwapPricer(){};
 								
-		virtual double getMPV(cashflowLeg fixCashflowLeg,cashflowLeg floatCashflowLeg,YieldCurve aYieldCurve);
+		virtual double getMPV(cashflowLeg fixCashflowLeg,cashflowLeg floatCashflowLeg,YieldCurve* aYieldCurve);
 
 		//fixOrFloating=-1 ==>floating
 		//fixOrFloating=1 ==>fixed
 
 		//vector<PV> getPVLeg(instruments::swap aSwap,YieldCurve aYieldCurve,int fixOrFloating);
 		
-		virtual double getParRate(cashflowLeg floatCashflowLeg,cashflowLeg fixCashflowLeg,YieldCurve aYieldCurve);
+		virtual double getParRate(cashflowLeg floatCashflowLeg,cashflowLeg fixCashflowLeg,YieldCurve* aYieldCurve);
 
 	protected:
-		virtual double getMPVFixLeg(cashflowLeg fixCashflowLeg,YieldCurve aYieldCurve);
-		virtual double getMPVFloatLeg(cashflowLeg floatCashflowLeg,YieldCurve aYieldCurve);
+		virtual double getMPVFixLeg(cashflowLeg fixCashflowLeg,YieldCurve* aYieldCurve);
+		virtual double getMPVFloatLeg(cashflowLeg floatCashflowLeg,YieldCurve* aYieldCurve);
 		virtual double calFLiborRate(date forwardStartDate, date forwardEndDate, double accuralFactor);
 
 	private: 
@@ -42,7 +42,7 @@ namespace instruments {
 		//vector<FWDR> _FLiborRate;
 
 		//instruments::swap _swapToBePriced;
-		YieldCurve _pricingYieldCurve;
+		YieldCurve* _pricingYieldCurve;
 
 	
 	};

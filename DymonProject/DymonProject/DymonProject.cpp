@@ -33,15 +33,17 @@ void DateUtilTest();
 void CashFlowLegTest();
 void CashFlowTest();
 void SwapTest();
-void buildYieldCurve();
+YieldCurve* buildYieldCurve();
 void unitTest();
+void forwardStartingSwap(YieldCurve* yc);
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	LoadInitialData();
-	unitTest();
+	//unitTest();
 
-	//buildYieldCurve();
+	YieldCurve* yc = buildYieldCurve();
+	forwardStartingSwap(yc);
 }		
 
 void unitTest(){	
@@ -60,7 +62,7 @@ void unitTest(){
 	optionTest.runTest();
 }
 	
-void buildYieldCurve(){
+YieldCurve* buildYieldCurve(){
 	cout << "******** Build Record Helper ********\n" << endl;
 	RecordHelper* recordHelper = RecordHelper::getInstance();
 	recordHelper->init(Configuration::getInstance());
@@ -69,6 +71,27 @@ void buildYieldCurve(){
 	builder->init(Configuration::getInstance());
 	YieldCurve* yc = builder->build();
 	cout<<yc->toString()<<endl;
+	return yc;
+}
+
+void forwardStartingSwap(YieldCurve* yc){
+	int tenorNumOfMonths = 60;	
+	double notional=1000000;
+	double couponRate=0.05;
+	int paymentFreqFixLeg=2;
+	int paymentFreqFloatingLeg=4;
+    bool rollAccuralDates=false;
+
+	currency fixLegCurr=currency(enums::USD);
+	currency floatingLegCurr=currency(enums::USD);
+
+	for(int i=0; i<24; i++){
+		date tradeDate = dateUtil::getEndDateMonthIncrement(dateUtil::getToday(),i);
+		instruments::swap swap1(tradeDate, tenorNumOfMonths, notional, couponRate, yc, fixLegCurr, floatingLegCurr,paymentFreqFixLeg, paymentFreqFloatingLeg, rollAccuralDates);
+		cashflowLeg fixLeg=swap1.getCashflowLegFix();
+		cashflowLeg floatLeg=swap1.getCashflowLegFloat();
+		cout<<"Swap starting at ["<<tradeDate.toString()<<"] months with par rate ["<<swap1.getParRate(floatLeg,fixLeg,yc)<<"]"<<endl;
+	}
 }
 
 void buildSampleCurve(){
@@ -227,10 +250,8 @@ void SwapTest() {
 	int paymentFreqFloatingLeg=4;
 	//build from start to end (build forward)
 	int buildDirection=1;
-	RecordHelper::HolidayMap holidayMap;
-	bool rollAccuralDates=false;
+    bool rollAccuralDates=false;
 	
-
 	 typedef tuple<date, double> point;
 	 
 	 YieldCurveBuilder* builder = new YieldCurveBuilder();
@@ -248,7 +269,7 @@ void SwapTest() {
 	floatingLegCurr.setDayCountSwapConvention(enums::ACT_ACT);
 	floatingLegCurr.setDayRollCashConvention(enums::Mfollowing);
 
-	instruments::swap swap1(tradeDate, maturityDate, notional, couponRate, yc, fixLegCurr, floatingLegCurr,paymentFreqFixLeg, paymentFreqFloatingLeg, rollAccuralDates, holidayMap);
+	instruments::swap swap1(tradeDate, maturityDate, notional, couponRate, yc, fixLegCurr, floatingLegCurr,paymentFreqFixLeg, paymentFreqFloatingLeg, rollAccuralDates,buildDirection);
 
 	cout<<"tradeDate=";
 	tradeDate.printDate();
@@ -261,9 +282,9 @@ void SwapTest() {
 	cashflowLeg fixLeg=swap1.getCashflowLegFix();
 	cashflowLeg floatLeg=swap1.getCashflowLegFloat();
 	
-	cout<<"MPV="<<swap1.getMPV(fixLeg,floatLeg,*yc)<<endl;
+	cout<<"MPV="<<swap1.getMPV(fixLeg,floatLeg,yc)<<endl;
 	
-	cout<<"ParRate="<<swap1.getParRate(fixLeg,floatLeg,*yc)<<endl;
+	cout<<"ParRate="<<swap1.getParRate(fixLeg,floatLeg,yc)<<endl;
 	
 	cout<<"========================Fix Leg of Swap1 is:========================="<<endl;
 	//swap1.printCashflowLegFix();
