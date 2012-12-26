@@ -3,7 +3,7 @@
 #include "OvernightRateBootStrapper.h"
 #include <iostream>
 #include <cmath>
-#include "YieldCurve.h"
+#include "DiscountCurve.h"
 #include "InterpolatorFactory.h"
 #include "AbstractInterpolator.h"
 #include "NumericalFactory.h"

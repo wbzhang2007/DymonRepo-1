@@ -3,7 +3,7 @@
 
 #include "SwapRateBootStrapper.h"
 #include <iostream>
-#include "YieldCurve.h"
+#include "DiscountCurve.h"
 #include "InterpolatorFactory.h"
 #include "AbstractInterpolator.h"
 #include "NumericalFactory.h"

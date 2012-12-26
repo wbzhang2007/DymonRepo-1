@@ -12,7 +12,7 @@
 #include <vector>
 #include <iterator>
 #include "RecordHelper.h"
-#include "YieldCurve.h"
+#include "DiscountCurve.h"
 
 using namespace utilities;
 using namespace std;
@@ -33,8 +33,8 @@ namespace instruments {
 		BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,double couponRate,double notional, int paymentFreq, enums::CurrencyEnum market);
 		
 		//for Floating Legs
-		BuilderCashFlowLeg(date startDate, date maturityDate,YieldCurve* yc,double notional, int paymentFreq, enums::CurrencyEnum market, int buildDirection);
-		BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,YieldCurve* yc,double notional, int paymentFreq, enums::CurrencyEnum market);
+		BuilderCashFlowLeg(date startDate, date maturityDate,DiscountCurve* yc,double notional, int paymentFreq, enums::CurrencyEnum market, int buildDirection);
+		BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,DiscountCurve* yc,double notional, int paymentFreq, enums::CurrencyEnum market);
 
 		~BuilderCashFlowLeg(){};
 		cashflowLeg* getCashFlowLeg(){return &_cashflowLeg;};

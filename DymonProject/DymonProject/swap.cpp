@@ -16,7 +16,7 @@ using namespace utilities;
 using namespace std;
 using namespace enums;
 
-swap::swap(date tradeDate, int tenorNumOfMonths, double notional, double couponRate, YieldCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates) {
+swap::swap(date tradeDate, int tenorNumOfMonths, double notional, double couponRate, DiscountCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates) {
 
 	BuilderCashFlowLeg fixLegs(tradeDate, tenorNumOfMonths,couponRate,notional, paymentFreqFixLeg, fixLegCurr.getCurrencyEnum());
 	BuilderCashFlowLeg floatLegs(tradeDate, tenorNumOfMonths,yc,notional, paymentFreqFloatingLeg, floatingLegCurr.getCurrencyEnum());
@@ -25,7 +25,7 @@ swap::swap(date tradeDate, int tenorNumOfMonths, double notional, double couponR
 	_floatingCashflowLeg=*floatLegs.getCashFlowLeg();
 }
 
-swap::swap(date tradeDate, date maturityDate, double notional, double couponRate, YieldCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, int buildDirection) {
+swap::swap(date tradeDate, date maturityDate, double notional, double couponRate, DiscountCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, int buildDirection) {
 
 	setTradeDate(tradeDate);
 	setMaturityDate(maturityDate);
@@ -37,12 +37,12 @@ swap::swap(date tradeDate, date maturityDate, double notional, double couponRate
 	_floatingCashflowLeg=*floatLegs.getCashFlowLeg();
 }
 
-cashflowLeg swap::getCashflowLegFix() {
-	return _fixCashflowLeg;
+cashflowLeg* swap::getCashflowLegFix() {
+	return &_fixCashflowLeg;
 }
 
-cashflowLeg swap::getCashflowLegFloat() {
-	return _floatingCashflowLeg;
+cashflowLeg* swap::getCashflowLegFloat() {
+	return &_floatingCashflowLeg;
 }
 
 void swap::printCashflowLegFix() {

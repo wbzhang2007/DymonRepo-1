@@ -15,11 +15,12 @@
 #include "TestNumerical.h"
 #include "TestInterpolator.h"
 #include "TestDateUtil.h"
-#include "YieldCurveBuilder.h"
-#include "YieldCurve.h"
+#include "DiscountCurveBuilder.h"
+#include "DiscountCurve.h"
 #include "LinearInterpolator.h"
 #include "TestBuildCashFlowLeg.h"
 #include "TestOption.h"
+#include "TestDiscountCurve.h"
 
 using namespace utilities;
 using namespace std;
@@ -33,16 +34,16 @@ void DateUtilTest();
 void CashFlowLegTest();
 void CashFlowTest();
 void SwapTest();
-YieldCurve* buildYieldCurve();
+DiscountCurve* buildDiscountCurve();
 void unitTest();
-void forwardStartingSwap(YieldCurve* yc);
+void forwardStartingSwap(DiscountCurve* yc);
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	LoadInitialData();
 	//unitTest();
 
-	YieldCurve* yc = buildYieldCurve();
+	DiscountCurve* yc = buildDiscountCurve();
 	forwardStartingSwap(yc);
 }		
 
@@ -58,39 +59,44 @@ void unitTest(){
 	//SwapTest();
 	//TestBuildCashFlowLeg buildCashFlowLegTest;
 	//buildCashFlowLegTest.runTest();
-	TestOption optionTest;
-	optionTest.runTest();
+	//TestOption optionTest;
+	//optionTest.runTest();
+	TestDiscountCurve discountCurveTest;
+	discountCurveTest.runTest();
 }
 	
-YieldCurve* buildYieldCurve(){
+DiscountCurve* buildDiscountCurve(){
 	cout << "******** Build Record Helper ********\n" << endl;
 	RecordHelper* recordHelper = RecordHelper::getInstance();
 	recordHelper->init(Configuration::getInstance());
 	cout << "\n******** Build Yield Curve ********\n" << endl;
-	YieldCurveBuilder* builder = new YieldCurveBuilder();
+	DiscountCurveBuilder* builder = new DiscountCurveBuilder();
 	builder->init(Configuration::getInstance());
-	YieldCurve* yc = builder->build();
+	DiscountCurve* yc = builder->build();
 	cout<<yc->toString()<<endl;
 	return yc;
 }
 
-void forwardStartingSwap(YieldCurve* yc){
-	int tenorNumOfMonths = 60;	
+void forwardStartingSwap(DiscountCurve* yc){
+	int tenorNumOfMonths = 24;	
 	double notional=1000000;
-	double couponRate=0.05;
+	double couponRate=0.000;
 	int paymentFreqFixLeg=2;
 	int paymentFreqFloatingLeg=4;
-    bool rollAccuralDates=false;
+    bool rollAccuralDates=true;
 
 	currency fixLegCurr=currency(enums::USD);
 	currency floatingLegCurr=currency(enums::USD);
 
-	for(int i=0; i<24; i++){
+	for(int i=12; i<240; i++){
 		date tradeDate = dateUtil::getEndDateMonthIncrement(dateUtil::getToday(),i);
 		instruments::swap swap1(tradeDate, tenorNumOfMonths, notional, couponRate, yc, fixLegCurr, floatingLegCurr,paymentFreqFixLeg, paymentFreqFloatingLeg, rollAccuralDates);
-		cashflowLeg fixLeg=swap1.getCashflowLegFix();
-		cashflowLeg floatLeg=swap1.getCashflowLegFloat();
-		cout<<"Swap starting at ["<<tradeDate.toString()<<"] months with par rate ["<<swap1.getParRate(floatLeg,fixLeg,yc)<<"]"<<endl;
+		cashflowLeg* fixLeg=swap1.getCashflowLegFix();
+		//fixLeg->printCashFlowLeg();
+		cashflowLeg* floatLeg=swap1.getCashflowLegFloat();
+		//cout<<"Swap starting at ["<<tradeDate.toString()<<"] months with par rate ["<<swap1.getParRate(floatLeg,fixLeg,yc)<<"]"<<endl;
+		//cout<<swap1.getParRate(floatLeg,fixLeg,yc)<<endl;
+		cout<<swap1.getMPV(fixLeg,floatLeg,yc)<<endl;
 	}
 }
 
@@ -103,7 +109,7 @@ void buildSampleCurve(){
 	point point1(date0, 1);
 	point point2(date1, 2);
 	point point3(date2, 2.5);
-	YieldCurve* yc = new YieldCurve();
+	DiscountCurve* yc = new DiscountCurve();
 	LinearInterpolator* li1 = new LinearInterpolator(point1, point2);
 	LinearInterpolator* li2 = new LinearInterpolator(point2, point3);
 	yc->insertLineSection(li1);
@@ -254,9 +260,9 @@ void SwapTest() {
 	
 	 typedef tuple<date, double> point;
 	 
-	 YieldCurveBuilder* builder = new YieldCurveBuilder();
+	 DiscountCurveBuilder* builder = new DiscountCurveBuilder();
 	 builder->init(Configuration::getInstance());
-	 YieldCurve* yc = builder->build();
+	 DiscountCurve* yc = builder->build();
 
 	currency fixLegCurr=currency(enums::USD);
 	currency floatingLegCurr=currency(enums::USD);
@@ -279,8 +285,8 @@ void SwapTest() {
 	maturityDate.printDate();
 	cout<<endl;
 	
-	cashflowLeg fixLeg=swap1.getCashflowLegFix();
-	cashflowLeg floatLeg=swap1.getCashflowLegFloat();
+	cashflowLeg* fixLeg=swap1.getCashflowLegFix();
+	cashflowLeg* floatLeg=swap1.getCashflowLegFloat();
 	
 	cout<<"MPV="<<swap1.getMPV(fixLeg,floatLeg,yc)<<endl;
 	

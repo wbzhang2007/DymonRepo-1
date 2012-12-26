@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include "AbstractBootStrapper.h"
-#include "YieldCurve.h"
+#include "DiscountCurve.h"
 #include "cashflowLeg.h"
 #include "Enums.h"
 
@@ -19,7 +19,7 @@ namespace utilities {
 		
 		void init(Configuration* cfg);
 
-		SwapRateBootStrapper(point startPoint, date endDate, double swapRate, cashflowLeg* cashflows, YieldCurve* curve, enums::interpolAlgo interpolAlgo,
+		SwapRateBootStrapper(point startPoint, date endDate, double swapRate, cashflowLeg* cashflows, DiscountCurve* curve, enums::interpolAlgo interpolAlgo,
 			enums::NumericAlgo numericAlgo, enums::DayCountEnum dayCount):AbstractBootStrapper(startPoint, endDate, interpolAlgo, numericAlgo){
 			_curve = curve;
 			_swapRate = swapRate;
@@ -33,7 +33,7 @@ namespace utilities {
 
 	private:
 
-		YieldCurve* _curve;
+		DiscountCurve* _curve;
 		double _swapRate;
 		vector<cashflow> _cashflowVector;
 		enums::DayCountEnum _dayCount;

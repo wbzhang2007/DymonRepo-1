@@ -6,7 +6,7 @@
 #include <vector>
 #include <tuple>
 #include <map>
-#include "YieldCurve.h"
+#include "DiscountCurve.h"
 #define NaN -9999999 
 
 using namespace std;
@@ -30,7 +30,7 @@ namespace instruments {
 		
 		virtual double getMPV(){return NaN;};
 
-		template <class T, class P> vector<PV> getPVLeg(T aInstrument,YieldCurve curve, int fixOrFloating);
+		template <class T, class P> vector<PV> getPVLeg(T aInstrument,DiscountCurve curve, int fixOrFloating);
 		
 	protected: 
 		double _MPV;	

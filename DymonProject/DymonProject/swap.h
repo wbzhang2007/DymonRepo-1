@@ -18,7 +18,7 @@
 #include "RecordHelper.h"
 #include "SwapPricer.h"
 #include "AbstractPricer.h"
-#include "YieldCurve.h"
+#include "DiscountCurve.h"
 
 using namespace utilities;
 using namespace std;
@@ -31,11 +31,11 @@ namespace instruments {
 	public:
 		swap(){};
 		~swap(){};
-		swap(date tradeDate, date maturityDate, double notional, double couponRate, YieldCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, int buildDirection);
-		swap(date tradeDate, int tenorNumOfMonths, double notional, double couponRate, YieldCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates);
+		swap(date tradeDate, date maturityDate, double notional, double couponRate, DiscountCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, int buildDirection);
+		swap(date tradeDate, int tenorNumOfMonths, double notional, double couponRate, DiscountCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates);
 
-		cashflowLeg getCashflowLegFix();
-		cashflowLeg getCashflowLegFloat();
+		cashflowLeg* getCashflowLegFix();
+		cashflowLeg* getCashflowLegFloat();
 		void printCashflowLegFix();
 		void printCashflowLegFloat();
 		//double calFLiborRate(date forwardStartDate, date forwardEndDate, double accuralFactor);

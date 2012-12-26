@@ -1,18 +1,18 @@
 //created by Wang Jianwei on 01 Dec 2012
-#ifndef YIELDCURVE_H
-#define YIELDCURVE_H
+#ifndef DiscountCurve_H
+#define DiscountCurve_H
 #include "AbstractCurve.h"
 #include <vector>
 #include "Enums.h"
 
 namespace utilities{
-	class YieldCurve: public AbstractCurve{
+	class DiscountCurve: public AbstractCurve{
 		
 	public:
 		
-		YieldCurve():AbstractCurve(){};
+		DiscountCurve():AbstractCurve(){};
 
-		YieldCurve(std::vector<AbstractInterpolator*>* lineSectionVector):AbstractCurve(lineSectionVector){};
+		DiscountCurve(std::vector<AbstractInterpolator*>* lineSectionVector):AbstractCurve(lineSectionVector){};
 
 		void insertLineSection(AbstractInterpolator* lineSection);
 

@@ -9,26 +9,26 @@
 using namespace std;
 using namespace instruments;
 
-double SwapPricer::getMPVFixLeg(cashflowLeg fixCashflowLeg,YieldCurve* aYieldCurve) {
+double SwapPricer::getMPVFixLeg(cashflowLeg* fixCashflowLeg,DiscountCurve* aDiscountCurve) {
 	_fixCashflowLeg=fixCashflowLeg;
-	_pricingYieldCurve=aYieldCurve;
-	vector<cashflow> cfVector=fixCashflowLeg.getCashFlowLeg().getCashFlowVector();
+	_pricingDiscountCurve=aDiscountCurve;
+	vector<cashflow> cfVector=fixCashflowLeg->getCashFlowLeg().getCashFlowVector();
 	vector<cashflow>::iterator it=cfVector.begin();
 	double sum=0.0;
 	int count=0;
 	for (;it!=cfVector.end();it++) {
 		cashflow aCF=*it;
 		date paymentDate=aCF.getPaymentDate();
-		sum+=aCF.getCouponAmount()*_pricingYieldCurve->getDiscountFactor(paymentDate);
+		sum+=aCF.getCouponAmount()*_pricingDiscountCurve->getDiscountFactor(paymentDate);
 	}
 
 	return sum;
 }
 
-double SwapPricer::getMPVFloatLeg(cashflowLeg floatCashflowLeg,YieldCurve* aYieldCurve) {
+double SwapPricer::getMPVFloatLeg(cashflowLeg* floatCashflowLeg,DiscountCurve* aDiscountCurve) {
 	_floatCashflowLeg=floatCashflowLeg;
-	_pricingYieldCurve=aYieldCurve;
-	vector<cashflow> cfVector=floatCashflowLeg.getCashFlowLeg().getCashFlowVector();
+	_pricingDiscountCurve=aDiscountCurve;
+	vector<cashflow> cfVector=floatCashflowLeg->getCashFlowLeg().getCashFlowVector();
 	vector<cashflow>::iterator it=cfVector.begin();
 	double sum=0.0;
 	int count=0;
@@ -39,8 +39,8 @@ double SwapPricer::getMPVFloatLeg(cashflowLeg floatCashflowLeg,YieldCurve* aYiel
 		//double FWDR=calFLiborRate(accrualStartDate,accrualEndDate,aCF.getAccuralFactor());
 
 		currency cashflowCurr=aCF.getCashFlowCurr();
-		double FLiborRate=aYieldCurve->getFLiborRate(accrualStartDate,accrualEndDate,cashflowCurr.getDayCountSwapConvention());
-		sum+=aCF.getAccuralFactor()*(FLiborRate)*(_pricingYieldCurve->getDiscountFactor(aCF.getPaymentDate()));
+		double FLiborRate=aDiscountCurve->getFLiborRate(accrualStartDate,accrualEndDate,cashflowCurr.getDayCountSwapConvention());
+		sum+=aCF.getAccuralFactor()*(FLiborRate)*(_pricingDiscountCurve->getDiscountFactor(aCF.getPaymentDate()));
 	}
 
 	return sum;
@@ -48,25 +48,25 @@ double SwapPricer::getMPVFloatLeg(cashflowLeg floatCashflowLeg,YieldCurve* aYiel
 
 
 double SwapPricer::calFLiborRate(date forwardStartDate, date forwardEndDate, double accuralFactor) {
-	return (_pricingYieldCurve->getDiscountFactor(forwardStartDate)/ _pricingYieldCurve->getDiscountFactor(forwardEndDate)-1)/accuralFactor;
+	return (_pricingDiscountCurve->getDiscountFactor(forwardStartDate)/ _pricingDiscountCurve->getDiscountFactor(forwardEndDate)-1)/accuralFactor;
 }
 
-double SwapPricer::getMPV(cashflowLeg fixCashflowLeg,cashflowLeg floatCashflowLeg,YieldCurve* aYieldCurve) {
+double SwapPricer::getMPV(cashflowLeg* fixCashflowLeg,cashflowLeg* floatCashflowLeg,DiscountCurve* aDiscountCurve) {
 	//_swapToBePriced=aSwap;
 	_fixCashflowLeg=fixCashflowLeg;
 	_floatCashflowLeg=floatCashflowLeg;
-	_pricingYieldCurve=aYieldCurve;
+	_pricingDiscountCurve=aDiscountCurve;
 
-	_MPV=getMPVFixLeg(_fixCashflowLeg,_pricingYieldCurve)-getMPVFloatLeg(_floatCashflowLeg,_pricingYieldCurve);
+	_MPV=getMPVFixLeg(_fixCashflowLeg,_pricingDiscountCurve)-getMPVFloatLeg(_floatCashflowLeg,_pricingDiscountCurve);
 	return _MPV;
 }
 
-double SwapPricer::getParRate(cashflowLeg floatCashflowLeg,cashflowLeg fixCashflowLeg,YieldCurve* aYieldCurve) {
+double SwapPricer::getParRate(cashflowLeg* floatCashflowLeg,cashflowLeg* fixCashflowLeg,DiscountCurve* aDiscountCurve) {
 
 	_floatCashflowLeg=floatCashflowLeg;
 	_fixCashflowLeg=fixCashflowLeg;
-	_pricingYieldCurve=aYieldCurve;
-	vector<cashflow> cfVector=fixCashflowLeg.getCashFlowLeg().getCashFlowVector();
+	_pricingDiscountCurve=aDiscountCurve;
+	vector<cashflow> cfVector=fixCashflowLeg->getCashFlowLeg().getCashFlowVector();
 	vector<cashflow>::iterator it=cfVector.begin();
 	double denom=0.0;
 
@@ -75,11 +75,10 @@ double SwapPricer::getParRate(cashflowLeg floatCashflowLeg,cashflowLeg fixCashfl
 		date accrualEndDate=aCF.getAccuralEndDate();
 		date accrualStartDate=aCF.getAccuralStartDate();
 
-		denom+=aCF.getAccuralFactor()*(aYieldCurve->getDiscountFactor(accrualEndDate));
-
+		denom+=aCF.getAccuralFactor()*(aDiscountCurve->getDiscountFactor(accrualEndDate));
 	}
 
-	_parRate=getMPVFloatLeg(floatCashflowLeg,_pricingYieldCurve)/denom;
+	_parRate=getMPVFloatLeg(floatCashflowLeg,_pricingDiscountCurve)/denom;
 	return _parRate;
 }
 
