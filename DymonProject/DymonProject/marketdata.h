@@ -26,7 +26,7 @@ namespace markets {
 		void setPrice(double aPrice);
 
 		template <class T>
-		map<double,vector<T>> getYieldCurve(vector<T> inputPoints, date startTenor, date endTenor, enums::interpolAlgo algo);
+		map<double,vector<T>> getDiscountCurve(vector<T> inputPoints, date startTenor, date endTenor, enums::interpolAlgo algo);
 		
 		template <class T>
 		map<double,tuple<T,T>> getVolSurface(double underlyingPrice, vector<double> delta, date tradeDate, vector<date> maturity);
@@ -41,7 +41,7 @@ namespace markets {
 		map<double,vector<T>> getFxForwardCurve(vector<T> inputPoints, date startTenor, date endTenor, enums::interpolAlgo algo);
 
 		template <class T>
-		map<double,vector<T>> getImpliedYieldCurve(vector<T> inputPoints, date startTenor, date endTenor, enums::interpolAlgo algo);
+		map<double,vector<T>> getImpliedDiscountCurve(vector<T> inputPoints, date startTenor, date endTenor, enums::interpolAlgo algo);
 
 	protected:
 		//private copy constructor

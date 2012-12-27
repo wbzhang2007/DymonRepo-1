@@ -1,0 +1,30 @@
+//created by Wang Jianwei on 01 Dec 2012
+#ifndef TESTDISCOUNTCURVE_H
+#define TESTDISCOUNTCURVE_H
+#include "AbstractTest.h"
+#include "DiscountCurve.h"
+#include "Enums.h"
+#include "currency.h"
+#include <string>
+
+using namespace std;
+using namespace utilities;
+
+namespace UnitTest{
+	class TestDiscountCurve: public AbstractTest{
+
+	public:
+		TestDiscountCurve():AbstractTest(){}
+
+		void runTest();
+
+		void discountCurveTestSuit();
+
+	private:
+
+		void swapRateTest(enums::CurrencyEnum market, enums::interpolAlgo interpolAlgo);
+
+		void compareResult(string testName, date accuralEndDate, double derivedVal, double expectedVal);
+	};
+}
+#endif

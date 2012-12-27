@@ -226,7 +226,7 @@ date dateUtil::dayRollAdjust(date aDate,DayRollEnum aDayRollConvention, enums::C
 	return adjustedDate;
 }
 
-date dateUtil::getEndDateMonthIncrement(date startDate, int numMonth, enums::CurrencyEnum market){
+date dateUtil::getEndDateMonthIncrement(date startDate, int numMonth){
 	short startMonth = startDate.getMonth();
 	short endMonth;
 
@@ -252,7 +252,7 @@ date dateUtil::getEndDate(date startDate, int increment, enums::DayRollEnum dayR
 		endDate = date(startDate.getYear()+increment,startDate.getMonth(), startDate.getDay());
 		break;
 	case MONTH:
-		endDate = getEndDateMonthIncrement(startDate, increment, market);
+		endDate = getEndDateMonthIncrement(startDate, increment);
 		break;
 	case WEEK:
 		endDate = date(startDate.getJudianDayNumber()+increment*7);

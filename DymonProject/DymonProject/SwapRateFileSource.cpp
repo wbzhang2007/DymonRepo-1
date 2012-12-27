@@ -47,21 +47,20 @@ void SwapRateFileSource::retrieveRecord(){
 		cout<<market<<" market has total swap rate number:  "<<deposits.size()<<endl;
 
 		std::map<long, double> rateMap;
-		std::map<int,double> rateMap1;
 		for (unsigned int i = 0; i<deposits.size(); i++)
 		{
 			// 2Y-3.134
-			date startDate = dateUtil::getBizDateOffSet(dateUtil::getToday(),mkt.getBusinessDaysAfterSpot(),market); // day after spot adjust
+			date accrualStartDate = dateUtil::getBizDateOffSet(dateUtil::getToday(),mkt.getBusinessDaysAfterSpot(),market); // day after spot adjust
 			vector<string> tenureRate = fileUtil::split(deposits[i],'=');
 			char letterDateUnit = *tenureRate[0].rbegin(); // 'Y'
 			int increment = std::stoi(tenureRate[0].substr(0,tenureRate[0].size()-1)); // 2
 			double swapRate = std::stod(tenureRate[1])/100.0; // 3.134
-			long JDN = dateUtil::getEndDate(startDate,increment, accrualAdjust, market, dateUtil::getDateUnit(letterDateUnit)).getJudianDayNumber();
-			rateMap.insert(pair<long, double>(JDN, swapRate));
+			long accrualEndJDN = dateUtil::getEndDate(accrualStartDate,increment, accrualAdjust, market, dateUtil::getDateUnit(letterDateUnit)).getJudianDayNumber();
+			rateMap.insert(pair<long, double>(accrualEndJDN, swapRate));
 			
-			date tempDate(JDN);
-			cout << mkt.getNameString()<< " -> tenor[" << tenureRate[0]<<"], accrual start["<<startDate.toString()<<"], accrual end["
-				<<tempDate.toString() <<"], deposit rate["<< swapRate << "]"<<endl;
+			date accrualEndDate(accrualEndJDN);
+			cout << mkt.getNameString()<< " -> tenor[" << tenureRate[0]<<"], accrual start["<<accrualStartDate.toString()<<"], accrual end["
+				<<accrualEndDate.toString() <<"], deposit rate["<< swapRate << "]"<<endl;
 		}
 		tempMap.insert(pair<enums::CurrencyEnum, map<long, double>>(market,rateMap));
 	}

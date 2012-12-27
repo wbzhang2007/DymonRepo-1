@@ -36,6 +36,7 @@ namespace utilities {
 		static date dayRollAdjust(date aDate,enums::DayRollEnum aDayRollConvention, enums::CurrencyEnum market);
 		static double getAccrualFactor(date startDate,date endDate, enums::DayCountEnum dayCount);
 		static DateUnit getDateUnit(char letterDateUnit);
+		static date getEndDateMonthIncrement(date refDate, int numMonth);
 
 	private:
 
@@ -48,7 +49,6 @@ namespace utilities {
 		static long getFolloingJDN(date refDate, enums::CurrencyEnum market);
 		static date adjustInvalidateDate(date aDate, bool forwardAdjust);
 		static double thirty_360(date startDate, date endDate);
-		static date getEndDateMonthIncrement(date refDate, int numMonth, enums::CurrencyEnum market);
 	};
 }
 
