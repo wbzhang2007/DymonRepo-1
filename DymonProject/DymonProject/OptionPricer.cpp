@@ -1,6 +1,8 @@
 //created by Jianwei 04 Dec 2012
+//added analytical functions for getting ATM implied vol by Kun 27 Dec
 #include "OptionPricer.h"
 #include "Enums.h"
+#include "MathUtil.h"
 #define Pi 3.141592653589793238462643 
 
 using namespace utilities;
@@ -13,8 +15,8 @@ double OptionPricer::blackScholesFormula(enums::CallPut callPutFlag, double S, d
 	d2=d1-vol*sqrt(T);
 
 	if (callPutFlag == enums::Call)
-		return S *CDF(d1)-K * exp(-r*T)*CDF(d2);
-	return K * exp(-r * T) * CDF(-d2) - S * CDF(-d1);
+		return S *MathUtil::CNF(d1)-K * exp(-r*T)*MathUtil::CNF(d2);
+	return K * exp(-r * T) * MathUtil::CNF(-d2) - S * MathUtil::CNF(-d1);
 	
 }
 
@@ -25,19 +27,16 @@ double OptionPricer::blackFormula(enums::CallPut callPutFlag, double FwdS, doubl
 	d2=d1-vol*sqrt(T);
 
 	if (callPutFlag == enums::Call)
-		return discountFactor*(FwdS *CDF(d1)-K * CDF(d2));
-	return discountFactor*(K * CDF(-d2) - FwdS * CDF(-d1));
+		return discountFactor*(FwdS *MathUtil::CNF(d1)-K * MathUtil::CNF(d2));
+	return discountFactor*(K * MathUtil::CNF(-d2) - FwdS * MathUtil::CNF(-d1));
 }
 
-double OptionPricer::CDF(double x){
-	double L, K, w ;
 
-	double const a1 = 0.31938153, a2 = -0.356563782, a3 = 1.781477937, a4 = -1.821255978, a5 = 1.330274429;
+double OptionPricer::getImpliedVolBlackATM(enums::CallPut callPutFlag, double FwdS,  double optionPrice, double discountFactor, double T) {
+	int sig=(callPutFlag == enums::Call)? 1: -1;
+	double n=optionPrice/2/discountFactor/FwdS/sig+1/2;	
+	return 2*MathUtil::invCNF(n)/sqrt(T)/sig;
+}
 
-	L = fabs(x);
-	K = 1.0 / (1.0 + 0.2316419 * L);
-	w = 1.0 - 1.0 / sqrt(2 * Pi) * exp(-L *L / 2) * (a1 * K + a2 * pow(K,2) + a3 * pow(K,3) + a4 * pow(K,4) + a5 * pow(K,5));
 
-	if (x < 0 )	w= 1.0 - w;
-	return w;
-} 
+

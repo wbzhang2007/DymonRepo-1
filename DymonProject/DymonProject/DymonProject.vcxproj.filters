@@ -218,6 +218,9 @@
     <ClInclude Include="DiscountCurveBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MathUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -353,6 +356,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TestDiscountCurve.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MathUtil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
