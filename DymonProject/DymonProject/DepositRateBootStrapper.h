@@ -5,12 +5,13 @@
 #include "AbstractBootStrapper.h"
 #include "cashflow.h"
 #include "Enums.h"
+#include "date.h"
 #include "currency.h"
 
 using namespace instruments;
 
 namespace utilities {
-	class DepositRateBootStrapper: public AbstractBootStrapper{
+	class DepositRateBootStrapper: public AbstractBootStrapper<date>{
 		
 	public:
 		
@@ -27,7 +28,7 @@ namespace utilities {
 			_dayCountCash = market.getDayCountCashConvention();
 		};
 				
-		AbstractInterpolator* bootStrap();
+		AbstractInterpolator<date>* bootStrap();
 
 		double numericalFunc(double x);
 

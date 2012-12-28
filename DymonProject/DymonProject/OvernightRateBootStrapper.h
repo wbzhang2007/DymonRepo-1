@@ -6,11 +6,12 @@
 #include "cashflow.h"
 #include "Enums.h"
 #include "currency.h"
+#include "date.h"
 
 using namespace instruments;
 
 namespace utilities {
-	class OvernightRateBootStrapper: public AbstractBootStrapper{
+	class OvernightRateBootStrapper: public AbstractBootStrapper<date>{
 		
 	public:
 		
@@ -25,7 +26,7 @@ namespace utilities {
 			_market = market;
 		};
 				
-		AbstractInterpolator* bootStrap();
+		AbstractInterpolator<date>* bootStrap();
 
 		double numericalFunc(double x);
 

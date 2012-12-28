@@ -215,13 +215,13 @@
     <ClInclude Include="MathUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="option.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SwaptionVolSurface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AbstractSurface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="numericalfactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -283,18 +283,6 @@
     <ClCompile Include="RecordHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AbstractInterpolator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LinearInterpolator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LogLinearInterpolator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AbstractCurve.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Newton.h">
       <Filter>Header Files</Filter>
     </ClCompile>
@@ -302,9 +290,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BuilderCashFlowLeg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InterpolatorFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SwapRateBootStrapper.cpp">
@@ -337,9 +322,6 @@
     <ClCompile Include="OvernightRateBootStrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AbstractBootStrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TestBuildCashFlowLeg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -365,12 +347,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="swaption.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="option.cpp">
-      <Filter>Source Files\Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AbstractSurface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

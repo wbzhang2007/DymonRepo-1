@@ -9,9 +9,9 @@ using namespace utilities;
 using namespace std;
 
 typedef tuple<date, double> point;
-typedef AbstractCurve super;
+typedef AbstractCurve<date> super;
 
-void DiscountCurve::insertLineSection(AbstractInterpolator* lineSection){
+void DiscountCurve::insertLineSection(AbstractInterpolator<date>* lineSection){
 	super::insertLineSection(lineSection);
 }
 

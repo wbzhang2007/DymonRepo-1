@@ -39,21 +39,17 @@ namespace utilities {
 				return 0;
 		}
 
-		bool operator == (date d) {
-			return !compare(d);
-		}
+		bool operator == (date d) {	return !compare(d);}
 
-		bool operator < (date d) {
-			return compare(d)<0;   
-		}
+		bool operator < (date d) { return compare(d)<0; }
 		
-		bool operator > (date d) {
-			return compare(d)>0;   
-		}
+		bool operator > (date d) { return compare(d)>0; }
 
-		long operator - (date d) {
-			return _judianDayNumber - d.getJudianDayNumber();   
-		}
+		bool operator <= (date d) { return compare(d)<=0; }
+		
+		bool operator >=(date d) { return compare(d)>=0; }
+
+		long operator - (date d) { return _judianDayNumber - d.getJudianDayNumber(); }
 		
 	private:
 

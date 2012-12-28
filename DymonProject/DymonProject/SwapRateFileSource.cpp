@@ -50,7 +50,8 @@ void SwapRateFileSource::retrieveRecord(){
 		for (unsigned int i = 0; i<deposits.size(); i++)
 		{
 			// 2Y-3.134
-			date accrualStartDate = dateUtil::getBizDateOffSet(dateUtil::getToday(),mkt.getBusinessDaysAfterSpot(),market); // day after spot adjust
+			date startDate = dateUtil::dayRollAdjust(dateUtil::getToday(),enums::Following,market);	
+			date accrualStartDate = dateUtil::getBizDateOffSet(startDate,mkt.getBusinessDaysAfterSpot(),market); // day after spot adjust
 			vector<string> tenureRate = fileUtil::split(deposits[i],'=');
 			char letterDateUnit = *tenureRate[0].rbegin(); // 'Y'
 			int increment = std::stoi(tenureRate[0].substr(0,tenureRate[0].size()-1)); // 2

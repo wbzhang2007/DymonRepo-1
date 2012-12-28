@@ -68,6 +68,7 @@ namespace utilities{
 		int _bizDaysAfterSpot;
 		double _bizDaysAfterSpotDF;
 		point _curvePointer;
+		date _curveStartDate;
 	};
 }
 #endif

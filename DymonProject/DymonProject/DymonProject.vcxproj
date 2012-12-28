@@ -106,7 +106,7 @@
     <ClInclude Include="EnumHelper.h" />
     <ClInclude Include="FalsePosition.h" />
     <ClInclude Include="MathUtil.h" />
-    <ClInclude Include="option.h" />
+    <ClInclude Include="numericalfactory.h" />
     <ClInclude Include="OptionPricer.h" />
     <ClInclude Include="OvernightRateBootStrapper.h" />
     <ClInclude Include="Ridder.h" />
@@ -149,13 +149,9 @@
     <ClInclude Include="zero.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AbstractBootStrapper.cpp" />
-    <ClCompile Include="AbstractCurve.cpp" />
     <ClCompile Include="AbstractDao.cpp" />
     <ClCompile Include="AbstractFileSource.cpp" />
-    <ClCompile Include="AbstractInterpolator.cpp" />
     <ClCompile Include="AbstractSession.cpp" />
-    <ClCompile Include="AbstractSurface.cpp" />
     <ClCompile Include="AbstractTest.cpp" />
     <ClCompile Include="BuilderCashFlowLeg.cpp" />
     <ClCompile Include="cashflow.cpp" />
@@ -170,12 +166,8 @@
     <ClCompile Include="DepositRateBootStrapper.cpp" />
     <ClCompile Include="DymonProject.cpp" />
     <ClCompile Include="EnumHelper.cpp" />
-    <ClCompile Include="InterpolatorFactory.cpp" />
-    <ClCompile Include="LinearInterpolator.cpp" />
-    <ClCompile Include="LogLinearInterpolator.cpp" />
     <ClCompile Include="MathUtil.cpp" />
     <ClCompile Include="Newton.h" />
-    <ClCompile Include="option.cpp" />
     <ClCompile Include="OptionPricer.cpp" />
     <ClCompile Include="OvernightRateBootStrapper.cpp" />
     <ClCompile Include="RecordHelper.cpp" />

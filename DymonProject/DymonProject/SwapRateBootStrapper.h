@@ -7,11 +7,12 @@
 #include "DiscountCurve.h"
 #include "cashflowLeg.h"
 #include "Enums.h"
+#include "date.h"
 
 using namespace instruments;
 
 namespace utilities {
-	class SwapRateBootStrapper: public AbstractBootStrapper{
+	class SwapRateBootStrapper: public AbstractBootStrapper<date>{
 		
 	public:
 		
@@ -27,7 +28,7 @@ namespace utilities {
 			_dayCount = dayCount;
 		}
 				
-		AbstractInterpolator* bootStrap();
+		AbstractInterpolator<date>* bootStrap();
 	
 		double numericalFunc(double xVal);
 

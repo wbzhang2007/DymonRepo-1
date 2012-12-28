@@ -5,6 +5,7 @@
 #include <tuple>
 #include "date.h"
 #include "Enums.h"
+#include <sstream>
 
 using namespace std;
 
@@ -26,9 +27,13 @@ namespace utilities{
 
 		point getEndPoint(){return _endPoint;}
 
-		T getStartingX();
+		T getStartingX(){
+			return std::get<0>(_startPoint);
+		}
 
-		T getEndingX();
+		T getEndingX(){
+			return std::get<0>(_endPoint);
+		}
 
 		virtual std::string toString();
 
@@ -44,37 +49,34 @@ namespace utilities{
 	};
 
 	template <class T> 
-	T AbstractInterpolator<T>::getStartingJDN(){
-		point start = getStartPoint();
-		return std::get<0>(start);
-	}
-
-	template <class T> 
-	T AbstractInterpolator<T>::getEndingJDN(){
-		point end = getEndPoint();
-		return std::get<0>(end);
-	}
-
-	template <class T> 
 	string AbstractInterpolator<T>::toString(){
 		std::stringstream ss (stringstream::in | stringstream::out);
 		ss << "line section from {";
-		ss << std::get<0>(_startPoint).toString() << "," <<std::get<1>(_startPoint)<<"} to {";
-		ss << std::get<0>(_endPoint).toString() << "," <<std::get<1>(_endPoint)<<"}";
+		ss << std::get<0>(_startPoint) << "," <<std::get<1>(_startPoint)<<"} to {";
+		ss << std::get<0>(_endPoint) << "," <<std::get<1>(_endPoint)<<"}";
 		return ss.str();
 	}
 
 	template <class T> 
 	void AbstractInterpolator<T>::xValInRangeCheck(T xVal){
-		if (xVal<getStartingX()){
+		if (xVal<AbstractInterpolator<T>::getStartingX()){
 			std::stringstream ss (stringstream::in | stringstream::out);
-			ss<<"Value ["<<xVal<<"] is smaller than the line section starting value ["<<getStartingX()<<"]";
+			ss<<"X Value is smaller than the line section starting value";
 			throw ss.str();
-		}else if (date0.getJudianDayNumber()>getEndingJDN()){
+		}else if (xVal>AbstractInterpolator<T>::getEndingX()){
 			std::stringstream ss (stringstream::in | stringstream::out);
-			ss<<"Value ["<<xVal<<"] is larger than the line section ending value ["<<getStartingX()<<"]";
+			ss<<"X Value is larger than the line section ending value";
 			throw ss.str();
 		}
+	}
+
+	template <> 
+	inline string AbstractInterpolator<date>::toString(){
+		std::stringstream ss (stringstream::in | stringstream::out);
+		ss << "line section from {";
+		ss << std::get<0>(_startPoint).toString() << "," <<std::get<1>(_startPoint)<<"} to {";
+		ss << std::get<0>(_endPoint).toString() << "," <<std::get<1>(_endPoint)<<"}";
+		return ss.str();
 	}
 }
 #endif
