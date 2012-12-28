@@ -18,6 +18,7 @@
 #include "DiscountCurve.h"
 #include "swap.h"
 #include "option.h"
+#include "SwaptionVolSurface.h"
 
 using namespace utilities;
 using namespace std;
@@ -28,7 +29,7 @@ using namespace instruments;
 namespace instruments {
 	class swaption:  public swap, public option {
 
-		swaption(date optionStartDate, date optionExpiryDate, VolSurface* vs,date swapStartDate, date swapMaturityDate,double notional, double couponRate, DiscountCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, int buildDirection);
+		swaption(date optionStartDate, date optionExpiryDate, SwaptionVolSurface* vs,date swapStartDate, date swapMaturityDate,double notional, double couponRate, DiscountCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, int buildDirection);
 		~swaption();
 
 		option getOption();

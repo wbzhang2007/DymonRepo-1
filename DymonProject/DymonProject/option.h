@@ -12,7 +12,7 @@
 #include "RecordHelper.h"
 #include "DiscountCurve.h"
 #include "AbstractInstrument.h"
-#include "VolSurface.h"
+#include "SwaptionVolSurface.h"
 #include "OptionPricer.h"
 
 using namespace utilities;
@@ -25,8 +25,9 @@ namespace instruments {
 	class option: public AbstractInstrument, public OptionPricer {
 
 	public:
-		option(date tradeDate, date maturityDate, VolSurface* vs, double S);
-		~option();
+		option(){};
+		option(date tradeDate, date maturityDate, SwaptionVolSurface* vs, double S);
+		~option(){};
 
 		double getPrice();
 	

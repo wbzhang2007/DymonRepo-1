@@ -6,23 +6,25 @@
 #include <vector>
 
 namespace utilities{
-	class AbstractCurve: public AbstractDataStructure{
+	template<typename T> class AbstractCurve: public AbstractDataStructure{
 		
 	public:
 		
-		typedef tuple<date, double> point;
+		typedef tuple<T, double> point;
 
 		AbstractCurve():AbstractDataStructure(){
-			_lineSectionVector = new std::vector<AbstractInterpolator*>;
+			_lineSectionVector = new std::vector<AbstractInterpolator<T>*>;
 		};
 
-		AbstractCurve(std::vector<AbstractInterpolator*>* lineSectionVector);
+		AbstractCurve(std::vector<AbstractInterpolator<T>*>* lineSectionVector);
 
-		virtual void insertLineSection(AbstractInterpolator* lineSection);
+		virtual void insertLineSection(AbstractInterpolator<T>* lineSection);
 
-		virtual double getValue(date date0);
+		virtual double getValue(T xVal);
 
-		void setLineSectionVector(std::vector<AbstractInterpolator*>* lineSectionVector);
+		void setLineSectionVector(std::vector<AbstractInterpolator<T>*>* lineSectionVector){
+			_lineSectionVector = lineSectionVector;		
+		}
 
 		bool validateLineSections();
 		
@@ -30,7 +32,7 @@ namespace utilities{
 
 	private:
 
-		std::vector<AbstractInterpolator*>* _lineSectionVector;
+		std::vector<AbstractInterpolator<T>*>* _lineSectionVector;
 
 	};
 }

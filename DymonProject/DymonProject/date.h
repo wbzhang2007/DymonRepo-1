@@ -29,6 +29,31 @@ namespace utilities {
 		bool isEqual(date date0);
 		void printDate();
 		std::string toString();
+				
+		int compare (date d) {
+			if (_judianDayNumber<d.getJudianDayNumber())
+				return -1;
+			else if (_judianDayNumber>d.getJudianDayNumber())
+				return 1;
+			else
+				return 0;
+		}
+
+		bool operator == (date d) {
+			return !compare(d);
+		}
+
+		bool operator < (date d) {
+			return compare(d)<0;   
+		}
+		
+		bool operator > (date d) {
+			return compare(d)>0;   
+		}
+
+		long operator - (date d) {
+			return _judianDayNumber - d.getJudianDayNumber();   
+		}
 		
 	private:
 

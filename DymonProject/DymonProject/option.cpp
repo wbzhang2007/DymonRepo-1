@@ -9,15 +9,11 @@ using namespace enums;
 using namespace instruments;
 
 
-instruments::option(date tradeDate, date maturityDate, VolSurface* vs, double S) {
+option::option(date tradeDate, date maturityDate, SwaptionVolSurface* vs, double S) {
 
 }
 
-instruments::~option() {
-
-}
-
-double instruments::getPrice() {
+double option::getPrice() {
 
 	return 0.0;
 }

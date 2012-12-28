@@ -112,6 +112,7 @@
     <ClInclude Include="Ridder.h" />
     <ClInclude Include="Secant.h" />
     <ClInclude Include="SwapPricer.h" />
+    <ClInclude Include="SwaptionVolSurface.h" />
     <ClInclude Include="TestBuildCashFlowLeg.h" />
     <ClInclude Include="TestDateUtil.h" />
     <ClInclude Include="TestDiscountCurve.h" />
@@ -127,7 +128,6 @@
     <ClInclude Include="InterpolatorFactory.h" />
     <ClInclude Include="LinearInterpolator.h" />
     <ClInclude Include="LogLinearInterpolator.h" />
-    <ClInclude Include="NumericalFactory.h" />
     <ClInclude Include="RecordHelper.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="fileUtil.h" />
@@ -146,7 +146,6 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="SwapRateBootStrapper.h" />
     <ClInclude Include="DiscountCurve.h" />
-    <ClInclude Include="VolSurface.h" />
     <ClInclude Include="zero.h" />
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +155,7 @@
     <ClCompile Include="AbstractFileSource.cpp" />
     <ClCompile Include="AbstractInterpolator.cpp" />
     <ClCompile Include="AbstractSession.cpp" />
+    <ClCompile Include="AbstractSurface.cpp" />
     <ClCompile Include="AbstractTest.cpp" />
     <ClCompile Include="BuilderCashFlowLeg.cpp" />
     <ClCompile Include="cashflow.cpp" />
@@ -175,6 +175,7 @@
     <ClCompile Include="LogLinearInterpolator.cpp" />
     <ClCompile Include="MathUtil.cpp" />
     <ClCompile Include="Newton.h" />
+    <ClCompile Include="option.cpp" />
     <ClCompile Include="OptionPricer.cpp" />
     <ClCompile Include="OvernightRateBootStrapper.cpp" />
     <ClCompile Include="RecordHelper.cpp" />

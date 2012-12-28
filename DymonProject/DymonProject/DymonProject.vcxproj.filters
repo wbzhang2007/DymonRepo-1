@@ -134,13 +134,7 @@
     <ClInclude Include="InterpolatorFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NumericalFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AbstractDataStructure.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AbstractSurface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AbstractBootStrapper.h">
@@ -224,7 +218,10 @@
     <ClInclude Include="option.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VolSurface.h">
+    <ClInclude Include="SwaptionVolSurface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractSurface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -368,6 +365,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="swaption.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="option.cpp">
+      <Filter>Source Files\Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractSurface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

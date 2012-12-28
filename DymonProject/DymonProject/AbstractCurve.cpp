@@ -19,18 +19,6 @@ void AbstractCurve::insertLineSection(AbstractInterpolator* lineSection){
 	} else{
 		int vectorSize = _lineSectionVector->size();
 		_lineSectionVector->insert(_lineSectionVector->begin()+vectorSize,lineSection);
-		//for (unsigned int i = 0; i<_lineSectionVector->size(); i++){
-		//	long iterateStartingJDN = _lineSectionVector->at(i).getStartingJDN();
-		//	long iterateEndingJDN = _lineSectionVector->at(i).getEndingJDN();
-		//	if (i==0){
-		//		if (iterateStartingJDN>=(*lineSection).getEndingJDN()){
-		//			_lineSectionVector->insert(_lineSectionVector->begin()+i,*lineSection);
-		//		}
-		//	}
-		//	if (iterateEndingJDN<=(*lineSection).getStartingJDN()){
-		//		_lineSectionVector->insert(_lineSectionVector->begin()+i+1,*lineSection);
-		//	}
-		//}
 	}
 }
 
