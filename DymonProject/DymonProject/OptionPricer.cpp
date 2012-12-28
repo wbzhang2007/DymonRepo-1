@@ -32,10 +32,10 @@ double OptionPricer::blackFormula(enums::CallPut callPutFlag, double FwdS, doubl
 }
 
 
-double OptionPricer::getImpliedVolBlackATM(enums::CallPut callPutFlag, double FwdS,  double optionPrice, double discountFactor, double T) {
+double OptionPricer::getImpliedVolBlackATM(enums::CallPut callPutFlag, double K,  double optionPrice, double discountFactor, double T) {
 	int sig=(callPutFlag == enums::Call)? 1: -1;
-	double n=optionPrice/2/discountFactor/FwdS/sig+1/2;	
-	return 2*MathUtil::invCNF(n)/sqrt(T)/sig;
+	double n=optionPrice/2/discountFactor/K/sig+1/2;	
+	return 2*MathUtil::invCNF(n)/sig;
 }
 
 

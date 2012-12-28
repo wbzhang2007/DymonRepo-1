@@ -23,6 +23,7 @@ swap::swap(date tradeDate, int tenorNumOfMonths, double notional, double couponR
 
 	_fixCashflowLeg=*fixLegs.getCashFlowLeg();
 	_floatingCashflowLeg=*floatLegs.getCashFlowLeg();
+	_yc=*yc;
 }
 
 swap::swap(date tradeDate, date maturityDate, double notional, double couponRate, DiscountCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, int buildDirection) {
@@ -35,6 +36,7 @@ swap::swap(date tradeDate, date maturityDate, double notional, double couponRate
 
 	_fixCashflowLeg=*fixLegs.getCashFlowLeg();
 	_floatingCashflowLeg=*floatLegs.getCashFlowLeg();
+	_yc=*yc;
 }
 
 cashflowLeg* swap::getCashflowLegFix() {
@@ -53,3 +55,11 @@ void swap::printCashflowLegFloat() {
 	_floatingCashflowLeg.printCashFlowLeg();
 }
 
+//double swap::getParRate() {
+//	return SwapPricer::getParRate(&_floatingCashflowLeg,&_fixCashflowLeg,&_yc);
+//}
+
+DiscountCurve* swap::getDiscountCurve() {
+
+	return &_yc;
+}

@@ -24,7 +24,7 @@ namespace instruments {
 		double blackFormula(enums::CallPut callPutFlag, double FwdS, double K, double vol, double discountFactor, double T);
 
 		
-		double getImpliedVolBlackATM(enums::CallPut callPutFlag, double FwdS,  double optionPrice, double discountFactor, double T);
+		double getImpliedVolBlackATM(enums::CallPut callPutFlag, double K,  double optionPrice, double discountFactor, double T);
 
 	};
 }

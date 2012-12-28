@@ -106,6 +106,7 @@
     <ClInclude Include="EnumHelper.h" />
     <ClInclude Include="FalsePosition.h" />
     <ClInclude Include="MathUtil.h" />
+    <ClInclude Include="option.h" />
     <ClInclude Include="OptionPricer.h" />
     <ClInclude Include="OvernightRateBootStrapper.h" />
     <ClInclude Include="Ridder.h" />
@@ -145,6 +146,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="SwapRateBootStrapper.h" />
     <ClInclude Include="DiscountCurve.h" />
+    <ClInclude Include="VolSurface.h" />
     <ClInclude Include="zero.h" />
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +188,7 @@
     <ClCompile Include="swap.cpp" />
     <ClCompile Include="SwapPricer.cpp" />
     <ClCompile Include="SwapRateFileSource.cpp" />
+    <ClCompile Include="swaption.cpp" />
     <ClCompile Include="TestBuildCashFlowLeg.cpp" />
     <ClCompile Include="TestDateUtil.cpp" />
     <ClCompile Include="TestDiscountCurve.cpp" />
