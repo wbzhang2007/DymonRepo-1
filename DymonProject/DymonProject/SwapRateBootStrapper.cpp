@@ -18,7 +18,7 @@ void SwapRateBootStrapper::init(Configuration* cfg){
 	_tolerance = std::stod(cfg->getProperty("numerical.tolerance",true,"0.0000001"));
 }
 
-AbstractInterpolator* SwapRateBootStrapper::bootStrap(){
+AbstractInterpolator<date>* SwapRateBootStrapper::bootStrap(){
 
 	_cashflowStartIndex = findCashFlowIndex(std::get<0>(_startPoint));
 	_cashflowEndIndex = findCashFlowIndex(_endDate);
@@ -29,13 +29,13 @@ AbstractInterpolator* SwapRateBootStrapper::bootStrap(){
 	double upperBound = previousVal*(1+_plusMinus/100.0);
 	double swapPointValue = an->findRoot(lowerBound,upperBound,_tolerance,_iterateCount);
 
-	AbstractInterpolator* ai = InterpolatorFactory::getInstance()->getInterpolator(_startPoint, point(_endDate,swapPointValue) , _interpolAlgo);
+	AbstractInterpolator<date>* ai = InterpolatorFactory<date>::getInstance()->getInterpolator(_startPoint, point(_endDate,swapPointValue) , _interpolAlgo);
 	return ai;
 }
 
 double SwapRateBootStrapper::numericalFunc(double x){
 	
-	AbstractInterpolator* ai = InterpolatorFactory::getInstance()->getInterpolator(_startPoint, point(_endDate,x) , _interpolAlgo);
+	AbstractInterpolator<date>* ai = InterpolatorFactory<date>::getInstance()->getInterpolator(_startPoint, point(_endDate,x) , _interpolAlgo);
 
 	double numerator = 1 - x;
 	double denominator = 0;

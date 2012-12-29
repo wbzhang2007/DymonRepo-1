@@ -52,7 +52,7 @@ void DepositFileSource::retrieveRecord(){
 			// 2D-0.1		
 			vector<string> tenureRate = fileUtil::split(deposits[i],'=');
 			char letterDateUnit = *tenureRate[0].rbegin(); // 'D'
-			date startDate = dateUtil::getToday();	
+			date startDate = dateUtil::dayRollAdjust(dateUtil::getToday(),enums::Following,market);	
 			if (letterDateUnit != 'D')
 				startDate = dateUtil::getBizDateOffSet(startDate,mkt.getBusinessDaysAfterSpot(),market); // day after spot adjust
 			int increment = std::stoi(tenureRate[0].substr(0,tenureRate[0].size()-1)); // 2

@@ -13,18 +13,18 @@
 
 using namespace utilities;
 
-typedef AbstractBootStrapper super;
+typedef AbstractBootStrapper<date> super;
 
 void OvernightRateBootStrapper::init(Configuration* cfg){
 	super::init(cfg);
 }
 
-AbstractInterpolator* OvernightRateBootStrapper::bootStrap(){
-	AbstractInterpolator* ai;
+AbstractInterpolator<date>* OvernightRateBootStrapper::bootStrap(){
+	AbstractInterpolator<date>* ai;
 	enums::DayCountEnum dayCountCashConvention = _market.getDayCountCashConvention();
 	double accrualFactor = dateUtil::getAccrualFactor(_cashFlow.getAccuralStartDate(),_cashFlow.getAccuralEndDate(), dayCountCashConvention);
 	double discountFactor = 1/(1+accrualFactor*_depositRate);
-	ai = InterpolatorFactory::getInstance()->getInterpolator(_startPoint, point(_endDate,discountFactor) , _interpolAlgo);
+	ai = InterpolatorFactory<date>::getInstance()->getInterpolator(_startPoint, point(_endDate,discountFactor) , _interpolAlgo);
 	return ai;
 }
 

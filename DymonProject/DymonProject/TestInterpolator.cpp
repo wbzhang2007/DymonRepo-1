@@ -59,13 +59,13 @@ void TestInterpolator::logLinearTestSuit(){
 }
 
 void TestInterpolator::linearTest(point startPoint, point endPoint, date targetDate, double tolerance, double expectedVal){
-	LinearInterpolator li( startPoint, endPoint);
+	LinearInterpolator<date> li( startPoint, endPoint);
 	double derivedVal = std::get<1>(li.interpolate(targetDate));
 	compareResult("Linear Interpolation",derivedVal, expectedVal, startPoint, endPoint, targetDate);
 }
 
 void TestInterpolator::logLinearTest(point startPoint, point endPoint, date targetDate, double tolerance, double expectedVal){
-	LogLinearInterpolator li( startPoint, endPoint);
+	LogLinearInterpolator<date> li( startPoint, endPoint);
 	double derivedVal = std::get<1>(li.interpolate(targetDate));
 	compareResult("LogLinear Interpolation",derivedVal, expectedVal, startPoint, endPoint, targetDate);
 }

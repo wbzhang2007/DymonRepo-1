@@ -4,17 +4,18 @@
 #include "AbstractCurve.h"
 #include <vector>
 #include "Enums.h"
+#include "date.h"
 
 namespace utilities{
-	class DiscountCurve: public AbstractCurve{
+	class DiscountCurve: public AbstractCurve<date>{
 		
 	public:
 		
 		DiscountCurve():AbstractCurve(){};
 
-		DiscountCurve(std::vector<AbstractInterpolator*>* lineSectionVector):AbstractCurve(lineSectionVector){};
+		DiscountCurve(std::vector<AbstractInterpolator<date>*>* lineSectionVector):AbstractCurve(lineSectionVector){};
 
-		void insertLineSection(AbstractInterpolator* lineSection);
+		void insertLineSection(AbstractInterpolator<date>* lineSection);
 
 		double getValue(date date0);
 

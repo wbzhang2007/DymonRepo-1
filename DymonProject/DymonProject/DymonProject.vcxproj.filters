@@ -134,13 +134,7 @@
     <ClInclude Include="InterpolatorFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NumericalFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AbstractDataStructure.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AbstractSurface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AbstractBootStrapper.h">
@@ -218,6 +212,18 @@
     <ClInclude Include="DiscountCurveBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MathUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SwaptionVolSurface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractSurface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="numericalfactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -277,18 +283,6 @@
     <ClCompile Include="RecordHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AbstractInterpolator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LinearInterpolator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LogLinearInterpolator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AbstractCurve.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Newton.h">
       <Filter>Header Files</Filter>
     </ClCompile>
@@ -296,9 +290,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BuilderCashFlowLeg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InterpolatorFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SwapRateBootStrapper.cpp">
@@ -331,9 +322,6 @@
     <ClCompile Include="OvernightRateBootStrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AbstractBootStrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TestBuildCashFlowLeg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -353,6 +341,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TestDiscountCurve.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MathUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="swaption.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

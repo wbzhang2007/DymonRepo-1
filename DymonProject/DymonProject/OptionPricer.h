@@ -1,4 +1,5 @@
 //created by Jianwei on 16 Dec 2012
+//added analytical functions for getting ATM implied vol by Kun 27 Dec
 #ifndef OPTIONPRICER_H
 #define OPTIONPRICER_H
 #include "AbstractPricer.h"
@@ -22,8 +23,9 @@ namespace instruments {
 		double blackScholesFormula(enums::CallPut callPutFlag, double S, double K, double vol, double r, double T);
 		double blackFormula(enums::CallPut callPutFlag, double FwdS, double K, double vol, double discountFactor, double T);
 
-	private:
-		double CDF(double x);
+		
+		double getImpliedVolBlackATM(enums::CallPut callPutFlag, double K,  double optionPrice, double discountFactor, double T);
+
 	};
 }
 #endif

@@ -66,9 +66,6 @@ void unitTest(){
 }
 	
 DiscountCurve* buildDiscountCurve(){
-	cout << "******** Build Record Helper ********\n" << endl;
-	RecordHelper* recordHelper = RecordHelper::getInstance();
-	recordHelper->init(Configuration::getInstance());
 	cout << "\n******** Build Yield Curve ********\n" << endl;
 	DiscountCurveBuilder* builder = new DiscountCurveBuilder();
 	builder->init(Configuration::getInstance());
@@ -78,7 +75,7 @@ DiscountCurve* buildDiscountCurve(){
 }
 
 void forwardStartingSwap(DiscountCurve* yc){
-	int tenorNumOfMonths = 60;	
+	int tenorNumOfMonths = 24;	
 	double notional=1000000;
 	double couponRate=0.03;
 	int paymentFreqFixLeg=2;
@@ -89,7 +86,8 @@ void forwardStartingSwap(DiscountCurve* yc){
 	currency floatingLegCurr=currency(enums::USD);
 
 	for(int i=12; i<240; i++){
-		date tradeDate = dateUtil::getEndDateMonthIncrement(dateUtil::getToday(),i);
+		date startDate =dateUtil::dayRollAdjust(dateUtil::getToday(),enums::Following,enums::USD);	
+		date tradeDate = dateUtil::getEndDateMonthIncrement(startDate,i);
 		instruments::swap swap1(tradeDate, tenorNumOfMonths, notional, couponRate, yc, fixLegCurr, floatingLegCurr,paymentFreqFixLeg, paymentFreqFloatingLeg, rollAccuralDates);
 		cashflowLeg* fixLeg=swap1.getCashflowLegFix();
 		//fixLeg->printCashFlowLeg();
@@ -110,8 +108,8 @@ void buildSampleCurve(){
 	point point2(date1, 2);
 	point point3(date2, 2.5);
 	DiscountCurve* yc = new DiscountCurve();
-	LinearInterpolator* li1 = new LinearInterpolator(point1, point2);
-	LinearInterpolator* li2 = new LinearInterpolator(point2, point3);
+	LinearInterpolator<date>* li1 = new LinearInterpolator<date>(point1, point2);
+	LinearInterpolator<date>* li2 = new LinearInterpolator<date>(point2, point3);
 	yc->insertLineSection(li1);
 	yc->insertLineSection(li2);
 }

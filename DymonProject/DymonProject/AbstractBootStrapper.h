@@ -13,9 +13,9 @@ using namespace Session;
 using namespace enums;
 
 namespace utilities{
-	class AbstractBootStrapper: public AbstractSession{
+	template <class T> class AbstractBootStrapper: public AbstractSession{
 	public:
-		typedef tuple<date, double> point;
+		typedef tuple<T, double> point;
 
 		virtual void init(Configuration* cfg);
 
@@ -27,7 +27,7 @@ namespace utilities{
 			_numericAlgo = numericAlgo;
 		}
 
-		virtual AbstractInterpolator* bootStrap(){return NULL;};
+		virtual AbstractInterpolator<T>* bootStrap(){return NULL;};
 
 		virtual double numericalFunc(double x){return 0;};
 
@@ -46,7 +46,14 @@ namespace utilities{
 		int _iterateCount;
 
 		int _plusMinus;
-	
+
 	};
+
+	template <class T> 
+	void AbstractBootStrapper<T>::init(Configuration* cfg){
+		_iterateCount = std::stoi(cfg->getProperty("numerical.iteration", false, "50"));
+		_plusMinus = std::stoi(cfg->getProperty("numerical.plusminus", false, "20"));
+		_tolerance = std::stod(cfg->getProperty("numerical.tolerance", false, "0.0000001"));
+	}
 }
 #endif

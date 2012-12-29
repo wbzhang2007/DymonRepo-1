@@ -36,6 +36,8 @@ namespace instruments {
 
 		cashflowLeg* getCashflowLegFix();
 		cashflowLeg* getCashflowLegFloat();
+		DiscountCurve* getDiscountCurve();
+		//double getParRate();
 		void printCashflowLegFix();
 		void printCashflowLegFloat();
 		//double calFLiborRate(date forwardStartDate, date forwardEndDate, double accuralFactor);
@@ -47,7 +49,7 @@ namespace instruments {
 
 		cashflowLeg _fixCashflowLeg;
 		cashflowLeg _floatingCashflowLeg;
-
+		DiscountCurve _yc;
 		date _tradeDate;
 		date _maturityDate;
 	
