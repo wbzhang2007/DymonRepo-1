@@ -41,7 +41,7 @@ void forwardStartingSwap(DiscountCurve* yc);
 int _tmain(int argc, _TCHAR* argv[])
 {
 	LoadInitialData();
-	//unitTest();
+	unitTest();
 
 	DiscountCurve* yc = buildDiscountCurve();
 	forwardStartingSwap(yc);
@@ -59,10 +59,10 @@ void unitTest(){
 	//SwapTest();
 	//TestBuildCashFlowLeg buildCashFlowLegTest;
 	//buildCashFlowLegTest.runTest();
-	//TestOption optionTest;
-	//optionTest.runTest();
-	TestDiscountCurve discountCurveTest;
-	discountCurveTest.runTest();
+	TestOption optionTest;
+	optionTest.runTest();
+	//TestDiscountCurve discountCurveTest;
+	//discountCurveTest.runTest();
 }
 	
 DiscountCurve* buildDiscountCurve(){
