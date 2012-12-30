@@ -40,6 +40,11 @@ namespace instruments {
 		//double getParRate();
 		void printCashflowLegFix();
 		void printCashflowLegFloat();
+
+		currency getFixLegCurr();
+		currency getFloatLegCurr();
+		int getPaymentFreqFixLeg();
+		int getPaymentFreqFloatingLeg();
 		//double calFLiborRate(date forwardStartDate, date forwardEndDate, double accuralFactor);
 
 	protected:
@@ -52,6 +57,10 @@ namespace instruments {
 		DiscountCurve _yc;
 		date _tradeDate;
 		date _maturityDate;
+		currency _fixLegCurr;
+		currency _floatingLegCurr;
+		int _paymentFreqFixLeg;
+		int _paymentFreqFloatingLeg;
 	
 	};
 
