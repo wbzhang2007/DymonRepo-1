@@ -28,7 +28,7 @@ namespace utilities{
 				  _slope = yDiff / xDiff;
 			  }
 			  double  yVal = _slope*(xVal - std::get<0>(_startPoint))+ log(std::get<1>(_startPoint));
-			  return point(xVal, yVal);
+			  return point(xVal,exp(yVal));
 		  }
 
 	private:
