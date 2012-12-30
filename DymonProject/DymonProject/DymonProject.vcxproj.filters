@@ -21,6 +21,7 @@
     <None Include="swapRate.txt" />
     <None Include="deposit.txt" />
     <None Include="Currency.txt" />
+    <None Include="SwaptionATMVolMatrix_USD.csv" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -224,6 +225,9 @@
     <ClInclude Include="numericalfactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SwaptionATMVolMatrixFileSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -347,6 +351,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="swaption.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="swaptionATMVols.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

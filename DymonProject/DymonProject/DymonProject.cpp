@@ -29,6 +29,7 @@ using namespace Session;
 using namespace UnitTest;
 using namespace enums;
 
+
 void LoadInitialData();
 void DateUtilTest();
 void CashFlowLegTest();
@@ -97,6 +98,7 @@ void forwardStartingSwap(DiscountCurve* yc){
 		cout<<swap1.getMPV(fixLeg,floatLeg,yc)<<endl;
 	}
 }
+
 
 void buildSampleCurve(){
 
