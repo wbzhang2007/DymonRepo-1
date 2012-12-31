@@ -10,6 +10,7 @@ namespace enums {
 	enum NumericAlgo {BISECTION, RIDDER, SECANT, FALSEPOSITION};
 	enum interpolAlgo{LINEAR,LOGLINEAR};
 	enum CallPut{Call, Put};
+	enum PayReceive {Payer, Receiver};
 }
 
 #endif

@@ -25,6 +25,18 @@ namespace instruments {
 			_T = T;
 		}
 
+		AbstractOption(date tradeDate, CallPut callPutFlag, double S, double K, double vol, double r, date expiryDate, enums::DayCountEnum dayCount) {
+
+			setTradeDate(tradeDate);
+			setMaturityDate(expiryDate);
+			_callPutFlag = callPutFlag;
+			_S = S;
+			_K = K;
+			_vol = vol;
+			_r = r;
+			_T = dateUtil::getAccrualFactor(tradeDate,expiryDate,dayCount);
+
+		}
 		virtual double getMPV(){return OptionPricer::getMPV();};
 
 	protected:
