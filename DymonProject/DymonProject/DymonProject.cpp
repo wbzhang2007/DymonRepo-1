@@ -21,6 +21,8 @@
 #include "TestBuildCashFlowLeg.h"
 #include "TestOption.h"
 #include "TestDiscountCurve.h"
+#include "AbstractSurface.h"
+#include "TestSurface.h"
 
 using namespace utilities;
 using namespace std;
@@ -44,8 +46,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	LoadInitialData();
 	unitTest();
 
-	DiscountCurve* yc = buildDiscountCurve();
-	forwardStartingSwap(yc);
+	//DiscountCurve* yc = buildDiscountCurve();
+	//forwardStartingSwap(yc);
 }		
 
 void unitTest(){	
@@ -60,10 +62,12 @@ void unitTest(){
 	//SwapTest();
 	//TestBuildCashFlowLeg buildCashFlowLegTest;
 	//buildCashFlowLegTest.runTest();
-	TestOption optionTest;
-	optionTest.runTest();
+	//TestOption optionTest;
+	//optionTest.runTest();
 	//TestDiscountCurve discountCurveTest;
 	//discountCurveTest.runTest();
+	TestSurface surfaceTest;
+	surfaceTest.runTest();
 }
 	
 DiscountCurve* buildDiscountCurve(){
@@ -115,6 +119,7 @@ void buildSampleCurve(){
 	yc->insertLineSection(li1);
 	yc->insertLineSection(li2);
 }
+
 
 void ZeroTest(){
 	cout << "******** Zero Test ********" << endl;

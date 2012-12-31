@@ -228,6 +228,9 @@
     <ClInclude Include="SwaptionATMVolMatrixFileSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TestSurface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -354,6 +357,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="swaptionATMVols.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestSurface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
