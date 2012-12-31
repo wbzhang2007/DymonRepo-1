@@ -149,6 +149,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="SwapRateBootStrapper.h" />
     <ClInclude Include="DiscountCurve.h" />
+    <ClInclude Include="TestSurface.h" />
     <ClInclude Include="zero.h" />
   </ItemGroup>
   <ItemGroup>
@@ -211,6 +212,7 @@
     <ClCompile Include="DiscountCurve.cpp" />
     <ClCompile Include="SwapRateBootStrapper.cpp" />
     <ClCompile Include="DiscountCurveBuilder.cpp" />
+    <ClCompile Include="TestSurface.cpp" />
     <ClCompile Include="zero.cpp" />
   </ItemGroup>
   <ItemGroup>

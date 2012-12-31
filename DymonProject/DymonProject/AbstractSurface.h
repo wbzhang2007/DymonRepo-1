@@ -5,6 +5,7 @@
 #include "AbstractInterpolator.h"
 #include "AbstractDataStructure.h"
 #include <map>
+#include <sstream>
 
 namespace utilities{
 	template<typename T> class AbstractSurface: public AbstractDataStructure{
@@ -29,7 +30,7 @@ namespace utilities{
 
 		virtual double getValue(double majorAxisVal, T minorAxisVal);
 
-		bool validatecurves();
+		bool validateSurface();
 
 		virtual std::string toString();
 
@@ -57,11 +58,22 @@ namespace utilities{
 	}
 
 	template<typename T>
-	bool AbstractSurface<T>::validatecurves(){
+	bool AbstractSurface<T>::validateSurface(){
+		bool validationPass = true;
+		for (map<double, AbstractCurve<T>*>::iterator it = _curves->begin(); it!=_curves->end(); it++)
+			if (!(*it).second->validateLineSections())
+				validationPass = false;
+		return validationPass;
 	}
 
 	template<typename T>
 	std::string  AbstractSurface<T>::toString(){
+		std::stringstream ss (stringstream::in | stringstream::out);
+		for (map<double, AbstractCurve<T>*>::iterator it = _curves->begin(); it!=_curves->end(); it++){
+			ss<<"Major axis value ["<<(*it).first<<"] has ";
+			ss<<(*it).second->toString();
+		}
+		return ss.str();
 	}
 
 }

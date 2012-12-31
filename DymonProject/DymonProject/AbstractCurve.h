@@ -92,5 +92,21 @@ namespace utilities{
 		}
 		return ss.str();
 	}
+
+	template<>
+	inline bool AbstractCurve<date>::validateLineSections(){
+		bool validationPass = true;
+		for (unsigned int i = 1; i<_lineSectionVector->size(); i++){
+			AbstractInterpolator<date>* nextLine = _lineSectionVector->at(i);
+			AbstractInterpolator<date>* previousLine = _lineSectionVector->at(i-1);
+			date nextStartX = nextLine->getStartingX();
+			date previousEndX = previousLine->getEndingX();
+			if (nextStartX.getJudianDayNumber()!=previousEndX.getJudianDayNumber()){
+				cout<<"Curve gap detected: "<<previousEndX.toString()<< " " <<nextStartX.toString()<<endl;
+				validationPass = false;
+			}
+		}
+		return validationPass;
+	}
 }
 #endif
