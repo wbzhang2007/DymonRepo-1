@@ -1,6 +1,20 @@
+//created by Hu Kun 1 Jan
 #include "SwaptionATMVolMatrixFileSource.h"
+#include "AbstractFileSource.h"
+#include "fileUtil.h"
+#include "dateUtil.h"
+#include "date.h"
+#include "RecordHelper.h"
+#include "Enums.h"
+#include "EnumHelper.h"
+#include "currency.h"
+#include <tuple>
 
 using namespace DAO;
+using namespace std;
+using namespace utilities;
+using namespace Session;
+using namespace instruments;
 
 
 void SwaptionATMVolMatrixFileSource::init(Configuration* cfg){
@@ -12,22 +26,48 @@ void SwaptionATMVolMatrixFileSource::init(Configuration* cfg){
 void SwaptionATMVolMatrixFileSource::retrieveRecord(){
 	AbstractFileSource::retrieveRecord();
 	
+	
+	CSVDatabase db;
+    readCSV(_inFile, db);
+
+	string value;
+	enums::CurrencyEnum market;
+	market = EnumHelper::getCcyEnum(db.at(0).at(0));
+	currency mkt(market);
+	//std::map<tuple<double fSwapTenorNumOfMonths,double optionTenorNumOfMonths>,double swaptionVol> SwaptionVolMap
+
+	RecordHelper::SwaptionVolMap tempMap;
+	int numOfRows=db.size();
+	int numOfCols=db.at(0).size();
+
+	for (int i=1;i<=numOfRows-1;i++) {
+		for (int j=1;j<=numOfCols-1;j++) {
+
+		 auto aTuple=std::make_tuple(std::stod(db.at(0).at(j)),std::stod(db.at(i).at(0)));
+		 tempMap.insert(pair<tuple<double,double>,double>(aTuple,std::stod(db.at(i).at(j))));
+		
+		}
+
+	}
+
+	RecordHelper::getInstance()->setSwaptionVolMap(tempMap);
 	_inFile.close();
 }
 
-void SwaptionATMVolMatrixFileSource::readCSV(std::istream &input, CSVDatabase &db) {
+void SwaptionATMVolMatrixFileSource::readCSV(std::ifstream &input, CSVDatabase &db) {
 	String csvLine;
 	// read every line from the stream
 	while( std::getline(input, csvLine) ){
 		std::istringstream csvStream(csvLine);
 		CSVRow csvRow;
-		String csvCol;
+		string csvCol;
 		// read every element from the line that is seperated by commas
 		// and put it into the vector or strings
 		while( std::getline(csvStream, csvCol, ',') )
 			csvRow.push_back(csvCol);
 		db.push_back(csvRow);
 	}
+	
 };
 
 void SwaptionATMVolMatrixFileSource::display(const CSVRow& row) {
@@ -51,13 +91,13 @@ void SwaptionATMVolMatrixFileSource::display(const CSVDatabase& db) {
 
 void SwaptionATMVolMatrixFileSource::swaptionTest() {
 
-	std::fstream file("file.csv", std::ios::in);
+	std::fstream file("SwaptionATMVolMatrix_USD.csv", std::ios::in);
 	if(!file.is_open()){
 		std::cout << "File not found!\n";
 		return;
 	}
 	CSVDatabase db;
-	readCSV(file, db);
+	readCSV(_inFile, db);
 	display(db);
 
 };

@@ -18,22 +18,23 @@ namespace DAO {
 
 	public:
 
-		SwaptionATMVolMatrixFileSource():AbstractFileSource(){}
-		SwaptionATMVolMatrixFileSource(std::string persistDir, std::string fileName):AbstractFileSource(persistDir, fileName){}
-		~SwaptionATMVolMatrixFileSource(){}
+		SwaptionATMVolMatrixFileSource():AbstractFileSource(){};
+		SwaptionATMVolMatrixFileSource(std::string persistDir, std::string fileName):AbstractFileSource(persistDir, fileName){};
+		~SwaptionATMVolMatrixFileSource(){};
 
 		void init(Configuration*);
 
 		void retrieveRecord();
+		void swaptionTest();
 
 	private:
-		void readCSV(std::istream &input, CSVDatabase &db);
+		void readCSV(std::ifstream &input, CSVDatabase &db);
 
 		void display(const CSVRow& row);
 
 		void display(const CSVDatabase& db);
 
-		void swaptionTest();
+		
 
 	};
 }

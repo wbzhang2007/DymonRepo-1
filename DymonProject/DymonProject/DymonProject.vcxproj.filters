@@ -362,5 +362,8 @@
     <ClCompile Include="TestSurface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SwaptionATMVolMatrixFileSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
