@@ -23,6 +23,7 @@
 #include "TestDiscountCurve.h"
 #include "AbstractSurface.h"
 #include "TestSurface.h"
+#include "SwaptionATMVolMatrixFileSource.h"
 
 using namespace utilities;
 using namespace std;
@@ -44,8 +45,10 @@ void forwardStartingSwap(DiscountCurve* yc);
 int _tmain(int argc, _TCHAR* argv[])
 {
 	LoadInitialData();
-	unitTest();
+	//unitTest();
 
+	//DAO::SwaptionATMVolMatrixFileSource aSwaptionTest;
+	//aSwaptionTest.swaptionTest();
 	//DiscountCurve* yc = buildDiscountCurve();
 	//forwardStartingSwap(yc);
 }		
@@ -68,6 +71,9 @@ void unitTest(){
 	//discountCurveTest.runTest();
 	TestSurface surfaceTest;
 	surfaceTest.runTest();
+
+	
+
 }
 	
 DiscountCurve* buildDiscountCurve(){

@@ -28,6 +28,9 @@ namespace Session {
 		typedef std::tuple<enums::DayCountEnum, enums::DayCountEnum, enums::DayRollEnum, enums::DayRollEnum, enums::DayRollEnum, enums::DayRollEnum, int> currencyTuple;
 
 		typedef std::map<enums::CurrencyEnum, currencyTuple> currencyMap;
+
+		//std::map<tuple<double fSwapTenorNumOfMonths,double optionTenorNumOfMonths>,double swaptionVol> SwaptionVolMap
+		typedef std::map<std::tuple<double,double>,double> SwaptionVolMap;
 		
 		HolidayMap getHolidayMap(){return _holidayMap;}
 		void setHolidayMap(HolidayMap map){_holidayMap=map;}
@@ -43,6 +46,9 @@ namespace Session {
 
 		currencyMap getCurrencyMap(){return _currencyMap;}
 		void setCurrencyMap(currencyMap map){_currencyMap=map;}
+
+		SwaptionVolMap getSwaptionVolMap(){return _swaptionVolMap;}
+		void setSwaptionVolMap(SwaptionVolMap map){_swaptionVolMap=map;}
 
 	private:		
 		
@@ -60,12 +66,17 @@ namespace Session {
 		RateMap _swapRateMap;
 				
 		currencyMap _currencyMap;
+
+		SwaptionVolMap _swaptionVolMap;
+
+		
 		
 		void buildConfiguration(Configuration*);
 		void buildHolidayMap(Configuration*);
 		void buildSwapRateMap(Configuration*);
 		void buildDepositRateMap(Configuration*);
 		void buildCurrencyMap(Configuration*);
+		void buildSwaptionVolMap(Configuration*);
 
 	};
 }

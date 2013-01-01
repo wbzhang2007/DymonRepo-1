@@ -186,6 +186,7 @@
     <ClCompile Include="SwapPricer.cpp" />
     <ClCompile Include="SwapRateFileSource.cpp" />
     <ClCompile Include="swaption.cpp" />
+    <ClCompile Include="SwaptionATMVolMatrixFileSource.cpp" />
     <ClCompile Include="swaptionATMVols.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
