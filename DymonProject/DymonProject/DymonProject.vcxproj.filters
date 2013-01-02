@@ -36,9 +36,6 @@
     <ClInclude Include="marketdata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="spot.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="swap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -94,9 +91,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="configuration.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="spotmatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cashflow.h">
@@ -357,9 +351,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="swaption.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="swaptionATMVols.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TestSurface.cpp">

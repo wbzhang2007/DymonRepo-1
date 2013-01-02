@@ -4,6 +4,7 @@
 #define SWAPTIONVOLSURFACEBUILDER_H
 #include "SwaptionVolSurface.h"
 #include "AbstractBuilder.h"
+#include "currency.h"
 #include <vector>
 
 using namespace instruments;
