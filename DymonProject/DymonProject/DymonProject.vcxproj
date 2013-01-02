@@ -116,6 +116,7 @@
     <ClInclude Include="SwapPricer.h" />
     <ClInclude Include="SwaptionATMVolMatrixFileSource.h" />
     <ClInclude Include="SwaptionVolSurface.h" />
+    <ClInclude Include="SwaptionVolSurfaceBuilder.h" />
     <ClInclude Include="TestBuildCashFlowLeg.h" />
     <ClInclude Include="TestDateUtil.h" />
     <ClInclude Include="TestDiscountCurve.h" />
@@ -203,6 +204,7 @@
       <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Async</ExceptionHandling>
     </ClCompile>
+    <ClCompile Include="SwaptionVolSurfaceBuilder.cpp" />
     <ClCompile Include="TestBuildCashFlowLeg.cpp" />
     <ClCompile Include="TestDateUtil.cpp" />
     <ClCompile Include="TestDiscountCurve.cpp" />
