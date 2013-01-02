@@ -1,8 +1,9 @@
 //created by Wang Jianwei on 01 Dec 2012
 //Added cashflowleg creating - Kun
-#ifndef SWAPTIONVOLSURFACEBUILDER_H
-#define SWAPTIONVOLSURFACEBUILDER_H
+#ifndef SWAPTIONVOLSCUBEBUILDER_H
+#define SWAPTIONVOLSCUBEBUILDER_H
 #include "SwaptionVolSurface.h"
+#include "SwaptionVolCube.h"
 #include "AbstractBuilder.h"
 #include "currency.h"
 #include <vector>
@@ -10,15 +11,15 @@
 using namespace instruments;
 
 namespace utilities{
-	class SwaptionVolSurfaceBuilder: public AbstractBuilder{
+	class SwaptionVolCubeBuilder: public AbstractBuilder{
 		
 	public:
 		
-		SwaptionVolSurfaceBuilder():AbstractBuilder(){}
+		SwaptionVolCubeBuilder():AbstractBuilder(){}
 
 		void init(Configuration* cfg);
 
-		SwaptionVolSurface* build();
+		SwaptionVolCube* build();
 
 		currency getMarket(){return _market;}
 		void setMarket(currency market){_market = market;}

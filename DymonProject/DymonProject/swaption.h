@@ -37,8 +37,7 @@ namespace instruments {
 		swap getSwap();
 
 
-	private:
-		
+	private:		
 		
 		swap _underlyingSwap;
 		AbstractOption _optionOnSwap;

@@ -7,11 +7,10 @@ using namespace utilities;
 
 namespace utilities{
 	class SwaptionVolSurface: public AbstractSurface<double>{
-		
+
 	public:		
 
 		SwaptionVolSurface():AbstractSurface(){};
-
 	};
 }
 #endif
