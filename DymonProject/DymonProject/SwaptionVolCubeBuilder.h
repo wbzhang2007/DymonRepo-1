@@ -1,7 +1,7 @@
 //created by Wang Jianwei on 01 Dec 2012
 //Added cashflowleg creating - Kun
 #ifndef SWAPTIONVOLSCUBEBUILDER_H
-#define SWAPTIONVOLSCUBEBUILDER_H
+#define SWAPTIONVOLCUBEBUILDER_H
 #include "SwaptionVolSurface.h"
 #include "SwaptionVolCube.h"
 #include "AbstractBuilder.h"

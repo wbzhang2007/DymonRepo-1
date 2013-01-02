@@ -225,7 +225,10 @@
     <ClInclude Include="TestSurface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SwaptionVolSurfaceBuilder.h">
+    <ClInclude Include="SwaptionVolCube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SwaptionVolCubeBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -359,7 +362,10 @@
     <ClCompile Include="SwaptionATMVolMatrixFileSource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SwaptionVolSurfaceBuilder.cpp">
+    <ClCompile Include="SwaptionVolCubeBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SwaptionVolCube.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

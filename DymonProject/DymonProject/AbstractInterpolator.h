@@ -21,6 +21,12 @@ namespace utilities{
 			_endPoint = endPoint;
 		}
 
+		AbstractInterpolator(point startPoint, point endPoint, enums::interpolAlgo algo){
+			_startPoint = startPoint;
+			_endPoint = endPoint;
+			_algo=algo;
+		}
+
 		virtual point interpolate(T xVal){return point(NULL,0);}
 
 		point getStartPoint(){return _startPoint;}
