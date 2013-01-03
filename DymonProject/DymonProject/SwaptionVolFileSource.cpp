@@ -1,5 +1,5 @@
 //created by Hu Kun 1 Jan
-#include "SwaptionATMVolMatrixFileSource.h"
+#include "SwaptionVolFileSource.h"
 #include "AbstractFileSource.h"
 #include "fileUtil.h"
 #include "dateUtil.h"
@@ -17,13 +17,13 @@ using namespace Session;
 using namespace instruments;
 
 
-void SwaptionATMVolMatrixFileSource::init(Configuration* cfg){
+void SwaptionVolFileSource::init(Configuration* cfg){
 	_fileName = cfg->getProperty("swaptionPrice.file",true,"");
 	_persistDir = cfg->getProperty("swaptionPrice.path",false,"");
 	AbstractFileSource::init(cfg);
 }
 
-void SwaptionATMVolMatrixFileSource::retrieveRecord(){
+void SwaptionVolFileSource::retrieveRecord(){
 	AbstractFileSource::retrieveRecord();
 	
 	
@@ -34,7 +34,7 @@ void SwaptionATMVolMatrixFileSource::retrieveRecord(){
 	enums::CurrencyEnum market;
 	market = EnumHelper::getCcyEnum(db.at(0).at(0));
 	currency mkt(market);
-	//std::map<tuple<double fSwapTenorNumOfMonths,double optionTenorNumOfMonths>,double swaptionVol> SwaptionVolMap
+	//std::map<strike,std::map<tuple<double fSwapTenorNumOfMonths,double optionTenorNumOfMonths>,double swaptionVol>> SwaptionVolMap
 
 	RecordHelper::SwaptionVolMap tempMap;
 	int numOfRows=db.size();
@@ -54,7 +54,7 @@ void SwaptionATMVolMatrixFileSource::retrieveRecord(){
 	_inFile.close();
 }
 
-void SwaptionATMVolMatrixFileSource::readCSV(std::ifstream &input, CSVDatabase &db) {
+void SwaptionVolFileSource::readCSV(std::ifstream &input, CSVDatabase &db) {
 	String csvLine;
 	// read every line from the stream
 	while( std::getline(input, csvLine) ){
@@ -70,7 +70,7 @@ void SwaptionATMVolMatrixFileSource::readCSV(std::ifstream &input, CSVDatabase &
 	
 };
 
-void SwaptionATMVolMatrixFileSource::display(const CSVRow& row) {
+void SwaptionVolFileSource::display(const CSVRow& row) {
 	if(!row.size())
 		return;
 	CSVRowCI i=row.begin();
@@ -79,7 +79,7 @@ void SwaptionATMVolMatrixFileSource::display(const CSVRow& row) {
 		std::cout<<','<<*i;
 };
 
-void SwaptionATMVolMatrixFileSource::display(const CSVDatabase& db) {
+void SwaptionVolFileSource::display(const CSVDatabase& db) {
 	if(!db.size())
 		return;
 	CSVDatabaseCI i=db.begin();
@@ -89,7 +89,7 @@ void SwaptionATMVolMatrixFileSource::display(const CSVDatabase& db) {
 	}	
 };
 
-void SwaptionATMVolMatrixFileSource::swaptionTest() {
+void SwaptionVolFileSource::swaptionTest() {
 
 	std::fstream file("SwaptionATMVolMatrix_USD.csv", std::ios::in);
 	if(!file.is_open()){

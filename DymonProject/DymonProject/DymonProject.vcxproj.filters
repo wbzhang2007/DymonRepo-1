@@ -21,7 +21,7 @@
     <None Include="swapRate.txt" />
     <None Include="deposit.txt" />
     <None Include="Currency.txt" />
-    <None Include="SwaptionATMVolMatrix_USD.csv" />
+    <None Include="swaption_skew_USD.csv" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -219,9 +219,6 @@
     <ClInclude Include="numericalfactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SwaptionATMVolMatrixFileSource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TestSurface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -230,6 +227,9 @@
     </ClInclude>
     <ClInclude Include="SwaptionVolCubeBuilder.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SwaptionVolFileSource.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -359,13 +359,13 @@
     <ClCompile Include="TestSurface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SwaptionATMVolMatrixFileSource.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SwaptionVolCubeBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SwaptionVolCube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SwaptionVolFileSource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

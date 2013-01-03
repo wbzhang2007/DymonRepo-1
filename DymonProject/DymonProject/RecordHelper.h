@@ -29,8 +29,8 @@ namespace Session {
 
 		typedef std::map<enums::CurrencyEnum, currencyTuple> currencyMap;
 
-		//std::map<tuple<double fSwapTenorNumOfMonths,double optionTenorNumOfMonths>,double swaptionVol> SwaptionVolMap
-		typedef std::map<std::tuple<double,double>,double> SwaptionVolMap;
+		//std::map<double,std::map<tuple<double fSwapTenorNumOfMonths,double optionTenorNumOfMonths>,double swaptionVol>> SwaptionVolMap
+		typedef std::map<double,std::map<tuple<double ,double >,double >> SwaptionVolMap;
 		
 		HolidayMap getHolidayMap(){return _holidayMap;}
 		void setHolidayMap(HolidayMap map){_holidayMap=map;}

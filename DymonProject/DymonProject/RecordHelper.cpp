@@ -8,7 +8,7 @@
 #include "DepositFileSource.h"
 #include "ConfigurationFileSource.h"
 #include "CurrencyFileSource.h"
-#include "SwaptionATMVolMatrixFileSource.h"
+#include "SwaptionVolFileSource.h"
 
 
 using namespace Session;
@@ -37,7 +37,7 @@ void RecordHelper::init(Configuration* cfg){
 }
 
 void RecordHelper::buildSwaptionVolMap(Configuration* cfg){
-	AbstractDAO* SwaptionVolDataSource = new SwaptionATMVolMatrixFileSource();
+	AbstractDAO* SwaptionVolDataSource = new SwaptionVolFileSource();
 	SwaptionVolDataSource->init(cfg);
 	SwaptionVolDataSource->retrieveRecord();
 }

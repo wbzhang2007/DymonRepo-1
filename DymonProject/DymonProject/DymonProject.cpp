@@ -23,7 +23,7 @@
 #include "TestDiscountCurve.h"
 #include "AbstractSurface.h"
 #include "TestSurface.h"
-#include "SwaptionATMVolMatrixFileSource.h"
+#include "SwaptionVolFileSource.h"
 
 using namespace utilities;
 using namespace std;

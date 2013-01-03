@@ -9,7 +9,7 @@
 
 namespace DAO {
 
-	class SwaptionATMVolMatrixFileSource: public AbstractFileSource {
+	class SwaptionVolFileSource: public AbstractFileSource {
 		typedef std::string String;
 		typedef std::vector<String> CSVRow;
 		typedef CSVRow::const_iterator CSVRowCI;
@@ -18,9 +18,9 @@ namespace DAO {
 
 	public:
 
-		SwaptionATMVolMatrixFileSource():AbstractFileSource(){};
-		SwaptionATMVolMatrixFileSource(std::string persistDir, std::string fileName):AbstractFileSource(persistDir, fileName){};
-		~SwaptionATMVolMatrixFileSource(){};
+		SwaptionVolFileSource():AbstractFileSource(){};
+		SwaptionVolFileSource(std::string persistDir, std::string fileName):AbstractFileSource(persistDir, fileName){};
+		~SwaptionVolFileSource(){};
 
 		void init(Configuration*);
 
