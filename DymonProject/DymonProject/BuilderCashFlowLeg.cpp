@@ -38,7 +38,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
-			cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
+			cashflow aCashflow(couponRate,notional,calFixingDate,calPaymentDate,calDateNewStart, calDateNewEnd,market);
 			builtCashflowLeg.push_back(aCashflow);
 			i++;
 		}

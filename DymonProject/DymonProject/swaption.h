@@ -16,7 +16,7 @@
 #include "SwapPricer.h"
 #include "AbstractPricer.h"
 #include "DiscountCurve.h"
-#include "swap.h"
+#include "Swap.h"
 #include "AbstractOption.h"
 #include "SwaptionVolSurface.h"
 #include "SwaptionVolCube.h"
@@ -28,22 +28,21 @@ using namespace instruments;
 
 
 namespace instruments {
-	class swaption:  public swap, public AbstractOption {
-
-		swaption(PayReceive PayReceiveInd, date optionStartDate, date optionExpiryDate, double optionStrike, SwaptionVolCube* vs,date swapStartDate, date swapMaturityDate,double notional, double couponRate, DiscountCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, int buildDirection);
-		~swaption();
-
-		AbstractOption getOption();
-		swap getSwap();
-
+	class Swaption:  public Swap, public AbstractOption {
+		
+		Swaption(){};
+		~Swaption(){};
+		Swaption(PayReceive PayReceiveInd, double T, double K, SwaptionVolCube* vs, date swapStartDate, int tenorNumOfMonths,double notional, double couponRate, DiscountCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, int buildDirection);
+		Swaption(PayReceive PayReceiveInd, double T, double K, SwaptionVolCube* vs, DiscountCurve* yc, Swap* underlyingSwap);
+		
+		Swap* getSwap(){ return _underlyingSwap; }
 
 	private:		
-		
-		swap _underlyingSwap;
-		AbstractOption _optionOnSwap;
+
+		int _tenorInMonth;
+		date _expiryDate;
+		Swap* _underlyingSwap;
 
 	};
-
-
 }
 #endif

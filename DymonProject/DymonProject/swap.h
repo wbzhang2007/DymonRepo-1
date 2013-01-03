@@ -27,41 +27,37 @@ using namespace instruments;
 
 
 namespace instruments {
-	class swap:  public SwapPricer, public AbstractInstrument{
+	class Swap:  public SwapPricer, public AbstractInstrument{
 	public:
-		swap(){};
-		~swap(){};
-		swap(date tradeDate, date maturityDate, double notional, double couponRate, DiscountCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, int buildDirection);
-		swap(date tradeDate, int tenorNumOfMonths, double notional, double couponRate, DiscountCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates);
+		Swap(){};
+		~Swap(){};
+		Swap(date tradeDate, date maturityDate, double notional, double couponRate, DiscountCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, int buildDirection);
+		Swap(date tradeDate, int tenorNumOfMonths, double notional, double couponRate, DiscountCurve* yc, currency fixLegCurr, currency floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates);
 
 		cashflowLeg* getCashflowLegFix();
 		cashflowLeg* getCashflowLegFloat();
 		DiscountCurve* getDiscountCurve();
-		//double getParRate();
-		void printCashflowLegFix();
-		void printCashflowLegFloat();
-
 		currency getFixLegCurr();
 		currency getFloatLegCurr();
 		int getPaymentFreqFixLeg();
 		int getPaymentFreqFloatingLeg();
-		//double calFLiborRate(date forwardStartDate, date forwardEndDate, double accuralFactor);
+		int getTenor(){ return _tenorNumOfMonths;}
 
-	protected:
-
+		void printCashflowLegFix();
+		void printCashflowLegFloat();
 
 	private:
 
-		cashflowLeg _fixCashflowLeg;
-		cashflowLeg _floatingCashflowLeg;
-		DiscountCurve _yc;
+		cashflowLeg* _fixCashflowLeg;
+		cashflowLeg* _floatingCashflowLeg;
+		DiscountCurve* _yc;
 		date _tradeDate;
-		date _maturityDate;
+		date _expiryDate;
 		currency _fixLegCurr;
 		currency _floatingLegCurr;
 		int _paymentFreqFixLeg;
 		int _paymentFreqFloatingLeg;
-	
+		int _tenorNumOfMonths;
 	};
 
 }
