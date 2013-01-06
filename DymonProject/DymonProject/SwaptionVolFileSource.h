@@ -1,5 +1,6 @@
 //created by Hu Kun 30 Dec
-
+#ifndef SWAPTIONVOLFILESOURCE_H
+#define SWAPTIONVOLFILESOURCE_H
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -34,9 +35,9 @@ namespace DAO {
 
 		void display(const CSVDatabase& db);
 
-		
-
+	
 	};
 }
 
+#endif
 

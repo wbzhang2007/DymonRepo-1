@@ -33,6 +33,7 @@ using namespace UnitTest;
 using namespace enums;
 
 
+
 void LoadInitialData();
 void DateUtilTest();
 void CashFlowLegTest();
@@ -44,6 +45,8 @@ void forwardStartingSwap(DiscountCurve* yc);
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+
+	
 	LoadInitialData();
 	//unitTest();
 

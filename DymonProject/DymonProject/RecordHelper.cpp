@@ -33,12 +33,15 @@ void RecordHelper::init(Configuration* cfg){
 	buildHolidayMap(cfg);
 	buildSwapRateMap(cfg);
 	buildDepositRateMap(cfg);
+	
 	buildSwaptionVolMap(cfg);
 }
 
 void RecordHelper::buildSwaptionVolMap(Configuration* cfg){
 	AbstractDAO* SwaptionVolDataSource = new SwaptionVolFileSource();
+
 	SwaptionVolDataSource->init(cfg);
+
 	SwaptionVolDataSource->retrieveRecord();
 }
 
