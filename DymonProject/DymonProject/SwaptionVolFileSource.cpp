@@ -35,9 +35,9 @@ void SwaptionVolFileSource::retrieveRecord(){
 	int numOfCols=db.at(0).size();
 	int strikeDiffATM=0;
 	
-	RecordHelper::SwaptionVolMap tempSwaptionVolMap;
+	RecordHelper::SwaptionCubeMap tempSwaptionCubeMap;
 	RecordHelper::SwaptionATMStrikeMap tempSwaptionATMStrikeMap;
-	std::map<tuple<int, int>,double> volSurfaceMap;
+	RecordHelper::SwaptionSurfaceMap volSurfaceMap;
 	std::regex ATM ("ATM(.*)");
 
 	for (int i=0;i<=numOfRows-1;i++) {
@@ -46,7 +46,7 @@ void SwaptionVolFileSource::retrieveRecord(){
 
 		if (std::regex_match (aCell,ATM)) {
 			if (i!=0){				
-				tempSwaptionVolMap.insert(std::make_pair(strikeDiffATM,volSurfaceMap));
+				tempSwaptionCubeMap.insert(std::make_pair(strikeDiffATM,volSurfaceMap));
 				//<double,std::map<tuple<double,double>,double>>
 				volSurfaceMap.clear();
 			}
@@ -72,10 +72,9 @@ void SwaptionVolFileSource::retrieveRecord(){
 				int fSwapTenorInMonth=std::stoi(topRowCell.substr(0,topRowCell.find(" ")))*12;
 
 				auto aTuple=std::make_tuple(fSwapTenorInMonth,optionExpiryInMonth);
-				volSurfaceMap.insert(std::make_pair(aTuple,vol));
-				//pair<tuple<double,double>,double>
+				insertPointVolSurfaceMap(volSurfaceMap,fSwapTenorInMonth,optionExpiryInMonth,vol);
 				if (strikeDiffATM==0)
-				tempSwaptionATMStrikeMap.insert(std::make_pair(aTuple,strike));
+					tempSwaptionATMStrikeMap.insert(std::make_pair(aTuple,strike));
 
 			}
 			else {
@@ -83,13 +82,13 @@ void SwaptionVolFileSource::retrieveRecord(){
 			}
 		}
 	}
-	
+
 	cout <<"numofRows="<<db.size()<<endl;
 	cout <<"numOfCols="<<db.at(0).size()<<endl;
 
-	tempSwaptionVolMap.insert(std::make_pair(strikeDiffATM,volSurfaceMap));
+	tempSwaptionCubeMap.insert(std::make_pair(strikeDiffATM,volSurfaceMap));
 	RecordHelper::getInstance()->setSwaptionATMStrikeMap(tempSwaptionATMStrikeMap);
-	RecordHelper::getInstance()->setSwaptionVolMap(tempSwaptionVolMap);
+	RecordHelper::getInstance()->setSwaptionVolMap(tempSwaptionCubeMap);
 	_inFile.close();
 	//DAO::SwaptionVolFileSource::swaptionTest();
 }
@@ -152,5 +151,16 @@ void SwaptionVolFileSource::swaptionTest() {
 	display(db);
 
 };
+
+void SwaptionVolFileSource::insertPointVolSurfaceMap(RecordHelper::SwaptionSurfaceMap &map, int fSwapTenorInMonth, int optionExpiryInMonth, double vol){
+	if (map.find(fSwapTenorInMonth)==map.end()){
+		std::map<int,double> volCurveMap;
+		volCurveMap.insert(std::make_pair(optionExpiryInMonth, vol));
+		map.insert(std::make_pair(fSwapTenorInMonth, volCurveMap));
+	}else{
+		std::map<int,double>* volCurveMap = &map[fSwapTenorInMonth];
+		volCurveMap->insert(std::make_pair(optionExpiryInMonth, vol));
+	}
+}
 
 

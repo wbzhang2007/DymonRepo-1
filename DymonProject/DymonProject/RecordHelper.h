@@ -29,10 +29,10 @@ namespace Session {
 
 		typedef std::map<enums::MarketEnum, MarketTuple> MarketMap;
 
-		//std::map<BasisPoint,std::map<tuple<fSwapTenorNumOfMonths,optionTenorNumOfMonths>,swaptionVol>> SwaptionVolMap
-		typedef std::map<int,std::map<std::tuple<int, int>,double>> SwaptionVolMap;
+		//std::map<BasisPoint,std::map<fSwapTenorNumOfMonths,map<optionTenorNumOfMonths,swaptionVol>>> SwaptionCubeMap
+		typedef std::map<int,std::map<int, std::map<int,double>>> SwaptionCubeMap;
 
-		typedef std::map<std::tuple<int, int>,double> SwaptionSurfaceMap;
+		typedef std::map<int, std::map<int,double>> SwaptionSurfaceMap;
 
 		//std::map<tuple<fSwapTenorNumOfMonths,optionTenorNumOfMonths>,ATM Strike> SwaptionATMStrikeMap
 		typedef std::map<std::tuple<int,int>,double> SwaptionATMStrikeMap;
@@ -52,8 +52,8 @@ namespace Session {
 		MarketMap getMarketMap(){return _MarketMap;}
 		void setMarketMap(MarketMap map){_MarketMap=map;}
 
-		SwaptionVolMap getSwaptionVolMap(){return _swaptionVolMap;}
-		void setSwaptionVolMap(SwaptionVolMap map){_swaptionVolMap=map;}
+		SwaptionCubeMap getSwaptionVolMap(){return _swaptionCubeMap;}
+		void setSwaptionVolMap(SwaptionCubeMap map){_swaptionCubeMap=map;}
 
 		SwaptionATMStrikeMap getSwaptionATMStrikeMap(){return _swaptionATMStrikeMap;}
 		void setSwaptionATMStrikeMap(SwaptionATMStrikeMap map){_swaptionATMStrikeMap=map;}
@@ -75,7 +75,7 @@ namespace Session {
 				
 		MarketMap _MarketMap;
 
-		SwaptionVolMap _swaptionVolMap;
+		SwaptionCubeMap _swaptionCubeMap;
 
 		SwaptionATMStrikeMap _swaptionATMStrikeMap;
 		
