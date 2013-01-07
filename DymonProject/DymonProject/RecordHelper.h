@@ -30,7 +30,9 @@ namespace Session {
 		typedef std::map<enums::MarketEnum, MarketTuple> MarketMap;
 
 		//std::map<BasisPoint,std::map<tuple<fSwapTenorNumOfMonths,optionTenorNumOfMonths>,swaptionVol>> SwaptionVolMap
-		typedef std::map<int,std::map<std::tuple<int, int>,double >> SwaptionVolMap;
+		typedef std::map<int,std::map<std::tuple<int, int>,double>> SwaptionVolMap;
+
+		typedef std::map<std::tuple<int, int>,double> SwaptionSurfaceMap;
 
 		//std::map<tuple<fSwapTenorNumOfMonths,optionTenorNumOfMonths>,ATM Strike> SwaptionATMStrikeMap
 		typedef std::map<std::tuple<int,int>,double> SwaptionATMStrikeMap;

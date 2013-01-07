@@ -10,8 +10,7 @@
 #include "Market.h"
 #include <tuple>
 #include <regex>
-
-#define NAN -99999
+#include "Constants.h"
 
 using namespace DAO;
 using namespace std;
@@ -63,16 +62,16 @@ void SwaptionVolFileSource::retrieveRecord(){
 			String tagCell=db.at(i).at(1);
 
 			if (tagCell.compare("Vol")==0) {
-				int optionTenorInMonth=std::stoi(aCell.substr(0,aCell.find(" ")));
+				int optionExpiryInMonth=std::stoi(aCell.substr(0,aCell.find(" ")));
 				if (string::npos != aCell.find("YR")) {
-					optionTenorInMonth=std::stoi(aCell.substr(0,aCell.find(" ")))*12;
+					optionExpiryInMonth=std::stoi(aCell.substr(0,aCell.find(" ")))*12;
 				}
 
-				double vol=db.at(i).at(j).compare("")==0?NAN:std::stod(db.at(i).at(j));
-				double strike=db.at(i+1).at(j).compare("")==0?NAN:std::stod(db.at(i+1).at(j));
+				double vol=db.at(i).at(j).compare("")==0?NaN:std::stod(db.at(i).at(j));
+				double strike=db.at(i+1).at(j).compare("")==0?NaN:std::stod(db.at(i+1).at(j));
 				int fSwapTenorInMonth=std::stoi(topRowCell.substr(0,topRowCell.find(" ")))*12;
 
-				auto aTuple=std::make_tuple(fSwapTenorInMonth,optionTenorInMonth);
+				auto aTuple=std::make_tuple(fSwapTenorInMonth,optionExpiryInMonth);
 				volSurfaceMap.insert(std::make_pair(aTuple,vol));
 				//pair<tuple<double,double>,double>
 				if (strikeDiffATM==0)
@@ -135,8 +134,8 @@ int SwaptionVolFileSource::getStrikeDiffATM(string strikeStr){
 	std::regex bps ("(.*)bps");
 	if (std::regex_match (strikeStr,bps)) {
 		string strikeStrATMRemoved = strikeStr.erase(0,3);
-		int optionTenorInMonth=std::stoi(strikeStrATMRemoved.substr(0,strikeStrATMRemoved.find("bps")));
-		return optionTenorInMonth;
+		int optionExpiryInMonth=std::stoi(strikeStrATMRemoved.substr(0,strikeStrATMRemoved.find("bps")));
+		return optionExpiryInMonth;
 	}
 	return 0;
 }
