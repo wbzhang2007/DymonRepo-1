@@ -22,8 +22,8 @@ AbstractCurve<double>* SwaptionVolCube::getVolCurveAlongStrike(double expiryInMo
 		SwaptionVolSurface* upperStrikeSurface = (*j).second;
 		int startStrike =  (*i).first;
 		int endStrike =  (*j).first;
-		double startVol = lowerStrikeSurface->getValue(expiryInMonth,tenorInMonth);
-		double endVol = upperStrikeSurface->getValue(expiryInMonth,tenorInMonth);
+		double startVol = lowerStrikeSurface->getValue(tenorInMonth, expiryInMonth);
+		double endVol = upperStrikeSurface->getValue(tenorInMonth, expiryInMonth);
 		AbstractInterpolator<double>* ai = getVolLineSectionAlongStrike(startStrike, startVol, endStrike, endVol);
 		curve->insertLineSection(ai);
 	}
