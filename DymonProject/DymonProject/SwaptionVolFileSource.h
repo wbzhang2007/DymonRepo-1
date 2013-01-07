@@ -35,6 +35,7 @@ namespace DAO {
 
 		void display(const CSVDatabase& db);
 
+		int getStrikeDiffATM(std::string strikeStr);
 	
 	};
 }

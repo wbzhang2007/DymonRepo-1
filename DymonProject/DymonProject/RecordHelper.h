@@ -29,8 +29,11 @@ namespace Session {
 
 		typedef std::map<enums::MarketEnum, MarketTuple> MarketMap;
 
-		//std::map<double,std::map<tuple<double fSwapTenorNumOfMonths,double optionTenorNumOfMonths>,double swaptionVol>> SwaptionVolMap
-		typedef std::map<double,std::map<std::tuple<double ,double>,double >> SwaptionVolMap;
+		//std::map<BasisPoint,std::map<tuple<fSwapTenorNumOfMonths,optionTenorNumOfMonths>,swaptionVol>> SwaptionVolMap
+		typedef std::map<int,std::map<std::tuple<int, int>,double >> SwaptionVolMap;
+
+		//std::map<tuple<fSwapTenorNumOfMonths,optionTenorNumOfMonths>,ATM Strike> SwaptionATMStrikeMap
+		typedef std::map<std::tuple<int,int>,double> SwaptionATMStrikeMap;
 		
 		HolidayMap getHolidayMap(){return _holidayMap;}
 		void setHolidayMap(HolidayMap map){_holidayMap=map;}
@@ -49,6 +52,9 @@ namespace Session {
 
 		SwaptionVolMap getSwaptionVolMap(){return _swaptionVolMap;}
 		void setSwaptionVolMap(SwaptionVolMap map){_swaptionVolMap=map;}
+
+		SwaptionATMStrikeMap getSwaptionATMStrikeMap(){return _swaptionATMStrikeMap;}
+		void setSwaptionATMStrikeMap(SwaptionATMStrikeMap map){_swaptionATMStrikeMap=map;}
 
 	private:		
 		
@@ -69,7 +75,7 @@ namespace Session {
 
 		SwaptionVolMap _swaptionVolMap;
 
-		
+		SwaptionATMStrikeMap _swaptionATMStrikeMap;
 		
 		void buildConfiguration(Configuration*);
 		void buildHolidayMap(Configuration*);
