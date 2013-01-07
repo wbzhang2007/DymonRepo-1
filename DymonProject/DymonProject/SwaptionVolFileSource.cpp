@@ -9,6 +9,9 @@
 #include "EnumHelper.h"
 #include "Market.h"
 #include <tuple>
+#include <regex>
+
+#define NA -99999
 
 using namespace DAO;
 using namespace std;
@@ -25,26 +28,60 @@ void SwaptionVolFileSource::init(Configuration* cfg){
 
 void SwaptionVolFileSource::retrieveRecord(){
 	AbstractFileSource::retrieveRecord();
-
-
+	
 	CSVDatabase db;
 	readCSV(_inFile, db);
-
-	string value;
-	enums::MarketEnum market;
-	market = EnumHelper::getCcyEnum(db.at(0).at(0));
-	Market mkt(market);
-	//std::map<strike,std::map<tuple<double fSwapTenorNumOfMonths,double optionTenorNumOfMonths>,double swaptionVol>> SwaptionVolMap
 
 	RecordHelper::SwaptionVolMap tempMap;
 	int numOfRows=db.size();
 	int numOfCols=db.at(0).size();
 
-	for (int i=1;i<=numOfRows-1;i++) {
-		for (int j=1;j<=numOfCols-1;j++) {
+	cout <<"numofRows="<<numOfRows<<endl;
+	cout <<"numOfCols="<<numOfCols<<endl;
+	for (int i=0;i<=numOfRows-1;i++) {
 
-			auto aTuple=std::make_tuple(std::stod(db.at(0).at(j)),std::stod(db.at(i).at(0)));
-			tempMap.insert(pair<tuple<double,double>,double>(aTuple,std::stod(db.at(i).at(j))));
+		std::regex ATM ("ATM(.*)");
+		std::regex MO ("MO");
+		std::regex YR ("YR");
+		
+		
+		String aCell=db.at(i).at(0);
+		if (std::regex_match (aCell,ATM)) {
+			enums::MarketEnum market = EnumHelper::getCcyEnum(db.at(i).at(1));
+			Market mkt(market);
+			continue;
+		}
+		for (int j=2;j<=numOfCols-1;j++) {
+
+			String topRowCell=db.at(0).at(j);
+			String tagCell=db.at(i).at(1);
+
+			if (tagCell.compare("Vol")==0) {
+				int pos=aCell.find(" ");
+				double optionTenor=std::stod(aCell.substr(0,pos));
+				if (std::regex_match (aCell,YR)) {
+					optionTenor=std::stod(aCell.substr(0,pos))*12;
+				}
+
+				double vol=db.at(i).at(j).compare("")==0?NA:std::stod(db.at(i).at(j));
+				double strike=db.at(i+1).at(j).compare("")==0?NA:std::stod(db.at(i+1).at(j));
+
+				double fSwapTenor=std::stod(topRowCell.substr(0,topRowCell.find(" ")))*12;
+
+				//std::map<strike,std::map<tuple<double fSwapTenorNumOfMonths,double optionTenorNumOfMonths>,double swaptionVol>> SwaptionVolMap
+
+				auto aTuple=std::make_tuple(fSwapTenor,optionTenor);
+				std::map<tuple<double,double>,double> aPair;
+				aPair.insert(std::make_pair(aTuple,vol));
+				//pair<tuple<double,double>,double>
+				tempMap.insert(std::make_pair(strike,aPair));
+				//<double,std::map<tuple<double,double>,double>>
+					
+			}
+			else {
+				continue;
+			}
+			
 
 		}
 
@@ -52,6 +89,7 @@ void SwaptionVolFileSource::retrieveRecord(){
 
 	RecordHelper::getInstance()->setSwaptionVolMap(tempMap);
 	_inFile.close();
+	//DAO::SwaptionVolFileSource::swaptionTest();
 }
 
 void SwaptionVolFileSource::readCSV(std::ifstream &input, CSVDatabase &db) {
@@ -60,7 +98,7 @@ void SwaptionVolFileSource::readCSV(std::ifstream &input, CSVDatabase &db) {
 	while( std::getline(input, csvLine) ){
 		std::istringstream csvStream(csvLine);
 		CSVRow csvRow;
-		string csvCol;
+		String csvCol;
 		// read every element from the line that is seperated by commas
 		// and put it into the vector or strings
 		while( std::getline(csvStream, csvCol, ',') )
@@ -91,7 +129,7 @@ void SwaptionVolFileSource::display(const CSVDatabase& db) {
 
 void SwaptionVolFileSource::swaptionTest() {
 
-	std::fstream file("SwaptionATMVolMatrix_USD.csv", std::ios::in);
+	std::fstream file("swaption_skew_USD.csv", std::ios::in);
 	if(!file.is_open()){
 		std::cout << "File not found!\n";
 		return;
@@ -101,3 +139,5 @@ void SwaptionVolFileSource::swaptionTest() {
 	display(db);
 
 };
+
+

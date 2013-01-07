@@ -20,8 +20,8 @@
     <None Include="instance.properties" />
     <None Include="swapRate.txt" />
     <None Include="deposit.txt" />
-    <None Include="Currency.txt" />
     <None Include="swaption_skew_USD.csv" />
+    <None Include="Market.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -251,9 +251,6 @@
     <ClCompile Include="zero.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="currency.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AbstractFileSource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -303,9 +300,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DepositRateBootStrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CurrencyFileSource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EnumHelper.cpp">
@@ -366,6 +360,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SwaptionVolFileSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Market.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MarketFileSource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
