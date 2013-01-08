@@ -16,7 +16,8 @@ void SwaptionVolCubeBuilder::init(Configuration* cfg){
 	_interpolAlgo = EnumHelper::getInterpolAlgo(cfg->getProperty("swaptionVolCube.usd.interpol",false,"LINEAR"));
 }
 
-SwaptionVolCube* SwaptionVolCubeBuilder::build(){
+SwaptionVolCube* SwaptionVolCubeBuilder::build(Configuration* cfg){
+	if (cfg!=NULL) init(cfg);
 	SwaptionVolCube* svc = new SwaptionVolCube();
 	RecordHelper::SwaptionCubeMap volCubeMap = RecordHelper::getInstance()->getSwaptionVolMap();
 	RecordHelper::SwaptionCubeMap::iterator cubeIt;
