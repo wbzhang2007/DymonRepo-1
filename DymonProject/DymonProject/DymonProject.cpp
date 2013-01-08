@@ -48,8 +48,6 @@ void forwardStartingSwap(DiscountCurve* yc);
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-
-	
 	LoadInitialData();
 	//unitTest();
 
@@ -59,6 +57,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	//forwardStartingSwap(yc);
 	SwaptionVolCube* svc = buildSwaptionVolCube();
 	cout<<svc->getVol(0,12,12)<<endl;
+	cout<<svc->getVol(0,120,12)<<endl;
+	cout<<svc->getVol(0,120,24)<<endl;
+	cout<<svc->getVol(0,120,36)<<endl;
+	cout<<svc->getVol(0,18,36)<<endl;
+	cout<<svc->getVol(10,12,36)<<endl;
 }		
 
 void unitTest(){	
