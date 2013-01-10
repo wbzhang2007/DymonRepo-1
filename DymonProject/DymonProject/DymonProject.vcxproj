@@ -111,6 +111,7 @@
     <ClInclude Include="EnumHelper.h" />
     <ClInclude Include="FalsePosition.h" />
     <ClInclude Include="MathUtil.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="numericalfactory.h" />
     <ClInclude Include="OptionPricer.h" />
     <ClInclude Include="OvernightRateBootStrapper.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="DymonProject.cpp" />
     <ClCompile Include="EnumHelper.cpp" />
     <ClCompile Include="MathUtil.cpp" />
+    <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Newton.h" />
     <ClCompile Include="OptionPricer.cpp" />
     <ClCompile Include="OvernightRateBootStrapper.cpp" />
