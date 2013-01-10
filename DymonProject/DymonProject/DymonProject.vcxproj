@@ -98,12 +98,15 @@
     <ClInclude Include="AbstractTest.h" />
     <ClInclude Include="Bisection.h" />
     <ClInclude Include="bond.h" />
+    <ClInclude Include="BondCurve.h" />
+    <ClInclude Include="BondPriceFileSource.h" />
     <ClInclude Include="BuilderCashFlowLeg.h" />
     <ClInclude Include="cashflow.h" />
     <ClInclude Include="cashflowLeg.h" />
     <ClInclude Include="configuration.h" />
     <ClInclude Include="ConfigurationFileSource.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="CubicSplineInterpolator.h" />
     <ClInclude Include="Market.h" />
     <ClInclude Include="AbstractFileSource.h" />
     <ClInclude Include="MarketFileSource.h" />
@@ -161,6 +164,7 @@
     <ClCompile Include="AbstractFileSource.cpp" />
     <ClCompile Include="AbstractSession.cpp" />
     <ClCompile Include="AbstractTest.cpp" />
+    <ClCompile Include="BondPriceFileSource.cpp" />
     <ClCompile Include="BuilderCashFlowLeg.cpp" />
     <ClCompile Include="cashflow.cpp" />
     <ClCompile Include="cashflowLeg.cpp" />

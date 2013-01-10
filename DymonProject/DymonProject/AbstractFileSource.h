@@ -3,6 +3,7 @@
 #define ABSTRACTDATASOURCE_H
 #include <string>
 #include <fstream>
+#include <vector>
 #include <map>
 #include "AbstractDAO.h"
 
@@ -12,9 +13,16 @@ namespace DAO {
 	class  AbstractFileSource: public AbstractDAO{
 
 	public:
-		AbstractFileSource();
+		
+		typedef std::string String;
+		typedef std::vector<String> CSVRow;
+		typedef CSVRow::const_iterator CSVRowCI;
+		typedef std::vector<CSVRow> CSVDatabase;
+		typedef CSVDatabase::const_iterator CSVDatabaseCI;
+
+		AbstractFileSource(){};
 		AbstractFileSource(std::string persistDir, std::string fileName);
-		~AbstractFileSource();
+		~AbstractFileSource(){};
 
 		virtual void init(Configuration*);
 
@@ -31,11 +39,19 @@ namespace DAO {
 		virtual void deleteDataSource();		
 
 	private:			
+
 		std::ofstream _outFile;		
 		long _fileSize;
 		bool isModified;
 
 	protected:
+
+		void readCSV(std::ifstream &input, CSVDatabase &db);
+
+		void display(const CSVRow& row);
+
+		void display(const CSVDatabase& db);
+		
 		std::string _fileName;
 		std::string _persistDir;
 		char* _journal;
