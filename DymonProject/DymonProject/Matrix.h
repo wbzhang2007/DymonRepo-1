@@ -29,10 +29,10 @@ namespace utilities {
 			Matrix inverse();
 			Matrix transpose();
 
-			int getMatrixNumOfRows();
-			int getMatrixNumOfCols();
-			void setMatrixNumOfRows(int rows);
-			void setMatrixNumOfCols(int cols);
+			int getNumOfRows();
+			int getNumOfCols();
+			void setNumOfRows(int rows);
+			void setNumOfCols(int cols);
 
 			void printMatrix();
 
@@ -40,8 +40,6 @@ namespace utilities {
 			int cols;
 			int rows;
 			double* _matrixEntry;
-
-
 	};
 }
 #endif

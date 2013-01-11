@@ -21,17 +21,17 @@ void Matrix::setDimension(int rows, int cols){
 
 Matrix Matrix::MatrixProduct(Matrix m2) {
 
-	if (getMatrixNumOfCols()!=m2.getMatrixNumOfRows())
+	if (getNumOfCols()!=m2.getNumOfRows())
 		throw "Matrix dimension not match!";
 
-	Matrix mP(getMatrixNumOfRows(),m2.getMatrixNumOfCols());
+	Matrix mP(getNumOfRows(),m2.getNumOfCols());
 	double tempResult;
 
-	for (int i=0; i<=getMatrixNumOfRows()-1;i++) {
-		for (int j=0;j<=m2.getMatrixNumOfCols()-1;j++) {
+	for (int i=0; i<=getNumOfRows()-1;i++) {
+		for (int j=0;j<=m2.getNumOfCols()-1;j++) {
 			tempResult=0;
-			for (int k=0;k<=m2.getMatrixNumOfRows()-1;k++) {
-				tempResult+=getMatrixElement(i*getMatrixNumOfCols(),k)*m2.getMatrixElement(k*m2.getMatrixNumOfCols(),j);
+			for (int k=0;k<=m2.getNumOfRows()-1;k++) {
+				tempResult+=getMatrixElement(i*getNumOfCols(),k)*m2.getMatrixElement(k*m2.getNumOfCols(),j);
 			}
 			mP.setMatrixElement(tempResult,i,j);
 		}
@@ -42,7 +42,7 @@ Matrix Matrix::MatrixProduct(Matrix m2) {
 
 Matrix Matrix::MatrixPlus(Matrix m2) {
 	
-	if (getMatrixNumOfCols()!=m2.getMatrixNumOfCols() || getMatrixNumOfRows()!=m2.getMatrixNumOfRows() )
+	if (getNumOfCols()!=m2.getNumOfCols() || getNumOfRows()!=m2.getNumOfRows() )
 		throw "Matrix dimension not match!";
 
 	Matrix mPlus;
@@ -52,7 +52,7 @@ Matrix Matrix::MatrixPlus(Matrix m2) {
 
 Matrix Matrix::MatrixMinus(Matrix m2) {
 	
-	if (getMatrixNumOfCols()!=m2.getMatrixNumOfCols() || getMatrixNumOfRows()!=m2.getMatrixNumOfRows() )
+	if (getNumOfCols()!=m2.getNumOfCols() || getNumOfRows()!=m2.getNumOfRows() )
 		throw "Matrix dimension not match!";
 
 	Matrix mMinus;
@@ -62,11 +62,11 @@ Matrix Matrix::MatrixMinus(Matrix m2) {
 
 double Matrix::getMatrixElement(int row, int col) {
 
-	return _matrixEntry[row*getMatrixNumOfCols()+col];
+	return _matrixEntry[row*getNumOfCols()+col];
 }
 
 void Matrix::setMatrixElement(double value, int row, int col) {
-	_matrixEntry[row*getMatrixNumOfCols()+col]=value;
+	_matrixEntry[row*getNumOfCols()+col]=value;
 }
 
 Matrix Matrix::inverse() {
@@ -100,29 +100,29 @@ Matrix Matrix::inverse() {
 }
 
 Matrix Matrix::transpose() {
-	Matrix mT(getMatrixNumOfCols(),getMatrixNumOfRows());
+	Matrix mT(getNumOfCols(),getNumOfRows());
 
-	for (int i=0; i<=mT.getMatrixNumOfRows()-1;i++) {
-		for (int j=0;j<=mT.getMatrixNumOfCols()-1;j++) {
+	for (int i=0; i<=mT.getNumOfRows()-1;i++) {
+		for (int j=0;j<=mT.getNumOfCols()-1;j++) {
 			mT.setMatrixElement(getMatrixElement(j,i),i,j);	
 		}
 	}
 	return mT;
 }
 
-int Matrix::getMatrixNumOfRows() {
+int Matrix::getNumOfRows() {
 	return rows;
 }
 
-int Matrix::getMatrixNumOfCols() {
+int Matrix::getNumOfCols() {
 	return cols;
 }
 
-void Matrix::setMatrixNumOfRows(int rowsValue) {
+void Matrix::setNumOfRows(int rowsValue) {
 	rows=rowsValue;
 }
 
-void Matrix::setMatrixNumOfCols(int colsValue) {
+void Matrix::setNumOfCols(int colsValue) {
 	cols=colsValue;
 }
 

@@ -91,7 +91,7 @@ Matrix MathUtil::leastSquare(Matrix X, Matrix Y){
 Matrix MathUtil::restrictedLeastSquare(Matrix X, Matrix Y, Matrix R){
 	Matrix beta = leastSquare(X, Y);
 	Matrix xTxInv = (X.transpose()*X).inverse();
-	Matrix r(1,R.getMatrixNumOfRows());
-	r.setMatrixElement(1,1,R.getMatrixNumOfRows());
+	Matrix r(1,R.getNumOfRows());
+	r.setMatrixElement(1,1,R.getNumOfRows());
 	return beta + ((xTxInv*R.inverse())*((R*xTxInv*R.transpose()).transpose()))*(r-R*beta);
 }
