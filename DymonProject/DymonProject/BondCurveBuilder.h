@@ -38,14 +38,8 @@ namespace utilities{
 		int getTimeLineBuildDirectiony(){return _timeLineBuildDirection;}
 		void setTimeLineBuildDirection(int timeLineBuildDirection){_timeLineBuildDirection=timeLineBuildDirection;}
 
-		int getBizDaysAfterSpot(){return _bizDaysAfterSpot;}
-		void setBizDaysAfterSpot(int bizDaysAfterSpot){_bizDaysAfterSpot=bizDaysAfterSpot;}
-
 		bool getRollAccuralDates(){return _rollAccuralDates;}
 		void setRollAccuralDates(bool rollAccuralDates){_rollAccuralDates = rollAccuralDates;}
-
-		double getBizDaysAfterSpotDF(){return _bizDaysAfterSpotDF;}
-		void setBizDaysAfterSpotDF(double bizDaysAfterSpotDF){_bizDaysAfterSpotDF = bizDaysAfterSpotDF;}
 
 	private:
 
@@ -55,8 +49,6 @@ namespace utilities{
 		bool _rollAccuralDates;
 		enums::interpolAlgo _interpolAlgo;
 		enums::NumericAlgo _numericalAlgo;
-		int _bizDaysAfterSpot;
-		double _bizDaysAfterSpotDF;
 		point _curvePointer;
 		date _curveStartDate;
 	};

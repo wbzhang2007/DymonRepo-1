@@ -13,7 +13,7 @@ namespace utilities{
 		
 		BondCurve():AbstractCurve(){};
 
-		BondCurve(std::vector<AbstractInterpolator<date>*>* lineSectionVector):AbstractCurve(lineSectionVector);
+		BondCurve(std::vector<AbstractInterpolator<date>*>* lineSectionVector):AbstractCurve(lineSectionVector){};
 		
 		double getDiscountFactor(date Date0){
 			getValue(Date0);

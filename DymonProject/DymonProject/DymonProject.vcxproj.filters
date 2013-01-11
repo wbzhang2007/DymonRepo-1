@@ -22,6 +22,7 @@
     <None Include="deposit.txt" />
     <None Include="swaption_skew_USD.csv" />
     <None Include="Market.txt" />
+    <None Include="MarketConvention.csv" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -246,6 +247,9 @@
     <ClInclude Include="BondCurve.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BondCurveBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -273,9 +277,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AbstractSession.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AbstractDao.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="fileUtil.cpp">
@@ -387,6 +388,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BondPriceFileSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BondCurveBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

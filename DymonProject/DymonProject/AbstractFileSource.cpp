@@ -14,10 +14,6 @@ AbstractFileSource::AbstractFileSource(std::string persistDir, std::string fileN
 	retrieveRecord();
 }
 
-void AbstractFileSource::init(Configuration* cfg){
-	AbstractDAO::init(cfg);
-}
-
 char* AbstractFileSource::readRecord(){
 	if (isModified){
 		_inFile.open(_fileName);

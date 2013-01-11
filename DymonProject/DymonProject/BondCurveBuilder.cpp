@@ -19,13 +19,11 @@ void BondCurveBuilder::init(Configuration* cfg){
 	
 	_market = Market(EnumHelper::getCcyEnum("USD"));
 	_curveStartDate = dateUtil::dayRollAdjust(dateUtil::getToday(),enums::Following,_market.getMarketEnum());
-	_couponFreqency = std::stoi(cfg->getProperty("swap.usd.bond.couponfreq",false,"4"));
-	_timeLineBuildDirection = std::stoi(cfg->getProperty("timeline.usd.builddirection",false,"1"));
-	_rollAccuralDates =  cfg->getProperty("timeline.usd.rollaccuraldates",false,"0")=="0"?false:true;
+	_couponFreqency = std::stoi(cfg->getProperty("convention.usd.bond.couponfreq",false,"2"));
+	_timeLineBuildDirection = std::stoi(cfg->getProperty("BondCurve.usd.buildCashFlowDirection",false,"1"));
+	_rollAccuralDates =  cfg->getProperty("BondCurve.usd.rollAccuralDates",false,"0")=="0"?false:true;
 	_interpolAlgo = EnumHelper::getInterpolAlgo(cfg->getProperty("BondCurve.usd.interpol",false,"CUBIC"));
 	_numericalAlgo = EnumHelper::getNumericalAlgo(cfg->getProperty("BondCurve.usd.numerical",false,"BISECTION"));
-	_bizDaysAfterSpot = _market.getBusinessDaysAfterSpot();
-	_bizDaysAfterSpotDF = NaN;
 }
 
 BondCurve* BondCurveBuilder::build(Configuration* cfg){
