@@ -75,7 +75,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="Market.txt" />
     <None Include="deposit.txt" />
     <None Include="holiday.txt" />
     <None Include="instance.properties" />

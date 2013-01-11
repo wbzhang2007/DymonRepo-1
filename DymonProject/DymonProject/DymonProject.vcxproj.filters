@@ -21,7 +21,6 @@
     <None Include="swapRate.txt" />
     <None Include="deposit.txt" />
     <None Include="swaption_skew_USD.csv" />
-    <None Include="Market.txt" />
     <None Include="MarketConvention.csv" />
   </ItemGroup>
   <ItemGroup>
