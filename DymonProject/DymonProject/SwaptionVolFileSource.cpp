@@ -83,8 +83,8 @@ void SwaptionVolFileSource::retrieveRecord(){
 		}
 	}
 
-	cout <<"numofRows="<<db.size()<<endl;
-	cout <<"numOfCols="<<db.at(0).size()<<endl;
+	/*cout <<"numofRows="<<db.size()<<endl;
+	cout <<"numOfCols="<<db.at(0).size()<<endl;*/
 
 	tempSwaptionCubeMap.insert(std::make_pair(strikeDiffATM,volSurfaceMap));
 	RecordHelper::getInstance()->setSwaptionATMStrikeMap(tempSwaptionATMStrikeMap);

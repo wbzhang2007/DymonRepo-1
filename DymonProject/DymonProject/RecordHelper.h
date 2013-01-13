@@ -27,6 +27,8 @@ namespace Session {
 		
 		typedef std::map<enums::MarketEnum, std::map<long, double>> RateMap;
 		
+		typedef std::map<enums::MarketEnum, std::map<int, double>> BondRateMap;
+
 		typedef std::map<enums::MarketEnum, Market> MarketMap;
 
 		//std::map<BasisPoint,std::map<fSwapTenorNumOfMonths,map<optionTenorNumOfMonths,swaptionVol>>> SwaptionCubeMap
@@ -45,6 +47,9 @@ namespace Session {
 
 		RateMap getOverNightRateMap(){return _overNightRateMap;}
 		void setOverNightRateMap(RateMap map){_overNightRateMap=map;}
+
+		BondRateMap getBondRateMap(){return _bondRateMap;}
+		void setBondRateMap(BondRateMap map){_bondRateMap=map;}
 
 		RateMap getSwapRateMap(){return _swapRateMap;}
 		void setSwapRateMap(RateMap map){_swapRateMap=map;}
@@ -72,6 +77,8 @@ namespace Session {
 		RateMap _overNightRateMap;
 
 		RateMap _swapRateMap;
+
+		BondRateMap _bondRateMap;
 				
 		MarketMap _MarketMap;
 
