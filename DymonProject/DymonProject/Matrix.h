@@ -1,4 +1,5 @@
 //created by Hu Kun on 10 Jan 2013
+//building blocks for regressions in cubic spline interpolators
 #include <iostream>
 #include <stdlib.h>
 #include <math.h>
@@ -40,6 +41,7 @@ namespace utilities {
 			int cols;
 			int rows;
 			double* _matrixEntry;
-	};
+
+		};
 }
 #endif

@@ -70,34 +70,49 @@ void Matrix::setMatrixElement(double value, int row, int col) {
 }
 
 Matrix Matrix::inverse() {
-	Matrix mInv;
-	/*   for(i = 0; i < n; i++){
-	for(j = n; j < 2*n; j++){
-	if(i==(j-n))
-	matrix[i][j] = 1.0;
-	else
-	matrix[i][j] = 0.0;
-	}
-	}
-	for(i = 0; i < n; i++){
-	for(j = 0; j < n; j++){
-	if(i!=j){
-	ratio = matrix[j][i]/matrix[i][i];
-	for(k = 0; k < 2*n; k++){
-	matrix[j][k] -= ratio * matrix[i][k];
-	}
-	}
-	}
-	}
-	for(i = 0; i < n; i++){
-	a = matrix[i][i];
-	for(j = 0; j < 2*n; j++){
-	matrix[i][j] /= a;
-	}
-	}*/
+	
+	if (getNumOfCols()!=getNumOfCols())
+		throw "Not a square matrix, not invertible!";
+	int n=getNumOfRows();
 
-	return mInv;
+	Matrix mInv(n,2*n);
+	Matrix mInvResult(n,n);
+	for(int i = 0; i < n; i++){
+		for(int j = n; j < 2*n; j++){
+			if(i==(j-n))
+				mInv.setMatrixElement(1.0,i,j);
+		else
+				mInv.setMatrixElement(0.0,i,j);
+		}
+	}
+	
+	for(int i = 0; i < n; i++){
+		for(int j = 0; j < n; j++){
+		if(i!=j){
+			double ratio = mInv.getMatrixElement(j,i)/mInv.getMatrixElement(i,i);
+			for(int k = 0; k < 2*n; k++){
+				double temp=mInv.getMatrixElement(j,k);
+				mInv.setMatrixElement(temp-ratio * mInv.getMatrixElement(i,k),j,k);
+			}
+		}
+	}
+	
+	}
+	
+	for(int i = 0; i < n; i++){
+		double a = mInv.getMatrixElement(i,i);
+		for(int j = 0; j < 2*n; j++){
+			double temp=mInv.getMatrixElement(i,j);
+			mInv.setMatrixElement(temp/a,i,j);
+			if (j<n) { mInvResult.setMatrixElement(mInv.getMatrixElement(i,j),i,j);}
+		}
+	}
+
+	return mInvResult;
 }
+
+
+
 
 Matrix Matrix::transpose() {
 	Matrix mT(getNumOfCols(),getNumOfRows());
