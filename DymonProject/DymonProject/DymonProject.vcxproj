@@ -75,7 +75,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\..\All Users\Documents\Dymon_project\bondyields.csv" />
+    <None Include="bondyields.csv" />
     <None Include="deposit.txt" />
     <None Include="holiday.txt" />
     <None Include="instance.properties" />
