@@ -22,7 +22,7 @@
     <None Include="deposit.txt" />
     <None Include="swaption_skew_USD.csv" />
     <None Include="MarketConvention.csv" />
-    <None Include="..\..\..\..\..\..\..\All Users\Documents\Dymon_project\bondyields.csv" />
+    <None Include="bondyields.csv" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
