@@ -165,6 +165,7 @@
     <ClCompile Include="AbstractFileSource.cpp" />
     <ClCompile Include="AbstractSession.cpp" />
     <ClCompile Include="AbstractTest.cpp" />
+    <ClCompile Include="Bond.cpp" />
     <ClCompile Include="BondPriceFileSource.cpp" />
     <ClCompile Include="BondCurveBuilder.cpp" />
     <ClCompile Include="BuilderCashFlowLeg.cpp" />

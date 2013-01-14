@@ -22,10 +22,9 @@ namespace instruments {
 		cashflowLeg(vector<cashflow> cashflowLeg);
 		~cashflowLeg();
 		
-		vector<cashflow> getCashFlowVector();
-		cashflowLeg getCashFlowLeg();
-
+		vector<cashflow> getCashFlowLeg();
 		void setCashFlowLeg(vector<cashflow> cashflowLeg);
+
 		vector<date> getAccuralDates();
 		
 		void printCashFlowLeg();
