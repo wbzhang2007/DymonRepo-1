@@ -19,22 +19,22 @@ using namespace enums;
 
 using namespace instruments;
 
-BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double couponRate,double notional, int paymentFreq, enums::MarketEnum market, int buildDirection){
+BuilderCashFlowLeg::BuilderCashFlowLeg(date accrualStartDate, date accrualEndDate,double couponRate,double notional, int paymentFreq, enums::MarketEnum market, int buildDirection){
 	
 	Market mkt(market);
 	enums::DayCountEnum dayCountSwapConvention = mkt.getDayCountSwapConvention();
 	enums::DayRollEnum dayRollSwapConvention = mkt.getDayRollSwapConvention();
 	enums::DayRollEnum accrualAdjustSwapConvention = mkt.getAccrualAdjustSwapConvention();
-	startDate = dateUtil::getBizDateOffSet(startDate,mkt.getBusinessDaysAfterSpot(),market);
+	accrualStartDate = dateUtil::getBizDateOffSet(accrualStartDate,mkt.getBusinessDaysAfterSpot(),market);
 
 	if (buildDirection==1) {
 		int numOfMonthIncr=12/paymentFreq;
 		int i=0;
 		vector<cashflow> builtCashflowLeg;
-		while((dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH),maturityDate)>0)&&
-			(dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH),maturityDate)>=0)){
-			date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calDateNewEnd=dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);			
+		while((dateUtil::getBizDaysBetween(dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH),accrualEndDate)>0)&&
+			(dateUtil::getBizDaysBetween(dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH),accrualEndDate)>=0)){
+			date calDateNewStart=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
+			date calDateNewEnd=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);			
 			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
@@ -43,11 +43,11 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 			i++;
 		}
 
-		if ((dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*(i-1),accrualAdjustSwapConvention,market,dateUtil::MONTH),maturityDate)<0)
-			||(dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH),maturityDate)<0)) {
+		if ((dateUtil::getBizDaysBetween(dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*(i-1),accrualAdjustSwapConvention,market,dateUtil::MONTH),accrualEndDate)<0)
+			||(dateUtil::getBizDaysBetween(dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH),accrualEndDate)<0)) {
 
-			date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calDateNewEnd=dateUtil::dayRollAdjust(maturityDate,accrualAdjustSwapConvention,market);
+			date calDateNewStart=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
+			date calDateNewEnd=dateUtil::dayRollAdjust(accrualEndDate,accrualAdjustSwapConvention,market);
 			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
@@ -62,11 +62,11 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 		int i=0;
 		vector<cashflow> builtCashflowLeg;
 
-		while((dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH))>0)&&
-			(dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH))>=0)){
+		while((dateUtil::getBizDaysBetween(accrualStartDate,dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH))>0)&&
+			(dateUtil::getBizDaysBetween(accrualStartDate,dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH))>=0)){
 
-			date calDateNewStart=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calDateNewEnd=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
+			date calDateNewStart=dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);
+			date calDateNewEnd=dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
 			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
@@ -75,11 +75,11 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 			i++;
 		}
 
-		if ((dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*(i-1),accrualAdjustSwapConvention,market,dateUtil::MONTH))<0)||
-			(dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH))<0)) {
+		if ((dateUtil::getBizDaysBetween(accrualStartDate,dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*(i-1),accrualAdjustSwapConvention,market,dateUtil::MONTH))<0)||
+			(dateUtil::getBizDaysBetween(accrualStartDate,dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH))<0)) {
 
-			date calDateNewStart=dateUtil::dayRollAdjust(startDate,accrualAdjustSwapConvention,market);
-			date calDateNewEnd=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
+			date calDateNewStart=dateUtil::dayRollAdjust(accrualStartDate,accrualAdjustSwapConvention,market);
+			date calDateNewEnd=dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
 			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
@@ -90,13 +90,13 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double 
 	}
 }
 
-BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,double couponRate,double notional, int paymentFreq, enums::MarketEnum market){
+BuilderCashFlowLeg::BuilderCashFlowLeg(date accrualStartDate, int tenorNumOfMonths,double couponRate,double notional, int paymentFreq, enums::MarketEnum market){
 
 	Market mkt(market);
 	enums::DayCountEnum dayCountSwapConvention = mkt.getDayCountSwapConvention();
 	enums::DayRollEnum dayRollSwapConvention = mkt.getDayRollSwapConvention();
 	enums::DayRollEnum accrualAdjustSwapConvention = mkt.getAccrualAdjustSwapConvention();
-	startDate = dateUtil::getBizDateOffSet(startDate,mkt.getBusinessDaysAfterSpot(),market);
+	accrualStartDate = dateUtil::getBizDateOffSet(accrualStartDate,mkt.getBusinessDaysAfterSpot(),market);
 
 	int numOfMonthIncr=12/paymentFreq;
 	int i=0;
@@ -104,8 +104,8 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,doub
 
 	while((numOfMonthIncr*i<tenorNumOfMonths)&&(numOfMonthIncr*(i+1)<=tenorNumOfMonths)){
 
-		date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-		date calDateNewEnd=dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);			
+		date calDateNewStart=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
+		date calDateNewEnd=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);			
 		date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
 		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
@@ -116,8 +116,8 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,doub
 
 	if ((numOfMonthIncr*(i-1)>tenorNumOfMonths)||(numOfMonthIncr*(i)>tenorNumOfMonths)) {
 
-		date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-		date calDateNewEnd=dateUtil::getEndDate(startDate,tenorNumOfMonths,accrualAdjustSwapConvention,market,dateUtil::MONTH);
+		date calDateNewStart=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
+		date calDateNewEnd=dateUtil::getEndDate(accrualStartDate,tenorNumOfMonths,accrualAdjustSwapConvention,market,dateUtil::MONTH);
 
 		date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
 		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
@@ -128,23 +128,23 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,doub
 	_cashflowLeg=cashflowLeg(builtCashflowLeg).getCashFlowLeg();
 }
 
-BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,DiscountCurve* yc,double notional, int paymentFreq, enums::MarketEnum market, int buildDirection){
+BuilderCashFlowLeg::BuilderCashFlowLeg(date accrualStartDate, date accrualEndDate,DiscountCurve* yc,double notional, int paymentFreq, enums::MarketEnum market, int buildDirection){
 
 	Market mkt(market);
 	enums::DayCountEnum dayCountSwapConvention = mkt.getDayCountSwapConvention();
 	enums::DayRollEnum dayRollSwapConvention = mkt.getDayRollSwapConvention();
 	enums::DayRollEnum accrualAdjustSwapConvention = mkt.getAccrualAdjustSwapConvention();
-	startDate = dateUtil::getBizDateOffSet(startDate,mkt.getBusinessDaysAfterSpot(),market);
+	accrualStartDate = dateUtil::getBizDateOffSet(accrualStartDate,mkt.getBusinessDaysAfterSpot(),market);
 
 	if (buildDirection==1) {
 		int numOfMonthIncr=12/paymentFreq;
 		int i=0;
 		vector<cashflow> builtCashflowLeg;
-		while((dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH),maturityDate)>0)&&
-			(dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH),maturityDate)>=0)){
+		while((dateUtil::getBizDaysBetween(dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH),accrualEndDate)>0)&&
+			(dateUtil::getBizDaysBetween(dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH),accrualEndDate)>=0)){
 
-			date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calDateNewEnd=dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);			
+			date calDateNewStart=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
+			date calDateNewEnd=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);			
 			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
@@ -154,11 +154,11 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,Discoun
 			i++;
 		}
 
-		if ((dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*(i-1),accrualAdjustSwapConvention,market,dateUtil::MONTH),maturityDate)<0)
-			||(dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH),maturityDate)<0)) {
+		if ((dateUtil::getBizDaysBetween(dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*(i-1),accrualAdjustSwapConvention,market,dateUtil::MONTH),accrualEndDate)<0)
+			||(dateUtil::getBizDaysBetween(dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH),accrualEndDate)<0)) {
 			
-			date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calDateNewEnd=dateUtil::dayRollAdjust(maturityDate,accrualAdjustSwapConvention,market);
+			date calDateNewStart=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
+			date calDateNewEnd=dateUtil::dayRollAdjust(accrualEndDate,accrualAdjustSwapConvention,market);
 			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
@@ -177,11 +177,11 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,Discoun
 		int i=0;
 		vector<cashflow> builtCashflowLeg;
 			
-		while((dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH))>0)&&
-			(dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH))>=0)){
+		while((dateUtil::getBizDaysBetween(accrualStartDate,dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH))>0)&&
+			(dateUtil::getBizDaysBetween(accrualStartDate,dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH))>=0)){
 
-			date calDateNewStart=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calDateNewEnd=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
+			date calDateNewStart=dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);
+			date calDateNewEnd=dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
 			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
@@ -191,11 +191,11 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,Discoun
 			i++;
 		}
 
-		if ((dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*(i-1),accrualAdjustSwapConvention,market,dateUtil::MONTH))<0)||
-			(dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH))<0)) {
+		if ((dateUtil::getBizDaysBetween(accrualStartDate,dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*(i-1),accrualAdjustSwapConvention,market,dateUtil::MONTH))<0)||
+			(dateUtil::getBizDaysBetween(accrualStartDate,dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH))<0)) {
 
-			date calDateNewStart=dateUtil::dayRollAdjust(startDate,accrualAdjustSwapConvention,market);
-			date calDateNewEnd=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
+			date calDateNewStart=dateUtil::dayRollAdjust(accrualStartDate,accrualAdjustSwapConvention,market);
+			date calDateNewEnd=dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
 			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
 			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
@@ -207,13 +207,13 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,Discoun
 	}
 }
 
-BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,DiscountCurve* yc,double notional, int paymentFreq, enums::MarketEnum market){
+BuilderCashFlowLeg::BuilderCashFlowLeg(date accrualStartDate, int tenorNumOfMonths,DiscountCurve* yc,double notional, int paymentFreq, enums::MarketEnum market){
 	
 	Market mkt(market);
 	enums::DayCountEnum dayCountSwapConvention = mkt.getDayCountSwapConvention();
 	enums::DayRollEnum dayRollSwapConvention = mkt.getDayRollSwapConvention();
 	enums::DayRollEnum accrualAdjustSwapConvention = mkt.getAccrualAdjustSwapConvention();
-	startDate = dateUtil::getBizDateOffSet(startDate,mkt.getBusinessDaysAfterSpot(),market);
+	accrualStartDate = dateUtil::getBizDateOffSet(accrualStartDate,mkt.getBusinessDaysAfterSpot(),market);
 
 	int numOfMonthIncr=12/paymentFreq;
 	int i=0;
@@ -221,8 +221,8 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,Disc
 
 	while((numOfMonthIncr*i<tenorNumOfMonths)&&(numOfMonthIncr*(i+1)<=tenorNumOfMonths)){
 
-		date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-		date calDateNewEnd=dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);			
+		date calDateNewStart=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
+		date calDateNewEnd=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);			
 		date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
 		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 
@@ -234,8 +234,8 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,Disc
 
 	if ((numOfMonthIncr*(i-1)>tenorNumOfMonths)||(numOfMonthIncr*i>tenorNumOfMonths)) {
 
-		date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-		date calDateNewEnd=dateUtil::getEndDate(startDate,tenorNumOfMonths,accrualAdjustSwapConvention,market,dateUtil::MONTH);
+		date calDateNewStart=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
+		date calDateNewEnd=dateUtil::getEndDate(accrualStartDate,tenorNumOfMonths,accrualAdjustSwapConvention,market,dateUtil::MONTH);
 		date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
 		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
 

@@ -58,7 +58,11 @@ void BondPriceFileSource::retrieveRecord(){
 			bondTenorNumOfMonths=std::stoi(aCell.substr(0,aCell.find("M")));
 		}
 
-		double bondYield=std::stoi(db.at(i).at(3));
+		string maturityStr = db.at(i).at(1);
+		double couponRate = std::stod(db.at(i).at(2));
+		int couponFreq=std::stoi(db.at(i).at(3));
+		double cleanPrice = std::stod(db.at(i).at(4));
+		enum::DayCountEnum dayCount = EnumHelper.getDayCountEnum(db.at(i).at(5));
 		std::map<int,double> temp;
 		temp.insert(std::make_pair(bondTenorNumOfMonths,bondYield));
 		
