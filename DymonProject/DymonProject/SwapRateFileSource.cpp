@@ -42,7 +42,7 @@ void SwapRateFileSource::retrieveRecord(){
 		market = EnumHelper::getCcyEnum(vec[0]);
 		Market mkt(market);
 		enums::DayRollEnum accrualAdjust=mkt.getAccrualAdjustSwapConvention();
-		int businessDaysAfterSpot = mkt.getBusinessDaysAfterSpot();
+		int businessDaysAfterSpot = mkt.getBusinessDaysAfterSpot(enums::SWAP);
 		vector<string> deposits = fileUtil::split(vec[1],',');
 		cout<<market<<" market has total swap rate number:  "<<deposits.size()<<endl;
 
@@ -51,7 +51,7 @@ void SwapRateFileSource::retrieveRecord(){
 		{
 			// 2Y-3.134
 			date startDate = dateUtil::dayRollAdjust(dateUtil::getToday(),enums::Following,market);	
-			date accrualStartDate = dateUtil::getBizDateOffSet(startDate,mkt.getBusinessDaysAfterSpot(),market); // day after spot adjust
+			date accrualStartDate = dateUtil::getBizDateOffSet(startDate,mkt.getBusinessDaysAfterSpot(enums::SWAP),market); // day after spot adjust
 			vector<string> tenureRate = fileUtil::split(deposits[i],'=');
 			char letterDateUnit = *tenureRate[0].rbegin(); // 'Y'
 			int increment = std::stoi(tenureRate[0].substr(0,tenureRate[0].size()-1)); // 2

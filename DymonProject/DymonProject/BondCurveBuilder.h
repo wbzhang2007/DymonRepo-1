@@ -23,6 +23,8 @@ namespace utilities{
 
 		BondCurve* build(Configuration* cfg);
 
+		void buildSection(BondCurve* yc);
+
 		Market getMarket(){return _market;}
 		void setMarket(Market market){_market = market;}
 

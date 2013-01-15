@@ -18,9 +18,9 @@ namespace instruments {
 	class cashflowLeg {
 
 	public:
-		cashflowLeg();
+		cashflowLeg(){};
 		cashflowLeg(vector<cashflow> cashflowLeg);
-		~cashflowLeg();
+		~cashflowLeg(){};
 		
 		vector<cashflow> getCashFlowLeg();
 		void setCashFlowLeg(vector<cashflow> cashflowLeg);

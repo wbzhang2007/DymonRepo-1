@@ -17,7 +17,9 @@ namespace instruments {
 		
 		BondPricer(){};
 		~BondPricer(){};
-								
+						
+		virtual double getMPV();
+
 		virtual double getMPV(cashflowLeg* couponLeg,BondCurve* bondCurve);
 		
 		virtual double getParYield(cashflowLeg* couponLeg,BondCurve* bondCurve);

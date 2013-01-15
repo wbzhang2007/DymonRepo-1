@@ -20,24 +20,27 @@ namespace instruments {
 		~Bond(){};
 		Bond(Market market, date tradeDate, date maturityDate, double notional, double couponRate, BondCurve* yc, int couponFreq, bool rollAccuralDates, int buildDirection);
 		Bond(Market market, date tradeDate, int tenorNumOfMonths, double notional, double couponRate, BondCurve* yc, int couponFreq, bool rollAccuralDates);
-		Bond(Market market, date tradeDate, date maturityDate, double couponRate, Configuration* cfg, double cleanPrice);
+		Bond(Market market, date tradeDate, date maturityDate, double couponRate, int couponFreq, Configuration* cfg, double cleanPrice);
 
 		cashflowLeg* getCouponLeg(){return _couponLeg;}
 		BondCurve* getBondCurve(){return _bc;}
+		double getCouponRate(){return _couponRate;}
 		int getCouponFreq(){return _couponFreq;}
 		int getTenor(){ return _tenorNumOfMonths;}
-		double getDirtyPrice{return _dirtyPrice;}
-		double getCleanPrice{return _cleanPrice;}
+		double getDirtyPrice(){return _dirtyPrice;}
+		double getCleanPrice(){return _cleanPrice;}
 
 		void printCouponLeg();
 
 	private:
 
 		void BaseBond(Market market, date tradeDate, date maturityDate, double notional, double couponRate, int couponFreq, bool rollAccuralDates, int buildDirection);
+		double deriveDirtyPrice();
 
 		cashflowLeg* _couponLeg;
 		BondCurve* _bc;
 		Market _market;
+		double _couponRate;
 		int _couponFreq;
 		int _tenorNumOfMonths;
 		double _dirtyPrice;

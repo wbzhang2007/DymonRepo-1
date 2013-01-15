@@ -244,10 +244,10 @@
     <ClInclude Include="BondCurveBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="forward.h">
+    <ClInclude Include="bondpricer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="future.h">
+    <ClInclude Include="BondRateBootStrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -394,6 +394,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Bond.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BondPricer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BondRateBootStrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

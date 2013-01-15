@@ -17,6 +17,7 @@ namespace utilities {
 		
 		date();
 		date(unsigned short year, unsigned short month, unsigned short day);
+		date::date(std::string dateStr);
 		date(long JDN);
 		~date();
 		int getYear();
@@ -38,6 +39,8 @@ namespace utilities {
 			else
 				return 0;
 		}
+		
+		bool operator != (date d) {	return compare(d)!=0;}
 
 		bool operator == (date d) {	return !compare(d);}
 

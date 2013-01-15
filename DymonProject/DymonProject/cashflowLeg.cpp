@@ -13,23 +13,15 @@ using namespace std;
 using namespace enums;
 
 namespace instruments {
-	cashflowLeg::cashflowLeg() {
 
-	}
 	cashflowLeg::cashflowLeg(vector<cashflow> cashflowLeg) {
 		setCashFlowLeg(cashflowLeg);
 	}
-	cashflowLeg::~cashflowLeg() {
-
-	}
-		
-	vector<cashflow> cashflowLeg::getCashFlowVector() {
-		return _cashflowLeg;
-	}
 	
-	cashflowLeg cashflowLeg::getCashFlowLeg() {
+	vector<cashflow> cashflowLeg::getCashFlowLeg() {
 		return _cashflowLeg;
 	}
+
 	void cashflowLeg::setCashFlowLeg(vector<cashflow> cashflowLeg) {
 		_cashflowLeg=cashflowLeg;
 	}

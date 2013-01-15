@@ -20,28 +20,13 @@ Bond::Bond(Market market, date tradeDate, date maturityDate, double notional, do
 	_bc=bc;
 };
 
-Bond::Bond(Market market, date tradeDate, date maturityDate, double couponRate, Configuration* cfg, double cleanPrice){
-	int couponFreq = std::stoi(cfg->getProperty("convention."+market.getNameString()+".bond.couponfreq",false,"2"));
+Bond::Bond(Market market, date tradeDate, date maturityDate, double couponRate, int couponFreq, Configuration* cfg, double cleanPrice){
 	int timeLineBuildDirection = std::stoi(cfg->getProperty("BondCurve."+market.getNameString()+".buildCashFlowDirection",false,"1"));
 	bool rollAccuralDates =  cfg->getProperty("BondCurve."+market.getNameString()+".rollAccuralDates",false,"0")=="0"?false:true;
 
 	BaseBond(market, tradeDate, maturityDate, 100, couponRate, couponFreq, rollAccuralDates, timeLineBuildDirection);
 	_cleanPrice = cleanPrice;
-	date firstCouponDate = _couponLeg->getCashFlowLeg()[1].getAccuralEndDate();
-	double accrualFactor = dateUtil::getAccrualFactor(getTradeDate(),firstCouponDate,market.getDayCountBondConvention());
-	_dirtyPrice = cleanPrice + couponRate/couponFreq*accrualFactor;
-}
-
-void Bond::BaseBond(Market market, date tradeDate, date maturityDate, double notional, double couponRate, int couponFreq, bool rollAccuralDates, int buildDirection){
-
-	setTradeDate(tradeDate);
-	setMaturityDate(maturityDate);
-
-	BuilderCashFlowLeg* couponLegs = new BuilderCashFlowLeg(tradeDate, maturityDate,couponRate,notional, couponFreq, market.getMarketEnum(),buildDirection);
-
-	_couponLeg=couponLegs->getCashFlowLeg();
-	_market=market;
-	_couponFreq=couponFreq;
+	_dirtyPrice = deriveDirtyPrice();
 }
 
 Bond::Bond(Market market, date tradeDate, int tenorNumOfMonths, double notional, double couponRate, BondCurve* bc, int couponFreq, bool rollAccuralDates){
@@ -49,11 +34,33 @@ Bond::Bond(Market market, date tradeDate, int tenorNumOfMonths, double notional,
 	setTradeDate(tradeDate);
 	setMaturityDate(dateUtil::getEndDate(tradeDate,tenorNumOfMonths,market.getDayRollSwapConvention(),market.getMarketEnum(),dateUtil::MONTH));
 
-	BuilderCashFlowLeg* couponLegs = new BuilderCashFlowLeg(tradeDate, tenorNumOfMonths,couponRate,notional, couponFreq, market.getMarketEnum());
+	BuilderCashFlowLeg* couponLegs = new BuilderCashFlowLeg(enums::BOND,tradeDate, tenorNumOfMonths,couponRate,notional, couponFreq, market.getMarketEnum());
 
 	_couponLeg=couponLegs->getCashFlowLeg();
 	_bc=bc;
 	_market=market;
+	_couponRate=couponRate;
 	_couponFreq=couponFreq;
 	_tenorNumOfMonths=tenorNumOfMonths;	
+}
+
+void Bond::BaseBond(Market market, date tradeDate, date maturityDate, double notional, double couponRate, int couponFreq, bool rollAccuralDates, int buildDirection){
+
+	setTradeDate(tradeDate);
+	setMaturityDate(maturityDate);
+
+	BuilderCashFlowLeg* couponLegs = new BuilderCashFlowLeg(enums::BOND,tradeDate, maturityDate,couponRate,notional, couponFreq, market.getMarketEnum(),buildDirection);
+
+	_couponLeg=couponLegs->getCashFlowLeg();
+	_market=market;
+	_couponRate=couponRate;
+	_couponFreq=couponFreq;
+}
+
+double Bond::deriveDirtyPrice(){
+	cashflow firstCashFlow = _couponLeg->getCashFlowLeg()[0];
+	date refStartDate = firstCashFlow.getAccuralStartDate();
+	date refEndDate = firstCashFlow.getAccuralEndDate();
+	double accrualFactor = dateUtil::getAccrualFactor(refStartDate,_tradeDate,refStartDate, refEndDate, _market.getDayCountBondConvention());
+	return _cleanPrice + _couponRate/_couponFreq*accrualFactor;
 }

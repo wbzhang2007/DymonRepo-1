@@ -102,6 +102,8 @@
     <ClInclude Include="BondCurve.h" />
     <ClInclude Include="BondCurveBuilder.h" />
     <ClInclude Include="BondPriceFileSource.h" />
+    <ClInclude Include="bondpricer.h" />
+    <ClInclude Include="BondRateBootStrapper.h" />
     <ClInclude Include="BuilderCashFlowLeg.h" />
     <ClInclude Include="cashflow.h" />
     <ClInclude Include="cashflowLeg.h" />
@@ -145,8 +147,6 @@
     <ClInclude Include="RecordHelper.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="fileUtil.h" />
-    <ClInclude Include="forward.h" />
-    <ClInclude Include="future.h" />
     <ClInclude Include="HolidayFileSource.h" />
     <ClInclude Include="AbstractInstrument.h" />
     <ClInclude Include="instrumentValue.h" />
@@ -168,6 +168,8 @@
     <ClCompile Include="Bond.cpp" />
     <ClCompile Include="BondPriceFileSource.cpp" />
     <ClCompile Include="BondCurveBuilder.cpp" />
+    <ClCompile Include="BondPricer.cpp" />
+    <ClCompile Include="BondRateBootStrapper.cpp" />
     <ClCompile Include="BuilderCashFlowLeg.cpp" />
     <ClCompile Include="cashflow.cpp" />
     <ClCompile Include="cashflowLeg.cpp" />

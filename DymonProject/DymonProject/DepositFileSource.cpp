@@ -54,7 +54,7 @@ void DepositFileSource::retrieveRecord(){
 			char letterDateUnit = *tenureRate[0].rbegin(); // 'D'
 			date startDate = dateUtil::dayRollAdjust(dateUtil::getToday(),enums::Following,market);	
 			if (letterDateUnit != 'D')
-				startDate = dateUtil::getBizDateOffSet(startDate,mkt.getBusinessDaysAfterSpot(),market); // day after spot adjust
+				startDate = dateUtil::getBizDateOffSet(startDate,mkt.getBusinessDaysAfterSpot(enums::SWAP),market); // day after spot adjust
 			int increment = std::stoi(tenureRate[0].substr(0,tenureRate[0].size()-1)); // 2
 			double depositRate = std::stod(tenureRate[1])/100.0; // 0.1
 			long JDN = dateUtil::getEndDate(startDate,increment, accrualAdjust, market, dateUtil::getDateUnit(letterDateUnit)).getJudianDayNumber();

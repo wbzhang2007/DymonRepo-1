@@ -40,6 +40,7 @@ void DateUtilTest();
 void CashFlowLegTest();
 void CashFlowTest();
 void SwapTest();
+void SwaptionTest();
 void unitTest();
 void forwardStartingSwap(DiscountCurve* yc);
 
@@ -52,6 +53,30 @@ int _tmain(int argc, _TCHAR* argv[])
 	//aSwaptionTest.swaptionTest();
 	//DiscountCurve* yc = buildDiscountCurve();
 	//forwardStartingSwap(yc);
+	SwaptionTest();
+}		
+
+void unitTest(){	
+	TestDateUtil dateUtilTest;
+	dateUtilTest.runTest();	
+	//CashFlowTest();
+    //CashFlowLegTest();
+	//TestNumerical numericalTest;
+	//numericalTest.runTest();
+	//TestInterpolator interpolatorTest;
+	//interpolatorTest.runTest();
+	//SwapTest();
+	//TestBuildCashFlowLeg buildCashFlowLegTest;
+	//buildCashFlowLegTest.runTest();
+	//TestOption optionTest;
+	//optionTest.runTest();
+	//TestDiscountCurve discountCurveTest;
+	//discountCurveTest.runTest();
+	//TestSurface surfaceTest;
+	//surfaceTest.runTest();
+}
+
+void SwaptionTest(){
 	MarketData::getInstance()->buildAll();
 	SwaptionVolCube* svc = MarketData::getInstance()->getSwaptionVolCube();
 	cout<<svc->getVol(0,12,12)<<endl;
@@ -68,26 +93,6 @@ int _tmain(int argc, _TCHAR* argv[])
 		Swaption swt1(swaptionMarket, enums::Payer,12,i,24);
 		cout<<"Swaption Premium ATM"<<i<<": "<<swt1.getMPV()<<" vol: "<<swt1.getVol()<<endl;
 	}
-}		
-
-void unitTest(){	
-	//TestDateUtil dateUtilTest;
-	//dateUtilTest.runTest();	
-	//CashFlowTest();
-    //CashFlowLegTest();
-	//TestNumerical numericalTest;
-	//numericalTest.runTest();
-	//TestInterpolator interpolatorTest;
-	//interpolatorTest.runTest();
-	//SwapTest();
-	//TestBuildCashFlowLeg buildCashFlowLegTest;
-	//buildCashFlowLegTest.runTest();
-	//TestOption optionTest;
-	//optionTest.runTest();
-	//TestDiscountCurve discountCurveTest;
-	//discountCurveTest.runTest();
-	TestSurface surfaceTest;
-	surfaceTest.runTest();
 }
 
 void forwardStartingSwap(DiscountCurve* yc){
@@ -192,11 +197,11 @@ void CashFlowLegTest()  {
 	cashFlowLegCurr.setDayCountSwapConvention(enums::ACT_ACT);
 	cashFlowLegCurr.setDayRollCashConvention(enums::Mfollowing);
 
-	BuilderCashFlowLeg testCashFlowLeg(startDate, maturityDate,couponRate,notional, paymentFreq, enums::USD, buildDirection);
+	BuilderCashFlowLeg testCashFlowLeg(enums::SWAP, startDate, maturityDate,couponRate,notional, paymentFreq, enums::USD, buildDirection);
 
 	cout << "******** CashFlowLeg Build Test starts********" << endl;
 
-	std::vector<cashflow> cfVector=(*testCashFlowLeg.getCashFlowLeg()).getCashFlowVector();
+	std::vector<cashflow> cfVector=(*testCashFlowLeg.getCashFlowLeg()).getCashFlowLeg();
 	std::vector<cashflow>::iterator it=cfVector.begin();
 
 	cout<<"start date="<<startDate.toString()<<endl;
@@ -214,12 +219,12 @@ void CashFlowLegTest()  {
 	cout<<"****************************************************"<<endl<<endl;
 
 	buildDirection=-1;
-	BuilderCashFlowLeg testCashFlowLegReverse(startDate, maturityDate,couponRate,notional, paymentFreq, enums::USD, buildDirection);
+	BuilderCashFlowLeg testCashFlowLegReverse(enums::SWAP,startDate, maturityDate,couponRate,notional, paymentFreq, enums::USD, buildDirection);
 
 	
 	cout << "******** CashFlowLeg ReverseBuild Test starts********" << endl;
 
-	std::vector<cashflow> cfVectorR=(*testCashFlowLegReverse.getCashFlowLeg()).getCashFlowVector();
+	std::vector<cashflow> cfVectorR=(*testCashFlowLegReverse.getCashFlowLeg()).getCashFlowLeg();
 	std::vector<cashflow>::iterator itR=cfVectorR.begin();
 
 	cout<<"start date="<<startDate.toString()<<endl;
@@ -236,11 +241,11 @@ void CashFlowLegTest()  {
 
 	int tenorNumMonth=12;
 
-	BuilderCashFlowLeg testCashFlowLegTenor(startDate, tenorNumMonth, couponRate, notional,  paymentFreq, enums::USD);
+	BuilderCashFlowLeg testCashFlowLegTenor(enums::SWAP,startDate, tenorNumMonth, couponRate, notional,  paymentFreq, enums::USD);
 
 	cout << "******** CashFlowLeg TenorBuild Test starts********" << endl;
 
-	std::vector<cashflow> cfVectorT=(*testCashFlowLegTenor.getCashFlowLeg()).getCashFlowVector();
+	std::vector<cashflow> cfVectorT=testCashFlowLegTenor.getCashFlowLeg()->getCashFlowLeg();
 	std::vector<cashflow>::iterator itT=cfVectorT.begin();
 	
 	cout<<"start date="<<startDate.toString()<<endl;
