@@ -18,15 +18,11 @@ namespace instruments {
 		BondPricer(){};
 		~BondPricer(){};
 						
-		virtual double getMPV();
+		virtual double getMPV(){return 0;}
 
 		virtual double getMPV(cashflowLeg* couponLeg,DiscountCurve* discountCurve);
 		
 		virtual double getParYield(cashflowLeg* couponLeg,DiscountCurve* discountCurve);
-
-	private: 
-		cashflowLeg* _couponLeg;
-		DiscountCurve* _discountCurve;	
 	};
 }
 #endif

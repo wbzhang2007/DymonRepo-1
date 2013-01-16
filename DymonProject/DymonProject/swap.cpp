@@ -21,8 +21,8 @@ Swap::Swap(date tradeDate, date maturityDate, double notional, double couponRate
 	setTradeDate(tradeDate);
 	setMaturityDate(maturityDate);
 
-	BuilderCashFlowLeg* fixLegs = new BuilderCashFlowLeg(enums::SWAP,tradeDate, maturityDate,couponRate,notional, paymentFreqFixLeg, fixLegCurr.getMarketEnum(),buildDirection);
-	BuilderCashFlowLeg* floatLegs = new BuilderCashFlowLeg(enums::SWAP,tradeDate, maturityDate,yc,notional, paymentFreqFloatingLeg, floatingLegCurr.getMarketEnum(), buildDirection);
+	BuilderCashFlowLeg* fixLegs = new BuilderCashFlowLeg(enums::SWAP, tradeDate, maturityDate, couponRate, notional, paymentFreqFixLeg, fixLegCurr.getMarketEnum(), buildDirection);
+	BuilderCashFlowLeg* floatLegs = new BuilderCashFlowLeg(enums::SWAP, tradeDate, maturityDate, yc ,notional, paymentFreqFloatingLeg, floatingLegCurr.getMarketEnum(), buildDirection);
 
 	_fixCashflowLeg=fixLegs->getCashFlowLeg();
 	_floatingCashflowLeg=floatLegs->getCashFlowLeg();

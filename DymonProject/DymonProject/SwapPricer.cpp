@@ -19,7 +19,7 @@ double SwapPricer::getMPVFixLeg(cashflowLeg* fixCashflowLeg,DiscountCurve* aDisc
 	for (;it!=cfVector.end();it++) {
 		cashflow aCF=*it;
 		date paymentDate=aCF.getPaymentDate();
-		sum+=aCF.getCouponAmount()*_pricingDiscountCurve->getDiscountFactor(paymentDate);
+		sum+=aCF.getNotional()*aCF.getAccuralFactor()*aCF.getCouponRate()*_pricingDiscountCurve->getDiscountFactor(paymentDate);
 	}
 
 	return sum;

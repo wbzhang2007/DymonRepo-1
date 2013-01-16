@@ -32,6 +32,9 @@ namespace instruments {
 		double getYTM(){return _YTM;}
 		enums::DayCountEnum getDayCount(){return _dayCount;}
 
+		void setDiscountCurve(DiscountCurve* bc){_bc=bc;}
+
+		virtual double getMPV();
 		void printCouponLeg();
 
 	private:

@@ -48,18 +48,18 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	LoadInitialData();
 	MarketData::getInstance()->buildAll();
-	//unitTest();
+	unitTest();
 
 	//DAO::SwaptionATMVolMatrixFileSource aSwaptionTest;
 	//aSwaptionTest.swaptionTest();
 	//DiscountCurve* yc = buildDiscountCurve();
 	//forwardStartingSwap(yc);
-	SwaptionTest();
+	//SwaptionTest();
 }		
 
 void unitTest(){	
-	TestDateUtil dateUtilTest;
-	dateUtilTest.runTest();	
+	//TestDateUtil dateUtilTest;
+	//dateUtilTest.runTest();	
 	//CashFlowTest();
     //CashFlowLegTest();
 	//TestNumerical numericalTest;
@@ -71,8 +71,8 @@ void unitTest(){
 	//buildCashFlowLegTest.runTest();
 	//TestOption optionTest;
 	//optionTest.runTest();
-	//TestDiscountCurve discountCurveTest;
-	//discountCurveTest.runTest();
+	TestDiscountCurve discountCurveTest;
+	discountCurveTest.runTest();
 	//TestSurface surfaceTest;
 	//surfaceTest.runTest();
 }

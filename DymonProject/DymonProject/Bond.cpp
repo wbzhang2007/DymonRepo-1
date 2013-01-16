@@ -67,3 +67,7 @@ double Bond::deriveDirtyPrice(){
 	double accrualFactor = dateUtil::getAccrualFactor(refStartDate,_tradeDate,refStartDate, refEndDate, _market.getDayCountBondConvention());
 	return _cleanPrice + _couponRate/_couponFreq*accrualFactor;
 }
+
+double Bond::getMPV(){
+	return BondPricer::getMPV(_couponLeg,_bc);
+}

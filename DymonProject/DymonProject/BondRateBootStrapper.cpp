@@ -46,7 +46,7 @@ double BondRateBootStrapper::numericalFunc(double x){
 		}else {
 			ithDF = std::get<1>(ai->interpolate(paymentDate));
 		}
-		derivedBondPrice = derivedBondPrice + ithDF*(_couponRate+(i==(couponLeg.size()-1)?100:0));
+		derivedBondPrice = derivedBondPrice + ithDF*(_couponRate+((i==(couponLeg.size()-1)?100:0)));
 	}
 	double priceDiff = derivedBondPrice - _bond.getDirtyPrice();
 
