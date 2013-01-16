@@ -1,29 +1,29 @@
 //created by Wang Jianwei on 01 Dec 2012
-#ifndef BondCurveBuilder_H
-#define BondCurveBuilder_H
+#ifndef BondDiscountCurveBuilder_H
+#define BondDiscountCurveBuilder_H
 #include "AbstractCurve.h"
 #include "DiscountCurve.h"
 #include "AbstractBuilder.h"
 #include "cashflow.h"
 #include "cashflowLeg.h"
-#include "BondCurve.h"
+#include "DiscountCurve.h"
 #include <vector>
 
 using namespace instruments;
 typedef tuple<date, double> point;
 
 namespace utilities{
-	class BondCurveBuilder: public AbstractBuilder{
+	class BondDiscountCurveBuilder: public AbstractBuilder{
 		
 	public:
 		
-		BondCurveBuilder():AbstractBuilder(){}
+		BondDiscountCurveBuilder():AbstractBuilder(){}
 
 		void init(Configuration* cfg);
 
-		BondCurve* build(Configuration* cfg);
+		DiscountCurve* build(Configuration* cfg);
 
-		void buildSection(BondCurve* yc);
+		void buildSection(DiscountCurve* yc);
 
 		Market getMarket(){return _market;}
 		void setMarket(Market market){_market = market;}

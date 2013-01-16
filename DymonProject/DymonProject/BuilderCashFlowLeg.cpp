@@ -24,11 +24,11 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(enums::Instrument instrument, date accrua
 	enums::DayRollEnum dayRollConvention = mkt.getDayRollConvention(instrument);
 	enums::DayRollEnum accrualAdjustConvention = mkt.getAccrualAdjustConvention(instrument);
 	accrualStartDate = dateUtil::getBizDateOffSet(accrualStartDate,mkt.getBusinessDaysAfterSpot(instrument),market);
+	int numOfMonthIncr=12/(paymentFreq==NaN?1:paymentFreq);
+	int i=0;
+	vector<cashflow> builtCashflowLeg;
 
 	if (buildDirection==1) {
-		int numOfMonthIncr=12/paymentFreq;
-		int i=0;
-		vector<cashflow> builtCashflowLeg;
 		while(dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*(i+1),accrualAdjustConvention,market,dateUtil::MONTH)<=accrualEndDate){
 			date calDateNewStart=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustConvention,market,dateUtil::MONTH);
 			date calDateNewEnd=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*(i+1),accrualAdjustConvention,market,dateUtil::MONTH);			
@@ -42,15 +42,9 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(enums::Instrument instrument, date accrua
 
 		if (dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustConvention,market,dateUtil::MONTH)!=accrualEndDate)
 			throw "Derived end date is not the same as indicated.";
-
-		_cashflowLeg=builtCashflowLeg;
 	}
 
 	if (buildDirection==-1) {
-		int numOfMonthIncr=12/paymentFreq;
-		int i=0;
-		vector<cashflow> builtCashflowLeg;
-
 		date nextCouponDate = dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*(i+1),accrualAdjustConvention,market,dateUtil::MONTH);
  		while(nextCouponDate>=accrualStartDate){
 
@@ -76,8 +70,9 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(enums::Instrument instrument, date accrua
 			cashflow aCashflow(couponRate,notional, calFixingDate,calPaymentDate,calDateNewStart, calDateNewEnd,market);
 			builtCashflowLeg.insert(builtCashflowLeg.begin(),aCashflow);
 		}
-		_cashflowLeg=builtCashflowLeg;
 	}
+
+	_cashflowLeg=builtCashflowLeg;
 }
 
 BuilderCashFlowLeg::BuilderCashFlowLeg(enums::Instrument instrument, date accrualStartDate, int tenorNumOfMonths,double couponRate,double notional, int paymentFreq, enums::MarketEnum market){
@@ -123,11 +118,11 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(enums::Instrument instrument, date accrua
 	enums::DayRollEnum dayRollConvention = mkt.getDayRollConvention(instrument);
 	enums::DayRollEnum accrualAdjustConvention = mkt.getAccrualAdjustConvention(instrument);
 	accrualStartDate = dateUtil::getBizDateOffSet(accrualStartDate,mkt.getBusinessDaysAfterSpot(instrument),market);
+	int numOfMonthIncr=12/(paymentFreq==NaN?1:paymentFreq);
+	int i=0;
+	vector<cashflow> builtCashflowLeg;
 
 	if (buildDirection==1) {
-		int numOfMonthIncr=12/paymentFreq;
-		int i=0;
-		vector<cashflow> builtCashflowLeg;
 		while(dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*(i+1),accrualAdjustConvention,market,dateUtil::MONTH)<=accrualEndDate){
 
 			date calDateNewStart=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustConvention,market,dateUtil::MONTH);
@@ -146,11 +141,7 @@ BuilderCashFlowLeg::BuilderCashFlowLeg(enums::Instrument instrument, date accrua
 		_cashflowLeg=builtCashflowLeg;
 	}
 
-	if (buildDirection==-1) {
-		int numOfMonthIncr=12/paymentFreq;
-		int i=0;
-		vector<cashflow> builtCashflowLeg;
-			
+	if (buildDirection==-1) {			
 		while(dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*(i+1),accrualAdjustConvention,market,dateUtil::MONTH)>=accrualStartDate){
 
 			date calDateNewStart=dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*(i+1),accrualAdjustConvention,market,dateUtil::MONTH);

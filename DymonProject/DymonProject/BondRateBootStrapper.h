@@ -7,38 +7,43 @@
 #include "Enums.h"
 #include "date.h"
 #include "Market.h"
+#include "bond.h"
 
 using namespace instruments;
 
 namespace utilities {
 	class BondRateBootStrapper: public AbstractBootStrapper<date>{
-		
+
 	public:
-		
+
 		typedef tuple<date, double> point;
 
-		void init(Configuration* cfg);
+		void init(Configuration* cfg){
+			AbstractBootStrapper<date>::init(cfg);
+		}
 
-		BondRateBootStrapper(point startPoint, date endDate, cashflow cashFlow, enums::interpolAlgo interpolAlgo,
-			enums::NumericAlgo numericAlgo, Market market, double bizDaysAfterSpotDF):AbstractBootStrapper(startPoint, endDate, interpolAlgo, numericAlgo){
-			_couponRate = cashFlow.getCouponRate();
-			_cashFlow = cashFlow;
-			_market = market;
-			_bizDaysAfterSpotDF = bizDaysAfterSpotDF;
-			_dayCountBond = market.getDayCountBondConvention();
+		BondRateBootStrapper(point startPoint, date endDate, Bond bond, DiscountCurve* curve, enums::interpolAlgo interpolAlgo, 
+			enums::NumericAlgo numericAlgo, Market market):AbstractBootStrapper(startPoint, endDate, interpolAlgo, numericAlgo){
+				_couponRate = bond.getCouponRate();
+				_bond = bond;
+				_curve = curve;
+				_market = market;
+				_dayCountBond = bond.getDayCount();
 		};
-				
+
 		AbstractInterpolator<date>* bootStrap();
 
 		double numericalFunc(double x);
 
 	private:
 
+		Bond _bond;
+		DiscountCurve* _curve;
 		double _couponRate;
 		Market _market;
-		cashflow _cashFlow;
-		double _bizDaysAfterSpotDF;
-		enums::DayCountEnum _dayCountBond;
+		enums::DayCountEnum _dayCount;
+
+		double BondRateBootStrapper::getTreasuryBillDiscountFactor();
 	};
 }
 #endif

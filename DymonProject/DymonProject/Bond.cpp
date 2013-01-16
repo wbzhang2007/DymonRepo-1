@@ -15,21 +15,24 @@ using namespace utilities;
 using namespace std;
 using namespace enums;
 
-Bond::Bond(Market market, date tradeDate, date maturityDate, double notional, double couponRate, BondCurve* bc, int couponFreq, bool rollAccuralDates, int buildDirection){
+Bond::Bond(Market market, date tradeDate, date maturityDate, double notional, double couponRate, DiscountCurve* bc, int couponFreq, bool rollAccuralDates, int buildDirection){
 	BaseBond(market, tradeDate, maturityDate, notional, couponRate, couponFreq, rollAccuralDates, buildDirection);
 	_bc=bc;
 };
 
-Bond::Bond(Market market, date tradeDate, date maturityDate, double couponRate, int couponFreq, Configuration* cfg, double cleanPrice){
-	int timeLineBuildDirection = std::stoi(cfg->getProperty("BondCurve."+market.getNameString()+".buildCashFlowDirection",false,"1"));
-	bool rollAccuralDates =  cfg->getProperty("BondCurve."+market.getNameString()+".rollAccuralDates",false,"0")=="0"?false:true;
+Bond::Bond(Market market, date tradeDate, date maturityDate, int tenorNumOfMonths, double couponRate, int couponFreq, Configuration* cfg, double cleanPrice, double YTM, enums::DayCountEnum dayCount){
+	int timeLineBuildDirection = std::stoi(cfg->getProperty("BondDiscountCurve."+market.getNameString()+".buildCashFlowDirection",false,"1"));
+	bool rollAccuralDates =  cfg->getProperty("BondDiscountCurve."+market.getNameString()+".rollAccuralDates",false,"0")=="0"?false:true;
 
 	BaseBond(market, tradeDate, maturityDate, 100, couponRate, couponFreq, rollAccuralDates, timeLineBuildDirection);
 	_cleanPrice = cleanPrice;
-	_dirtyPrice = deriveDirtyPrice();
+	_dirtyPrice = couponFreq==NaN?NaN:deriveDirtyPrice();
+	_tenorNumOfMonths = tenorNumOfMonths;
+	_YTM=YTM;
+	_dayCount=dayCount;
 }
 
-Bond::Bond(Market market, date tradeDate, int tenorNumOfMonths, double notional, double couponRate, BondCurve* bc, int couponFreq, bool rollAccuralDates){
+Bond::Bond(Market market, date tradeDate, int tenorNumOfMonths, double notional, double couponRate, DiscountCurve* bc, int couponFreq, bool rollAccuralDates){
 	
 	setTradeDate(tradeDate);
 	setMaturityDate(dateUtil::getEndDate(tradeDate,tenorNumOfMonths,market.getDayRollSwapConvention(),market.getMarketEnum(),dateUtil::MONTH));

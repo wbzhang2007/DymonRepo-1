@@ -238,9 +238,6 @@
     <ClInclude Include="CubicSplineInterpolator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BondCurve.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BondCurveBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>

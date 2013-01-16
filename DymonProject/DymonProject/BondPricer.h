@@ -4,7 +4,7 @@
 #include "Market.h"
 #include "date.h"
 #include "AbstractPricer.h"
-#include "BondCurve.h"
+#include "DiscountCurve.h"
 #include "cashflowLeg.h"
 
 using namespace std;
@@ -20,13 +20,13 @@ namespace instruments {
 						
 		virtual double getMPV();
 
-		virtual double getMPV(cashflowLeg* couponLeg,BondCurve* bondCurve);
+		virtual double getMPV(cashflowLeg* couponLeg,DiscountCurve* discountCurve);
 		
-		virtual double getParYield(cashflowLeg* couponLeg,BondCurve* bondCurve);
+		virtual double getParYield(cashflowLeg* couponLeg,DiscountCurve* discountCurve);
 
 	private: 
 		cashflowLeg* _couponLeg;
-		BondCurve* _bondCurve;	
+		DiscountCurve* _discountCurve;	
 	};
 }
 #endif

@@ -14,41 +14,50 @@
 
 using namespace utilities;
 
-typedef AbstractBootStrapper<date> super;
-
-void BondRateBootStrapper::init(Configuration* cfg){
-	super::init(cfg);
-}
-
 AbstractInterpolator<date>* BondRateBootStrapper::bootStrap(){
 	AbstractInterpolator<date>* ai;
-	enums::DayCountEnum dayCountCashConvention = _market.getDayCountCashConvention();
-	if (_bizDaysAfterSpotDF != NaN){
-		double accrualFactor = dateUtil::getAccrualFactor(_cashFlow.getAccuralStartDate(),_cashFlow.getAccuralEndDate(), dayCountCashConvention);
-		double discountFactor = (1/(1+accrualFactor*_couponRate))*_bizDaysAfterSpotDF;
-		ai = InterpolatorFactory<date>::getInstance()->getInterpolator(_startPoint, point(_endDate,discountFactor) , _interpolAlgo);
-	}else{
+	double discountFactor;
+	if (_bond.getCouponFreq()==NaN){
+		discountFactor = getTreasuryBillDiscountFactor();
+	}else {
 		AbstractNumerical<BondRateBootStrapper>* an = NumericalFactory<BondRateBootStrapper>::getInstance()->getNumerical(this,&BondRateBootStrapper::numericalFunc,_numericAlgo);
 		double previousVal = std::get<1>(_startPoint);
 		double lowerBound = abs(previousVal*(1-_plusMinus/100.0));
 		double upperBound = previousVal*(1+_plusMinus/100.0);
-		double discountFactor = an->findRoot(lowerBound,upperBound,_tolerance,_iterateCount);
-		ai = InterpolatorFactory<date>::getInstance()->getInterpolator(_startPoint, point(_endDate,discountFactor) , _interpolAlgo);
+		discountFactor = an->findRoot(lowerBound,upperBound,_tolerance,_iterateCount);
 	}
+	ai = InterpolatorFactory<date>::getInstance()->getInterpolator(_startPoint, point(_endDate,discountFactor) , _interpolAlgo);
 	return ai;
 }
 
-double BondRateBootStrapper::numericalFunc(double x){
+double BondRateBootStrapper::numericalFunc(double x){	
 	AbstractInterpolator<date>* ai = InterpolatorFactory<date>::getInstance()->getInterpolator(_startPoint, point(_endDate,x) , _interpolAlgo);
 
-	date bizDaysAfterSpotDate = _cashFlow.getAccuralStartDate();
-	double accrualFactorStart = dateUtil::getAccrualFactor(_cashFlow.getFixingDate(),_cashFlow.getAccuralStartDate(), _dayCountBond);
-	double accrualFactorEnd = dateUtil::getAccrualFactor(_cashFlow.getFixingDate(),_cashFlow.getAccuralEndDate(), _dayCountBond);
-	double accrualFactorMid = dateUtil::getAccrualFactor(_cashFlow.getAccuralStartDate(),_cashFlow.getAccuralEndDate(), _dayCountBond);
+	vector<cashflow> couponLeg = _bond.getCouponLeg()->getCashFlowLeg();
+	double derivedBondPrice = 0;
 
-	double startDF = std::get<1>(ai->interpolate(_cashFlow.getAccuralStartDate()));
-	double endDF = std::get<1>(ai->interpolate(_cashFlow.getAccuralEndDate()));
+	for( unsigned int i=0; i<couponLeg.size(); i++){
+		cashflow ithCashFlow = couponLeg[i];
+		date paymentDate = ithCashFlow.getPaymentDate();
+		date curveEndDate = std::get<0>(_startPoint);
+		double ithDF = 0;
+		if (paymentDate<=curveEndDate){
+			ithDF = _curve->getDiscountFactor(paymentDate);
+		}else {
+			ithDF = std::get<1>(ai->interpolate(paymentDate));
+		}
+		derivedBondPrice = derivedBondPrice + ithDF*_couponRate;
+	}
 
-	double shouldBeZero = (1/(1+_couponRate*accrualFactorMid))*startDF - endDF;
-	return shouldBeZero;
+	return derivedBondPrice - _bond.getDirtyPrice();
+}
+
+double BondRateBootStrapper::getTreasuryBillDiscountFactor(){
+	cashflow cashFlowAtMaturity = _bond.getCouponLeg()->getCashFlow(0);
+	date accrualStart = _bond.getTradeDate();
+	date accrualEnd = cashFlowAtMaturity.getAccuralEndDate();
+	date refStart = cashFlowAtMaturity.getAccuralStartDate();
+	date refEnd = accrualEnd;
+	double accrualFactor = dateUtil::getAccrualFactor(accrualStart, accrualEnd, refStart, refEnd, _dayCount);
+	return exp(-accrualFactor*_bond.getCleanPrice());
 }

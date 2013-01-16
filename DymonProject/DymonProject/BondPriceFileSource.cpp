@@ -64,10 +64,12 @@ void BondPriceFileSource::retrieveRecord(){
 		date maturityDate(maturityStr);
 		date tradeDate=dateUtil::getToday();
 		double couponRate = std::stod(db.at(i).at(2));
-		int couponFreq=std::stoi(db.at(i).at(3));
+		int couponFreq=db.at(i).at(3)=="NaN"?NaN:std::stoi(db.at(i).at(3));
 		double cleanPrice = std::stod(db.at(i).at(4));
 		enum::DayCountEnum dayCount = EnumHelper::getDayCountEnum(db.at(i).at(5));
-		Bond tempBond(market,tradeDate,maturityDate,couponRate,couponFreq,Configuration::getInstance(),cleanPrice);
+		double YTM = std::stod(db.at(i).at(6));
+
+		Bond tempBond(market,tradeDate,maturityDate,bondTenorNumOfMonths,couponRate,couponFreq,Configuration::getInstance(),cleanPrice,YTM,dayCount);
 		temp.insert(std::make_pair(maturityDate.getJudianDayNumber(),tempBond));	
 	}
 	bondRateMap.insert(std::make_pair(market,temp));

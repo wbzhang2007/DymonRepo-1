@@ -99,7 +99,6 @@
     <ClInclude Include="AbstractTest.h" />
     <ClInclude Include="Bisection.h" />
     <ClInclude Include="bond.h" />
-    <ClInclude Include="BondCurve.h" />
     <ClInclude Include="BondCurveBuilder.h" />
     <ClInclude Include="BondPriceFileSource.h" />
     <ClInclude Include="bondpricer.h" />

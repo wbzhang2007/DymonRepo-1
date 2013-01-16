@@ -17,7 +17,14 @@ namespace instruments {
 	cashflowLeg::cashflowLeg(vector<cashflow> cashflowLeg) {
 		setCashFlowLeg(cashflowLeg);
 	}
-	
+
+	cashflow cashflowLeg::getCashFlow(int index){
+		if (index<0||index>=_cashflowLeg.size())
+			throw "Index out of range!";
+
+		return _cashflowLeg[index];
+	}
+
 	vector<cashflow> cashflowLeg::getCashFlowLeg() {
 		return _cashflowLeg;
 	}
