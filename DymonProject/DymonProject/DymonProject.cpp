@@ -13,7 +13,7 @@
 #include "TestNumerical.h"
 #include "TestInterpolator.h"
 #include "TestDateUtil.h"
-#include "DiscountCurveBuilder.h"
+#include "SwapCurveBuilder.h"
 #include "DiscountCurve.h"
 #include "LinearInterpolator.h"
 #include "TestBuildCashFlowLeg.h"
@@ -47,6 +47,7 @@ void forwardStartingSwap(DiscountCurve* yc);
 int _tmain(int argc, _TCHAR* argv[])
 {
 	LoadInitialData();
+	MarketData::getInstance()->buildAll();
 	//unitTest();
 
 	//DAO::SwaptionATMVolMatrixFileSource aSwaptionTest;
@@ -77,7 +78,6 @@ void unitTest(){
 }
 
 void SwaptionTest(){
-	MarketData::getInstance()->buildAll();
 	SwaptionVolCube* svc = MarketData::getInstance()->getSwaptionVolCube();
 	cout<<svc->getVol(0,12,12)<<endl;
 	cout<<svc->getVol(0,120,12)<<endl;
@@ -279,7 +279,7 @@ void SwapTest() {
 
 	typedef tuple<date, double> point;
 
-	DiscountCurveBuilder* builder = new DiscountCurveBuilder();
+	SwapCurveBuilder* builder = new SwapCurveBuilder();
 	builder->init(Configuration::getInstance());
 	DiscountCurve* yc = builder->build(NULL);
 

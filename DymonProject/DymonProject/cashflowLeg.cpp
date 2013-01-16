@@ -18,7 +18,7 @@ namespace instruments {
 		setCashFlowLeg(cashflowLeg);
 	}
 
-	cashflow cashflowLeg::getCashFlow(int index){
+	cashflow cashflowLeg::getCashFlow(unsigned int index){
 		if (index<0||index>=_cashflowLeg.size())
 			throw "Index out of range!";
 

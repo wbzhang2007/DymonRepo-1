@@ -1,6 +1,6 @@
 //created by Wang Jianwei on 01 Dec 2012
-#ifndef BondDiscountCurveBuilder_H
-#define BondDiscountCurveBuilder_H
+#ifndef BondCurveBuilder_H
+#define BondCurveBuilder_H
 #include "AbstractCurve.h"
 #include "DiscountCurve.h"
 #include "AbstractBuilder.h"
@@ -13,11 +13,11 @@ using namespace instruments;
 typedef tuple<date, double> point;
 
 namespace utilities{
-	class BondDiscountCurveBuilder: public AbstractBuilder{
+	class BondCurveBuilder: public AbstractBuilder{
 		
 	public:
 		
-		BondDiscountCurveBuilder():AbstractBuilder(){}
+		BondCurveBuilder():AbstractBuilder(){}
 
 		void init(Configuration* cfg);
 

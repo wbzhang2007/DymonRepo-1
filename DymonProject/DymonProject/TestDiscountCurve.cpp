@@ -1,6 +1,6 @@
 //created by Wang Jianwei on 1 Dec 2012
 #include "TestDiscountCurve.h"
-#include "DiscountCurveBuilder.h"
+#include "SwapCurveBuilder.h"
 #include "DiscountCurve.h"
 #include <string>
 #include <sstream>
@@ -29,7 +29,7 @@ void TestDiscountCurve::discountCurveTestSuit(){
 void TestDiscountCurve::swapRateTest(enums::MarketEnum market,enums::interpolAlgo interpolAlgo){
 	cout<<"\n******** Discount Curve Test using interpolation method ["<<interpolAlgo<<"] ********"<<endl;
 
-	DiscountCurveBuilder* builder = new DiscountCurveBuilder();
+	SwapCurveBuilder* builder = new SwapCurveBuilder();
 	//builder->init(Configuration::getInstance());
 	builder->setMarket(Market(market));
 	builder->setBizDaysAfterSpot(2);

@@ -14,16 +14,16 @@ using namespace utilities;
 typedef AbstractBuilder super;
 typedef tuple<date, double> point;
 
-void BondDiscountCurveBuilder::init(Configuration* cfg){
+void BondCurveBuilder::init(Configuration* cfg){
 	super::init(cfg);
 	
 	_market = Market(EnumHelper::getCcyEnum("USD"));
 	_curveStartDate = dateUtil::dayRollAdjust(dateUtil::getToday(),enums::Following,_market.getMarketEnum());
-	_interpolAlgo = EnumHelper::getInterpolAlgo(cfg->getProperty("BondDiscountCurve"+_market.getNameString()+"interpol",false,"CUBIC"));
-	_numericalAlgo = EnumHelper::getNumericalAlgo(cfg->getProperty("BondDiscountCurve"+_market.getNameString()+"numerical",false,"BISECTION"));
+	_interpolAlgo = EnumHelper::getInterpolAlgo(cfg->getProperty("BondDiscountCurve."+_market.getNameString()+".interpol",false,"LINEAR"));
+	_numericalAlgo = EnumHelper::getNumericalAlgo(cfg->getProperty("BondDiscountCurve."+_market.getNameString()+".numerical",false,"BISECTION"));
 }
 
-DiscountCurve* BondDiscountCurveBuilder::build(Configuration* cfg){
+DiscountCurve* BondCurveBuilder::build(Configuration* cfg){
 	if (cfg!=NULL) init(cfg);
 	DiscountCurve* bc = new DiscountCurve();
 	buildSection(bc);
@@ -31,15 +31,16 @@ DiscountCurve* BondDiscountCurveBuilder::build(Configuration* cfg){
 }
 
 
-void BondDiscountCurveBuilder::buildSection(DiscountCurve* dc){
+void BondCurveBuilder::buildSection(DiscountCurve* dc){
 	point lineStartPoint(_curveStartDate,1);
 	_curvePointer = lineStartPoint;
 	map<long,Bond> rateMap = RecordHelper::getInstance()->getBondRateMap()[enums::USD];
 	for (map<long,Bond>::iterator it=rateMap.begin(); it != rateMap.end(); it++ ){
 		Bond bond = (*it).second;
 		int numOfNights = (int) (*it).first;
-		date paymentDate = bond.getMaturityDate();
-		BondRateBootStrapper bondBS(_curvePointer, paymentDate, bond, dc, _interpolAlgo, _numericalAlgo, _market);
+		vector<cashflow> couponLeg = bond.getCouponLeg()->getCashFlowLeg();
+		date lastPaymentDate = couponLeg[couponLeg.size()-1].getPaymentDate();
+		BondRateBootStrapper bondBS(_curvePointer, lastPaymentDate, bond, dc, _interpolAlgo, _numericalAlgo, _market);
 		bondBS.init(Configuration::getInstance());
 		AbstractInterpolator<date>* lineSection = bondBS.bootStrap();
 		dc->insertLineSection(lineSection);

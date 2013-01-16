@@ -28,7 +28,7 @@ namespace utilities {
 				_bond = bond;
 				_curve = curve;
 				_market = market;
-				_dayCountBond = bond.getDayCount();
+				_dayCount = bond.getDayCount();
 		};
 
 		AbstractInterpolator<date>* bootStrap();

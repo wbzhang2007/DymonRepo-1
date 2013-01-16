@@ -22,7 +22,7 @@ AbstractInterpolator<date>* BondRateBootStrapper::bootStrap(){
 	}else {
 		AbstractNumerical<BondRateBootStrapper>* an = NumericalFactory<BondRateBootStrapper>::getInstance()->getNumerical(this,&BondRateBootStrapper::numericalFunc,_numericAlgo);
 		double previousVal = std::get<1>(_startPoint);
-		double lowerBound = abs(previousVal*(1-_plusMinus/100.0));
+		double lowerBound = 0;//abs(previousVal*(1-_plusMinus/100.0));
 		double upperBound = previousVal*(1+_plusMinus/100.0);
 		discountFactor = an->findRoot(lowerBound,upperBound,_tolerance,_iterateCount);
 	}
@@ -39,17 +39,18 @@ double BondRateBootStrapper::numericalFunc(double x){
 	for( unsigned int i=0; i<couponLeg.size(); i++){
 		cashflow ithCashFlow = couponLeg[i];
 		date paymentDate = ithCashFlow.getPaymentDate();
-		date curveEndDate = std::get<0>(_startPoint);
+		date lastDateOnExistingCurve = std::get<0>(_startPoint);
 		double ithDF = 0;
-		if (paymentDate<=curveEndDate){
+		if (paymentDate<=lastDateOnExistingCurve){
 			ithDF = _curve->getDiscountFactor(paymentDate);
 		}else {
 			ithDF = std::get<1>(ai->interpolate(paymentDate));
 		}
-		derivedBondPrice = derivedBondPrice + ithDF*_couponRate;
+		derivedBondPrice = derivedBondPrice + ithDF*(_couponRate+(i==(couponLeg.size()-1)?100:0));
 	}
+	double priceDiff = derivedBondPrice - _bond.getDirtyPrice();
 
-	return derivedBondPrice - _bond.getDirtyPrice();
+	return priceDiff;
 }
 
 double BondRateBootStrapper::getTreasuryBillDiscountFactor(){
