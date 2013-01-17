@@ -63,8 +63,8 @@ void BondPriceFileSource::retrieveRecord(){
 		string maturityStr = db.at(i).at(1);
 		date maturityDate(maturityStr);
 		date tradeDate=dateUtil::getToday();
-		double couponRate = std::stod(db.at(i).at(2))/100;
 		int couponFreq=db.at(i).at(3)=="NaN"?NaN:std::stoi(db.at(i).at(3));
+		double couponRate = std::stod(db.at(i).at(2))/(couponFreq==NaN?1:couponFreq)/100;
 		double cleanPrice = std::stod(db.at(i).at(4));
 		enum::DayCountEnum dayCount = EnumHelper::getDayCountEnum(db.at(i).at(5));
 		double YTM = std::stod(db.at(i).at(6));
