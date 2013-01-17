@@ -9,8 +9,8 @@ double BondPricer::getMPV(cashflowLeg* couponLeg,DiscountCurve* discountCurve){
 		cashflow coupon = couponLegVec[i];
 		date paymentDate = coupon.getPaymentDate();
 		double dcf = discountCurve->getDiscountFactor(paymentDate);
-		double couponAmount = coupon.getCouponRate();
-		double cashFlowAmt = couponAmount +((i==(couponLegVec.size()-1))?100:0);
+		double couponAmount = coupon.getCouponRate()*coupon.getNotional();
+		double cashFlowAmt = couponAmount +((i==(couponLegVec.size()-1))?coupon.getNotional():0);
 		MPV = MPV +	cashFlowAmt*dcf;
 	}
 	return MPV;

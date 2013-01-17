@@ -46,7 +46,9 @@ double BondRateBootStrapper::numericalFunc(double x){
 		}else {
 			ithDF = std::get<1>(ai->interpolate(paymentDate));
 		}
-		derivedBondPrice = derivedBondPrice + ithDF*(_couponRate+((i==(couponLeg.size()-1)?100:0)));
+		double ithCouponAmt = ithDF*_couponRate*ithCashFlow.getNotional();
+		double ithCashFlowAmt = ithCouponAmt + ithDF*(i==(couponLeg.size()-1)?ithCashFlow.getNotional():0);
+		derivedBondPrice = derivedBondPrice + ithCashFlowAmt;
 	}
 	double priceDiff = derivedBondPrice - _bond.getDirtyPrice();
 
@@ -60,5 +62,5 @@ double BondRateBootStrapper::getTreasuryBillDiscountFactor(){
 	date refStart = cashFlowAtMaturity.getAccuralStartDate();
 	date refEnd = accrualEnd;
 	double accrualFactor = dateUtil::getAccrualFactor(accrualStart, accrualEnd, refStart, refEnd, _dayCount);
-	return exp(-accrualFactor*_bond.getCleanPrice());
+	return exp(-accrualFactor*_bond.getCleanPrice()/100);
 }

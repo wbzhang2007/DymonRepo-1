@@ -54,6 +54,11 @@ namespace utilities {
 
 		long operator - (date d) { return _judianDayNumber - d.getJudianDayNumber(); }
 		
+		date operator + (int dayIncrement){
+			date incrementedDate(_judianDayNumber+dayIncrement);
+			return incrementedDate;
+		}
+
 	private:
 
 		int _year;
