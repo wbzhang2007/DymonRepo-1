@@ -18,9 +18,9 @@ namespace instruments {
 
 		Bond(){};
 		~Bond(){};
-		Bond(Market market, date tradeDate, date maturityDate, double notional, double couponRate, DiscountCurve* yc, int couponFreq, bool rollAccuralDates, int buildDirection);
-		Bond(Market market, date tradeDate, int tenorNumOfMonths, double notional, double couponRate, DiscountCurve* yc, int couponFreq, bool rollAccuralDates);
-		Bond(Market market, date tradeDate, date maturityDate, int tenorNumOfMonths, double couponRate, int couponFreq, Configuration* cfg, double cleanPrice, double YTM, enums::DayCountEnum dayCount);
+		Bond(Market market, date tradeDate, date issueDate, date maturityDate, double notional, double couponRate, DiscountCurve* yc, int couponFreq, bool rollAccuralDates, int buildDirection);
+		Bond(Market market, date tradeDate, date issueDate, int tenorNumOfMonths, double notional, double couponRate, DiscountCurve* yc, int couponFreq, bool rollAccuralDates);
+		Bond(Market market, date tradeDate, date issueDate, date maturityDate, date firstCouponDate, int tenorNumOfMonths, double couponRate, int couponFreq, Configuration* cfg, double cleanPrice, enums::DayCountEnum dayCount);
 
 		cashflowLeg* getCouponLeg(){return _couponLeg;}
 		DiscountCurve* getBondDiscountCurve(){return _bc;}
@@ -39,7 +39,7 @@ namespace instruments {
 
 	private:
 
-		void BaseBond(Market market, date tradeDate, date maturityDate, double notional, double couponRate, int couponFreq, bool rollAccuralDates, int buildDirection);
+		void BaseBond(Market market, date issueDate, date tradeDate, date maturityDate, double notional, double couponRate, int couponFreq, bool rollAccuralDates, int buildDirection);
 		double deriveDirtyPrice();
 
 		cashflowLeg* _couponLeg;

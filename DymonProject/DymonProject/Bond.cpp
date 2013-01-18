@@ -15,26 +15,26 @@ using namespace utilities;
 using namespace std;
 using namespace enums;
 
-Bond::Bond(Market market, date tradeDate, date maturityDate, double notional, double couponRate, DiscountCurve* bc, int couponFreq, bool rollAccuralDates, int buildDirection){
-	BaseBond(market, tradeDate, maturityDate, notional, couponRate, couponFreq, rollAccuralDates, buildDirection);
+Bond::Bond(Market market, date tradeDate, date issueDate, date maturityDate, double notional, double couponRate, DiscountCurve* bc, int couponFreq, bool rollAccuralDates, int buildDirection){
+	BaseBond(market, tradeDate, issueDate, maturityDate, notional, couponRate, couponFreq, rollAccuralDates, buildDirection);
 	_bc=bc;
 };
 
-Bond::Bond(Market market, date tradeDate, date maturityDate, int tenorNumOfMonths, double couponRate, int couponFreq, Configuration* cfg, double cleanPrice, double YTM, enums::DayCountEnum dayCount){
+Bond::Bond(Market market, date tradeDate, date issueDate, date maturityDate, date firstCouponDate, int tenorNumOfMonths, double couponRate, int couponFreq, Configuration* cfg, double cleanPrice, enums::DayCountEnum dayCount){
 	int timeLineBuildDirection = std::stoi(cfg->getProperty("BondDiscountCurve."+market.getNameString()+".buildCashFlowDirection",false,"1"));
 	bool rollAccuralDates =  cfg->getProperty("BondDiscountCurve."+market.getNameString()+".rollAccuralDates",false,"0")=="0"?false:true;
 
-	BaseBond(market, tradeDate, maturityDate, 100, couponRate, couponFreq, rollAccuralDates, timeLineBuildDirection);
+	BaseBond(market, tradeDate, issueDate, maturityDate, 100, couponRate, couponFreq, rollAccuralDates, timeLineBuildDirection);
 	_cleanPrice = cleanPrice;
 	_dirtyPrice = couponFreq==NaN?NaN:deriveDirtyPrice();
 	_tenorNumOfMonths = tenorNumOfMonths;
-	_YTM=YTM;
 	_dayCount=dayCount;
 }
 
-Bond::Bond(Market market, date tradeDate, int tenorNumOfMonths, double notional, double couponRate, DiscountCurve* bc, int couponFreq, bool rollAccuralDates){
+Bond::Bond(Market market, date tradeDate, date issueDate, int tenorNumOfMonths, double notional, double couponRate, DiscountCurve* bc, int couponFreq, bool rollAccuralDates){
 	
 	setTradeDate(tradeDate);
+	setIssueDate(issueDate);
 	setMaturityDate(dateUtil::getEndDate(tradeDate,tenorNumOfMonths,market.getDayRollSwapConvention(),market.getMarketEnum(),dateUtil::MONTH));
 
 	BuilderCashFlowLeg* couponLegs = new BuilderCashFlowLeg(enums::BOND,tradeDate, tenorNumOfMonths,couponRate,notional, couponFreq, market.getMarketEnum());
@@ -47,9 +47,10 @@ Bond::Bond(Market market, date tradeDate, int tenorNumOfMonths, double notional,
 	_tenorNumOfMonths=tenorNumOfMonths;	
 }
 
-void Bond::BaseBond(Market market, date tradeDate, date maturityDate, double notional, double couponRate, int couponFreq, bool rollAccuralDates, int buildDirection){
+void Bond::BaseBond(Market market, date tradeDate, date issueDate, date maturityDate, double notional, double couponRate, int couponFreq, bool rollAccuralDates, int buildDirection){
 
 	setTradeDate(tradeDate);
+	setIssueDate(issueDate);
 	setMaturityDate(maturityDate);
 
 	BuilderCashFlowLeg* couponLegs = new BuilderCashFlowLeg(enums::BOND,tradeDate, maturityDate,couponRate,notional, couponFreq, market.getMarketEnum(),buildDirection);
