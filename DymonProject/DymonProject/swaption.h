@@ -39,12 +39,14 @@ namespace instruments {
 
 		Swap* getSwap(){ return _underlyingSwap; }
 
+		virtual double getAnnuityMonetizer( DiscountCurve* dc);
 		virtual double getMPV();
 
 	private:		
 
 		int _tenorInMonth;
 		Swap* _underlyingSwap;
+		
 
 		void BaseSwaption(Market market, PayReceive PayReceiveInd, int expiryInMonth, double strikeInBps, SwaptionVolCube* vc, DiscountCurve* dc, Swap* underlyingSwap);
 	};
