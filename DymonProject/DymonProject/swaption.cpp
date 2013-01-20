@@ -50,7 +50,20 @@ void Swaption::BaseSwaption(Market market, PayReceive PayReceiveInd, int expiryI
 	BaseOption(market, tradeDate, expiryInMonth, PayReceiveInd == Payer?Call:Put, forwardParRate, strikeInDecimal, vol, dc);
 }
 
+double Swaption::getAnnuityMonetizer( DiscountCurve* dc) {
+
+	cashflowLeg* swapFixCashflowLeg= _underlyingSwap->getCashFlowVectorFix();
+	vector<date> accrualDates=swapFixCashflowLeg->getAccuralDates();
+	double sum=0.0;
+	for (vector<date>::iterator it=accrualDates.begin();it!=accrualDates.end();it++) {
+		sum+=dateUtil::getAccrualFactor(dateUtil::getToday(),*it,_underlyingSwap->getFixLegCurr().getDayCountSwapConvention())*(dc->getDiscountFactor(*it));
+	}
+
+	return sum;
+}
+
 double Swaption::getMPV(){
-	return blackFormula(_callPutFlag, _S, _K, _vol, _discountFactor, _expiryInMonth/12);
+	DiscountCurve* dc = MarketData::getInstance()->getSwapDiscountCurve();
+	return blackFormula(_callPutFlag, _S, _K, _vol, _discountFactor, _expiryInMonth/12)*getAnnuityMonetizer(dc);
 }
 
