@@ -20,8 +20,10 @@ using namespace instruments;
 
 
 void SwaptionVolFileSource::init(Configuration* cfg){
-	_fileName = cfg->getProperty("swaptionVolCube.usd.file",true,"");
-	_persistDir = cfg->getProperty("swaptionVolCube.usd.path",false,"");
+	
+	Market market(EnumHelper::getCcyEnum("USD"));
+	_fileName = cfg->getProperty("swaptionVolCube."+market.getNameString()+".file",true,"");
+	_persistDir = cfg->getProperty("swaptionVolCube."+market.getNameString()+".path",false,"");
 	AbstractFileSource::init(cfg);
 }
 
@@ -67,7 +69,7 @@ void SwaptionVolFileSource::retrieveRecord(){
 					optionExpiryInMonth=std::stoi(aCell.substr(0,aCell.find(" ")))*12;
 				}
 
-				double vol=db.at(i).at(j).compare("")==0?NaN:std::stod(db.at(i).at(j));
+				double vol=db.at(i).at(j).compare("")==0?NaN:std::stod(db.at(i).at(j))/100;
 				double strike=db.at(i+1).at(j).compare("")==0?NaN:std::stod(db.at(i+1).at(j));
 				int fSwapTenorInMonth=std::stoi(topRowCell.substr(0,topRowCell.find(" ")))*12;
 
@@ -83,8 +85,8 @@ void SwaptionVolFileSource::retrieveRecord(){
 		}
 	}
 
-	cout <<"numofRows="<<db.size()<<endl;
-	cout <<"numOfCols="<<db.at(0).size()<<endl;
+	/*cout <<"numofRows="<<db.size()<<endl;
+	cout <<"numOfCols="<<db.at(0).size()<<endl;*/
 
 	tempSwaptionCubeMap.insert(std::make_pair(strikeDiffATM,volSurfaceMap));
 	RecordHelper::getInstance()->setSwaptionATMStrikeMap(tempSwaptionATMStrikeMap);
@@ -92,42 +94,6 @@ void SwaptionVolFileSource::retrieveRecord(){
 	_inFile.close();
 	//DAO::SwaptionVolFileSource::swaptionTest();
 }
-
-void SwaptionVolFileSource::readCSV(std::ifstream &input, CSVDatabase &db) {
-	String csvLine;
-	// read every line from the stream
-	while( std::getline(input, csvLine) ){
-		std::istringstream csvStream(csvLine);
-		CSVRow csvRow;
-		String csvCol;
-		// read every element from the line that is seperated by commas
-		// and put it into the vector or strings
-		while( std::getline(csvStream, csvCol, ',') )
-			csvRow.push_back(csvCol);
-		db.push_back(csvRow);
-	}
-
-};
-
-void SwaptionVolFileSource::display(const CSVRow& row) {
-	if(!row.size())
-		return;
-	CSVRowCI i=row.begin();
-	std::cout<<*(i++);
-	for(;i != row.end();++i)
-		std::cout<<','<<*i;
-};
-
-void SwaptionVolFileSource::display(const CSVDatabase& db) {
-	if(!db.size())
-		return;
-	CSVDatabaseCI i=db.begin();
-	for(; i != db.end(); ++i){
-		display(*i);
-		std::cout<<std::endl;
-	}	
-};
-
 
 int SwaptionVolFileSource::getStrikeDiffATM(string strikeStr){
 	std::regex bps ("(.*)bps");

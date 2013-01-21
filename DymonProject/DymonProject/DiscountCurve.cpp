@@ -11,14 +11,6 @@ using namespace std;
 typedef tuple<date, double> point;
 typedef AbstractCurve<date> super;
 
-void DiscountCurve::insertLineSection(AbstractInterpolator<date>* lineSection){
-	super::insertLineSection(lineSection);
-}
-
-double DiscountCurve::getValue(date date0){
-	return super::getValue(date0);
-}
-
 double DiscountCurve::getDiscountFactor(date date0){
 	return getValue(date0);
 }
@@ -30,5 +22,9 @@ double DiscountCurve::getFLiborRate(date forwardStartDate,date forwardEndDate,en
 }
 
 std::string DiscountCurve::toString(){
-	return "\nYield "+AbstractCurve::toString();
+	return "\nDiscount "+AbstractCurve::toString();
+}
+
+std::string DiscountCurve::toString(int interval){
+	return "\nDiscount "+AbstractCurve::toString(interval);
 }

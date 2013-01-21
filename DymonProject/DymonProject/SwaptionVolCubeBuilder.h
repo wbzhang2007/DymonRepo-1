@@ -5,10 +5,12 @@
 #include "SwaptionVolSurface.h"
 #include "SwaptionVolCube.h"
 #include "AbstractBuilder.h"
+#include "RecordHelper.h"
 #include "Market.h"
 #include <vector>
 
 using namespace instruments;
+using namespace utilities;
 
 namespace utilities{
 	class SwaptionVolCubeBuilder: public AbstractBuilder{
@@ -19,7 +21,7 @@ namespace utilities{
 
 		void init(Configuration* cfg);
 
-		SwaptionVolCube* build();
+		SwaptionVolCube* build(Configuration* cfg);
 
 		Market getMarket(){return _market;}
 		void setMarket(Market market){_market = market;}
@@ -32,6 +34,9 @@ namespace utilities{
 
 		Market _market;
 		enums::interpolAlgo _interpolAlgo;
+
+		SwaptionVolSurface* buildVolSurface(RecordHelper::SwaptionSurfaceMap volSurfaceMap);
+		AbstractCurve<double>* buildVolCurve(map<int,double> curveMap);
 	};
 }
 #endif

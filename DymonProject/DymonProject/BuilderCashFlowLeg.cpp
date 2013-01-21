@@ -16,232 +16,192 @@ using namespace Session;
 using namespace utilities;
 using namespace std;
 using namespace enums;
-
 using namespace instruments;
 
-BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,double couponRate,double notional, int paymentFreq, enums::MarketEnum market, int buildDirection){
+BuilderCashFlowLeg::BuilderCashFlowLeg(enums::Instrument instrument, date issueDate, date maturityDate, int tenorNumOfMonths, double couponRate, double notional, int paymentFreq, enums::MarketEnum market, int buildDirection){
 	
 	Market mkt(market);
-	enums::DayCountEnum dayCountSwapConvention = mkt.getDayCountSwapConvention();
-	enums::DayRollEnum dayRollSwapConvention = mkt.getDayRollSwapConvention();
-	enums::DayRollEnum accrualAdjustSwapConvention = mkt.getAccrualAdjustSwapConvention();
-	startDate = dateUtil::getBizDateOffSet(startDate,mkt.getBusinessDaysAfterSpot(),market);
+	enums::DayRollEnum dayRollConvention = mkt.getDayRollConvention(instrument);
+	enums::DayRollEnum accrualAdjustConvention = mkt.getAccrualAdjustConvention(instrument);
+	date accrualStartDate = dateUtil::getBizDateOffSet(issueDate,mkt.getBusinessDaysAfterSpot(instrument),market);
+	int numOfMonthIncr=12/(paymentFreq==NaN?1:paymentFreq);
+	int totalPaymentNum = paymentFreq==NaN?1:(int) (tenorNumOfMonths/12.0*paymentFreq);
+	int i=0;
+	vector<cashflow> cashflowVector;
 
 	if (buildDirection==1) {
-		int numOfMonthIncr=12/paymentFreq;
-		int i=0;
-		vector<cashflow> builtCashflowLeg;
-		while((dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH),maturityDate)>0)&&
-			(dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH),maturityDate)>=0)){
-			date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calDateNewEnd=dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);			
-			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
-			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
+		while(i<=totalPaymentNum-1){
+			date calDateNewStart=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustConvention,market,dateUtil::MONTH);
+			date calDateNewEnd=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*(i+1),accrualAdjustConvention,market,dateUtil::MONTH);			
+			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(instrument),market);
+			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollConvention,market);
 
-			cashflow aCashflow(couponRate,notional,calFixingDate,calPaymentDate,calDateNewStart, calDateNewEnd,market);
-			builtCashflowLeg.push_back(aCashflow);
+			cashflow aCashflow(couponRate, notional, calFixingDate, calPaymentDate, calDateNewStart, calDateNewEnd, market, true);
+			cashflowVector.push_back(aCashflow);
 			i++;
 		}
 
-		if ((dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*(i-1),accrualAdjustSwapConvention,market,dateUtil::MONTH),maturityDate)<0)
-			||(dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH),maturityDate)<0)) {
-
-			date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calDateNewEnd=dateUtil::dayRollAdjust(maturityDate,accrualAdjustSwapConvention,market);
-			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
-			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
-
-			cashflow aCashflow(couponRate,notional,calFixingDate,calPaymentDate,calDateNewStart,calDateNewEnd,market);
-			builtCashflowLeg.push_back(aCashflow);
+		// Adjust final cash flow in case its accrual end date missmatch with maturity
+		cashflow* lastCashFlow = &cashflowVector[cashflowVector.size()-1];
+		if (lastCashFlow->getAccuralEndDate()!=maturityDate){
+			lastCashFlow->setAccuralEndDate(maturityDate);
+			lastCashFlow->setPaymentDate(dateUtil::dayRollAdjust(maturityDate,dayRollConvention,market));
 		}
-		_cashflowLeg=cashflowLeg(builtCashflowLeg).getCashFlowLeg();
 	}
 
 	if (buildDirection==-1) {
-		int numOfMonthIncr=12/paymentFreq;
-		int i=0;
-		vector<cashflow> builtCashflowLeg;
+ 		while(i<=totalPaymentNum-1){
 
-		while((dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH))>0)&&
-			(dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH))>=0)){
+			date calDateNewStart=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*(i+1),accrualAdjustConvention,market,dateUtil::MONTH);
+			date calDateNewEnd=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustConvention,market,dateUtil::MONTH);
+			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(instrument),market);
+			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollConvention,market);
 
-			date calDateNewStart=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calDateNewEnd=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
-			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
-
-			cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
-			builtCashflowLeg.insert(builtCashflowLeg.begin(),aCashflow);
+			cashflow aCashflow(couponRate, notional, calFixingDate, calPaymentDate, calDateNewStart, calDateNewEnd, market, true);
+			cashflowVector.insert(cashflowVector.begin(),aCashflow);
 			i++;
 		}
-
-		if ((dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*(i-1),accrualAdjustSwapConvention,market,dateUtil::MONTH))<0)||
-			(dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH))<0)) {
-
-			date calDateNewStart=dateUtil::dayRollAdjust(startDate,accrualAdjustSwapConvention,market);
-			date calDateNewEnd=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
-			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
-
-			cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
-			builtCashflowLeg.insert(builtCashflowLeg.begin(),aCashflow);
+		
+		// Adjust final cash flow in case its accrual end date missmatch with maturity
+		cashflow* firstCashFlow = &cashflowVector[0];
+		if (firstCashFlow->getAccuralStartDate()!=issueDate){
+			firstCashFlow->setAccuralStartDate(issueDate);
+			firstCashFlow->setFixingDate(dateUtil::getBizDateOffSet(issueDate,-mkt.getBusinessDaysAfterSpot(instrument),market));
 		}
-		_cashflowLeg=cashflowLeg(builtCashflowLeg).getCashFlowLeg();
 	}
+
+	_cashflowLeg = new cashflowLeg(cashflowVector);
 }
 
-BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,double couponRate,double notional, int paymentFreq, enums::MarketEnum market){
+BuilderCashFlowLeg::BuilderCashFlowLeg(enums::Instrument instrument, date accrualStartDate, int tenorNumOfMonths,double couponRate,double notional, int paymentFreq, enums::MarketEnum market){
 
 	Market mkt(market);
-	enums::DayCountEnum dayCountSwapConvention = mkt.getDayCountSwapConvention();
-	enums::DayRollEnum dayRollSwapConvention = mkt.getDayRollSwapConvention();
-	enums::DayRollEnum accrualAdjustSwapConvention = mkt.getAccrualAdjustSwapConvention();
-	startDate = dateUtil::getBizDateOffSet(startDate,mkt.getBusinessDaysAfterSpot(),market);
+	enums::DayRollEnum dayRollConvention = mkt.getDayRollConvention(instrument);
+	enums::DayRollEnum accrualAdjustConvention = mkt.getAccrualAdjustConvention(instrument);
+	accrualStartDate = dateUtil::getBizDateOffSet(accrualStartDate,mkt.getBusinessDaysAfterSpot(instrument),market);
 
 	int numOfMonthIncr=12/paymentFreq;
 	int i=0;
-	vector<cashflow> builtCashflowLeg;
+	vector<cashflow> cashflowVector;
 
 	while((numOfMonthIncr*i<tenorNumOfMonths)&&(numOfMonthIncr*(i+1)<=tenorNumOfMonths)){
 
-		date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-		date calDateNewEnd=dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);			
-		date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
-		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
+		date calDateNewStart=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustConvention,market,dateUtil::MONTH);
+		date calDateNewEnd=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*(i+1),accrualAdjustConvention,market,dateUtil::MONTH);			
+		date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(instrument),market);
+		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollConvention,market);
 
-		cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
-		builtCashflowLeg.push_back(aCashflow);
+		cashflow aCashflow(couponRate, notional, calFixingDate, calPaymentDate, calDateNewStart, calDateNewEnd, market, true);
+		cashflowVector.push_back(aCashflow);
 		i++;
 	}
 
 	if ((numOfMonthIncr*(i-1)>tenorNumOfMonths)||(numOfMonthIncr*(i)>tenorNumOfMonths)) {
 
-		date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-		date calDateNewEnd=dateUtil::getEndDate(startDate,tenorNumOfMonths,accrualAdjustSwapConvention,market,dateUtil::MONTH);
+		date calDateNewStart=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustConvention,market,dateUtil::MONTH);
+		date calDateNewEnd=dateUtil::getEndDate(accrualStartDate,tenorNumOfMonths,accrualAdjustConvention,market,dateUtil::MONTH);
 
-		date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
-		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
-		cashflow aCashflow(couponRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
+		date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(instrument),market);
+		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollConvention,market);
+		cashflow aCashflow(couponRate, notional, calFixingDate, calPaymentDate, calDateNewStart, calDateNewEnd, market, true);
 
-		builtCashflowLeg.push_back(aCashflow);
+		cashflowVector.push_back(aCashflow);
 	}
-	_cashflowLeg=cashflowLeg(builtCashflowLeg).getCashFlowLeg();
+	_cashflowLeg = new cashflowLeg(cashflowVector);
 }
 
-BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, date maturityDate,DiscountCurve* yc,double notional, int paymentFreq, enums::MarketEnum market, int buildDirection){
+BuilderCashFlowLeg::BuilderCashFlowLeg(enums::Instrument instrument, date accrualStartDate, date accrualEndDate, int tenorNumOfMonths, DiscountCurve* yc,double notional, int paymentFreq, enums::MarketEnum market, int buildDirection){
 
 	Market mkt(market);
-	enums::DayCountEnum dayCountSwapConvention = mkt.getDayCountSwapConvention();
-	enums::DayRollEnum dayRollSwapConvention = mkt.getDayRollSwapConvention();
-	enums::DayRollEnum accrualAdjustSwapConvention = mkt.getAccrualAdjustSwapConvention();
-	startDate = dateUtil::getBizDateOffSet(startDate,mkt.getBusinessDaysAfterSpot(),market);
+	enums::DayRollEnum dayRollConvention = mkt.getDayRollConvention(instrument);
+	enums::DayRollEnum accrualAdjustConvention = mkt.getAccrualAdjustConvention(instrument);
+	accrualStartDate = dateUtil::getBizDateOffSet(accrualStartDate,mkt.getBusinessDaysAfterSpot(instrument),market);
+	int numOfMonthIncr=12/(paymentFreq==NaN?1:paymentFreq);
+	int i=0;
+	vector<cashflow> cashflowVector;
 
 	if (buildDirection==1) {
-		int numOfMonthIncr=12/paymentFreq;
-		int i=0;
-		vector<cashflow> builtCashflowLeg;
-		while((dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH),maturityDate)>0)&&
-			(dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH),maturityDate)>=0)){
+		while(dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*(i+1),accrualAdjustConvention,market,dateUtil::MONTH)<=accrualEndDate){
 
-			date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calDateNewEnd=dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);			
-			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
-			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
+			date calDateNewStart=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustConvention,market,dateUtil::MONTH);
+			date calDateNewEnd=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*(i+1),accrualAdjustConvention,market,dateUtil::MONTH);			
+			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(instrument),market);
+			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollConvention,market);
 
 			double FLiborRate=yc->getFLiborRate(calDateNewStart,calDateNewEnd,mkt.getDayCountSwapConvention());
-			cashflow aCashflow(FLiborRate,notional, calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
-			builtCashflowLeg.push_back(aCashflow);
+			cashflow aCashflow(FLiborRate, notional, calFixingDate, calPaymentDate, calDateNewStart, calDateNewEnd, market, true);
+			cashflowVector.push_back(aCashflow);
 			i++;
 		}
 
-		if ((dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*(i-1),accrualAdjustSwapConvention,market,dateUtil::MONTH),maturityDate)<0)
-			||(dateUtil::getBizDaysBetween(dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH),maturityDate)<0)) {
-			
-			date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calDateNewEnd=dateUtil::dayRollAdjust(maturityDate,accrualAdjustSwapConvention,market);
-			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
-			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
-
-			double FLiborRate=yc->getFLiborRate(calDateNewStart,calDateNewEnd,mkt.getDayCountSwapConvention());
-			cashflow aCashflow(FLiborRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
-			builtCashflowLeg.push_back(aCashflow);
-		}
-		_cashflowLeg=cashflowLeg(builtCashflowLeg).getCashFlowLeg();
+		if (dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustConvention,market,dateUtil::MONTH)!=accrualEndDate)
+			throw "Derived end date is not the same as indicated.";
 	}
 
-	if (buildDirection==-1) {
-		int numOfMonthIncr=12/paymentFreq;
-		
-		//copy_backward(FLiborRate.begin(),FLiborRate.end(),rFLiborRate.begin());
+	if (buildDirection==-1) {			
+		while(dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*(i+1),accrualAdjustConvention,market,dateUtil::MONTH)>=accrualStartDate){
 
-		int i=0;
-		vector<cashflow> builtCashflowLeg;
-			
-		while((dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH))>0)&&
-			(dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH))>=0)){
-
-			date calDateNewStart=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calDateNewEnd=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
-			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
+			date calDateNewStart=dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*(i+1),accrualAdjustConvention,market,dateUtil::MONTH);
+			date calDateNewEnd=dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*i,accrualAdjustConvention,market,dateUtil::MONTH);
+			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(instrument),market);
+			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollConvention,market);
 
 			double FLiborRate=yc->getFLiborRate(calDateNewStart,calDateNewEnd,mkt.getDayCountSwapConvention());
-			cashflow aCashflow(FLiborRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
-			builtCashflowLeg.insert(builtCashflowLeg.begin(),aCashflow);
+			cashflow aCashflow(FLiborRate, notional, calFixingDate, calPaymentDate, calDateNewStart, calDateNewEnd, market, true);
+			cashflowVector.insert(cashflowVector.begin(),aCashflow);
 			i++;
 		}
 
-		if ((dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*(i-1),accrualAdjustSwapConvention,market,dateUtil::MONTH))<0)||
-			(dateUtil::getBizDaysBetween(startDate,dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH))<0)) {
+		if (dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*i,accrualAdjustConvention,market,dateUtil::MONTH)>accrualStartDate) {
 
-			date calDateNewStart=dateUtil::dayRollAdjust(startDate,accrualAdjustSwapConvention,market);
-			date calDateNewEnd=dateUtil::getEndDate(maturityDate,-numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
-			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
+			date calDateNewStart=dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*(i+1),accrualAdjustConvention,market,dateUtil::MONTH);
+			//date calDateNewStart=dateUtil::dayRollAdjust(accrualStartDate,accrualAdjustConvention,market);
+			date calDateNewEnd=dateUtil::getEndDate(accrualEndDate,-numOfMonthIncr*i,accrualAdjustConvention,market,dateUtil::MONTH);
+			date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(instrument),market);
+			date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollConvention,market);
 
 			double FLiborRate=yc->getFLiborRate(calDateNewStart,calDateNewEnd,mkt.getDayCountSwapConvention());
-			cashflow aCashflow(FLiborRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd, market);
-			builtCashflowLeg.insert(builtCashflowLeg.begin(),aCashflow);
+			cashflow aCashflow(FLiborRate, notional, calFixingDate, calPaymentDate, calDateNewStart, calDateNewEnd, market, true);
+			cashflowVector.insert(cashflowVector.begin(),aCashflow);
 		}
-		_cashflowLeg=cashflowLeg(builtCashflowLeg).getCashFlowLeg();
 	}
+	_cashflowLeg = new cashflowLeg(cashflowVector);
 }
 
-BuilderCashFlowLeg::BuilderCashFlowLeg(date startDate, int tenorNumOfMonths,DiscountCurve* yc,double notional, int paymentFreq, enums::MarketEnum market){
+BuilderCashFlowLeg::BuilderCashFlowLeg(enums::Instrument instrument, date accrualStartDate, int tenorNumOfMonths,DiscountCurve* yc,double notional, int paymentFreq, enums::MarketEnum market){
 	
 	Market mkt(market);
-	enums::DayCountEnum dayCountSwapConvention = mkt.getDayCountSwapConvention();
-	enums::DayRollEnum dayRollSwapConvention = mkt.getDayRollSwapConvention();
-	enums::DayRollEnum accrualAdjustSwapConvention = mkt.getAccrualAdjustSwapConvention();
-	startDate = dateUtil::getBizDateOffSet(startDate,mkt.getBusinessDaysAfterSpot(),market);
+	enums::DayRollEnum dayRollConvention = mkt.getDayRollConvention(instrument);
+	enums::DayRollEnum accrualAdjustConvention = mkt.getAccrualAdjustConvention(instrument);
+	accrualStartDate = dateUtil::getBizDateOffSet(accrualStartDate,mkt.getBusinessDaysAfterSpot(instrument),market);
 
 	int numOfMonthIncr=12/paymentFreq;
 	int i=0;
-	vector<cashflow> builtCashflowLeg;
+	vector<cashflow> cashflowVector;
 
 	while((numOfMonthIncr*i<tenorNumOfMonths)&&(numOfMonthIncr*(i+1)<=tenorNumOfMonths)){
 
-		date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-		date calDateNewEnd=dateUtil::getEndDate(startDate,numOfMonthIncr*(i+1),accrualAdjustSwapConvention,market,dateUtil::MONTH);			
-		date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
-		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
+		date calDateNewStart=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustConvention,market,dateUtil::MONTH);
+		date calDateNewEnd=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*(i+1),accrualAdjustConvention,market,dateUtil::MONTH);			
+		date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(instrument),market);
+		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollConvention,market);
 
 		double FLiborRate=yc->getFLiborRate(calDateNewStart,calDateNewEnd,mkt.getDayCountSwapConvention());
-		cashflow aCashflow(FLiborRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
-		builtCashflowLeg.push_back(aCashflow);
+		cashflow aCashflow(FLiborRate, notional, calFixingDate, calPaymentDate, calDateNewStart, calDateNewEnd, market, true);
+		cashflowVector.push_back(aCashflow);
 		i++;
 	}
 
 	if ((numOfMonthIncr*(i-1)>tenorNumOfMonths)||(numOfMonthIncr*i>tenorNumOfMonths)) {
 
-		date calDateNewStart=dateUtil::getEndDate(startDate,numOfMonthIncr*i,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-		date calDateNewEnd=dateUtil::getEndDate(startDate,tenorNumOfMonths,accrualAdjustSwapConvention,market,dateUtil::MONTH);
-		date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(),market);
-		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollSwapConvention,market);
+		date calDateNewStart=dateUtil::getEndDate(accrualStartDate,numOfMonthIncr*i,accrualAdjustConvention,market,dateUtil::MONTH);
+		date calDateNewEnd=dateUtil::getEndDate(accrualStartDate,tenorNumOfMonths,accrualAdjustConvention,market,dateUtil::MONTH);
+		date calFixingDate=dateUtil::getBizDateOffSet(calDateNewStart,-mkt.getBusinessDaysAfterSpot(instrument),market);
+		date calPaymentDate=dateUtil::dayRollAdjust(calDateNewEnd,dayRollConvention,market);
 
 		double FLiborRate=yc->getFLiborRate(calDateNewStart,calDateNewEnd,mkt.getDayCountSwapConvention());
-		cashflow aCashflow(FLiborRate,notional,  calFixingDate, calPaymentDate,calDateNewStart, calDateNewEnd,market);
-		builtCashflowLeg.push_back(aCashflow);
+		cashflow aCashflow(FLiborRate, notional, calFixingDate, calPaymentDate, calDateNewStart, calDateNewEnd, market, true);
+		cashflowVector.push_back(aCashflow);
 	}
-	_cashflowLeg=cashflowLeg(builtCashflowLeg).getCashFlowLeg();
+	_cashflowLeg = new cashflowLeg(cashflowVector);
 }

@@ -3,10 +3,13 @@
 
 #include "date.h"
 #include "dateUtil.h"
+#include "fileUtil.h"
 #include <string>
 #include <sstream>
+#include "Constants.h"
 
 using namespace std;
+using namespace utilities;
 
 
 namespace utilities {
@@ -18,18 +21,26 @@ namespace utilities {
 		_year=year;
 		_month=month;
 		_day=day;
+		_isNull=false;
 		setJudianDayNumber();
 	}
-	
+
+	date::date(std::string dateStr){
+		vector<std::string> dayMonthYear = fileUtil::split(dateStr, '/');
+		_year=(unsigned short) std::stoul(dayMonthYear[2],NULL,0);
+		_month=(unsigned short) std::stoul(dayMonthYear[1],NULL,0);
+		_day=(unsigned short) std::stoul(dayMonthYear[0],NULL,0);
+		_isNull=false;
+		setJudianDayNumber();
+	}
+
 	date::date(long JDN){
 		unsigned short* yearMonthDay = dateUtil::getYearMonthDay(JDN);
 		_year = yearMonthDay[0];
 		_month = yearMonthDay[1];
 		_day = yearMonthDay[2];
 		_judianDayNumber = JDN;
-	}
-
-	date::~date(){
+		_isNull=false;
 	}
 
 	void date::setJudianDayNumber(){
@@ -74,7 +85,7 @@ namespace utilities {
 
 	string date::toString(){
 		std::stringstream ss (stringstream::in | stringstream::out);
-		ss<<getDay()<<"/"<<getMonth()<<"/"<<getYear()<<"-"<<_judianDayNumber;
+		ss<<getDay()<<"/"<<getMonth()<<"/"<<getYear();//"-"<<_judianDayNumber;
 		return ss.str();
 	}
 }

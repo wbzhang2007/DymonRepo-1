@@ -15,13 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ReadMe.txt" />
     <None Include="holiday.txt" />
     <None Include="instance.properties" />
-    <None Include="swapRate.txt" />
-    <None Include="deposit.txt" />
     <None Include="swaption_skew_USD.csv" />
-    <None Include="Market.txt" />
+    <None Include="MarketConvention.csv" />
+    <None Include="LiborRate.csv" />
+    <None Include="SwapRate.csv" />
+    <None Include="BondRate.csv" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -40,12 +40,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="deposit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="future.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="forward.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="bond.h">
@@ -198,9 +192,6 @@
     <ClInclude Include="DiscountCurve.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DiscountCurveBuilder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MathUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -234,6 +225,27 @@
     <ClInclude Include="Constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BondPriceFileSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CubicSplineInterpolator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bondpricer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BondRateBootStrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SwapCurveBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BondCurveBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -261,9 +273,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AbstractSession.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AbstractDao.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="fileUtil.cpp">
@@ -341,9 +350,6 @@
     <ClCompile Include="DiscountCurve.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DiscountCurveBuilder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TestDiscountCurve.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -369,6 +375,27 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MarketFileSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BondPriceFileSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BondCurveBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bond.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BondPricer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BondRateBootStrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SwapCurveBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -7,30 +7,45 @@
 #include <iterator>
 #include <iostream>
 #include <sstream>
+#include "Constants.h"
 
 using namespace utilities;
 using namespace std;
 using namespace enums;
 
 namespace instruments {
-	cashflowLeg::cashflowLeg() {
 
-	}
 	cashflowLeg::cashflowLeg(vector<cashflow> cashflowLeg) {
-		setCashFlowLeg(cashflowLeg);
+		setCashFlowVector(cashflowLeg);
 	}
-	cashflowLeg::~cashflowLeg() {
 
+	cashflow cashflowLeg::getCashFlow(unsigned int index){
+		if (index<0||index>=_cashflowLeg.size())
+			throw "Index out of range!";
+
+		return _cashflowLeg[index];
 	}
-		
+
+	int cashflowLeg::getFirstValidCashFlowIndex(){
+		for (unsigned int i=0;i<_cashflowLeg.size();i++){
+			if (_cashflowLeg[i].getIsValid())
+				return i;
+		}
+	}
+
+	int cashflowLeg::getCashFlowIndexForAccrualEnd(date accuralEndDate){
+		for (unsigned int i=0;i<_cashflowLeg.size();i++){
+			if (_cashflowLeg[i].getAccuralEndDate() == accuralEndDate)
+				return i;
+		}
+		return (int) NaN;
+	}
+
 	vector<cashflow> cashflowLeg::getCashFlowVector() {
 		return _cashflowLeg;
 	}
-	
-	cashflowLeg cashflowLeg::getCashFlowLeg() {
-		return _cashflowLeg;
-	}
-	void cashflowLeg::setCashFlowLeg(vector<cashflow> cashflowLeg) {
+
+	void cashflowLeg::setCashFlowVector(vector<cashflow> cashflowLeg) {
 		_cashflowLeg=cashflowLeg;
 	}
 
@@ -44,6 +59,16 @@ namespace instruments {
 		}
 
 		return aDates;
+	}
+
+	void cashflowLeg::markCashFlowValidity(date tradeDate){
+		for (unsigned int i=0;i<_cashflowLeg.size();i++){
+			cashflow cf = _cashflowLeg[i];
+			if (cf.getPaymentDate()>tradeDate)
+				cf.setIsValid(true);
+			else
+				cf.setIsValid(false);
+		}
 	}
 
 	void cashflowLeg::printCashFlowLeg() {
