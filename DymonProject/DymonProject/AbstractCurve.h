@@ -27,7 +27,9 @@ namespace utilities{
 
 		virtual double getValue(T xVal);
 
-		virtual void insertPoint(point aPoint);
+		point getCurveStartPoint();
+
+		point getCurveEndPoint();
 
 		void setLineSectionVector(std::vector<AbstractInterpolator<T>*>* lineSectionVector){
 			_lineSectionVector = lineSectionVector;		
@@ -37,11 +39,32 @@ namespace utilities{
 
 		virtual std::string toString();
 
+		virtual std::string toString(int interval);
+
 	private:
 
 		std::vector<AbstractInterpolator<T>*>* _lineSectionVector;
 
 	};
+
+	template<typename T>
+	tuple<T, double> AbstractCurve<T>::getCurveStartPoint(){
+		if (_lineSectionVector->size()>0){
+			AbstractInterpolator<T>* startLineSection = _lineSectionVector->at(0);
+			return startLineSection->getStartPoint();
+		}
+		throw "Curve is still empty.";
+	}
+
+	template<typename T>
+	tuple<T, double> AbstractCurve<T>::getCurveEndPoint(){
+		int curveSize = _lineSectionVector->size();
+		if (curveSize>0){
+			AbstractInterpolator<T>* endLineSection = _lineSectionVector->at(curveSize-1);
+			return endLineSection->getEndPoint();
+		}
+		throw "Curve is still empty.";
+	}
 
 	template<typename T>
 	void AbstractCurve<T>::insertLineSection(AbstractInterpolator<T>* lineSection){
@@ -54,11 +77,17 @@ namespace utilities{
 	}
 
 	template<typename T>
-	void AbstractCurve<T>::insertPoint(point aPoint){
-	}
-
-	template<typename T>
 	double AbstractCurve<T>::getValue(T xVal){
+		// xVal is smaller than the starting point of the curve.
+		if (xVal<std::get<0>(getCurveStartPoint())){
+			return std::get<1>(getCurveStartPoint());
+		}
+		
+		// xVal is larger than the ending point of the curve.
+		if (xVal>std::get<0>(getCurveEndPoint())){
+			return std::get<1>(getCurveEndPoint());
+		}
+
 		T startX, endX;
 		for (unsigned int i = 0; i<_lineSectionVector->size(); i++){
 			AbstractInterpolator<T>* currentLine = _lineSectionVector->at(i);
@@ -70,6 +99,7 @@ namespace utilities{
 				return std::get<1>(pointOnCurve);
 			}
 		}
+
 		throw "Point not found on curve for X value: ";
 	}
 
@@ -98,6 +128,21 @@ namespace utilities{
 		}
 		return ss.str();
 	}
+	
+	template<typename T>
+	string AbstractCurve<T>::toString(int interval){
+		std::stringstream ss (stringstream::in | stringstream::out);
+		ss << "Curve - Fixed interval ["<<interval<<"] \n";
+		T curveStartX = std::get<0>(getCurveStartPoint());
+		T curveEndX = std::get<0>(getCurveEndPoint());
+		while(curveStartX<curveEndX){
+			ss << "Point ["<<curveStartX << ", "<<getValue(curveStartX)<<"]; \n";
+			curveStartX = curveStartX + interval;
+		}
+			ss << "Point ["<<curveEndX << ", "<<getValue(curveStartX)<<"]; \n";
+		return ss.str();
+
+	}
 
 	template<>
 	inline bool AbstractCurve<date>::validateLineSections(){
@@ -113,6 +158,21 @@ namespace utilities{
 			}
 		}
 		return validationPass;
+	}
+
+	template<>
+	inline string AbstractCurve<date>::toString(int interval){
+		std::stringstream ss (stringstream::in | stringstream::out);
+		ss << "Curve - Fixed interval ["<<interval<<"] \n";
+		date curveStartX = std::get<0>(getCurveStartPoint());
+		date curveEndX = std::get<0>(getCurveEndPoint());
+		while(curveStartX<curveEndX){
+			ss << "Point ["<<curveStartX.toString() << ", "<<getValue(curveStartX)<<"]; \n";
+			curveStartX = curveStartX + interval;
+		}
+			ss << "Point ["<<curveEndX.toString() << ", "<<getValue(curveEndX)<<"]; \n";
+		return ss.str();
+
 	}
 }
 #endif

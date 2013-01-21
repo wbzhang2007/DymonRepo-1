@@ -31,11 +31,11 @@ namespace instruments {
 	public:
 		Swap(){};
 		~Swap(){};
-		Swap(date tradeDate, date maturityDate, double notional, double couponRate, DiscountCurve* yc, Market fixLegCurr, Market floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, int buildDirection);
+		Swap(date tradeDate, date maturityDate, int tenorNumOfMonths, double notional, double couponRate, DiscountCurve* yc, Market fixLegCurr, Market floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates, int buildDirection);
 		Swap(date tradeDate, int tenorNumOfMonths, double notional, double couponRate, DiscountCurve* yc, Market fixLegCurr, Market floatingLegCurr, int paymentFreqFixLeg, int paymentFreqFloatingLeg, bool rollAccuralDates);
 
-		cashflowLeg* getCashflowLegFix();
-		cashflowLeg* getCashflowLegFloat();
+		cashflowLeg* getCashFlowVectorFix();
+		cashflowLeg* getCashFlowVectorFloat();
 		DiscountCurve* getDiscountCurve();
 		Market getFixLegCurr();
 		Market getFloatLegCurr();
@@ -51,8 +51,6 @@ namespace instruments {
 		cashflowLeg* _fixCashflowLeg;
 		cashflowLeg* _floatingCashflowLeg;
 		DiscountCurve* _yc;
-		date _tradeDate;
-		date _expiryDate;
 		Market _fixLegCurr;
 		Market _floatingLegCurr;
 		int _paymentFreqFixLeg;

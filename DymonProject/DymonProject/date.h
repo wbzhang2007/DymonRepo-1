@@ -17,8 +17,9 @@ namespace utilities {
 		
 		date();
 		date(unsigned short year, unsigned short month, unsigned short day);
+		date::date(std::string dateStr);
 		date(long JDN);
-		~date();
+		~date(){};
 		int getYear();
 		int getMonth();
 		int getDay();
@@ -38,6 +39,8 @@ namespace utilities {
 			else
 				return 0;
 		}
+		
+		bool operator != (date d) {	return compare(d)!=0;}
 
 		bool operator == (date d) {	return !compare(d);}
 
@@ -51,11 +54,17 @@ namespace utilities {
 
 		long operator - (date d) { return _judianDayNumber - d.getJudianDayNumber(); }
 		
+		date operator + (int dayIncrement){
+			date incrementedDate(_judianDayNumber+dayIncrement);
+			return incrementedDate;
+		}
+
 	private:
 
 		int _year;
 		int _month;
 		int _day;
+		bool _isNull;
 		long _judianDayNumber;
 		void setJudianDayNumber();
 		

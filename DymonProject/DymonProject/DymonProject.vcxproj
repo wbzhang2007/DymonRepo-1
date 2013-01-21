@@ -75,12 +75,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="Market.txt" />
-    <None Include="deposit.txt" />
+    <None Include="BondRate.csv" />
     <None Include="holiday.txt" />
     <None Include="instance.properties" />
-    <None Include="ReadMe.txt" />
-    <None Include="swapRate.txt" />
+    <None Include="LiborRate.csv" />
+    <None Include="MarketConvention.csv" />
+    <None Include="SwapRate.csv" />
     <None Include="swaption_skew_USD.csv" />
   </ItemGroup>
   <ItemGroup>
@@ -98,12 +98,17 @@
     <ClInclude Include="AbstractTest.h" />
     <ClInclude Include="Bisection.h" />
     <ClInclude Include="bond.h" />
+    <ClInclude Include="BondCurveBuilder.h" />
+    <ClInclude Include="BondPriceFileSource.h" />
+    <ClInclude Include="bondpricer.h" />
+    <ClInclude Include="BondRateBootStrapper.h" />
     <ClInclude Include="BuilderCashFlowLeg.h" />
     <ClInclude Include="cashflow.h" />
     <ClInclude Include="cashflowLeg.h" />
     <ClInclude Include="configuration.h" />
     <ClInclude Include="ConfigurationFileSource.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="CubicSplineInterpolator.h" />
     <ClInclude Include="Market.h" />
     <ClInclude Include="AbstractFileSource.h" />
     <ClInclude Include="MarketFileSource.h" />
@@ -111,6 +116,7 @@
     <ClInclude Include="EnumHelper.h" />
     <ClInclude Include="FalsePosition.h" />
     <ClInclude Include="MathUtil.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="numericalfactory.h" />
     <ClInclude Include="OptionPricer.h" />
     <ClInclude Include="OvernightRateBootStrapper.h" />
@@ -128,7 +134,7 @@
     <ClInclude Include="TestNumerical.h" />
     <ClInclude Include="TestOption.h" />
     <ClInclude Include="EuropeanOption.h" />
-    <ClInclude Include="DiscountCurveBuilder.h" />
+    <ClInclude Include="SwapCurveBuilder.h" />
     <ClInclude Include="date.h" />
     <ClInclude Include="dateUtil.h" />
     <ClInclude Include="deposit.h" />
@@ -139,8 +145,6 @@
     <ClInclude Include="RecordHelper.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="fileUtil.h" />
-    <ClInclude Include="forward.h" />
-    <ClInclude Include="future.h" />
     <ClInclude Include="HolidayFileSource.h" />
     <ClInclude Include="AbstractInstrument.h" />
     <ClInclude Include="instrumentValue.h" />
@@ -156,10 +160,14 @@
     <ClInclude Include="zero.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AbstractDao.cpp" />
     <ClCompile Include="AbstractFileSource.cpp" />
     <ClCompile Include="AbstractSession.cpp" />
     <ClCompile Include="AbstractTest.cpp" />
+    <ClCompile Include="Bond.cpp" />
+    <ClCompile Include="BondPriceFileSource.cpp" />
+    <ClCompile Include="BondCurveBuilder.cpp" />
+    <ClCompile Include="BondPricer.cpp" />
+    <ClCompile Include="BondRateBootStrapper.cpp" />
     <ClCompile Include="BuilderCashFlowLeg.cpp" />
     <ClCompile Include="cashflow.cpp" />
     <ClCompile Include="cashflowLeg.cpp" />
@@ -174,6 +182,7 @@
     <ClCompile Include="DymonProject.cpp" />
     <ClCompile Include="EnumHelper.cpp" />
     <ClCompile Include="MathUtil.cpp" />
+    <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Newton.h" />
     <ClCompile Include="OptionPricer.cpp" />
     <ClCompile Include="OvernightRateBootStrapper.cpp" />
@@ -201,7 +210,7 @@
     <ClCompile Include="EuropeanOption.cpp" />
     <ClCompile Include="DiscountCurve.cpp" />
     <ClCompile Include="SwapRateBootStrapper.cpp" />
-    <ClCompile Include="DiscountCurveBuilder.cpp" />
+    <ClCompile Include="SwapCurveBuilder.cpp" />
     <ClCompile Include="TestSurface.cpp" />
     <ClCompile Include="zero.cpp" />
   </ItemGroup>

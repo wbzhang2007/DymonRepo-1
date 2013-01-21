@@ -1,5 +1,3 @@
-// DymonProject.cpp : Defines the entry point for the console application.
-
 #include "stdafx.h"
 #include "date.h"
 #include "dateUtil.h"
@@ -15,7 +13,7 @@
 #include "TestNumerical.h"
 #include "TestInterpolator.h"
 #include "TestDateUtil.h"
-#include "DiscountCurveBuilder.h"
+#include "SwapCurveBuilder.h"
 #include "DiscountCurve.h"
 #include "LinearInterpolator.h"
 #include "TestBuildCashFlowLeg.h"
@@ -23,9 +21,11 @@
 #include "TestDiscountCurve.h"
 #include "AbstractSurface.h"
 #include "TestSurface.h"
+#include "swaption.h"
 #include "SwaptionVolFileSource.h"
 #include "SwaptionVolCube.h"
 #include "SwaptionVolCubeBuilder.h"
+#include "marketdata.h"
 
 using namespace utilities;
 using namespace std;
@@ -33,35 +33,28 @@ using namespace instruments;
 using namespace Session;
 using namespace UnitTest;
 using namespace enums;
-
-
+using namespace Markets;
 
 void LoadInitialData();
 void DateUtilTest();
 void CashFlowLegTest();
 void CashFlowTest();
 void SwapTest();
-DiscountCurve* buildDiscountCurve();
-SwaptionVolCube* buildSwaptionVolCube();
+void SwaptionTest();
 void unitTest();
 void forwardStartingSwap(DiscountCurve* yc);
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	LoadInitialData();
-	//unitTest();
+	MarketData::getInstance()->buildAll();
+	unitTest();
 
 	//DAO::SwaptionATMVolMatrixFileSource aSwaptionTest;
 	//aSwaptionTest.swaptionTest();
 	//DiscountCurve* yc = buildDiscountCurve();
 	//forwardStartingSwap(yc);
-	SwaptionVolCube* svc = buildSwaptionVolCube();
-	cout<<svc->getVol(0,12,12)<<endl;
-	cout<<svc->getVol(0,120,12)<<endl;
-	cout<<svc->getVol(0,120,24)<<endl;
-	cout<<svc->getVol(0,120,36)<<endl;
-	cout<<svc->getVol(0,18,36)<<endl;
-	cout<<svc->getVol(10,12,36)<<endl;
+	//SwaptionTest();
 }		
 
 void unitTest(){	
@@ -78,27 +71,28 @@ void unitTest(){
 	//buildCashFlowLegTest.runTest();
 	//TestOption optionTest;
 	//optionTest.runTest();
-	//TestDiscountCurve discountCurveTest;
-	//discountCurveTest.runTest();
-	TestSurface surfaceTest;
-	surfaceTest.runTest();
-}
-	
-DiscountCurve* buildDiscountCurve(){
-	cout << "\n******** Build Yield Curve ********\n" << endl;
-	DiscountCurveBuilder* builder = new DiscountCurveBuilder();
-	builder->init(Configuration::getInstance());
-	DiscountCurve* yc = builder->build();
-	cout<<yc->toString()<<endl;
-	return yc;
+	TestDiscountCurve discountCurveTest;
+	discountCurveTest.runTest();
+	//TestSurface surfaceTest;
+	//surfaceTest.runTest();
 }
 
-SwaptionVolCube* buildSwaptionVolCube(){
-		cout << "\n******** Build Yield Curve ********\n" << endl;
-	SwaptionVolCubeBuilder* builder = new SwaptionVolCubeBuilder();
-	builder->init(Configuration::getInstance());
-	SwaptionVolCube* svc = builder->build();
-	return svc;
+void SwaptionTest(){
+	SwaptionVolCube* svc = MarketData::getInstance()->getSwaptionVolCube();
+	cout<<svc->getVol(0,12,12)<<endl;
+	cout<<svc->getVol(0,120,12)<<endl;
+	cout<<svc->getVol(0,120,24)<<endl;
+	cout<<svc->getVol(0,120,36)<<endl;
+	cout<<svc->getVol(0,18,36)<<endl;
+	cout<<svc->getVol(10,12,36)<<endl;
+
+	Market swaptionMarket=Market(enums::USD);
+
+	for(int i=-200; i<=200; i=i+5)
+	{
+		Swaption swt1(swaptionMarket, enums::Payer,12,i,24);
+		cout<<"Swaption Premium ATM"<<i<<": "<<swt1.getMPV()<<" vol: "<<swt1.getVol()<<endl;
+	}
 }
 
 void forwardStartingSwap(DiscountCurve* yc){
@@ -116,15 +110,14 @@ void forwardStartingSwap(DiscountCurve* yc){
 		date startDate =dateUtil::dayRollAdjust(dateUtil::getToday(),enums::Following,enums::USD);	
 		date tradeDate = dateUtil::getEndDateMonthIncrement(startDate,i);
 		Swap swap1(tradeDate, tenorNumOfMonths, notional, couponRate, yc, fixLegCurr, floatingLegCurr,paymentFreqFixLeg, paymentFreqFloatingLeg, rollAccuralDates);
-		cashflowLeg* fixLeg=swap1.getCashflowLegFix();
+		cashflowLeg* fixLeg=swap1.getCashFlowVectorFix();
 		//fixLeg->printCashFlowLeg();
-		cashflowLeg* floatLeg=swap1.getCashflowLegFloat();
+		cashflowLeg* floatLeg=swap1.getCashFlowVectorFloat();
 		//cout<<"Swap starting at ["<<tradeDate.toString()<<"] months with par rate ["<<swap1.getParRate(floatLeg,fixLeg,yc)<<"]"<<endl;
 		//cout<<swap1.getParRate(floatLeg,fixLeg,yc)<<endl;
 		cout<<swap1.getMPV(fixLeg,floatLeg,yc)<<endl;
 	}
 }
-
 
 void buildSampleCurve(){
 
@@ -141,7 +134,6 @@ void buildSampleCurve(){
 	yc->insertLineSection(li1);
 	yc->insertLineSection(li2);
 }
-
 
 void ZeroTest(){
 	cout << "******** Zero Test ********" << endl;
@@ -182,7 +174,7 @@ void CashFlowTest() {
 	cashFlowCurr.setDayCountSwapConvention(enums::ACT_ACT);
 	cashFlowCurr.setDayRollCashConvention(enums::Mfollowing);
 
-	cashflow testCashFlow(couponRate,notional,fixingDate, paymentDate,accrualStartDate, accrualEndDate, cashFlowCurr);
+	cashflow testCashFlow(couponRate,notional,fixingDate, paymentDate,accrualStartDate, accrualEndDate, cashFlowCurr, true);
 	testCashFlow.printCashFlow();
 	cout << "******** CashFlow Test ends********" << endl;
 }
@@ -205,11 +197,11 @@ void CashFlowLegTest()  {
 	cashFlowLegCurr.setDayCountSwapConvention(enums::ACT_ACT);
 	cashFlowLegCurr.setDayRollCashConvention(enums::Mfollowing);
 
-	BuilderCashFlowLeg testCashFlowLeg(startDate, maturityDate,couponRate,notional, paymentFreq, enums::USD, buildDirection);
+	BuilderCashFlowLeg testCashFlowLeg(enums::SWAP, startDate, maturityDate, 2, couponRate,notional, paymentFreq, enums::USD, buildDirection);
 
 	cout << "******** CashFlowLeg Build Test starts********" << endl;
 
-	std::vector<cashflow> cfVector=(*testCashFlowLeg.getCashFlowLeg()).getCashFlowVector();
+	std::vector<cashflow> cfVector=testCashFlowLeg.getCashFlowLeg()->getCashFlowVector();
 	std::vector<cashflow>::iterator it=cfVector.begin();
 
 	cout<<"start date="<<startDate.toString()<<endl;
@@ -227,12 +219,12 @@ void CashFlowLegTest()  {
 	cout<<"****************************************************"<<endl<<endl;
 
 	buildDirection=-1;
-	BuilderCashFlowLeg testCashFlowLegReverse(startDate, maturityDate,couponRate,notional, paymentFreq, enums::USD, buildDirection);
+	BuilderCashFlowLeg testCashFlowLegReverse(enums::SWAP,startDate, maturityDate, 2, couponRate,notional, paymentFreq, enums::USD, buildDirection);
 
 	
 	cout << "******** CashFlowLeg ReverseBuild Test starts********" << endl;
 
-	std::vector<cashflow> cfVectorR=(*testCashFlowLegReverse.getCashFlowLeg()).getCashFlowVector();
+	std::vector<cashflow> cfVectorR=testCashFlowLeg.getCashFlowLeg()->getCashFlowVector();
 	std::vector<cashflow>::iterator itR=cfVectorR.begin();
 
 	cout<<"start date="<<startDate.toString()<<endl;
@@ -249,11 +241,11 @@ void CashFlowLegTest()  {
 
 	int tenorNumMonth=12;
 
-	BuilderCashFlowLeg testCashFlowLegTenor(startDate, tenorNumMonth, couponRate, notional,  paymentFreq, enums::USD);
+	BuilderCashFlowLeg testCashFlowLegTenor(enums::SWAP,startDate, tenorNumMonth, couponRate, notional,  paymentFreq, enums::USD);
 
 	cout << "******** CashFlowLeg TenorBuild Test starts********" << endl;
 
-	std::vector<cashflow> cfVectorT=(*testCashFlowLegTenor.getCashFlowLeg()).getCashFlowVector();
+	std::vector<cashflow> cfVectorT=testCashFlowLegTenor.getCashFlowLeg()->getCashFlowVector();
 	std::vector<cashflow>::iterator itT=cfVectorT.begin();
 	
 	cout<<"start date="<<startDate.toString()<<endl;
@@ -283,13 +275,14 @@ void SwapTest() {
 	int paymentFreqFloatingLeg=4;
 	//build from start to end (build forward)
 	int buildDirection=1;
-    bool rollAccuralDates=false;
-	
-	 typedef tuple<date, double> point;
-	 
-	 DiscountCurveBuilder* builder = new DiscountCurveBuilder();
-	 builder->init(Configuration::getInstance());
-	 DiscountCurve* yc = builder->build();
+	bool rollAccuralDates=false;
+	int tenorInMonth = 50;
+
+	typedef tuple<date, double> point;
+
+	SwapCurveBuilder* builder = new SwapCurveBuilder();
+	builder->init(Configuration::getInstance());
+	DiscountCurve* yc = builder->build(NULL);
 
 	Market fixLegCurr=Market(enums::USD);
 	Market floatingLegCurr=Market(enums::USD);
@@ -302,7 +295,7 @@ void SwapTest() {
 	floatingLegCurr.setDayCountSwapConvention(enums::ACT_ACT);
 	floatingLegCurr.setDayRollCashConvention(enums::Mfollowing);
 
-	Swap swap1(tradeDate, maturityDate, notional, couponRate, yc, fixLegCurr, floatingLegCurr,paymentFreqFixLeg, paymentFreqFloatingLeg, rollAccuralDates,buildDirection);
+	Swap swap1(tradeDate, maturityDate, notional, tenorInMonth, couponRate, yc, fixLegCurr, floatingLegCurr,paymentFreqFixLeg, paymentFreqFloatingLeg, rollAccuralDates,buildDirection);
 
 	cout<<"tradeDate=";
 	tradeDate.printDate();
@@ -312,8 +305,8 @@ void SwapTest() {
 	maturityDate.printDate();
 	cout<<endl;
 	
-	cashflowLeg* fixLeg=swap1.getCashflowLegFix();
-	cashflowLeg* floatLeg=swap1.getCashflowLegFloat();
+	cashflowLeg* fixLeg=swap1.getCashFlowVectorFix();
+	cashflowLeg* floatLeg=swap1.getCashFlowVectorFloat();
 	
 	cout<<"MPV="<<swap1.getMPV(fixLeg,floatLeg,yc)<<endl;
 	

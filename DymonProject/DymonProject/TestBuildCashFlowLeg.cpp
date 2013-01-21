@@ -22,10 +22,10 @@ void TestBuildCashFlowLeg::buildCashFlowLegTest(date startDate, int numberOfMont
 	enums::DayCountEnum dayCountSwapConvention = mkt.getDayCountSwapConvention();
 	enums::DayRollEnum dayRollSwapConvention = mkt.getDayRollSwapConvention();
 	enums::DayRollEnum accrualAdjustSwapConvention = mkt.getAccrualAdjustSwapConvention();
-	date swapAccrualStartDate = dateUtil::getBizDateOffSet(startDate,mkt.getBusinessDaysAfterSpot(),market);
+	date swapAccrualStartDate = dateUtil::getBizDateOffSet(startDate,mkt.getBusinessDaysAfterSpot(enums::SWAP),market);
 	date swapMaturityDate = dateUtil::getEndDate(swapAccrualStartDate,numberOfMonth,dayRollSwapConvention,market,dateUtil::MONTH);
-	BuilderCashFlowLeg builderFromTenor(startDate,numberOfMonth,1,1,paymentFreq, market);
-	BuilderCashFlowLeg builderFromMaturity(startDate,swapMaturityDate,1,1,paymentFreq,market,buildDirection);
+	BuilderCashFlowLeg builderFromTenor(enums::SWAP,startDate,numberOfMonth,1,1,paymentFreq, market);
+	BuilderCashFlowLeg builderFromMaturity(enums::SWAP, startDate, swapMaturityDate,numberOfMonth, 1,1,paymentFreq,market,buildDirection);
 	cashflowLeg* cashflowLegFromMaturity = builderFromMaturity.getCashFlowLeg();
 	cashflowLeg* cashflowLegFromTenor = builderFromTenor.getCashFlowLeg();
 	cout<<"Cash flow building Test, start date ["<<startDate.toString()<<"], number of month ["<<numberOfMonth<<"]"<<endl;

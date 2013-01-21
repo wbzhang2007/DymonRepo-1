@@ -13,7 +13,7 @@ using namespace std;
 using namespace enums;
 using namespace instruments;
 
-cashflow::cashflow(double couponRate,double notional,  date fixingDate, date paymentDate,date accuralStartDate, date accuralEndDate, Market cashFlowCurr) {
+cashflow::cashflow(double couponRate,double notional,  date fixingDate, date paymentDate,date accuralStartDate, date accuralEndDate, Market cashFlowCurr, bool isValid) {
 	setCouponRate(couponRate);
 	setNotional(notional);
 	setFixingDate(fixingDate);
@@ -22,12 +22,7 @@ cashflow::cashflow(double couponRate,double notional,  date fixingDate, date pay
 	setAccuralEndDate(accuralEndDate);
 	setCashFlowCurr(cashFlowCurr);
 	setAccuralFactor();
-	setCouponAmount();
-}
-
-//get methods:
-double cashflow::getCouponAmount() {
-	return _couponAmount;
+	setIsValid(isValid);
 }
 
 double cashflow::getCouponRate() {
@@ -62,11 +57,6 @@ double cashflow::getNotional() {
 	return _notional;
 }
 
-//set methods:
-void cashflow::setCouponAmount() {
-	_couponAmount=_couponRate*_notional*_accuralFactor;
-}
-
 void cashflow::setCouponRate(double couponRate) {
 	_couponRate=couponRate;
 }
@@ -98,6 +88,14 @@ void cashflow::setAccuralFactor() {
 	_accuralFactor=dateUtil::getAccrualFactor(_accuralStartDate,_accuralEndDate,_cashFlowCurr.getDayCountCashConvention());
 }
 
+bool cashflow::getIsValid(){
+	return _isValid;
+}
+
+void cashflow::setIsValid(bool isValid){
+	_isValid = isValid;
+}
+
 bool cashflow::isDateEqual(cashflow cf){
 	if (!getAccuralEndDate().isEqual(cf.getAccuralEndDate())) return false;
 	if (!getAccuralStartDate().isEqual(cf.getAccuralStartDate())) return false;
@@ -109,5 +107,5 @@ bool cashflow::isDateEqual(cashflow cf){
 void cashflow::printCashFlow() {
 	cout<<"fixingDate ["<< _fixingDate.toString()<<"], accuralStartDate ["<< _accuralStartDate.toString()<<"], "<<
 		"accuralEndDate ["<<_accuralEndDate.toString()<<"] paymentDate["<< _paymentDate.toString()<<"]"<<endl;
-	 cout<<"accuralFactor ["<<_accuralFactor<<"], couponRate["<<_couponRate<<"], couponAmonunt["<<_couponAmount<<"] notional["<<_notional<<"]"<<endl;
+	 cout<<"accuralFactor ["<<_accuralFactor<<"], couponRate["<<_couponRate<<"], notional["<<_notional<<"]"<<endl;
 }

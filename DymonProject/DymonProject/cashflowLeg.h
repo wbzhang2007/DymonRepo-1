@@ -18,16 +18,18 @@ namespace instruments {
 	class cashflowLeg {
 
 	public:
-		cashflowLeg();
+		cashflowLeg(){};
 		cashflowLeg(vector<cashflow> cashflowLeg);
-		~cashflowLeg();
+		~cashflowLeg(){};
 		
+		cashflow getCashFlow(unsigned int index);
+		int getFirstValidCashFlowIndex();
 		vector<cashflow> getCashFlowVector();
-		cashflowLeg getCashFlowLeg();
-
-		void setCashFlowLeg(vector<cashflow> cashflowLeg);
+		void setCashFlowVector(vector<cashflow> cashflowLeg);
 		vector<date> getAccuralDates();
-		
+		void markCashFlowValidity(date tradeDate);
+		int getCashFlowIndexForAccrualEnd(date accuralEndDate);
+
 		void printCashFlowLeg();
 		void printTimeLine();
 
@@ -35,9 +37,5 @@ namespace instruments {
 		vector<cashflow> _cashflowLeg;
 
 	};
-
 }
-
-
-
 #endif
